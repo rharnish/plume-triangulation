@@ -30,6 +30,7 @@ overconfident). alpha is chosen by measurement below, not assumed.
 from __future__ import annotations
 
 import json
+import os
 import math
 from pathlib import Path
 
@@ -40,7 +41,10 @@ from .geom import haversine_km, offset_bearing_deg
 
 ROOT = Path(__file__).resolve().parents[2]
 META = ROOT / "data" / "meta"
-YOLO_DIR = ROOT / "out" / "yolo"
+# Which detection pass to score. Overridable so the Core ML variants run through this
+# exact pipeline rather than a parallel one -- the point of the quantization study is a
+# paired comparison, and a second implementation would be a second source of difference.
+YOLO_DIR = Path(os.environ.get("FIGLIB_DETS", ROOT / "out" / "yolo"))
 
 SIGMA_DEG = 2.0
 CONF_FLOOR = 0.10       # below this a detection is treated as pure noise

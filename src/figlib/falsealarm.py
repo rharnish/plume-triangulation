@@ -30,6 +30,7 @@ cross-site requirement buys -- is the transferable result.
 from __future__ import annotations
 
 import json
+import os
 import math
 from collections import defaultdict
 from pathlib import Path
@@ -54,7 +55,10 @@ def poisson_hi(n: int, cam_days: float) -> float | None:
 
 ROOT = Path(__file__).resolve().parents[2]
 META = ROOT / "data" / "meta"
-YOLO_DIR = ROOT / "out" / "yolo"
+# Which detection pass to score. Overridable so the Core ML variants run through this
+# exact pipeline rather than a parallel one -- the point of the quantization study is a
+# paired comparison, and a second implementation would be a second source of difference.
+YOLO_DIR = Path(os.environ.get("FIGLIB_DETS", ROOT / "out" / "yolo"))
 OUT = ROOT / "out"
 
 # Frames within this many seconds before annotated plume appearance are discarded

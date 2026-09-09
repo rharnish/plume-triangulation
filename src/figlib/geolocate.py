@@ -22,6 +22,7 @@ contributes no peak. Requiring cross-site agreement rejects what thresholding ca
 from __future__ import annotations
 
 import json
+import os
 import math
 from dataclasses import dataclass
 from pathlib import Path
@@ -33,7 +34,10 @@ from .wind import upwind_x, wind_at
 
 ROOT = Path(__file__).resolve().parents[2]
 META = ROOT / "data" / "meta"
-YOLO_DIR = ROOT / "out" / "yolo"
+# Which detection pass to score. Overridable so the Core ML variants run through this
+# exact pipeline rather than a parallel one -- the point of the quantization study is a
+# paired comparison, and a second implementation would be a second source of difference.
+YOLO_DIR = Path(os.environ.get("FIGLIB_DETS", ROOT / "out" / "yolo"))
 
 # Angular budget per bearing. Pose is published to a degree, the plume is a metres-wide
 # object seen as a box several degrees across, and its centroid sits downwind of the

@@ -275,6 +275,133 @@ ignition, so they oversample fire weather and undersample night -- optimistic in
 direction and pessimistic in the other. The 1,440 frames/camera-day figure assumes the
 60 s cadence holds around the clock.
 
+## Edge deployment: Apple M3, measured (2026-09-09)
+
+`src/figlib/detect_coreml.py`, `bench_edge.py`, `power.py`, `quantization.py`.
+Figure `out/figures/edge_m3.png`; raw in `out/bench_latency.json`,
+`out/bench_thermal_fp16_ane.json`, `out/quantization.json`.
+
+The M3 MacBook Air is a defensible stand-in for a fielded camera in the ways that matter:
+real ARM64, a real NPU, per-unit wattage from `powermetrics`, and -- being fanless -- a
+genuine sustained-throughput curve rather than a burst number. Pano's cameras sit in
+sealed enclosures on mountaintops; a laptop that cannot dump heat is closer to that than
+any rented GPU. Host: M3, 8 GB, macOS 15.6, AC power, Low Power Mode off, batch 1.
+
+`detect_coreml` is a drop-in for `detect_yolo` -- same letterbox, same NMS, same JSON --
+so bearings, the likelihood field, evidence accumulation and the false-alarm sweep all run
+against Core ML detections unchanged. Core ML FP32 reproduces the ONNX detections
+**exactly** on a sampled sequence (14/14 boxes, zero delta at stored precision), so the
+export contributes no error of its own.
+
+**A requested compute unit is only a request.** This is the result that justified the
+exercise, and it is invisible without instrumentation:
+
+| variant | ANE ops | GPU | CPU | ask for ANE -> | ms | ANE mW |
+|---|---|---|---|---|---|---|
+| FP32 | **0** | 241 | 0 | lands on **CPU** | 97.3 | **0** |
+| FP16 | 226 | 2 | 15 | ANE | **11.0** | 4857 |
+| INT8-weight | 226 | 2 | 15 | ANE | 10.4 | 4978 |
+
+The Neural Engine cannot run FP32. Ask for `CPU_AND_NE` with an FP32 model and every
+operation lands on the CPU at 97 ms a frame, drawing zero ANE power, and **Core ML reports
+no error and returns correct results throughout**. Two independent instruments agree --
+`MLComputePlan` op placement and the ANE wattage rail. A portfolio that benchmarked FP32
+and called the result "ANE performance" would be 9x wrong and would never find out.
+
+**Latency and energy, model-only, batch 1:**
+
+| placement | FP16 ms | fps | frames/joule |
+|---|---|---|---|
+| CPU | 48.6 | 20.6 | 2.3 |
+| GPU | 24.0 | 41.6 | 5.6 |
+| **ANE** | **11.0** | **91.0** | **12.0** |
+
+Total draw barely moves across all of these (7.0-9.6 W); what changes is work done per
+watt. **13.3 frames/joule on the ANE against 2.3 on the CPU** -- 5.8x -- and for a
+solar-powered enclosure that ratio is the design constraint, not latency.
+
+**Weight-only INT8 buys size, not speed -- confirmed rather than cited.** Identical op
+placement, 10.4 ms against 11.0, 12.8 frames/joule against 12.0: all inside the noise.
+Through the M3 generation the ANE does weight-only INT8; full INT8 activation compute
+arrives with A17 Pro / M4. The measured win is **9.3 MB against 18.2 MB** of model. On an
+A17 Pro the same export should show a real speedup, and that is a prediction this rig
+cannot test.
+
+**Preprocessing becomes the bottleneck once the model leaves the CPU.** End-to-end is
+20.2 ms against 11.0 ms model-only, so JPEG decode plus letterbox costs ~9.4 ms -- about
+47% of the frame budget. Move inference to the NPU and the next thing to optimise is
+image handling, which no model-only benchmark would ever reveal.
+
+*Capacity, since the false-alarm sweep showed alert latency is partly sampling-bound:* 49
+fps end-to-end means one M3 could serve roughly **49 cameras at 1 fps** at about 7.4 W, or
+one camera at 1 fps for a small fraction of a watt. Running at video rate is affordable at
+the edge in a way that streaming frames to a datacentre is not.
+
+**Fanless sustained throughput: -9.8% over twenty minutes, as a step rather than a decay.**
+
+| minutes | fps | ANE W | total W | thermal pressure |
+|---|---|---|---|---|
+| 0-3 | 94.0 | 5.13 | 7.86 | Nominal -> Moderate |
+| 3-6 | 94.3 | 5.16 | 7.72 | -> **Heavy** |
+| 6-10 | 90.2 | 4.79 | 7.34 | Heavy |
+| 10-13 | 87.1 | 4.68 | 7.29 | Heavy |
+| 13-16 | 85.9 | 4.54 | 7.08 | Heavy |
+| 16-20 | 85.2 | 4.36 | 6.88 | Heavy |
+
+Throughput holds at 94 fps for about eight minutes, steps down roughly 10%, and stays
+there. Two things worth noticing. **Thermal pressure reads Heavy at ~4 minutes, four
+minutes before throughput moves** -- a three-minute burst benchmark would have reported 94
+fps and missed the effect entirely, which is why every condition here runs for a fixed
+duration rather than a fixed iteration count. And **throttling costs throughput but not
+efficiency**: frames/joule goes 12.0 -> 12.4 as fps falls 94 -> 85, because the part holds
+its thermal ceiling by dropping clocks and power together. For a battery- or
+solar-constrained enclosure that is the benign form of throttling -- you lose frame rate,
+not energy per frame.
+
+## What did quantization cost? In kilometres and seconds (2026-09-09)
+
+"INT8 lost 0.4 mAP" tells an operator nothing. Every variant was therefore run through the
+same pipeline over the same 93 sequences -- the FP32 reference restricted to that identical
+set, since comparing a subset against a full-corpus baseline would confound quantization
+with the choice of fires.
+
+| variant | 3 min: n, median | 40 min: n, median | <=2 km | FA/cam-day @0.25 | recall | median s |
+|---|---|---|---|---|---|---|
+| FP32 | 21/26, 3.93 km | 26/26, 2.28 km | 12 | 25.9 | 0.979 | 240 |
+| FP16 | 21/26, 4.01 km | 26/26, **2.28 km** | 12 | 25.9 | 0.979 | 240 |
+| INT8w | 21/26, **3.57 km** | 26/26, 2.67 km | 13 | 24.7 | 0.979 | 180 |
+
+**FP16 is free.** Identical median error, identical recall, identical false-alarm rate,
+half the model. There is no argument for shipping FP32 to this hardware -- it is slower,
+less accurate per watt, and cannot even reach the NPU.
+
+**INT8-weight was expected to cost false alarms, and did not.** On a 72-frame sample it
+invented 17 detections and shifted confidences by up to 0.39, so the hypothesis was that
+its price would show up in the alarm rate. Measured across all 93 sequences that is wrong,
+and the confidence histogram says why:
+
+| tau | FP32 | FP16 | INT8w |
+|---|---|---|---|
+| 0.05 | 8731 | 8741 | 10698 (+22%) |
+| 0.25 | 3436 | 3413 | 3975 (+16%) |
+| 0.50 | 1594 | 1598 | 1719 (+8%) |
+| **0.70** | **603** | **603** | **603** |
+
+The extra detections are **low-confidence and they thin out with threshold, reaching
+exactly parity at 0.7**. Quantization noise perturbs marginal detections and leaves
+confident ones untouched, so nothing that would ever raise an alarm changes.
+
+What those extra weak detections do change is early localisation, and they *help*:
+**3.57 km against 3.93 km at three minutes, with 9 fires inside 2 km against 6.** That is
+the robust mixture doing its job -- disagreement falls back on the uniform term and is
+bounded, so extra noisy bearings cost little while extra true ones accumulate. It is worth
+being honest that this is a small sample and the 40-minute figure moves the other way
+(2.67 vs 2.28 km); the defensible claim is that weight-only INT8 is not measurably worse
+where it matters operationally, not that it is better.
+
+*Throughput note:* the 93-sequence pass takes **182 s on the ANE** against roughly 90
+minutes for the same work on four x86 cores.
+
 ## Open questions
 
 **Lens distortion — the biggest threat to kilometre accuracy.** `geom.py` assumes a
