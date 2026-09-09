@@ -24,3 +24,6 @@ __pycache__/
 # Model weights, fetched not committed (see models/README.md)
 models/*.onnx
 models/*.pt
+
+# Copernicus DEM tiles, fetched not committed
+data/dem/
