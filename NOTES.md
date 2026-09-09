@@ -101,6 +101,40 @@ Reported as measured. The likely reason is that a box edge is a crude stand-in f
 plume base; a mask would give the real axis, which is why that was deferred rather than
 dropped.
 
+## Does the estimate evolve? (2026-09-09)
+
+Yes, and not in the direction expected. Locating the fire from every detection up to time
+`t` after the plume appeared:
+
+| since plume | fires locatable | median error | p75 | median area95 |
+|---|---|---|---|---|
+| 180 s | 17/26 | 4.73 km | 8.20 | 3.5 km2 |
+| 360 s | 24/26 | 2.88 km | 7.98 | 4.0 km2 |
+| 600 s | 25/26 | 2.79 km | 4.76 | 3.7 km2 |
+| **900 s** | 25/26 | **2.26 km** | 4.76 | 3.7 km2 |
+| 1800 s | **26/26** | 2.26 km | 6.00 | 3.7 km2 |
+| 2400 s | 26/26 | 2.58 km | 6.00 | 3.7 km2 |
+
+Confirmed tier alone: 2.91 km at three minutes from 7 of 10 fires, 1.90 km at fifteen
+minutes from all ten.
+
+**Accuracy improves rather than decaying, then plateaus.** Waiting buys coverage and
+precision up to about fifteen minutes and nothing after; the slight worsening by forty
+minutes is the plume growing away from its source. So the operational tradeoff is
+coverage against latency, not accuracy against latency -- at three minutes two thirds of
+fires are locatable at 4.7 km, by fifteen minutes nearly all of them at 2.3 km.
+
+**Uncertainty does not tighten.** area95 sits near 3.7 km2 throughout. Extra cameras
+arrive roughly as fast as the region would otherwise shrink.
+
+**The estimate wanders, and neither wind nor geometry explains where.** Holding the
+camera set fixed across windows -- necessary, since a camera joining the solution can
+move it kilometres on its own -- the estimate still moves a median 1.79 km. The angle
+between that motion and the wind direction has median 45.9 deg, and against the major
+axis of its own uncertainty ellipse 41.4 deg. Both are indistinguishable from random
+(n=11). The motion is the detector's box wandering over a growing diffuse plume, not
+advection, which is why correcting bearings with wind was a wash.
+
 ## Open questions
 
 **Lens distortion — the biggest threat to kilometre accuracy.** `geom.py` assumes a
