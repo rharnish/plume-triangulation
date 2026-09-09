@@ -47,10 +47,10 @@ Two consequences this project leans on:
 
 ## Coverage limits
 
-Camera pose resolves for **175 of 189** sequences. The 14 that do not (`*-iqeye`, `lo-*`, `ml-*`,
-`so-*`, `smer-tcs9/10`) are retired hardware absent from `sites.js`, which lists only currently
-active cameras while FIgLib reaches back to 2016. Expected, not a defect — the 45 triangulable
-events were counted using resolved cameras only.
+Camera pose resolves for **165 of 189** sequences. The 24 that do not — 14 distinct camera IDs
+(`*-iqeye`, `lo-*`, `ml-*`, `so-*`, `smer-tcs9/10`) — are retired hardware absent from `sites.js`,
+which lists only currently active cameras while FIgLib reaches back to 2016. Expected, not a
+defect; the 45 triangulable events were counted using resolved cameras only.
 
 ## Attribution
 

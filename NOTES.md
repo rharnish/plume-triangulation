@@ -214,6 +214,18 @@ coordinates tests geometry, and a memorised detection still yields a valid beari
 but not by name. Nothing has yet confirmed one visually the way the confirmed tier was.
 They are 23 of the 33 ground-truth fires, so they carry real weight.
 
+## Housekeeping that will bite later
+
+**Figures and videos live under `out/`, which is gitignored.** That is right for 21 MB of mp4 and
+for anything regenerable, but it means a README cannot yet link to any of them. Before publishing,
+either move the handful of README figures into a tracked `figures/` directory, or generate them in
+CI. The videos are too large for git regardless and need hosting or conversion to short animated
+GIFs.
+
+**Monochrome/NIR data is already in hand.** The Club fire animation shows colour *and* monochrome
+views of the same two sites, so the deferred "does NIR see smoke earlier" question has usable
+paired data sitting in the existing download -- no new fetch needed.
+
 ## Deliberately deferred
 
 Monochrome/NIR sequences (11 of them, paired with colour views of the same fires) --
