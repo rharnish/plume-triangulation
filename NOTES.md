@@ -55,9 +55,11 @@ put the smoke at x=0.636 across `pi-w-mobo-c`; the detector, from pixels alone, 
 **Confidence does not separate cloud from plume; bearing does.** On the 8-acre Junction
 fire, `mg-e-mobo-c` returns **0.81 on a cumulus** -- more confident than most true
 detections. No threshold removes it. It sits ~0.2 of a frame from where the other cameras
-agree the fire is, so geometric consistency does. This makes triangulation a false-alarm
-filter, not only a locator, and that is measurable: false alarms per camera-day before
-and after requiring cross-site agreement.
+agree the fire is, so geometric consistency does -- which suggested triangulation is a
+false-alarm filter and not only a locator. **Measured, that does not hold** (see the
+sweep below): geometry removes that particular cumulus, but across the corpus simply
+raising the threshold buys more per false alarm than requiring cross-site agreement
+does. The anecdote was real and the generalisation from it was wrong.
 
 **The training-free differencer does not work yet.** On the Valley fire it fails to
 separate pre-ignition from post (max 202.7 vs 189.0). Absolute rather than signed
@@ -194,6 +196,84 @@ Two bugs the animation exposed, both of which had been silently degrading result
   one site on the Club fire, two of them the same camera twice (that archive holds two
   annotation passes), leaving one site and nothing to triangulate. Now takes the best
   camera per site before a second from any site.
+
+## Seconds-to-alert vs false alarms per camera-day (2026-09-09)
+
+`python -m src.figlib.falsealarm` -> `out/falsealarm.json`, `out/figures/falsealarm.png`.
+
+The operational question is not mAP. A network of 505 cameras asks "is anything burning"
+1,440 times per camera per day, so the only number that means anything is **how fast a
+real ignition is called at a false-alarm rate an operator can live with**. FIgLib is
+well suited to measuring it, because the ~40 min of pre-ignition frames in every sequence
+are negatives from the *same camera under the same light* -- the same haze, cumulus and
+glint the positives sit in, not unrelated images.
+
+Frames within 120 s of annotated plume appearance are discarded rather than counted as
+negatives: the annotation is a human judgement, so the minute before it is genuinely
+ambiguous, and scoring a detection there as a false alarm would flatter latency at the
+expense of the rate. Repeat alarms within 600 s are one alarm, since an operator
+dismisses an alarm once.
+
+**Single camera, one frame over threshold** (189 sequences, 4.99 camera-days of negatives):
+
+| tau | FA/camera-day | fires alerted | median s | p75 |
+|---|---|---|---|---|
+| 0.25 | 25.8 | 98% | 180 | 360 |
+| 0.40 | 8.0 | 94% | 240 | 540 |
+| 0.50 | 3.6 | 90% | 360 | 734 |
+| 0.60 | 1.6 | 76% | 540 | 840 |
+| 0.70 | 0.40 | 59% | 660 | 1080 |
+
+**The gap between what this detector does and what a network needs is three orders of
+magnitude.** At tau=0.25 -- an unremarkable default -- 25.8 false alarms per camera-day
+is **13,000 alerts a day** across 505 cameras. One false alarm per camera-week, which is
+roughly what a human dispatcher could absorb, is 0.14/camera-day; the detector reaches
+that only past tau=0.7, where it misses 41% of fires and takes 11 minutes on the rest.
+Nothing here is a knock on pyronear -- it is what per-frame operation costs at scale, and
+it is the argument for spending the effort on temporal and cross-camera structure rather
+than on another point of AP.
+
+**Persistence is cheap and it works.** Requiring 2 of the last 3 frames over threshold
+cuts the rate by about half at a matched threshold (8.0 -> 4.2 FA/camera-day at tau=0.40)
+and by about a quarter at matched *recall*, which is the fair comparison: at ~91% recall,
+5.6 FA/camera-day single-frame against 4.2 for 2-of-3, for one extra minute of latency
+(300 s -> 360 s). 3-of-5 goes further and costs more; the frontier is smooth, so the choice is
+genuinely an operator's to make. Isolated frame-scale flicker dominates the negatives.
+
+**Cross-site agreement does NOT beat thresholding -- the negative result.** Scored on the
+42 triangulable fires with the same cameras and the same negative time, requiring two
+sites to detect within 180 s with bearings passing within 3 km of each other halves the
+false-alarm rate at fixed threshold. But so does raising the threshold, and more cheaply:
+the any-camera curve dominates the cross-site curve at every operating point measured.
+
+| budget | any camera | two sites agree |
+|---|---|---|
+| ~1.35 FA/cam-day | 98% alerted, 301 s | 90% alerted, 270 s |
+| ~0.81 FA/cam-day | ~92% alerted, ~426 s (interp.) | 88% alerted, **240 s** |
+| ~0.54 FA/cam-day | 88% alerted, 480 s | 83% alerted, 480 s |
+
+Two structural costs explain it: 2 of the 42 fires never produce a cross-site coincidence
+at any threshold, capping recall at 95%, and a second site adds observation time to the
+denominator as well as a constraint. What survives is narrower and worth stating as such
+-- **geometry buys latency, not recall.** Because agreement carries the evidence, the
+detector can be run at tau=0.45 instead of 0.7, and a low threshold is a fast one: at a
+matched 0.81 FA/camera-day the cross-site rule alerts at a median 240 s against roughly
+426 s. That is the honest version of the Junction-cumulus anecdote.
+
+**The corpus cannot resolve the region that matters, and that is itself the finding.**
+Forty minutes of negatives per sequence is 4.99 camera-days in total (3.71 for the
+triangulable subset). Rates below ~1 FA/camera-day therefore rest on between zero and
+three events; the tail of every curve is one alarm wide, and the Poisson upper bound at
+zero observed alarms is still 0.74/camera-day. **A rate of one false alarm per camera-week
+cannot be measured on FIgLib at all** -- it would need on the order of a hundred
+camera-days of negatives, which is exactly the unglamorous data a fielded network already
+has and a public benchmark does not. `fa_hi95` is carried in the JSON for every row so
+the bare ratios are never read as more than they are.
+
+Caveat on extrapolation: FIgLib negatives are daytime, drawn from the hour before a real
+ignition, so they oversample fire weather and undersample night -- optimistic in one
+direction and pessimistic in the other. The 1,440 frames/camera-day figure assumes the
+60 s cadence holds around the clock.
 
 ## Open questions
 
