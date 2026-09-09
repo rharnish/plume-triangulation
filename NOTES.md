@@ -277,6 +277,9 @@ direction and pessimistic in the other. The 1,440 frames/camera-day figure assum
 
 ## Edge deployment: Apple M3, measured (2026-09-09)
 
+**Full write-up: [`docs/edge-m3.md`](docs/edge-m3.md)** (committed, with the figure, so a
+README can link it -- unlike everything under `out/`). Summary below.
+
 `src/figlib/detect_coreml.py`, `bench_edge.py`, `power.py`, `quantization.py`.
 Figure `out/figures/edge_m3.png`; raw in `out/bench_latency.json`,
 `out/bench_thermal_fp16_ane.json`, `out/quantization.json`.
@@ -422,6 +425,11 @@ but not by name. Nothing has yet confirmed one visually the way the confirmed ti
 They are 23 of the 33 ground-truth fires, so they carry real weight.
 
 ## Housekeeping that will bite later
+
+**Partly addressed 2026-09-09:** `docs/figures/` now holds committed copies of
+`edge_m3.png` and `falsealarm.png`, and `docs/edge-m3.md` is a linkable write-up. The
+animations (21 MB of mp4 in `out/videos/`) still have nowhere to live.
+
 
 **Figures and videos live under `out/`, which is gitignored.** That is right for 21 MB of mp4 and
 for anything regenerable, but it means a README cannot yet link to any of them. Before publishing,
