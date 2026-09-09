@@ -172,6 +172,29 @@ from 3.09 to 2.41 km. No single setting wins everywhere; a low floor is right be
 operational question is how fast a fire can be located, not how well it can be located
 once it is obvious.
 
+## Animations (2026-09-09)
+
+`python -m src.figlib.animate <fire_id>` writes an mp4 to `out/videos/`: camera frames
+with detection boxes on the left, the accumulated posterior with bearings and the
+estimate's track on the right, error-vs-time underneath. Five rendered so far.
+
+Worth watching for: on the Kitchen fire a **second bright intersection** appears early,
+a spurious crossing of two false-positive rays, and is extinguished as further evidence
+accumulates -- the robust mixture visibly outvoting an outlier. On Ranch2 the posterior
+is a long ellipse throughout and the truth sits inside it while the point estimate is
+~1.8 km out.
+
+Two bugs the animation exposed, both of which had been silently degrading results:
+
+* **Grid centred on the camera centroid.** Ranch2 has sites 78 and 81 km from the fire,
+  so a 35 km window about their centroid did not contain the true peak at all and argmax
+  returned an edge cell -- reported as a 19 km error that was pure artefact. Fixed with a
+  coarse pass followed by a fine grid about its peak. The correct answer is 1.88 km.
+* **Camera selection ignored sites.** Ranking by detection count picked four cameras from
+  one site on the Club fire, two of them the same camera twice (that archive holds two
+  annotation passes), leaving one site and nothing to triangulate. Now takes the best
+  camera per site before a second from any site.
+
 ## Open questions
 
 **Lens distortion — the biggest threat to kilometre accuracy.** `geom.py` assumes a
