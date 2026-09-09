@@ -1,0 +1,94 @@
+# Working notes
+
+Running state of the investigation. Findings that shape the design, and open questions
+that could still move the numbers.
+
+## Pipeline state
+
+`ingest.py` -> `fires.py` -> `truth.py` -> `resolve.py` -> `detect_yolo.py` -> `viz.py`
+
+| Quantity | Value |
+|---|---|
+| Archives / sequences | 189 / **191** (two archives carry two annotation passes and are split) |
+| Frames | 14,827 (7,316 pre-ignition, usable as negatives) |
+| Sequences with camera pose | 167 / 191 |
+| Distinct fires after t0 clustering | **69** (from only 48 event labels) |
+| Triangulable (>=2 posed sites) | 42, stable at 42/42/44 for 900/1800/3600 s thresholds |
+| Fires with usable ground truth | **33** (10 name-confirmed, 23 probable) |
+| **Ground truth AND triangulable** | **26** <- the geolocation scoring set |
+
+## Findings
+
+**FIgLib event labels are not fires.** An unnamed `..._FIRE` label covers every unnamed
+fire the network saw that date. `20180603_FIRE` is three ignitions: three cameras at
+20:20-20:22 UTC, two at 23:09, one at 01:24 next morning. Clustering on the per-camera
+plume clock at 1800 s recovers real fires; grouping by name overcounts multi-camera
+coverage and misattributes ground truth.
+
+**Official discovery coincides with plume appearance.** Across the 33 resolved fires,
+`FireDiscoveryDateTime` minus annotated plume appearance has median **+1.0 min**
+(IQR -4.2 to +9.1); on the 10 name-confirmed alone, median -0.6 min. Humans reported 7
+of those 10 *before* the plume was annotated as visible.
+
+*Consequence:* "minutes of warning gained over official reporting" is not a claim this
+data supports. What it does support is stronger, because it is measured rather than
+assumed: the FIgLib clock is a **validated proxy for when a human knew**, so alerting
+N minutes before t0 is N minutes of real warning. The WFIGS join is the evidence for
+the metric, not the metric itself.
+
+**Camera pose can be checked without a detector.** A fixed camera sees a 90 deg wedge,
+so an incident outside it cannot be the fire. That filter cut 151 candidates to 87 and
+discarded none of the ten name-confirmed truths.
+
+**Plumes are visible from cameras that cannot see their source.** Validating pose against
+name-confirmed truth, 35 of 40 camera-fire pairs put the official coordinate inside the
+field of view. The five that miss are physical, not erroneous: at `20260629_JunctionFire`,
+`vo-w` holds the fire at +35.9 deg while `vo-n` at the same site is 54 deg off axis. The
+annotator saw smoke in both because the plume drifted into a frame whose wedge never
+contained its origin. This is the same displacement that makes plume-axis correction
+necessary, and it is why the visibility filter carries a margin.
+
+**Three independent estimates agree.** On the Valley fire, pose plus the WFIGS coordinate
+put the smoke at x=0.636 across `pi-w-mobo-c`; the detector, from pixels alone, fires at
+0.63 with confidence 0.759.
+
+**Confidence does not separate cloud from plume; bearing does.** On the 8-acre Junction
+fire, `mg-e-mobo-c` returns **0.81 on a cumulus** -- more confident than most true
+detections. No threshold removes it. It sits ~0.2 of a frame from where the other cameras
+agree the fire is, so geometric consistency does. This makes triangulation a false-alarm
+filter, not only a locator, and that is measurable: false alarms per camera-day before
+and after requiring cross-site agreement.
+
+**The training-free differencer does not work yet.** On the Valley fire it fails to
+separate pre-ignition from post (max 202.7 vs 189.0). Absolute rather than signed
+difference, a 20-minute background lag, and a rootedness term measuring descent below the
+terrain silhouette each helped; none sufficed. Cumulus drifting along the skyline changes
+as much as the plume does. Camera jitter was ruled out by phase correlation (max 0.21 px
+over a whole sequence). Kept as the uncontaminated floor, and the difficulty is itself
+the argument for a learned detector.
+
+## Open questions
+
+**Lens distortion — the biggest threat to kilometre accuracy.** `geom.py` assumes a
+rectilinear 90 deg camera. Rendered frames show heavy vignetting and visibly bowed
+horizons on some units (`vo-n`, `bm-e`). If real barrel distortion is present, pixel to
+bearing carries systematic error that grows toward frame edges -- and detections do land
+there (`vo-w` at x=0.861). Check by fitting horizon curvature across frames, and against
+HPWREN's per-site `peakfinder` horizon profiles as an independent reference. Until this
+is settled, treat kilometre errors as provisional.
+
+**Contamination.** Every pyronear model, and SmokeyNet, trains on FIgLib -- see
+`models/README.md`. Detection and timing numbers are a labelled reference point, never a
+generalisation claim. Geolocation is unaffected: kilometre error against official
+coordinates tests geometry, and a memorised detection still yields a valid bearing.
+
+**Not yet validated:** the 23 `probable`-tier fires are resolved by geometry and timing
+but not by name. Nothing has yet confirmed one visually the way the confirmed tier was.
+They are 23 of the 33 ground-truth fires, so they carry real weight.
+
+## Deliberately deferred
+
+Monochrome/NIR sequences (11 of them, paired with colour views of the same fires) --
+"does NIR see smoke earlier" is a real question, saved for later. Terrain: flat-earth
+triangulation first, ray-terrain intersection against Copernicus DEM GLO-30 as a
+refinement if time allows.
