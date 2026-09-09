@@ -135,6 +135,43 @@ axis of its own uncertainty ellipse 41.4 deg. Both are indistinguishable from ra
 (n=11). The motion is the detector's box wandering over a growing diffuse plume, not
 advection, which is why correcting bearings with wind was a wash.
 
+## Accumulating evidence rather than picking the best detection (2026-09-09)
+
+Taking each camera's single most confident detection discards nearly everything seen, and
+in particular discards the *agreement* between a faint early detection and a solid later
+one at the same bearing -- which is the part that says the bearing is real rather than a
+passing cloud.
+
+Summing log-likelihoods over all detections is not the fix either: one confident false
+positive at the wrong bearing then contributes an unbounded penalty and drags the peak.
+These detectors do produce those (0.81 on a cumulus). So each detection is a mixture,
+
+    P(detection | fire at x) = pi * Normal(bearing | bearing_to_x, sigma)
+                             + (1 - pi) * Uniform(field of view)
+
+with `pi` rising with confidence. Agreement contributes evidence; disagreement falls back
+on the uniform term and its influence is **bounded** -- an outlier stops mattering instead
+of dominating. Frames are not independent, so per-camera evidence is scaled to grow as
+n**alpha rather than n; alpha was swept, and between 0 and 0.75 it barely matters
+(2.28 km throughout), with full summation at alpha=1 measurably worse (2.75 km).
+
+**The gain is concentrated early, exactly where evidence is weakest.**
+
+| since plume | max-confidence | accumulated |
+|---|---|---|
+| **3 min** | 17/26 fires, 4.73 km | **21/26 fires, 3.93 km** |
+| 6 min | 24/26, 2.88 km | 25/26, 3.33 km |
+| 15 min | 25/26, 2.26 km | 25/26, 3.09 km |
+| 40 min | 26/26, 2.58 km | 26/26, 2.28 km |
+
+Four more fires locatable at three minutes and 17% lower median error there. Mid-window
+it is slightly worse, which is consistent with weak detections adding noise once strong
+ones exist. Raising the confidence floor trades exactly that way -- floor 0.10 gives
+21 fires at three minutes, 0.20 gives 19, 0.30 gives 15, while mid-window median improves
+from 3.09 to 2.41 km. No single setting wins everywhere; a low floor is right because the
+operational question is how fast a fire can be located, not how well it can be located
+once it is obvious.
+
 ## Open questions
 
 **Lens distortion — the biggest threat to kilometre accuracy.** `geom.py` assumes a
