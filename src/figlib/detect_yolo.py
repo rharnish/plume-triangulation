@@ -20,6 +20,7 @@ from dataclasses import dataclass, asdict
 from pathlib import Path
 
 import cv2
+cv2.setNumThreads(1)
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -136,7 +137,7 @@ def run_sequence(sess, tgz: Path) -> list[FrameDets]:
     return out
 
 
-def make_session(threads: int = 4):
+def make_session(threads: int = 1):
     import onnxruntime as ort
     so = ort.SessionOptions()
     so.intra_op_num_threads = threads

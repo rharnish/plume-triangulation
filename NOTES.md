@@ -67,6 +67,38 @@ as much as the plume does. Camera jitter was ruled out by phase correlation (max
 over a whole sequence). Kept as the uncontaminated floor, and the difficulty is itself
 the argument for a learned detector.
 
+## Geolocation results (2026-09-09, partial detection pass)
+
+Likelihood field over the ground, bearings from the most confident detection per camera.
+
+| Tier | n | median error | max |
+|---|---|---|---|
+| **confirmed** | 7 | **1.71 km** | 3.61 km |
+| probable | 5 | 9.12 km | 62.10 km |
+
+Best: `20240701_Kitchenfire` at **0.08 km** from the official ignition point, four sites.
+`20250823_Clubfire` 1.71 km with a 0.15 km2 95% region.
+
+**The tier split is the finding.** Geometry is not the limiting factor when the ground
+truth is right. Where probable-tier fires fail they fail in a specific shape -- bearings
+agreeing among themselves to within a few km2 while sitting 20-60 km from the assigned
+incident. Independent cameras do not agree by accident, so the suspect is the incident
+assignment. **Geolocation error is therefore an audit of the weaker resolution tier**,
+and the 23 probable fires should be re-examined against it rather than trusted.
+
+**Uncertainty earns its place.** On `20200813_Ranch2Fire` the three cameras are nearly
+collinear with the fire, so the surface is a long ridge with a 27.8 km2 95% region. The
+point estimate is 2.10 km out, but the truth lies well inside the contour. A crossing
+point would report only the 2.10 km and hide the fact that the geometry never supported
+better.
+
+**Wind correction is currently a wash.** Taking the upwind box edge rather than the
+centre moves the median from 3.60 to 2.73 km but is better on 5 fires and worse on 6.
+Preferring early detections, which have drifted less, does not help either (3.24 km).
+Reported as measured. The likely reason is that a box edge is a crude stand-in for the
+plume base; a mask would give the real axis, which is why that was deferred rather than
+dropped.
+
 ## Open questions
 
 **Lens distortion — the biggest threat to kilometre accuracy.** `geom.py` assumes a
