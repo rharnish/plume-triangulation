@@ -1,0 +1,1300 @@
+[
+ {
+  "fire_id": "20160619_FIRE",
+  "event": "20160619_FIRE",
+  "t0_min": 1466359357,
+  "t0_max": 1466359567,
+  "t0_median": 1466359453,
+  "n_seqs": 3,
+  "n_posed": 2,
+  "sites": [
+   "om",
+   "pi"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20160619_FIRE_om-e-mobo-c",
+   "20160619_FIRE_lp-e-iqeye",
+   "20160619_FIRE_pi-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20160718_FIRE",
+  "event": "20160718_FIRE",
+  "t0_min": 1468872421,
+  "t0_max": 1468872972,
+  "t0_median": 1468872498,
+  "n_seqs": 3,
+  "n_posed": 0,
+  "sites": [],
+  "triangulable": false,
+  "sequences": [
+   "20160718_FIRE_mw-e-mobo-c",
+   "20160718_FIRE_mg-s-iqeye",
+   "20160718_FIRE_lp-n-iqeye"
+  ]
+ },
+ {
+  "fire_id": "20161113_FIRE.1",
+  "event": "20161113_FIRE",
+  "t0_min": 1479064369,
+  "t0_max": 1479064419,
+  "t0_median": 1479064419,
+  "n_seqs": 2,
+  "n_posed": 2,
+  "sites": [
+   "bl2",
+   "bm"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20161113_FIRE_bl-n-mobo-c",
+   "20161113_FIRE_bm-w-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20161113_FIRE.2",
+  "event": "20161113_FIRE",
+  "t0_min": 1479066933,
+  "t0_max": 1479066933,
+  "t0_median": 1479066933,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "bm"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20161113_FIRE_bm-n-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20170520_FIRE.1",
+  "event": "20170520_FIRE",
+  "t0_min": 1495296879,
+  "t0_max": 1495296879,
+  "t0_median": 1495296879,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "om"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20170520_FIRE_om-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20170520_FIRE.2",
+  "event": "20170520_FIRE",
+  "t0_min": 1495301827,
+  "t0_max": 1495301827,
+  "t0_median": 1495301827,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "pi"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20170520_FIRE_pi-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20170520_FIRE.3",
+  "event": "20170520_FIRE",
+  "t0_min": 1495304354,
+  "t0_max": 1495304469,
+  "t0_median": 1495304469,
+  "n_seqs": 2,
+  "n_posed": 1,
+  "sites": [
+   "pi"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20170520_FIRE_lp-s-iqeye",
+   "20170520_FIRE_pi-w-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20170711_FIRE.1",
+  "event": "20170711_FIRE",
+  "t0_min": 1499787397,
+  "t0_max": 1499787397,
+  "t0_median": 1499787397,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "bm"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20170711_FIRE_bm-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20170711_FIRE.2",
+  "event": "20170711_FIRE",
+  "t0_min": 1499806131,
+  "t0_max": 1499806611,
+  "t0_median": 1499806467,
+  "n_seqs": 4,
+  "n_posed": 4,
+  "sites": [
+   "bl2",
+   "sdsc",
+   "sm"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20170711_FIRE_bl-e-mobo-c",
+   "20170711_FIRE_bl-s-mobo-c",
+   "20170711_FIRE_sm-n-mobo-c",
+   "20170711_FIRE_sdsc-e-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20170722_FIRE",
+  "event": "20170722_FIRE",
+  "t0_min": 1500761241,
+  "t0_max": 1500761360,
+  "t0_median": 1500761313,
+  "n_seqs": 4,
+  "n_posed": 2,
+  "sites": [
+   "bm",
+   "hp"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20170722_FIRE_so-s-mobo-c",
+   "20170722_FIRE_hp-e-mobo-c",
+   "20170722_FIRE_bm-n-mobo-c",
+   "20170722_FIRE_mg-n-iqeye"
+  ]
+ },
+ {
+  "fire_id": "20171010_FIRE",
+  "event": "20171010_FIRE",
+  "t0_min": 1507672471,
+  "t0_max": 1507672825,
+  "t0_median": 1507672622,
+  "n_seqs": 3,
+  "n_posed": 3,
+  "sites": [
+   "hp",
+   "rm"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20171010_FIRE_hp-w-mobo-c",
+   "20171010_FIRE_rm-e-mobo-c",
+   "20171010_FIRE_hp-n-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20171207_FIRE.1",
+  "event": "20171207_FIRE",
+  "t0_min": 1512674596,
+  "t0_max": 1512674596,
+  "t0_median": 1512674596,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "bh"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20171207_FIRE_bh-w-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20171207_FIRE.2",
+  "event": "20171207_FIRE",
+  "t0_min": 1512681175,
+  "t0_max": 1512681610,
+  "t0_median": 1512681610,
+  "n_seqs": 2,
+  "n_posed": 2,
+  "sites": [
+   "bh",
+   "smertcs8"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20171207_FIRE_smer-tcs8-mobo-c",
+   "20171207_FIRE_bh-n-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20180504_FIRE",
+  "event": "20180504_FIRE",
+  "t0_min": 1525469635,
+  "t0_max": 1525471799,
+  "t0_median": 1525470430,
+  "n_seqs": 4,
+  "n_posed": 3,
+  "sites": [
+   "bh",
+   "rm",
+   "smertcs8"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20180504_FIRE_smer-tcs8-mobo-c",
+   "20180504_FIRE_rm-n-mobo-c",
+   "20180504_FIRE_bh-n-mobo-c",
+   "20180504_FIRE_smer-tcs10-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20180602_FIRE",
+  "event": "20180602_FIRE",
+  "t0_min": 1527978235,
+  "t0_max": 1527978540,
+  "t0_median": 1527978237,
+  "n_seqs": 3,
+  "n_posed": 2,
+  "sites": [
+   "rm",
+   "smertcs8"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20180602_FIRE_smer-tcs8-mobo-c",
+   "20180602_FIRE_smer-tcs9-mobo-c",
+   "20180602_FIRE_rm-n-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20180603_FIRE.1",
+  "event": "20180603_FIRE",
+  "t0_min": 1528057255,
+  "t0_max": 1528057326,
+  "t0_median": 1528057317,
+  "n_seqs": 3,
+  "n_posed": 2,
+  "sites": [
+   "rm",
+   "smertcs8"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20180603_FIRE_smer-tcs8-mobo-c",
+   "20180603_FIRE_smer-tcs9-mobo-c",
+   "20180603_FIRE_rm-w-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20180603_FIRE.2",
+  "event": "20180603_FIRE",
+  "t0_min": 1528067373,
+  "t0_max": 1528067393,
+  "t0_median": 1528067393,
+  "n_seqs": 2,
+  "n_posed": 2,
+  "sites": [
+   "bl2",
+   "sm"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20180603_FIRE_sm-w-mobo-c",
+   "20180603_FIRE_bl-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20180603_FIRE.3",
+  "event": "20180603_FIRE",
+  "t0_min": 1528075467,
+  "t0_max": 1528075467,
+  "t0_median": 1528075467,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "sm"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20180603_FIRE_sm-n-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20180606_FIRE.1",
+  "event": "20180606_FIRE",
+  "t0_min": 1528304045,
+  "t0_max": 1528304483,
+  "t0_median": 1528304483,
+  "n_seqs": 2,
+  "n_posed": 1,
+  "sites": [
+   "pi"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20180606_FIRE_pi-e-mobo-c",
+   "20180606_FIRE_lo-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20180606_FIRE.2",
+  "event": "20180606_FIRE",
+  "t0_min": 1528307235,
+  "t0_max": 1528307235,
+  "t0_median": 1528307235,
+  "n_seqs": 1,
+  "n_posed": 0,
+  "sites": [],
+  "triangulable": false,
+  "sequences": [
+   "20180606_FIRE_ml-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20180706_FIRE.1",
+  "event": "20180706_FIRE",
+  "t0_min": 1530896909,
+  "t0_max": 1530896909,
+  "t0_median": 1530896909,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "sm"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20180706_FIRE_sm-e-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20180706_FIRE.2",
+  "event": "20180706_FIRE",
+  "t0_min": 1530901827,
+  "t0_max": 1530901880,
+  "t0_median": 1530901880,
+  "n_seqs": 2,
+  "n_posed": 2,
+  "sites": [
+   "sm",
+   "wc"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20180706_FIRE_sm-n-mobo-c",
+   "20180706_FIRE_wc-e-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20180727_FIRE.1",
+  "event": "20180727_FIRE",
+  "t0_min": 1532710690,
+  "t0_max": 1532710690,
+  "t0_median": 1532710690,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "bh"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20180727_FIRE_bh-n-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20180727_FIRE.2",
+  "event": "20180727_FIRE",
+  "t0_min": 1532723478,
+  "t0_max": 1532724160,
+  "t0_median": 1532724111,
+  "n_seqs": 4,
+  "n_posed": 4,
+  "sites": [
+   "bh",
+   "bl2",
+   "mg",
+   "wc"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20180727_FIRE_wc-n-mobo-c",
+   "20180727_FIRE_bh-s-mobo-c",
+   "20180727_FIRE_bl-e-mobo-c",
+   "20180727_FIRE_mg-w-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20180809_FIRE",
+  "event": "20180809_FIRE",
+  "t0_min": 1533845440,
+  "t0_max": 1533845571,
+  "t0_median": 1533845440,
+  "n_seqs": 3,
+  "n_posed": 3,
+  "sites": [
+   "bh",
+   "bl2",
+   "mg"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20180809_FIRE_bh-s-mobo-c",
+   "20180809_FIRE_mg-w-mobo-c",
+   "20180809_FIRE_bl-e-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20180813_FIRE",
+  "event": "20180813_FIRE",
+  "t0_min": 1534197229,
+  "t0_max": 1534197400,
+  "t0_median": 1534197254,
+  "n_seqs": 3,
+  "n_posed": 3,
+  "sites": [
+   "bh",
+   "bl2",
+   "mg"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20180813_FIRE_bl-n-mobo-c",
+   "20180813_FIRE_bh-s-mobo-c",
+   "20180813_FIRE_mg-w-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20190716_FIRE",
+  "event": "20190716_FIRE",
+  "t0_min": 1563306113,
+  "t0_max": 1563308543,
+  "t0_median": 1563307414,
+  "n_seqs": 3,
+  "n_posed": 2,
+  "sites": [
+   "bl2",
+   "mg"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20190716_FIRE_bl-s-mobo-c",
+   "20190716_FIRE_mg-n-mobo-c",
+   "20190716_FIRE_so-w-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20190826_FIRE.1",
+  "event": "20190826_FIRE",
+  "t0_min": 1566839767,
+  "t0_max": 1566839767,
+  "t0_median": 1566839767,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "pi"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20190826_FIRE_pi-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20190826_FIRE.2",
+  "event": "20190826_FIRE",
+  "t0_min": 1566848889,
+  "t0_max": 1566849117,
+  "t0_median": 1566849117,
+  "n_seqs": 2,
+  "n_posed": 1,
+  "sites": [
+   "rm"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20190826_FIRE_rm-w-mobo-c",
+   "20190826_FIRE_smer-tcs9-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20190829_FIRE.1",
+  "event": "20190829_FIRE",
+  "t0_min": 1567098537,
+  "t0_max": 1567098537,
+  "t0_median": 1567098537,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "smertcs8"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20190829_FIRE_smer-tcs8-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20190829_FIRE.2",
+  "event": "20190829_FIRE",
+  "t0_min": 1567101006,
+  "t0_max": 1567101006,
+  "t0_median": 1567101006,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "rm"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20190829_FIRE_rm-w-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20190829_FIRE.3",
+  "event": "20190829_FIRE",
+  "t0_min": 1567117985,
+  "t0_max": 1567117985,
+  "t0_median": 1567117985,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "pi"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20190829_FIRE_pi-e-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20190829_FIRE.4",
+  "event": "20190829_FIRE",
+  "t0_min": 1567120309,
+  "t0_max": 1567120309,
+  "t0_median": 1567120309,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "bl2"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20190829_FIRE_bl-n-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20190924_FIRE",
+  "event": "20190924_FIRE",
+  "t0_min": 1569362093,
+  "t0_max": 1569362789,
+  "t0_median": 1569362188,
+  "n_seqs": 9,
+  "n_posed": 7,
+  "sites": [
+   "bl2",
+   "hp",
+   "lp",
+   "pi",
+   "sm",
+   "wc"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20190924_FIRE_bl-s-mobo-c",
+   "20190924_FIRE_lp-n-mobo-c",
+   "20190924_FIRE_pi-w-mobo-c",
+   "20190924_FIRE_wc-s-mobo-c",
+   "20190924_FIRE_lo-w-mobo-c",
+   "20190924_FIRE_sm-n-mobo-c",
+   "20190924_FIRE_ml-w-mobo-c",
+   "20190924_FIRE_wc-e-mobo-c",
+   "20190924_FIRE_hp-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20191001_FIRE.1",
+  "event": "20191001_FIRE",
+  "t0_min": 1569946779,
+  "t0_max": 1569946779,
+  "t0_median": 1569946779,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "om"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20191001_FIRE_om-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20191001_FIRE.2",
+  "event": "20191001_FIRE",
+  "t0_min": 1569952718,
+  "t0_max": 1569952917,
+  "t0_median": 1569952746,
+  "n_seqs": 3,
+  "n_posed": 2,
+  "sites": [
+   "lp",
+   "om"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20191001_FIRE_om-e-mobo-c",
+   "20191001_FIRE_lp-s-mobo-c",
+   "20191001_FIRE_smer-tcs9-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20191001_FIRE.3",
+  "event": "20191001_FIRE",
+  "t0_min": 1569955746,
+  "t0_max": 1569955746,
+  "t0_median": 1569955746,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "rm"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20191001_FIRE_rm-w-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20191001_FIRE.4",
+  "event": "20191001_FIRE",
+  "t0_min": 1569962356,
+  "t0_max": 1569962356,
+  "t0_median": 1569962356,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "bh"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20191001_FIRE_bh-w-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20191003_FIRE.1",
+  "event": "20191003_FIRE",
+  "t0_min": 1570126017,
+  "t0_max": 1570126026,
+  "t0_median": 1570126026,
+  "n_seqs": 2,
+  "n_posed": 1,
+  "sites": [
+   "rm"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20191003_FIRE_smer-tcs9-mobo-c",
+   "20191003_FIRE_rm-w-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20191003_FIRE.2",
+  "event": "20191003_FIRE",
+  "t0_min": 1570142441,
+  "t0_max": 1570142441,
+  "t0_median": 1570142441,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "om"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20191003_FIRE_om-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20191005_FIRE",
+  "event": "20191005_FIRE",
+  "t0_min": 1570309289,
+  "t0_max": 1570310301,
+  "t0_median": 1570310238,
+  "n_seqs": 5,
+  "n_posed": 5,
+  "sites": [
+   "bm",
+   "hp",
+   "vo",
+   "wc"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20191005_FIRE_hp-s-mobo-c",
+   "20191005_FIRE_vo-n-mobo-c",
+   "20191005_FIRE_wc-n-mobo-c",
+   "20191005_FIRE_bm-e-mobo-c",
+   "20191005_FIRE_wc-e-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20191006_FIRE",
+  "event": "20191006_FIRE",
+  "t0_min": 1570383885,
+  "t0_max": 1570386065,
+  "t0_median": 1570384285,
+  "n_seqs": 9,
+  "n_posed": 6,
+  "sites": [
+   "lp",
+   "om",
+   "pi"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20191006_FIRE_om-s-mobo-c",
+   "20191006_FIRE_ml-w-mobo-c",
+   "20191006_FIRE_lp-n-mobo-c",
+   "20191006_FIRE_om-n-mobo-c",
+   "20191006_FIRE_lo-w-mobo-c",
+   "20191006_FIRE_lp-e-mobo-c",
+   "20191006_FIRE_lo-s-mobo-c",
+   "20191006_FIRE_pi-s-mobo-c",
+   "20191006_FIRE_lp-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20191007_FIRE.1",
+  "event": "20191007_FIRE",
+  "t0_min": 1570476211,
+  "t0_max": 1570476211,
+  "t0_median": 1570476211,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "sm"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20191007_FIRE_sm-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20191007_FIRE.2",
+  "event": "20191007_FIRE",
+  "t0_min": 1570480385,
+  "t0_max": 1570480419,
+  "t0_median": 1570480419,
+  "n_seqs": 2,
+  "n_posed": 2,
+  "sites": [
+   "lp",
+   "om"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20191007_FIRE_lp-s-mobo-c",
+   "20191007_FIRE_om-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20200306_FIRE",
+  "event": "20200306_FIRE",
+  "t0_min": 1583515875,
+  "t0_max": 1583516523,
+  "t0_median": 1583515879,
+  "n_seqs": 3,
+  "n_posed": 2,
+  "sites": [
+   "mlo",
+   "pi"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20200306_FIRE_ml-s-mobo-c",
+   "20200306_FIRE_mlo-n-mobo-c",
+   "20200306_FIRE_pi-n-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20200521_FIRE.1",
+  "event": "20200521_FIRE",
+  "t0_min": 1590079239,
+  "t0_max": 1590079239,
+  "t0_median": 1590079239,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "om"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20200521_FIRE_om-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20200521_FIRE.2",
+  "event": "20200521_FIRE",
+  "t0_min": 1590099275,
+  "t0_max": 1590099281,
+  "t0_median": 1590099281,
+  "n_seqs": 2,
+  "n_posed": 2,
+  "sites": [
+   "om"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20200521_FIRE_om-n-mobo-c",
+   "20200521_FIRE_om-w-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20200521_VEGMGMT",
+  "event": "20200521_VEGMGMT",
+  "t0_min": 1590080657,
+  "t0_max": 1590080977,
+  "t0_median": 1590080960,
+  "n_seqs": 3,
+  "n_posed": 2,
+  "sites": [
+   "bm",
+   "wc"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20200521_VEGMGMT_ml-w-mobo-c",
+   "20200521_VEGMGMT_wc-e-mobo-c",
+   "20200521_VEGMGMT_bm-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20200601_WILDLAND-DRILLS",
+  "event": "20200601_WILDLAND-DRILLS",
+  "t0_min": 1591044245,
+  "t0_max": 1591044795,
+  "t0_median": 1591044743,
+  "n_seqs": 5,
+  "n_posed": 4,
+  "sites": [
+   "mlo",
+   "om",
+   "pi"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20200601_WILDLAND-DRILLS_pi-e-mobo-c",
+   "20200601_WILDLAND-DRILLS_mlo-e-mobo-c",
+   "20200601_WILDLAND-DRILLS_mlo-s-mobo-c",
+   "20200601_WILDLAND-DRILLS_om-e-mobo-c",
+   "20200601_WILDLAND-DRILLS_ml-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20200727_Border11Fire",
+  "event": "20200727_Border11Fire",
+  "t0_min": 1595906705,
+  "t0_max": 1595906738,
+  "t0_median": 1595906737,
+  "n_seqs": 4,
+  "n_posed": 4,
+  "sites": [
+   "lp",
+   "om"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20200727_Border11Fire_lp-s-mobo-c",
+   "20200727_Border11Fire_lp-s-mobo-m",
+   "20200727_Border11Fire_om-e-mobo-c",
+   "20200727_Border11Fire_om-e-mobo-m"
+  ]
+ },
+ {
+  "fire_id": "20200806_SpringsFire",
+  "event": "20200806_SpringsFire",
+  "t0_min": 1596763987,
+  "t0_max": 1596764132,
+  "t0_median": 1596764076,
+  "n_seqs": 6,
+  "n_posed": 6,
+  "sites": [
+   "lp",
+   "om",
+   "sm"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20200806_SpringsFire_lp-w-mobo-c",
+   "20200806_SpringsFire_lp-w-mobo-m",
+   "20200806_SpringsFire_om-n-mobo-c",
+   "20200806_SpringsFire_om-n-mobo-m",
+   "20200806_SpringsFire_sm-e-mobo-c",
+   "20200806_SpringsFire_sm-e-mobo-m"
+  ]
+ },
+ {
+  "fire_id": "20200813_Ranch2Fire",
+  "event": "20200813_Ranch2Fire",
+  "t0_min": 1597355993,
+  "t0_max": 1597357882,
+  "t0_median": 1597356218,
+  "n_seqs": 3,
+  "n_posed": 3,
+  "sites": [
+   "marconi",
+   "sjh",
+   "wilson"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20200813_Ranch2Fire_wilson-e-mobo-c",
+   "20200813_Ranch2Fire_sjh-n-mobo-c",
+   "20200813_Ranch2Fire_marconi-n-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20200829_inside-Mexico",
+  "event": "20200829_inside-Mexico",
+  "t0_min": 1598722807,
+  "t0_max": 1598723816,
+  "t0_median": 1598723483,
+  "n_seqs": 4,
+  "n_posed": 4,
+  "sites": [
+   "cp",
+   "mlo",
+   "om",
+   "pi"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20200829_inside-Mexico_pi-s-mobo-c",
+   "20200829_inside-Mexico_om-e-mobo-c",
+   "20200829_inside-Mexico_mlo-s-mobo-c",
+   "20200829_inside-Mexico_cp-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20200905_ValleyFire",
+  "event": "20200905_ValleyFire",
+  "t0_min": 1599341109,
+  "t0_max": 1599341369,
+  "t0_median": 1599341221,
+  "n_seqs": 3,
+  "n_posed": 3,
+  "sites": [
+   "lp",
+   "pi",
+   "sm"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20200905_ValleyFire_pi-w-mobo-c",
+   "20200905_ValleyFire_lp-n-mobo-c",
+   "20200905_ValleyFire_sm-e-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20200911_FIRE",
+  "event": "20200911_FIRE",
+  "t0_min": 1599853747,
+  "t0_max": 1599854043,
+  "t0_median": 1599853943,
+  "n_seqs": 3,
+  "n_posed": 3,
+  "sites": [
+   "lp",
+   "mlo",
+   "pi"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20200911_FIRE_pi-s-mobo-c",
+   "20200911_FIRE_mlo-s-mobo-c",
+   "20200911_FIRE_lp-e-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20201105_Roundfire",
+  "event": "20201105_Roundfire",
+  "t0_min": 1604614597,
+  "t0_max": 1604614805,
+  "t0_median": 1604614627,
+  "n_seqs": 3,
+  "n_posed": 3,
+  "sites": [
+   "lp",
+   "om",
+   "pi"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20201105_Roundfire_om-e-mobo-c",
+   "20201105_Roundfire_pi-s-mobo-c",
+   "20201105_Roundfire_lp-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20201202_WillowFire-nightime-near-CDF-HQ",
+  "event": "20201202_WillowFire-nightime-near-CDF-HQ",
+  "t0_min": 1606975107,
+  "t0_max": 1606975835,
+  "t0_median": 1606975631,
+  "n_seqs": 3,
+  "n_posed": 3,
+  "sites": [
+   "lp",
+   "om",
+   "sm"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20201202_WillowFire-nightime-near-CDF-HQ_sm-n-mobo-c",
+   "20201202_WillowFire-nightime-near-CDF-HQ_lp-w-mobo-c",
+   "20201202_WillowFire-nightime-near-CDF-HQ_om-n-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20201216_ChaparralFire",
+  "event": "20201216_ChaparralFire",
+  "t0_min": 1608154407,
+  "t0_max": 1608154475,
+  "t0_median": 1608154449,
+  "n_seqs": 4,
+  "n_posed": 4,
+  "sites": [
+   "lp",
+   "om",
+   "pi",
+   "sm"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20201216_ChaparralFire_sm-n-mobo-c",
+   "20201216_ChaparralFire_lp-w-mobo-c",
+   "20201216_ChaparralFire_pi-w-mobo-c",
+   "20201216_ChaparralFire_om-n-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20240701_Kitchenfire",
+  "event": "20240701_Kitchenfire",
+  "t0_min": 1719855050,
+  "t0_max": 1719855218,
+  "t0_median": 1719855181,
+  "n_seqs": 4,
+  "n_posed": 4,
+  "sites": [
+   "lp",
+   "mlo",
+   "pi",
+   "ws"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20240701_Kitchenfire_mlo-s-mobo-c",
+   "20240701_Kitchenfire_pi-e-mobo-c",
+   "20240701_Kitchenfire_ws-w-mobo-c",
+   "20240701_Kitchenfire_lp-e-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20240728_Border65Fire",
+  "event": "20240728_Border65Fire",
+  "t0_min": 1722196441,
+  "t0_max": 1722196496,
+  "t0_median": 1722196479,
+  "n_seqs": 3,
+  "n_posed": 3,
+  "sites": [
+   "lp",
+   "om",
+   "pi"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20240728_Border65Fire_pi-s-mobo-c",
+   "20240728_Border65Fire_lp-s-mobo-c",
+   "20240728_Border65Fire_om-e-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20240909_BridgeFire",
+  "event": "20240909_BridgeFire",
+  "t0_min": 1725912212,
+  "t0_max": 1725913358,
+  "t0_median": 1725912514,
+  "n_seqs": 3,
+  "n_posed": 3,
+  "sites": [
+   "marconi",
+   "starr",
+   "stgo"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20240909_BridgeFire_starr-n-mobo-c",
+   "20240909_BridgeFire_stgo-e-mobo-c",
+   "20240909_BridgeFire_marconi-n-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20241007_Posta3Fire",
+  "event": "20241007_Posta3Fire",
+  "t0_min": 1728336657,
+  "t0_max": 1728336720,
+  "t0_median": 1728336661,
+  "n_seqs": 3,
+  "n_posed": 3,
+  "sites": [
+   "pi",
+   "ws"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20241007_Posta3Fire_pi-e-mobo-c",
+   "20241007_Posta3Fire_ws-w-mobo-c",
+   "20241007_Posta3Fire_ws-n-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20241108_ResortFire.1",
+  "event": "20241108_ResortFire",
+  "t0_min": 1731098589,
+  "t0_max": 1731098589,
+  "t0_median": 1731098589,
+  "n_seqs": 1,
+  "n_posed": 1,
+  "sites": [
+   "rm"
+  ],
+  "triangulable": false,
+  "sequences": [
+   "20241108_ResortFire_rm-s-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20241108_ResortFire.2",
+  "event": "20241108_ResortFire",
+  "t0_min": 1731109243,
+  "t0_max": 1731109759,
+  "t0_median": 1731109246,
+  "n_seqs": 3,
+  "n_posed": 3,
+  "sites": [
+   "bm",
+   "hp",
+   "mg"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20241108_ResortFire_hp-e-mobo-c",
+   "20241108_ResortFire_mg-n-mobo-c",
+   "20241108_ResortFire_bm-n-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20250709_SteeleFire",
+  "event": "20250709_SteeleFire",
+  "t0_min": 1752094402,
+  "t0_max": 1752095395,
+  "t0_median": 1752095377,
+  "n_seqs": 3,
+  "n_posed": 3,
+  "sites": [
+   "lp",
+   "om",
+   "sm"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20250709_SteeleFire_sm-n-mobo-c",
+   "20250709_SteeleFire_lp-w-mobo-c",
+   "20250709_SteeleFire_om-n-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20250823_Clubfire",
+  "event": "20250823_Clubfire",
+  "t0_min": 1755964475,
+  "t0_max": 1755964835,
+  "t0_median": 1755964835,
+  "n_seqs": 6,
+  "n_posed": 6,
+  "sites": [
+   "starr",
+   "stgo"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20250823_Clubfire_starr-n-mobo-c#1",
+   "20250823_Clubfire_starr-n-mobo-m#1",
+   "20250823_Clubfire_starr-n-mobo-c#2",
+   "20250823_Clubfire_starr-n-mobo-m#2",
+   "20250823_Clubfire_stgo-s-mobo-c",
+   "20250823_Clubfire_stgo-s-mobo-m"
+  ]
+ },
+ {
+  "fire_id": "20251102_ScissorsFire",
+  "event": "20251102_ScissorsFire",
+  "t0_min": 1762122290,
+  "t0_max": 1762122532,
+  "t0_median": 1762122290,
+  "n_seqs": 6,
+  "n_posed": 6,
+  "sites": [
+   "mp",
+   "tp",
+   "vo"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20251102_ScissorsFire_tp-s-mobo-c",
+   "20251102_ScissorsFire_tp-s-mobo-m",
+   "20251102_ScissorsFire_vo-e-mobo-c",
+   "20251102_ScissorsFire_vo-e-mobo-m",
+   "20251102_ScissorsFire_mp-n-mobo-c",
+   "20251102_ScissorsFire_mp-n-mobo-m"
+  ]
+ },
+ {
+  "fire_id": "20260629_JunctionFire",
+  "event": "20260629_JunctionFire",
+  "t0_min": 1782778070,
+  "t0_max": 1782778584,
+  "t0_median": 1782778292,
+  "n_seqs": 6,
+  "n_posed": 6,
+  "sites": [
+   "bm",
+   "hp",
+   "mg",
+   "vo"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20260629_JunctionFire_vo-n-mobo-c",
+   "20260629_JunctionFire_vo-w-mobo-c",
+   "20260629_JunctionFire_bm-e-mobo-c",
+   "20260629_JunctionFire_hp-e-mobo-c",
+   "20260629_JunctionFire_hp-s-mobo-c",
+   "20260629_JunctionFire_mg-e-mobo-c"
+  ]
+ },
+ {
+  "fire_id": "20260722_CreelmanFire",
+  "event": "20260722_CreelmanFire",
+  "t0_min": 1784756836,
+  "t0_max": 1784757026,
+  "t0_median": 1784756924,
+  "n_seqs": 3,
+  "n_posed": 3,
+  "sites": [
+   "bm",
+   "cp",
+   "mg"
+  ],
+  "triangulable": true,
+  "sequences": [
+   "20260722_CreelmanFire_bm-s-mobo-c",
+   "20260722_CreelmanFire_mg-s-mobo-c",
+   "20260722_CreelmanFire_cp-w-mobo-c"
+  ]
+ }
+]

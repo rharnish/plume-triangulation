@@ -1,0 +1,2089 @@
+{
+ "(-117.3947, 32.0448, -116.02775, 33.28467)|2016-06-19T12|2016-06-20T00": [
+  {
+   "name": "Border 3",
+   "discovery_epoch": 1466359200,
+   "lat": 32.60750000000007,
+   "lon": -116.64083329999994,
+   "acres": 7609,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{93B700E2-CFBD-484C-9DEE-8CBE72511E4B}",
+   "dt_s": -253,
+   "km_to_nearest_cam": 15.32,
+   "name_match": false
+  },
+  {
+   "name": "SISTERS",
+   "discovery_epoch": 1466352360,
+   "lat": 32.97184000000004,
+   "lon": -116.68809999999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{72B1DEC8-2D49-4283-9131-9C5C365E73B8}",
+   "dt_s": -7093,
+   "km_to_nearest_cam": 28.32,
+   "name_match": false
+  }
+ ],
+ "(-117.6665, 32.431430000000006, -116.25807, 33.70992)|2016-11-13T13|2016-11-14T01": [
+  {
+   "name": "GOPHER 10",
+   "discovery_epoch": 1479063900,
+   "lat": 33.25277777800005,
+   "lon": -117.15611111099996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{0A4CA83B-633B-4CC4-8401-A9ED3F305D52}",
+   "dt_s": -519,
+   "km_to_nearest_cam": 30.4,
+   "name_match": false
+  }
+ ],
+ "(-117.35807, 32.60992, -116.25807, 33.70992)|2016-11-13T13|2016-11-14T01": [
+  {
+   "name": "GOPHER 10",
+   "discovery_epoch": 1479063900,
+   "lat": 33.25277777800005,
+   "lon": -117.15611111099996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{0A4CA83B-633B-4CC4-8401-A9ED3F305D52}",
+   "dt_s": -3033,
+   "km_to_nearest_cam": 33.99,
+   "name_match": false
+  }
+ ],
+ "(-117.3947, 32.0448, -116.2947, 33.1448)|2017-05-20T10|2017-05-20T22": [
+  {
+   "name": "REC",
+   "discovery_epoch": 1495302000,
+   "lat": 32.71028000000007,
+   "lon": -116.57332999999994,
+   "acres": 0.1,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{B22C2525-1993-4B35-8C6D-F0A75FB16C92}",
+   "dt_s": 5121,
+   "km_to_nearest_cam": 28.47,
+   "name_match": false
+  },
+  {
+   "name": "GATE",
+   "discovery_epoch": 1495305120,
+   "lat": 32.65416667000005,
+   "lon": -116.80749999999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{43DF6519-44FC-47D6-87F1-EEAC925E57A6}",
+   "dt_s": 8241,
+   "km_to_nearest_cam": 7.46,
+   "name_match": false
+  },
+  {
+   "name": "Gate",
+   "discovery_epoch": 1495309500,
+   "lat": 32.65222000000006,
+   "lon": -116.82388999999996,
+   "acres": 2056,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{3F75F361-41D0-4A16-A4A5-4B789EA7DE8A}",
+   "dt_s": 12621,
+   "km_to_nearest_cam": 6.68,
+   "name_match": false
+  }
+ ],
+ "(-117.12774999999999, 32.184670000000004, -116.02775, 33.28467)|2017-05-20T11|2017-05-20T23": [
+  {
+   "name": "REC",
+   "discovery_epoch": 1495302000,
+   "lat": 32.71028000000007,
+   "lon": -116.57332999999994,
+   "acres": 0.1,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{B22C2525-1993-4B35-8C6D-F0A75FB16C92}",
+   "dt_s": 173,
+   "km_to_nearest_cam": 2.74,
+   "name_match": false
+  },
+  {
+   "name": "GATE",
+   "discovery_epoch": 1495305120,
+   "lat": 32.65416667000005,
+   "lon": -116.80749999999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{43DF6519-44FC-47D6-87F1-EEAC925E57A6}",
+   "dt_s": 3293,
+   "km_to_nearest_cam": 23.29,
+   "name_match": false
+  },
+  {
+   "name": "Gate",
+   "discovery_epoch": 1495309500,
+   "lat": 32.65222000000006,
+   "lon": -116.82388999999996,
+   "acres": 2056,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{3F75F361-41D0-4A16-A4A5-4B789EA7DE8A}",
+   "dt_s": 7673,
+   "km_to_nearest_cam": 24.79,
+   "name_match": false
+  }
+ ],
+ "(-117.12774999999999, 32.184670000000004, -116.02775, 33.28467)|2017-05-20T12|2017-05-21T00": [
+  {
+   "name": "GATE",
+   "discovery_epoch": 1495305120,
+   "lat": 32.65416667000005,
+   "lon": -116.80749999999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{43DF6519-44FC-47D6-87F1-EEAC925E57A6}",
+   "dt_s": 651,
+   "km_to_nearest_cam": 23.29,
+   "name_match": false
+  },
+  {
+   "name": "REC",
+   "discovery_epoch": 1495302000,
+   "lat": 32.71028000000007,
+   "lon": -116.57332999999994,
+   "acres": 0.1,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{B22C2525-1993-4B35-8C6D-F0A75FB16C92}",
+   "dt_s": -2469,
+   "km_to_nearest_cam": 2.74,
+   "name_match": false
+  },
+  {
+   "name": "Gate",
+   "discovery_epoch": 1495309500,
+   "lat": 32.65222000000006,
+   "lon": -116.82388999999996,
+   "acres": 2056,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{3F75F361-41D0-4A16-A4A5-4B789EA7DE8A}",
+   "dt_s": 5031,
+   "km_to_nearest_cam": 24.79,
+   "name_match": false
+  }
+ ],
+ "(-117.35807, 32.60992, -116.25807, 33.70992)|2017-07-11T09|2017-07-11T21": [
+  {
+   "name": "MUTUAL AID JENNINGS",
+   "discovery_epoch": 1499808118,
+   "lat": 32.85382000000004,
+   "lon": -116.82549999999998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{176BF9F5-FBDA-4FFF-A7C7-9C24BBD3E76C}",
+   "dt_s": 20721,
+   "km_to_nearest_cam": 34.08,
+   "name_match": false
+  }
+ ],
+ "(-117.78974, 32.146860000000004, -116.38612, 33.53143)|2017-07-11T14|2017-07-12T02": [
+  {
+   "name": "MUTUAL AID JENNINGS",
+   "discovery_epoch": 1499808118,
+   "lat": 32.85382000000004,
+   "lon": -116.82549999999998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{176BF9F5-FBDA-4FFF-A7C7-9C24BBD3E76C}",
+   "dt_s": 1651,
+   "km_to_nearest_cam": 20.29,
+   "name_match": false
+  },
+  {
+   "name": "JENNINGS",
+   "discovery_epoch": 1499810940,
+   "lat": 32.84917000000007,
+   "lon": -116.85943999999996,
+   "acres": 400,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{72376B17-16AF-45E3-8FE2-37F9C3189465}",
+   "dt_s": 4473,
+   "km_to_nearest_cam": 18.39,
+   "name_match": false
+  }
+ ],
+ "(-117.38622, 32.60992, -116.25807, 33.913019999999996)|2017-07-22T16|2017-07-23T04": [
+  {
+   "name": "LOST",
+   "discovery_epoch": 1500760920,
+   "lat": 33.34917000000007,
+   "lon": -116.66065999999996,
+   "acres": 255,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{F464CD7B-28FD-453B-A030-AF845F6E261C}",
+   "dt_s": -393,
+   "km_to_nearest_cam": 16.38,
+   "name_match": false
+  },
+  {
+   "name": "LOST",
+   "discovery_epoch": 1500763200,
+   "lat": 33.491070000000036,
+   "lon": -116.65819999999997,
+   "acres": 0.1,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{549CEB37-AA17-49A7-BFD7-402DF62456DF}",
+   "dt_s": 1887,
+   "km_to_nearest_cam": 21.81,
+   "name_match": false
+  }
+ ],
+ "(-117.74047, 32.81302, -116.28622, 33.95079)|2017-10-10T15|2017-10-11T03": [
+  {
+   "name": "PORTOLA",
+   "discovery_epoch": 1507674120,
+   "lat": 33.30000000000007,
+   "lon": -116.99972221999997,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{AEEDABEA-D986-4F33-8C99-8CD27E71B0CB}",
+   "dt_s": 1498,
+   "km_to_nearest_cam": 16.73,
+   "name_match": false
+  }
+ ],
+ "(-117.46938, 32.784620000000004, -116.36938, 33.88462)|2017-12-07T13|2017-12-08T01": [
+  {
+   "name": "LILAC 5",
+   "discovery_epoch": 1512674100,
+   "lat": 33.348610000000065,
+   "lon": -117.19138999999996,
+   "acres": 4100,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{8822D5B4-E265-4FD2-A2BD-88E4AC044B93}",
+   "dt_s": -496,
+   "km_to_nearest_cam": 25.32,
+   "name_match": false
+  },
+  {
+   "name": "LIBERTY",
+   "discovery_epoch": 1512684000,
+   "lat": 33.585560000000044,
+   "lon": -117.13332999999994,
+   "acres": 300,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{21EFA3AA-CB50-4943-B5AC-890C0A1E2E2C}",
+   "dt_s": 9404,
+   "km_to_nearest_cam": 34.24,
+   "name_match": false
+  },
+  {
+   "name": "LYON",
+   "discovery_epoch": 1512688260,
+   "lat": 33.79777778000005,
+   "lon": -116.99333332999998,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{4FB8C0DC-8EA2-4A2D-8327-D6B50A568A1E}",
+   "dt_s": 13664,
+   "km_to_nearest_cam": 51.95,
+   "name_match": false
+  }
+ ],
+ "(-117.696776, 32.784620000000004, -116.36938, 34.010765)|2017-12-07T15|2017-12-08T03": [
+  {
+   "name": "LIBERTY",
+   "discovery_epoch": 1512684000,
+   "lat": 33.585560000000044,
+   "lon": -117.13332999999994,
+   "acres": 300,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{21EFA3AA-CB50-4943-B5AC-890C0A1E2E2C}",
+   "dt_s": 2390,
+   "km_to_nearest_cam": 13.93,
+   "name_match": false
+  },
+  {
+   "name": "LYON",
+   "discovery_epoch": 1512688260,
+   "lat": 33.79777778000005,
+   "lon": -116.99333332999998,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{4FB8C0DC-8EA2-4A2D-8327-D6B50A568A1E}",
+   "dt_s": 6650,
+   "km_to_nearest_cam": 40.08,
+   "name_match": false
+  },
+  {
+   "name": "LILAC 5",
+   "discovery_epoch": 1512674100,
+   "lat": 33.348610000000065,
+   "lon": -117.19138999999996,
+   "acres": 4100,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{8822D5B4-E265-4FD2-A2BD-88E4AC044B93}",
+   "dt_s": -7510,
+   "km_to_nearest_cam": 13.14,
+   "name_match": false
+  }
+ ],
+ "(-117.74047, 32.784620000000004, -116.36938, 34.010765)|2018-05-04T15|2018-05-05T03": [
+  {
+   "name": "TORNADO",
+   "discovery_epoch": 1525470540,
+   "lat": 33.47277777800008,
+   "lon": -117.16861111099996,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{B9896951-B405-4448-87E0-74ACA8F64FFF}",
+   "dt_s": 110,
+   "km_to_nearest_cam": 2.43,
+   "name_match": false
+  },
+  {
+   "name": "BOOTLEGG",
+   "discovery_epoch": 1525480500,
+   "lat": 33.57972222200004,
+   "lon": -117.09027777799996,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{628E4751-8DBB-43BF-9520-14B9472E2032}",
+   "dt_s": 10070,
+   "km_to_nearest_cam": 14.23,
+   "name_match": false
+  },
+  {
+   "name": "DRIP",
+   "discovery_epoch": 1525481340,
+   "lat": 33.46272000000005,
+   "lon": -116.96959999999996,
+   "acres": 0.1,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{B4857D6D-64A5-459C-92FC-EC7A0609748F}",
+   "dt_s": 10910,
+   "km_to_nearest_cam": 14.99,
+   "name_match": false
+  },
+  {
+   "name": "ALPHA",
+   "discovery_epoch": 1525459440,
+   "lat": 33.39694444400004,
+   "lon": -117.51861111099998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{C57E9230-2BF4-4202-866C-B187F4ECF550}",
+   "dt_s": -10990,
+   "km_to_nearest_cam": 30.47,
+   "name_match": false
+  },
+  {
+   "name": "WOODCHUCK",
+   "discovery_epoch": 1525481820,
+   "lat": 33.47722222200008,
+   "lon": -117.02972222199998,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{D3C2E40B-B99B-4736-BC41-B22FBB468059}",
+   "dt_s": 11390,
+   "km_to_nearest_cam": 11.01,
+   "name_match": false
+  }
+ ],
+ "(-117.74047, 32.85079, -116.596776, 34.010765)|2018-06-02T16|2018-06-03T04": [
+  {
+   "name": "JARDIN",
+   "discovery_epoch": 1527978780,
+   "lat": 33.45027777800004,
+   "lon": -117.22222222199996,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{6F7AA7E2-926A-4C7A-A538-AB27F2135E2B}",
+   "dt_s": 543,
+   "km_to_nearest_cam": 6.24,
+   "name_match": false
+  },
+  {
+   "name": "ALISO",
+   "discovery_epoch": 1527970740,
+   "lat": 33.55000000000007,
+   "lon": -117.71999999999996,
+   "acres": 175,
+   "county": "Orange",
+   "state": "US-CA",
+   "irwin": "{83E16686-5267-4C14-852B-4B535C73D63F}",
+   "dt_s": -7497,
+   "km_to_nearest_cam": 51.84,
+   "name_match": false
+  }
+ ],
+ "(-117.74047, 32.85079, -116.596776, 34.010765)|2018-06-03T14|2018-06-04T02": [
+  {
+   "name": "MORRO",
+   "discovery_epoch": 1528055460,
+   "lat": 33.30166666700006,
+   "lon": -117.24722222199996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E45A1197-BBC6-4A33-B044-2F7D73004DDC}",
+   "dt_s": -1857,
+   "km_to_nearest_cam": 12.22,
+   "name_match": false
+  },
+  {
+   "name": "ETHANAC",
+   "discovery_epoch": 1528061160,
+   "lat": 33.74194444400007,
+   "lon": -117.28305555599997,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{DFBA21AD-BE36-439A-8AC9-D6E86F24B066}",
+   "dt_s": 3843,
+   "km_to_nearest_cam": 33.72,
+   "name_match": false
+  },
+  {
+   "name": "GRANDE",
+   "discovery_epoch": 1528065120,
+   "lat": 33.48083333300008,
+   "lon": -117.31638888899994,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{6A017C92-5731-4CB5-A27E-32E909A67D7B}",
+   "dt_s": 7803,
+   "km_to_nearest_cam": 14.69,
+   "name_match": false
+  }
+ ],
+ "(-117.6665, 32.146860000000004, -116.38612, 33.53143)|2018-06-03T17|2018-06-04T05": [
+  {
+   "name": "GRANDE",
+   "discovery_epoch": 1528065120,
+   "lat": 33.48083333300008,
+   "lon": -117.31638888899994,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{6A017C92-5731-4CB5-A27E-32E909A67D7B}",
+   "dt_s": -2273,
+   "km_to_nearest_cam": 58.56,
+   "name_match": false
+  },
+  {
+   "name": "MORRO",
+   "discovery_epoch": 1528055460,
+   "lat": 33.30166666700006,
+   "lon": -117.24722222199996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E45A1197-BBC6-4A33-B044-2F7D73004DDC}",
+   "dt_s": -11933,
+   "km_to_nearest_cam": 37.63,
+   "name_match": false
+  }
+ ],
+ "(-117.48612, 32.146860000000004, -116.38612, 33.24686)|2018-06-03T19|2018-06-04T07": [],
+ "(-117.12774999999999, 32.184670000000004, -116.02775, 33.28467)|2018-06-06T11|2018-06-06T23": [
+  {
+   "name": "RECYCLE",
+   "discovery_epoch": 1528303500,
+   "lat": 32.63000000000005,
+   "lon": -116.46999999999996,
+   "acres": 265,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{F4A65FEA-A595-4826-AF31-D6499F60666A}",
+   "dt_s": -983,
+   "km_to_nearest_cam": 15.4,
+   "name_match": false
+  }
+ ],
+ "(-117.48612, 32.146860000000004, -116.38612, 33.24686)|2018-07-06T11|2018-07-06T23": [
+  {
+   "name": "BUILDING",
+   "discovery_epoch": 1530896880,
+   "lat": 32.61805555600006,
+   "lon": -116.76638888899998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{4842B00E-0DDF-4209-A56F-5DAC97AF62FA}",
+   "dt_s": -29,
+   "km_to_nearest_cam": 18.15,
+   "name_match": false
+  },
+  {
+   "name": "MVU BUILDING",
+   "discovery_epoch": 1530897547,
+   "lat": 32.619830000000036,
+   "lon": -116.76139999999998,
+   "acres": 8,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{5B76E3A7-D42E-4D81-A7BC-DE133D5513EA}",
+   "dt_s": 638,
+   "km_to_nearest_cam": 18.46,
+   "name_match": false
+  },
+  {
+   "name": "WEST",
+   "discovery_epoch": 1530901440,
+   "lat": 32.833380000000034,
+   "lon": -116.73270999999994,
+   "acres": 505,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{2E333193-E67D-406E-AFB1-AB438E13A944}",
+   "dt_s": 4531,
+   "km_to_nearest_cam": 24.33,
+   "name_match": false
+  }
+ ],
+ "(-117.52101, 32.146860000000004, -116.38612, 33.558719999999994)|2018-07-06T12|2018-07-07T00": [
+  {
+   "name": "PENDLETON COMPLEX",
+   "discovery_epoch": 1530901800,
+   "lat": 33.38000000000005,
+   "lon": -117.42999999999996,
+   "acres": 1520,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E2FD3EA8-1904-4C1A-9654-F20BC8098802}",
+   "dt_s": -80,
+   "km_to_nearest_cam": 59.4,
+   "name_match": false
+  },
+  {
+   "name": "WEST",
+   "discovery_epoch": 1530901440,
+   "lat": 32.833380000000034,
+   "lon": -116.73270999999994,
+   "acres": 505,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{2E333193-E67D-406E-AFB1-AB438E13A944}",
+   "dt_s": -440,
+   "km_to_nearest_cam": 24.33,
+   "name_match": false
+  },
+  {
+   "name": "VANDERGRIFT",
+   "discovery_epoch": 1530903840,
+   "lat": 33.32250000000005,
+   "lon": -117.324166667,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{6F22228D-3E47-47E5-ADAA-967A207F513F}",
+   "dt_s": 1960,
+   "km_to_nearest_cam": 47.94,
+   "name_match": false
+  },
+  {
+   "name": "MVU BUILDING",
+   "discovery_epoch": 1530897547,
+   "lat": 32.619830000000036,
+   "lon": -116.76139999999998,
+   "acres": 8,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{5B76E3A7-D42E-4D81-A7BC-DE133D5513EA}",
+   "dt_s": -4333,
+   "km_to_nearest_cam": 18.46,
+   "name_match": false
+  },
+  {
+   "name": "BUILDING",
+   "discovery_epoch": 1530896880,
+   "lat": 32.61805555600006,
+   "lon": -116.76638888899998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{4842B00E-0DDF-4209-A56F-5DAC97AF62FA}",
+   "dt_s": -5000,
+   "km_to_nearest_cam": 18.15,
+   "name_match": false
+  }
+ ],
+ "(-117.46938, 32.784620000000004, -116.36938, 33.88462)|2018-07-27T10|2018-07-27T22": [
+  {
+   "name": "PASQUAL",
+   "discovery_epoch": 1532716380,
+   "lat": 33.07000000000005,
+   "lon": -116.91999999999996,
+   "acres": 365,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E1D5D10D-DECF-4E7A-9E37-CB1135497104}",
+   "dt_s": 5690,
+   "km_to_nearest_cam": 29.42,
+   "name_match": false
+  },
+  {
+   "name": "SPRINGS ",
+   "discovery_epoch": 1532720460,
+   "lat": 33.46321000000006,
+   "lon": -116.97099999999996,
+   "acres": 0.1,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{D6FEAF65-8570-4226-AAB4-7D88D40C3A66}",
+   "dt_s": 9770,
+   "km_to_nearest_cam": 15.08,
+   "name_match": false
+  },
+  {
+   "name": "AVOCADO",
+   "discovery_epoch": 1532731800,
+   "lat": 33.502500000000055,
+   "lon": -117.28861111099997,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{616646D0-34F6-4292-BFDF-EE088F0D1A42}",
+   "dt_s": 21110,
+   "km_to_nearest_cam": 39.02,
+   "name_match": false
+  }
+ ],
+ "(-117.6665, 32.431430000000006, -116.2106, 33.88462)|2018-07-27T14|2018-07-28T02": [
+  {
+   "name": "SPRINGS ",
+   "discovery_epoch": 1532720460,
+   "lat": 33.46321000000006,
+   "lon": -116.97099999999996,
+   "acres": 0.1,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{D6FEAF65-8570-4226-AAB4-7D88D40C3A66}",
+   "dt_s": -3651,
+   "km_to_nearest_cam": 15.08,
+   "name_match": false
+  },
+  {
+   "name": "AVOCADO",
+   "discovery_epoch": 1532731800,
+   "lat": 33.502500000000055,
+   "lon": -117.28861111099997,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{616646D0-34F6-4292-BFDF-EE088F0D1A42}",
+   "dt_s": 7689,
+   "km_to_nearest_cam": 39.02,
+   "name_match": false
+  },
+  {
+   "name": "PASQUAL",
+   "discovery_epoch": 1532716380,
+   "lat": 33.07000000000005,
+   "lon": -116.91999999999996,
+   "acres": 365,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E1D5D10D-DECF-4E7A-9E37-CB1135497104}",
+   "dt_s": -7731,
+   "km_to_nearest_cam": 8.31,
+   "name_match": false
+  }
+ ],
+ "(-117.6665, 32.431430000000006, -116.2106, 33.88462)|2018-08-09T14|2018-08-10T02": [
+  {
+   "name": "RANGELAND",
+   "discovery_epoch": 1533845640,
+   "lat": 33.07333333300005,
+   "lon": -116.91638888899996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{87554DFA-0D09-412A-A9C7-E2950A182E77}",
+   "dt_s": 200,
+   "km_to_nearest_cam": 19.38,
+   "name_match": false
+  },
+  {
+   "name": "RAMONA",
+   "discovery_epoch": 1533852600,
+   "lat": 33.81973000000005,
+   "lon": -117.0657,
+   "acres": 0.1,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{E08C4FBA-FE1F-47B6-965E-86CACF711E20}",
+   "dt_s": 7160,
+   "km_to_nearest_cam": 55.62,
+   "name_match": false
+  },
+  {
+   "name": "FREEZER",
+   "discovery_epoch": 1533866520,
+   "lat": 32.63632000000007,
+   "lon": -116.75399999999996,
+   "acres": 0.6,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{D677DB9F-0EFC-4037-8865-180CDD28A898}",
+   "dt_s": 21080,
+   "km_to_nearest_cam": 51.19,
+   "name_match": false
+  }
+ ],
+ "(-117.6665, 32.431430000000006, -116.2106, 33.88462)|2018-08-13T15|2018-08-14T03": [],
+ "(-117.6665, 32.431430000000006, -116.2106, 33.73891)|2019-07-16T14|2019-07-17T02": [
+  {
+   "name": "OR supporting MEADOW",
+   "discovery_epoch": 1563306750,
+   "lat": 33.5125,
+   "lon": -116.7925,
+   "acres": 80,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{1E137279-DA9C-4A14-AA28-DA04DBDB696B}",
+   "dt_s": -664,
+   "km_to_nearest_cam": 36.1,
+   "name_match": false
+  },
+  {
+   "name": "MEADOW",
+   "discovery_epoch": 1563306720,
+   "lat": 33.512500000000045,
+   "lon": -116.79249999999996,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{92FA2D97-0FF9-4E46-9575-0FEBF3EFFD51}",
+   "dt_s": -694,
+   "km_to_nearest_cam": 36.1,
+   "name_match": false
+  }
+ ],
+ "(-117.12774999999999, 32.184670000000004, -116.02775, 33.28467)|2019-08-26T11|2019-08-26T23": [
+  {
+   "name": "JOHNSON",
+   "discovery_epoch": 1566847035,
+   "lat": 32.89759600000008,
+   "lon": -116.93423499999994,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{135E5185-CFDD-437A-9EB7-2FBB6331F377}",
+   "dt_s": 7268,
+   "km_to_nearest_cam": 37.92,
+   "name_match": false
+  }
+ ],
+ "(-117.74047, 32.85079, -116.64047000000001, 33.95079)|2019-08-26T13|2019-08-27T01": [
+  {
+   "name": "JOHNSON",
+   "discovery_epoch": 1566847035,
+   "lat": 32.89759600000008,
+   "lon": -116.93423499999994,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{135E5185-CFDD-437A-9EB7-2FBB6331F377}",
+   "dt_s": -2082,
+   "km_to_nearest_cam": 60.83,
+   "name_match": false
+  },
+  {
+   "name": "KNOLL",
+   "discovery_epoch": 1566853080,
+   "lat": 33.290500000000065,
+   "lon": -116.89139999999998,
+   "acres": 0.1,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{AE40ABCA-FAB3-46C1-997D-6ECDB22DC25D}",
+   "dt_s": 3963,
+   "km_to_nearest_cam": 30.37,
+   "name_match": false
+  },
+  {
+   "name": "STOKER",
+   "discovery_epoch": 1566861360,
+   "lat": 33.37277777800006,
+   "lon": -117.34249999999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{780AD15C-83F6-4242-9FAF-7CAC0010AB34}",
+   "dt_s": 12243,
+   "km_to_nearest_cam": 14.45,
+   "name_match": false
+  },
+  {
+   "name": "CARY",
+   "discovery_epoch": 1566865644,
+   "lat": 33.543382000000065,
+   "lon": -116.73566599999998,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{192C50C3-D032-45CF-9867-6091F7FDB01E}",
+   "dt_s": 16527,
+   "km_to_nearest_cam": 45.07,
+   "name_match": false
+  }
+ ],
+ "(-117.696776, 32.910765000000005, -116.596776, 34.010765)|2019-08-29T11|2019-08-29T23": [
+  {
+   "name": "TIGER",
+   "discovery_epoch": 1567102680,
+   "lat": 33.39722222200004,
+   "lon": -117.36305555599996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{34CFE388-5214-4B63-91E9-2AACEBE85DAE}",
+   "dt_s": 4143,
+   "km_to_nearest_cam": 21.28,
+   "name_match": false
+  }
+ ],
+ "(-117.74047, 32.85079, -116.64047000000001, 33.95079)|2019-08-29T11|2019-08-29T23": [
+  {
+   "name": "TIGER",
+   "discovery_epoch": 1567102680,
+   "lat": 33.39722222200004,
+   "lon": -117.36305555599996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{34CFE388-5214-4B63-91E9-2AACEBE85DAE}",
+   "dt_s": 1674,
+   "km_to_nearest_cam": 16.03,
+   "name_match": false
+  },
+  {
+   "name": "TOYON",
+   "discovery_epoch": 1567120397,
+   "lat": 33.06081700000004,
+   "lon": -117.124507,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{8624D943-E4EE-4AE1-9CAA-B8B3F050EBA6}",
+   "dt_s": 19391,
+   "km_to_nearest_cam": 38.3,
+   "name_match": false
+  }
+ ],
+ "(-117.12774999999999, 32.184670000000004, -116.02775, 33.28467)|2019-08-29T16|2019-08-30T04": [
+  {
+   "name": "TOYON",
+   "discovery_epoch": 1567120397,
+   "lat": 33.06081700000004,
+   "lon": -117.124507,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{8624D943-E4EE-4AE1-9CAA-B8B3F050EBA6}",
+   "dt_s": 2412,
+   "km_to_nearest_cam": 62.62,
+   "name_match": false
+  }
+ ],
+ "(-117.6665, 32.431430000000006, -116.5665, 33.53143)|2019-08-29T17|2019-08-30T05": [
+  {
+   "name": "TOYON",
+   "discovery_epoch": 1567120397,
+   "lat": 33.06081700000004,
+   "lon": -117.124507,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{8624D943-E4EE-4AE1-9CAA-B8B3F050EBA6}",
+   "dt_s": 88,
+   "km_to_nearest_cam": 8.86,
+   "name_match": false
+  },
+  {
+   "name": "TIGER",
+   "discovery_epoch": 1567102680,
+   "lat": 33.39722222200004,
+   "lon": -117.36305555599996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{34CFE388-5214-4B63-91E9-2AACEBE85DAE}",
+   "dt_s": -17629,
+   "km_to_nearest_cam": 51.61,
+   "name_match": false
+  }
+ ],
+ "(-117.6665, 32.146860000000004, -116.02775, 33.913019999999996)|2019-09-24T15|2019-09-25T03": [
+  {
+   "name": "DEHESA",
+   "discovery_epoch": 1569362212,
+   "lat": 32.785720000000026,
+   "lon": -116.80679999999997,
+   "acres": 200,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{4D7198C4-56BF-465A-AD2C-251ECA47DE13}",
+   "dt_s": 24,
+   "km_to_nearest_cam": 10.16,
+   "name_match": false
+  },
+  {
+   "name": "DEHESA 11",
+   "discovery_epoch": 1569362263,
+   "lat": 32.78765600000003,
+   "lon": -116.80694099999994,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{8E04E0FE-0F30-4A73-BFD4-B9327D5F7799}",
+   "dt_s": 75,
+   "km_to_nearest_cam": 10.36,
+   "name_match": false
+  },
+  {
+   "name": "RECHE 2",
+   "discovery_epoch": 1569362583,
+   "lat": 33.36516100000006,
+   "lon": -117.18824899999998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{5D12D841-3B42-4328-9B81-828B75EA7280}",
+   "dt_s": 395,
+   "km_to_nearest_cam": 32.69,
+   "name_match": false
+  }
+ ],
+ "(-117.3947, 32.0448, -116.2947, 33.1448)|2019-10-01T10|2019-10-01T22": [],
+ "(-117.3947, 32.0448, -116.21457000000001, 33.251529999999995)|2019-10-01T11|2019-10-01T23": [],
+ "(-117.74047, 32.85079, -116.64047000000001, 33.95079)|2019-10-01T12|2019-10-02T00": [
+  {
+   "name": "WHISKEY",
+   "discovery_epoch": 1569977340,
+   "lat": 33.427500000000066,
+   "lon": -117.40583333299998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{864AE8B5-915D-4CE1-BB8B-395EE3782991}",
+   "dt_s": 21594,
+   "km_to_nearest_cam": 20.21,
+   "name_match": false
+  }
+ ],
+ "(-117.46938, 32.784620000000004, -116.36938, 33.88462)|2019-10-01T14|2019-10-02T02": [
+  {
+   "name": "WHISKEY",
+   "discovery_epoch": 1569977340,
+   "lat": 33.427500000000066,
+   "lon": -117.40583333299998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{864AE8B5-915D-4CE1-BB8B-395EE3782991}",
+   "dt_s": 14984,
+   "km_to_nearest_cam": 46.33,
+   "name_match": false
+  },
+  {
+   "name": "GREEN ST  HEM",
+   "discovery_epoch": 1569982842,
+   "lat": 33.63279700000004,
+   "lon": -116.91336499999994,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{03775488-8497-4EBA-9C4A-2BFE270FC7C4}",
+   "dt_s": 20486,
+   "km_to_nearest_cam": 33.16,
+   "name_match": false
+  }
+ ],
+ "(-117.74047, 32.85079, -116.64047000000001, 33.95079)|2019-10-03T12|2019-10-04T00": [],
+ "(-117.3947, 32.0448, -116.2947, 33.1448)|2019-10-03T16|2019-10-04T04": [],
+ "(-117.52101, 32.45872, -116.06702, 33.913019999999996)|2019-10-05T15|2019-10-06T03": [
+  {
+   "name": "SCOUT",
+   "discovery_epoch": 1570309836,
+   "lat": 33.225955000000056,
+   "lon": -116.70201699999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{6D4D9691-09EE-4CCA-900B-B4A648260927}",
+   "dt_s": -402,
+   "km_to_nearest_cam": 12.3,
+   "name_match": false
+  }
+ ],
+ "(-117.3947, 32.0448, -116.02775, 33.28467)|2019-10-06T11|2019-10-06T23": [
+  {
+   "name": "GREEN 3",
+   "discovery_epoch": 1570383799,
+   "lat": 32.90638900000005,
+   "lon": -116.57972199999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{91B31D98-6838-40E7-B3A3-7B3642E7B09E}",
+   "dt_s": -486,
+   "km_to_nearest_cam": 19.1,
+   "name_match": false
+  }
+ ],
+ "(-117.48612, 32.146860000000004, -116.38612, 33.24686)|2019-10-07T13|2019-10-08T01": [],
+ "(-117.3947, 32.0448, -116.21457000000001, 33.251529999999995)|2019-10-07T14|2019-10-08T02": [],
+ "(-117.12774999999999, 32.184670000000004, -115.87658, 33.389889999999994)|2020-03-06T11|2020-03-06T23": [],
+ "(-117.3947, 32.0448, -116.2947, 33.1448)|2020-05-21T10|2020-05-21T22": [],
+ "(-117.3947, 32.0448, -116.2947, 33.1448)|2020-05-21T16|2020-05-22T04": [
+  {
+   "name": "CA-SND-University",
+   "discovery_epoch": 1590100860,
+   "lat": 32.74861110000006,
+   "lon": -117.06249999999994,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{6F7707F2-3A83-4A54-94ED-7198D3AD3CAE}",
+   "dt_s": 1579,
+   "km_to_nearest_cam": 26.61,
+   "name_match": false
+  }
+ ],
+ "(-117.52101, 32.45872, -116.25807, 33.70992)|2020-05-21T11|2020-05-21T23": [
+  {
+   "name": "CA-SND-University",
+   "discovery_epoch": 1590100860,
+   "lat": 32.74861110000006,
+   "lon": -117.06249999999994,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{6F7707F2-3A83-4A54-94ED-7198D3AD3CAE}",
+   "dt_s": 19900,
+   "km_to_nearest_cam": 30.16,
+   "name_match": false
+  }
+ ],
+ "(-117.3947, 32.0448, -115.87658, 33.389889999999994)|2020-06-01T14|2020-06-02T02": [
+  {
+   "name": "MVU JUNE MOVE UP & COVER",
+   "discovery_epoch": 1591046463,
+   "lat": 32.74906200000004,
+   "lon": -116.92727199999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{4264DB38-6048-414E-BD3A-5B0DACB4F423}",
+   "dt_s": 1720,
+   "km_to_nearest_cam": 18.81,
+   "name_match": false
+  },
+  {
+   "name": "MVU LIVE FIRE TRAINING",
+   "discovery_epoch": 1591024371,
+   "lat": 32.682720000000074,
+   "lon": -116.26359999999994,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{1A3BB728-3391-4E19-B2E4-E610B5F66BB6}",
+   "dt_s": -20372,
+   "km_to_nearest_cam": 23.19,
+   "name_match": false
+  }
+ ],
+ "(-117.3947, 32.0448, -116.21457000000001, 33.251529999999995)|2020-07-27T21|2020-07-28T09": [
+  {
+   "name": "BORDER 11",
+   "discovery_epoch": 1595906786,
+   "lat": 32.56609863500006,
+   "lon": -116.79626407999996,
+   "acres": 41,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E659F009-E697-411A-885B-343E77BDCA71}",
+   "dt_s": 49,
+   "km_to_nearest_cam": 5.55,
+   "name_match": false
+  }
+ ],
+ "(-117.48612, 32.0448, -116.21457000000001, 33.251529999999995)|2020-08-06T19|2020-08-07T07": [
+  {
+   "name": "HONEY 2",
+   "discovery_epoch": 1596764086,
+   "lat": 32.66988200000003,
+   "lon": -116.82530099999995,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E1F87DA7-3AF9-4677-AB48-3DB82172C3D7}",
+   "dt_s": 10,
+   "km_to_nearest_cam": 6.68,
+   "name_match": false
+  }
+ ],
+ "(-118.60867, 32.952920000000006, -116.93096, 34.77451)|2020-08-13T16|2020-08-14T04": [
+  {
+   "name": "RANCH2",
+   "discovery_epoch": 1597355580,
+   "lat": 34.156720000000064,
+   "lon": -117.91069999999996,
+   "acres": 4237,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{D3F5D9A5-75C8-4650-87CD-9C3E1051802D}",
+   "dt_s": -638,
+   "km_to_nearest_cam": 15.56,
+   "name_match": true
+  },
+  {
+   "name": "LAC-241276",
+   "discovery_epoch": 1597356032,
+   "lat": 34.134430000000066,
+   "lon": -117.93694999999995,
+   "acres": null,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{10FD53BC-47ED-4831-A178-05862D748BD5}",
+   "dt_s": -186,
+   "km_to_nearest_cam": 15.02,
+   "name_match": false
+  },
+  {
+   "name": "LAC-241294",
+   "discovery_epoch": 1597356771,
+   "lat": 33.80411000000004,
+   "lon": -118.27545999999997,
+   "acres": null,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{E713AEB5-3B87-473D-AB3A-2A4C5AE3B75F}",
+   "dt_s": 553,
+   "km_to_nearest_cam": 50.84,
+   "name_match": false
+  },
+  {
+   "name": "RANCH",
+   "discovery_epoch": 1597355351,
+   "lat": 34.14721000000003,
+   "lon": -117.90848999999996,
+   "acres": null,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{9BEF9042-4EEE-41B8-B44E-C5E6736B8260}",
+   "dt_s": -867,
+   "km_to_nearest_cam": 16.27,
+   "name_match": false
+  },
+  {
+   "name": "LAC-241240",
+   "discovery_epoch": 1597354586,
+   "lat": 34.072110000000066,
+   "lon": -118.07299999999998,
+   "acres": null,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{E557951D-85AB-4C97-813A-5953AD6283A1}",
+   "dt_s": -1632,
+   "km_to_nearest_cam": 17.0,
+   "name_match": false
+  },
+  {
+   "name": "LAC-241215",
+   "discovery_epoch": 1597353932,
+   "lat": 34.04728000000006,
+   "lon": -117.90805999999998,
+   "acres": null,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{C0336E58-E8D7-408C-98CA-31D6234609E4}",
+   "dt_s": -2286,
+   "km_to_nearest_cam": 24.09,
+   "name_match": false
+  },
+  {
+   "name": "RIVER",
+   "discovery_epoch": 1597353182,
+   "lat": 34.04916000000003,
+   "lon": -118.01541999999996,
+   "acres": null,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{70AA32DB-51CB-4474-9FC8-0095443EE928}",
+   "dt_s": -3036,
+   "km_to_nearest_cam": 19.9,
+   "name_match": false
+  },
+  {
+   "name": "Skyline",
+   "discovery_epoch": 1597361400,
+   "lat": 33.837330000000065,
+   "lon": -117.59283,
+   "acres": 51,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{F916812E-CB4C-4162-AFD3-2819E21E6230}",
+   "dt_s": 5182,
+   "km_to_nearest_cam": 36.87,
+   "name_match": false
+  },
+  {
+   "name": "SKYLINE -- KEEP OPEN",
+   "discovery_epoch": 1597362055,
+   "lat": 33.83743100000004,
+   "lon": -117.60970299999995,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{CF54F76E-252D-4B33-B3A6-DC2B53123BF9}",
+   "dt_s": 5837,
+   "km_to_nearest_cam": 37.2,
+   "name_match": false
+  },
+  {
+   "name": "LAC-241450",
+   "discovery_epoch": 1597364582,
+   "lat": 34.542860000000076,
+   "lon": -118.10754999999996,
+   "acres": null,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{156BFA4F-286D-4176-9E88-64F9202D9C1D}",
+   "dt_s": 8364,
+   "km_to_nearest_cam": 35.68,
+   "name_match": false
+  },
+  {
+   "name": "STAR",
+   "discovery_epoch": 1597347399,
+   "lat": 33.31730200000004,
+   "lon": -117.17540699999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{D3CC831F-31A9-444C-AE1B-CA2689ED1CDE}",
+   "dt_s": -8819,
+   "km_to_nearest_cam": 36.16,
+   "name_match": false
+  },
+  {
+   "name": "LAC-241596",
+   "discovery_epoch": 1597372639,
+   "lat": 33.86766000000006,
+   "lon": -118.09918,
+   "acres": null,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{41CA943D-1FFB-4000-9D91-6CD4744D676E}",
+   "dt_s": 16421,
+   "km_to_nearest_cam": 39.86,
+   "name_match": false
+  },
+  {
+   "name": "DORAL",
+   "discovery_epoch": 1597337461,
+   "lat": 33.90312000000006,
+   "lon": -117.16380899999996,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{0FB89BD8-D3DE-49FC-8A5D-88A6EDF3B3CB}",
+   "dt_s": -18757,
+   "km_to_nearest_cam": 51.81,
+   "name_match": false
+  },
+  {
+   "name": "LAC-240885",
+   "discovery_epoch": 1597335170,
+   "lat": 34.715670000000046,
+   "lon": -117.79418999999996,
+   "acres": null,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{0DFE7366-577A-43E7-BC43-AF2F96BC7382}",
+   "dt_s": -21048,
+   "km_to_nearest_cam": 59.75,
+   "name_match": false
+  }
+ ],
+ "(-117.3947, 32.0448, -115.87658, 33.49642)|2020-08-29T11|2020-08-29T23": [
+  {
+   "name": "BORDER 18",
+   "discovery_epoch": 1598724152,
+   "lat": 32.59064900000004,
+   "lon": -116.45691399999998,
+   "acres": 0.1,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{C892AE67-2E8C-456F-8553-D8F51F3F2F73}",
+   "dt_s": 669,
+   "km_to_nearest_cam": 19.61,
+   "name_match": false
+  },
+  {
+   "name": "DUCK",
+   "discovery_epoch": 1598734788,
+   "lat": 32.996376000000055,
+   "lon": -116.89884099999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{6C43C84D-47E5-46AC-AFAF-BFB763F9C823}",
+   "dt_s": 11305,
+   "km_to_nearest_cam": 27.81,
+   "name_match": false
+  }
+ ],
+ "(-117.48612, 32.146860000000004, -116.02775, 33.28467)|2020-09-05T15|2020-09-06T03": [
+  {
+   "name": "VALLEY 3",
+   "discovery_epoch": 1599340629,
+   "lat": 32.76334600000007,
+   "lon": -116.69534099999998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{8DABC58C-97B2-4570-8E44-82DA66DE7E44}",
+   "dt_s": -592,
+   "km_to_nearest_cam": 9.44,
+   "name_match": true
+  },
+  {
+   "name": "Valley",
+   "discovery_epoch": 1599340560,
+   "lat": 32.76138,
+   "lon": -116.6945,
+   "acres": 16390,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{A55E40C0-7692-40CD-95ED-113D7936B7F7}",
+   "dt_s": -661,
+   "km_to_nearest_cam": 9.34,
+   "name_match": true
+  },
+  {
+   "name": "Buckman",
+   "discovery_epoch": 1599327660,
+   "lat": 32.79939000000007,
+   "lon": -116.49777999999998,
+   "acres": 1,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{85B8E93B-5A3F-484B-8B7D-BD350191C0B7}",
+   "dt_s": -13561,
+   "km_to_nearest_cam": 10.38,
+   "name_match": false
+  }
+ ],
+ "(-117.31457, 32.15153, -115.87658, 33.389889999999994)|2020-09-11T13|2020-09-12T01": [
+  {
+   "name": "Shore",
+   "discovery_epoch": 1599853920,
+   "lat": 32.682330000000036,
+   "lon": -116.51716999999996,
+   "acres": 1.5,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{3689808F-72A8-468D-B7EA-AA36DC7CB1EC}",
+   "dt_s": -23,
+   "km_to_nearest_cam": 8.12,
+   "name_match": false
+  }
+ ],
+ "(-117.3947, 32.0448, -116.02775, 33.28467)|2020-11-05T16|2020-11-06T04": [
+  {
+   "name": "ROUND",
+   "discovery_epoch": 1604614795,
+   "lat": 32.63514300000003,
+   "lon": -116.63575099999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{7F1F6A01-EA82-4FE4-9C83-3B75C1715A9E}",
+   "dt_s": 168,
+   "km_to_nearest_cam": 12.33,
+   "name_match": true
+  },
+  {
+   "name": "Boiling",
+   "discovery_epoch": 1604612100,
+   "lat": 32.87008300000008,
+   "lon": -116.418367,
+   "acres": 0.1,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{D4F7AB56-7E5E-411A-97CA-7B4780291135}",
+   "dt_s": -2527,
+   "km_to_nearest_cam": 21.18,
+   "name_match": false
+  }
+ ],
+ "(-117.48612, 32.0448, -116.21457000000001, 33.251529999999995)|2020-12-03T00|2020-12-03T12": [
+  {
+   "name": "WILLOW 3",
+   "discovery_epoch": 1606976862,
+   "lat": 32.752923,
+   "lon": -116.906803,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{7A037624-7341-4382-8276-422BFBE65AC0}",
+   "dt_s": 1231,
+   "km_to_nearest_cam": 6.81,
+   "name_match": false
+  }
+ ],
+ "(-117.48612, 32.0448, -116.02775, 33.28467)|2020-12-16T15|2020-12-17T03": [
+  {
+   "name": "CUYAMACA",
+   "discovery_epoch": 1608154320,
+   "lat": 32.86944440000008,
+   "lon": -116.98138889999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{46E88D21-E1EE-4173-8F81-8FB036031ECE}",
+   "dt_s": -129,
+   "km_to_nearest_cam": 19.65,
+   "name_match": false
+  },
+  {
+   "name": "CUYAMACA",
+   "discovery_epoch": 1608154260,
+   "lat": 32.86916670000005,
+   "lon": -116.98194439999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{3CDD48C5-649B-405E-BE2F-D7F4A86DCB5C}",
+   "dt_s": -189,
+   "km_to_nearest_cam": 19.63,
+   "name_match": false
+  }
+ ],
+ "(-117.31457, 32.09723, -115.76798000000001, 33.389889999999994)|2024-07-01T11|2024-07-01T23": [
+  {
+   "name": "KITCHEN",
+   "discovery_epoch": 1719855241,
+   "lat": 32.713133,
+   "lon": -116.473917,
+   "acres": 49,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{1B583D5A-34BF-4EA4-8D42-4813F3714B0F}",
+   "dt_s": 60,
+   "km_to_nearest_cam": 10.0,
+   "name_match": true
+  },
+  {
+   "name": "BONITA",
+   "discovery_epoch": 1719869980,
+   "lat": 32.682778,
+   "lon": -116.981944,
+   "acres": 0.1,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{467EA8EB-E230-4125-B03C-FB5956B93623}",
+   "dt_s": 14799,
+   "km_to_nearest_cam": 20.45,
+   "name_match": false
+  },
+  {
+   "name": "MCCAIN 4",
+   "discovery_epoch": 1719873254,
+   "lat": 32.668151,
+   "lon": -116.260045,
+   "acres": 1595,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{3456E2DB-A36C-4135-A4D7-78BEE1A73FE7}",
+   "dt_s": 18073,
+   "km_to_nearest_cam": 5.9,
+   "name_match": false
+  }
+ ],
+ "(-117.3947, 32.0448, -116.02775, 33.28467)|2024-07-28T13|2024-07-29T01": [
+  {
+   "name": "LITTLE",
+   "discovery_epoch": 1722191719,
+   "lat": 32.679266,
+   "lon": -117.008668,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{00654A88-F882-4FAB-BF06-812379E01154}",
+   "dt_s": -4760,
+   "km_to_nearest_cam": 18.0,
+   "name_match": false
+  },
+  {
+   "name": "MISSION",
+   "discovery_epoch": 1722207660,
+   "lat": 32.8377778,
+   "lon": -117.0047222,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{A87E1429-90F4-40A3-9FA8-85CAE4754499}",
+   "dt_s": 11181,
+   "km_to_nearest_cam": 27.09,
+   "name_match": false
+  }
+ ],
+ "(-118.09864999999999, 32.969100000000005, -116.93096, 34.26115)|2024-09-09T14|2024-09-10T02": [
+  {
+   "name": "LAC-320018",
+   "discovery_epoch": 1725912489,
+   "lat": 34.10707,
+   "lon": -117.94289,
+   "acres": null,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{95DB08CD-D350-4EB3-84C9-E86807A36B06}",
+   "dt_s": -25,
+   "km_to_nearest_cam": 57.98,
+   "name_match": false
+  },
+  {
+   "name": "AIRPORT",
+   "discovery_epoch": 1725912000,
+   "lat": 33.6680556,
+   "lon": -117.5652778,
+   "acres": 23526,
+   "county": "Orange",
+   "state": "US-CA",
+   "irwin": "{8DE09A3A-443F-4D3F-8A56-6A650C70C41A}",
+   "dt_s": -514,
+   "km_to_nearest_cam": 5.59,
+   "name_match": false
+  },
+  {
+   "name": "KENNEDY",
+   "discovery_epoch": 1725917031,
+   "lat": 33.86972,
+   "lon": -117.044072,
+   "acres": 3.74,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{E5F9DEC9-34BF-4DF3-A614-AC55C97DCB80}",
+   "dt_s": 4517,
+   "km_to_nearest_cam": 48.6,
+   "name_match": false
+  },
+  {
+   "name": "CORTRITE",
+   "discovery_epoch": 1725917968,
+   "lat": 33.741227,
+   "lon": -117.087306,
+   "acres": 0.1,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{43AF7561-6441-4069-AA4C-1F84D4A8800C}",
+   "dt_s": 5454,
+   "km_to_nearest_cam": 41.45,
+   "name_match": false
+  },
+  {
+   "name": "SIERRA",
+   "discovery_epoch": 1725920178,
+   "lat": 34.021676,
+   "lon": -117.423475,
+   "acres": 3,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{F1CA2747-5423-4AD3-913E-3E8C3D972CB5}",
+   "dt_s": 7664,
+   "km_to_nearest_cam": 36.01,
+   "name_match": false
+  },
+  {
+   "name": "LAC-320351",
+   "discovery_epoch": 1725926790,
+   "lat": 34.02295,
+   "lon": -117.8133,
+   "acres": null,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{B765F8DB-B46C-4C30-A36D-3FF7F160DBDE}",
+   "dt_s": 14276,
+   "km_to_nearest_cam": 43.2,
+   "name_match": false
+  },
+  {
+   "name": "WILD",
+   "discovery_epoch": 1725896727,
+   "lat": 34.013304,
+   "lon": -117.078801,
+   "acres": 0.25,
+   "county": "San Bernardino",
+   "state": "US-CA",
+   "irwin": "{D1419A2E-607B-49DA-B945-057C973F0A21}",
+   "dt_s": -15787,
+   "km_to_nearest_cam": 53.82,
+   "name_match": false
+  },
+  {
+   "name": "JULIE LN / SUNNY AV",
+   "discovery_epoch": 1725929088,
+   "lat": 33.737119,
+   "lon": -117.116692,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{A6C4C722-689A-4196-B1D3-D097BF16A36D}",
+   "dt_s": 16574,
+   "km_to_nearest_cam": 38.71,
+   "name_match": false
+  },
+  {
+   "name": "BOBCAT",
+   "discovery_epoch": 1725895311,
+   "lat": 34.256833,
+   "lon": -117.095467,
+   "acres": 0.1,
+   "county": "San Bernardino",
+   "state": "US-CA",
+   "irwin": "{38C48D5E-5A56-412F-BAB5-D57A8B35597E}",
+   "dt_s": -17203,
+   "km_to_nearest_cam": 72.92,
+   "name_match": false
+  }
+ ],
+ "(-117.12774999999999, 32.09723, -115.76798000000001, 33.28467)|2024-10-07T15|2024-10-08T03": [
+  {
+   "name": "POSTA 3",
+   "discovery_epoch": 1728336904,
+   "lat": 32.723511,
+   "lon": -116.426985,
+   "acres": 413,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{1899163D-428A-4120-98F3-F147F8098A86}",
+   "dt_s": 243,
+   "km_to_nearest_cam": 13.27,
+   "name_match": false
+  }
+ ],
+ "(-117.74047, 32.85079, -116.64047000000001, 33.95079)|2024-11-08T14|2024-11-09T02": [
+  {
+   "name": "GARDEN",
+   "discovery_epoch": 1731098912,
+   "lat": 33.338891,
+   "lon": -117.180551,
+   "acres": 48,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{5CC8A505-9BC7-4C7F-A44B-7454390F9428}",
+   "dt_s": 323,
+   "km_to_nearest_cam": 6.94,
+   "name_match": false
+  },
+  {
+   "name": "PASQUAL 4",
+   "discovery_epoch": 1731098248,
+   "lat": 33.102607,
+   "lon": -117.028313,
+   "acres": 0.5,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{2B39296B-EE49-491C-8637-EE480D9884BF}",
+   "dt_s": -341,
+   "km_to_nearest_cam": 36.42,
+   "name_match": false
+  },
+  {
+   "name": "RIVER",
+   "discovery_epoch": 1731096621,
+   "lat": 33.726413,
+   "lon": -117.273018,
+   "acres": 0.01,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{F9279C9C-1F4B-4832-B383-C62B7325C1C9}",
+   "dt_s": -1968,
+   "km_to_nearest_cam": 37.01,
+   "name_match": false
+  },
+  {
+   "name": "OHANA CI / CAMINO DEL NORTE",
+   "discovery_epoch": 1731095213,
+   "lat": 33.684221,
+   "lon": -117.329615,
+   "acres": 0.1,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{DC342E50-36E1-4F34-9FDC-41A35E23EE80}",
+   "dt_s": -3376,
+   "km_to_nearest_cam": 34.05,
+   "name_match": false
+  },
+  {
+   "name": "TOLL",
+   "discovery_epoch": 1731102060,
+   "lat": 33.8483333,
+   "lon": -117.7166667,
+   "acres": null,
+   "county": "Orange",
+   "state": "US-CA",
+   "irwin": "{AFB83E34-D127-44E4-82C5-5F3584B9293B}",
+   "dt_s": 3471,
+   "km_to_nearest_cam": 69.64,
+   "name_match": false
+  },
+  {
+   "name": "METZ",
+   "discovery_epoch": 1731104904,
+   "lat": 33.793792,
+   "lon": -117.241236,
+   "acres": 1.37,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{E8EB4988-E972-4165-AECF-7E9035719AC8}",
+   "dt_s": 6315,
+   "km_to_nearest_cam": 43.95,
+   "name_match": false
+  },
+  {
+   "name": "SEATON AV / CAJALCO RD",
+   "discovery_epoch": 1731090152,
+   "lat": 33.837361,
+   "lon": -117.261619,
+   "acres": 0.01,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{1C01027C-A94D-4631-A3DC-DB2398DE30BC}",
+   "dt_s": -8437,
+   "km_to_nearest_cam": 48.99,
+   "name_match": false
+  },
+  {
+   "name": "NOBLE",
+   "discovery_epoch": 1731116938,
+   "lat": 33.946974,
+   "lon": -116.989138,
+   "acres": 0.1,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{515AC952-0583-41BB-8F0F-E18511161D2F}",
+   "dt_s": 18349,
+   "km_to_nearest_cam": 63.53,
+   "name_match": false
+  }
+ ],
+ "(-117.38622, 32.60992, -116.2106, 33.913019999999996)|2024-11-08T17|2024-11-09T05": [
+  {
+   "name": "RESORT 2",
+   "discovery_epoch": 1731109244,
+   "lat": 33.286514,
+   "lon": -116.64017,
+   "acres": 26.7,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{C3605E53-9297-4D1A-9CFD-886EFC62EEC9}",
+   "dt_s": -2,
+   "km_to_nearest_cam": 15.6,
+   "name_match": true
+  },
+  {
+   "name": "METZ",
+   "discovery_epoch": 1731104904,
+   "lat": 33.793792,
+   "lon": -117.241236,
+   "acres": 1.37,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{E8EB4988-E972-4165-AECF-7E9035719AC8}",
+   "dt_s": -4342,
+   "km_to_nearest_cam": 60.85,
+   "name_match": false
+  },
+  {
+   "name": "GARDEN",
+   "discovery_epoch": 1731098912,
+   "lat": 33.338891,
+   "lon": -117.180551,
+   "acres": 48,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{5CC8A505-9BC7-4C7F-A44B-7454390F9428}",
+   "dt_s": -10334,
+   "km_to_nearest_cam": 32.09,
+   "name_match": false
+  },
+  {
+   "name": "PASQUAL 4",
+   "discovery_epoch": 1731098248,
+   "lat": 33.102607,
+   "lon": -117.028313,
+   "acres": 0.5,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{2B39296B-EE49-491C-8637-EE480D9884BF}",
+   "dt_s": -10998,
+   "km_to_nearest_cam": 21.48,
+   "name_match": false
+  },
+  {
+   "name": "RIVER",
+   "discovery_epoch": 1731096621,
+   "lat": 33.726413,
+   "lon": -117.273018,
+   "acres": 0.01,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{F9279C9C-1F4B-4832-B383-C62B7325C1C9}",
+   "dt_s": -12625,
+   "km_to_nearest_cam": 57.2,
+   "name_match": false
+  },
+  {
+   "name": "OHANA CI / CAMINO DEL NORTE",
+   "discovery_epoch": 1731095213,
+   "lat": 33.684221,
+   "lon": -117.329615,
+   "acres": 0.1,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{DC342E50-36E1-4F34-9FDC-41A35E23EE80}",
+   "dt_s": -14033,
+   "km_to_nearest_cam": 58.03,
+   "name_match": false
+  },
+  {
+   "name": "MENIFEE RD  NUEV",
+   "discovery_epoch": 1731127117,
+   "lat": 33.799035,
+   "lon": -117.156346,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{E29DC8C4-5CF0-4D32-96DE-379163F92ADA}",
+   "dt_s": 17871,
+   "km_to_nearest_cam": 56.83,
+   "name_match": false
+  },
+  {
+   "name": "SEATON AV / CAJALCO RD",
+   "discovery_epoch": 1731090152,
+   "lat": 33.837361,
+   "lon": -117.261619,
+   "acres": 0.01,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{1C01027C-A94D-4631-A3DC-DB2398DE30BC}",
+   "dt_s": -19094,
+   "km_to_nearest_cam": 65.83,
+   "name_match": false
+  }
+ ],
+ "(-117.48612, 32.0448, -116.21457000000001, 33.251529999999995)|2025-07-09T15|2025-07-10T03": [
+  {
+   "name": "STEELE 2",
+   "discovery_epoch": 1752094798,
+   "lat": 32.727378,
+   "lon": -116.920221,
+   "acres": 28,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{44732838-6820-41A3-9880-76B354F952B5}",
+   "dt_s": -579,
+   "km_to_nearest_cam": 3.71,
+   "name_match": true
+  }
+ ],
+ "(-118.09864999999999, 33.062450000000005, -116.9841, 34.26115)|2025-08-23T10|2025-08-23T22": [
+  {
+   "name": "CLUB",
+   "discovery_epoch": 1755964800,
+   "lat": 33.6344444,
+   "lon": -117.57,
+   "acres": null,
+   "county": "Orange",
+   "state": "US-CA",
+   "irwin": "{C8007C7B-C3D8-4D47-9D00-2E493381E21E}",
+   "dt_s": -35,
+   "km_to_nearest_cam": 3.14,
+   "name_match": true
+  },
+  {
+   "name": "CLUB",
+   "discovery_epoch": 1755964980,
+   "lat": 33.61805,
+   "lon": -117.5498,
+   "acres": 4.25,
+   "county": "Orange",
+   "state": "US-CA",
+   "irwin": "{1A3E55FB-054B-4687-BC2A-79C84B5573BE}",
+   "dt_s": 145,
+   "km_to_nearest_cam": 0.63,
+   "name_match": true
+  },
+  {
+   "name": "GOURD",
+   "discovery_epoch": 1755965996,
+   "lat": 33.452818,
+   "lon": -117.327243,
+   "acres": 0.9,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{B9F0A723-7BEE-46CD-8F4B-1031B3BADA88}",
+   "dt_s": 1161,
+   "km_to_nearest_cam": 27.13,
+   "name_match": false
+  },
+  {
+   "name": "DE PORTOLA RD / PAUBA RD",
+   "discovery_epoch": 1755963074,
+   "lat": 33.505329,
+   "lon": -117.022849,
+   "acres": 55,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{A7287768-DE90-417F-BE71-063EA81574F6}",
+   "dt_s": -1761,
+   "km_to_nearest_cam": 50.16,
+   "name_match": false
+  }
+ ],
+ "(-117.16702, 32.34225, -115.87087, 34.07351)|2025-11-02T16|2025-11-03T04": [
+  {
+   "name": "SCISSORS 2",
+   "discovery_epoch": 1762122055,
+   "lat": 33.098585,
+   "lon": -116.470729,
+   "acres": 68,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{97CFE796-2966-4291-AB90-DB7ABB77324E}",
+   "dt_s": -235,
+   "km_to_nearest_cam": 14.32,
+   "name_match": true
+  },
+  {
+   "name": "PHEASANT",
+   "discovery_epoch": 1762111107,
+   "lat": 33.072423,
+   "lon": -116.577148,
+   "acres": 0.01,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{6F430751-B283-4FF4-897F-58B67EF32D5F}",
+   "dt_s": -11183,
+   "km_to_nearest_cam": 8.21,
+   "name_match": false
+  },
+  {
+   "name": "FRY",
+   "discovery_epoch": 1762110217,
+   "lat": 33.3451,
+   "lon": -116.88,
+   "acres": 0.1,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{08292E74-6695-4F56-939F-7E9AA5C61624}",
+   "dt_s": -12073,
+   "km_to_nearest_cam": 33.57,
+   "name_match": false
+  }
+ ],
+ "(-117.38622, 32.588260000000005, -116.06702, 33.913019999999996)|2026-06-29T18|2026-06-30T06": [
+  {
+   "name": "JUNCTION",
+   "discovery_epoch": 1782778229,
+   "lat": 33.190665,
+   "lon": -116.703696,
+   "acres": 8.13,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{CA5F88AF-7F61-4454-AAF2-92FBF8AEB7E2}",
+   "dt_s": -63,
+   "km_to_nearest_cam": 5.3,
+   "name_match": true
+  },
+  {
+   "name": "JEAN",
+   "discovery_epoch": 1782777062,
+   "lat": 33.018353,
+   "lon": -116.860119,
+   "acres": 0.26,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{154084EF-B43E-4787-9661-D58751F5CE26}",
+   "dt_s": -1230,
+   "km_to_nearest_cam": 16.47,
+   "name_match": false
+  }
+ ],
+ "(-117.35807, 32.396420000000006, -116.05668, 33.73891)|2026-07-22T15|2026-07-23T03": [
+  {
+   "name": "CREELMAN",
+   "discovery_epoch": 1784756988,
+   "lat": 33.018354,
+   "lon": -116.843448,
+   "acres": 347,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{72C28B64-91AE-46FF-9D43-C16E2AC8CB09}",
+   "dt_s": 64,
+   "km_to_nearest_cam": 16.08,
+   "name_match": true
+  },
+  {
+   "name": "BARBARA",
+   "discovery_epoch": 1784739718,
+   "lat": 33.61386,
+   "lon": -116.626823,
+   "acres": 0.01,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{775DA549-9904-4D55-BF61-249A349034C1}",
+   "dt_s": -17206,
+   "km_to_nearest_cam": 48.86,
+   "name_match": false
+  },
+  {
+   "name": "RAINBOW 3",
+   "discovery_epoch": 1784739349,
+   "lat": 33.37737,
+   "lon": -117.116489,
+   "acres": 26.2,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E12C0D58-48CE-4482-BD87-7C03B317E01D}",
+   "dt_s": -17575,
+   "km_to_nearest_cam": 37.51,
+   "name_match": false
+  }
+ ]
+}

@@ -1,0 +1,22 @@
+# Data — 13 GB of FIgLib archives, fetched not committed. See data/README.md
+data/tgz/
+data/frames/
+data/cache/
+
+# Derived outputs (scoped, not blanket — a blanket *.png would silently
+# swallow committed figures and web assets)
+out/
+data/**/*.png
+data/**/*.jpg
+data/**/*.mp4
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Local Claude Code settings (machine paths, not for publication)
+.claude/settings.local.json
