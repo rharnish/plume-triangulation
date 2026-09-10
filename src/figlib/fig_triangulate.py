@@ -167,11 +167,21 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
         ax.imshow(hs, origin="lower", extent=extent, cmap="gray",
                   vmin=-0.15, vmax=1.25, alpha=0.55, aspect="auto", zorder=0)
 
+    # The likelihood as a heatmap rather than a flat patch: the shape of the falloff is
+    # the honest uncertainty, and a single outline throws it away. Alpha ramps to zero at
+    # the -9 contour so the relief stays visible everywhere the surface says nothing.
     rel = ll - ll.max()
-    ax.contourf(lons, lats, rel, levels=[-3.0, 0.0], colors=["#ffd166"],
-                alpha=0.22, zorder=2)
-    ax.contour(lons, lats, rel, levels=[-3.0], colors=["#ffd166"],
-               linewidths=1.2, linestyles="--", zorder=3)
+    a = np.clip((rel + 9.0) / 9.0, 0.0, 1.0)
+    rgba = matplotlib.colormaps["magma"](a)
+    rgba[..., 3] = 0.90 * a ** 1.6
+    ax.imshow(rgba, origin="lower",
+              extent=[lons[0], lons[-1], lats[0], lats[-1]],
+              aspect="auto", zorder=2, interpolation="bilinear")
+    cs = ax.contour(lons, lats, rel, levels=[-6.0, -3.0, -1.0],
+                    colors=["#7fb2ff", "#bfe0ff", "#ffffff"],
+                    linewidths=[0.9, 1.2, 1.4], zorder=3)
+    ax.clabel(cs, fmt={-6.0: "", -3.0: "95%", -1.0: "peak"}, fontsize=7.5,
+              colors="#e8eefc")
 
     span = half_km * 2.4 / 111.32
     for b, col, _crop in crops:
@@ -208,13 +218,45 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
 
     ax.legend(handles=[
         Line2D([], [], color="#8d93a3", lw=2, label="bearing from one camera"),
-        Line2D([], [], color="#ffd166", lw=1.2, ls="--", label="95% credible region"),
+        Line2D([], [], color="#bfe0ff", lw=1.2, label="95% credible contour"),
         Line2D([], [], color="#ff3860", marker="x", ls="none", ms=10, mew=3,
                label="estimate"),
         Line2D([], [], color="#ffffff", marker="o", mfc="none", ls="none", ms=12,
                mew=2, label="official ignition point"),
     ], loc="best", fontsize=9, facecolor="#181b24", edgecolor="#3a4050",
         labelcolor="#dfe3ea", framealpha=0.92)
+
+    # A wide view shows the rays converging; the credible region is a few km across and
+    # invisible at that span. The inset carries the second question -- how tightly the
+    # surface actually constrains the answer -- without splitting it into a second figure.
+    iax = ax.inset_axes([0.678, 0.028, 0.305, 0.305])
+    iax.set_facecolor("#0d0f15")
+    z_km = max(1.6, 2.6 * math.sqrt(max(area, 0.4)), err * 1.5)
+    zlat, zlon = z_km / 111.32, z_km / (111.32 * cos_lat)
+    mlat, mlon = (elat + truth["lat"]) / 2, (elon + truth["lon"]) / 2
+    iax.imshow(rgba, origin="lower",
+               extent=[lons[0], lons[-1], lats[0], lats[-1]],
+               aspect="auto", zorder=1, interpolation="bilinear")
+    ics = iax.contour(lons, lats, rel, levels=[-6.0, -3.0, -1.0],
+                      colors=["#7fb2ff", "#bfe0ff", "#ffffff"],
+                      linewidths=[0.9, 1.2, 1.4], zorder=2)
+    iax.clabel(ics, fmt={-6.0: "", -3.0: "95%", -1.0: "peak"}, fontsize=7,
+               colors="#e8eefc")
+    for b, col, _c in crops:
+        th = math.radians(b.bearing_deg)
+        iax.plot([b.lon, b.lon + math.sin(th) * span / math.cos(math.radians(b.lat))],
+                 [b.lat, b.lat + math.cos(th) * span], color=col, lw=1.4, alpha=0.9,
+                 zorder=3)
+    iax.plot(truth["lon"], truth["lat"], "o", mfc="none", mec="#ffffff", ms=14, mew=2,
+             zorder=5)
+    iax.plot(elon, elat, "x", color="#ff3860", ms=11, mew=2.6, zorder=5)
+    iax.set_xlim(mlon - zlon, mlon + zlon); iax.set_ylim(mlat - zlat, mlat + zlat)
+    iax.set_xticks([]); iax.set_yticks([])
+    for sp in iax.spines.values():
+        sp.set_color("#8d93a3"); sp.set_linewidth(1.1)
+    iax.set_title(f"likelihood surface, {2 * z_km:.0f} km across", fontsize=8,
+                  color="#c8cedb", pad=2.5)
+    ax.indicate_inset_zoom(iax, edgecolor="#8d93a3", alpha=0.75, lw=0.9)
 
     for i, (b, col, crop) in enumerate(crops):
         cax = fig.add_subplot(gs[i // ncol, 1 + i % ncol])
