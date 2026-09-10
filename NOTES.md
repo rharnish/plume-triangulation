@@ -489,8 +489,9 @@ published metadata, because they are not an improvement and should not be mistak
 
 ### The audit number is an upper bound, not a measurement (corrected 2026-09-09)
 
-Looking at the rendered overlays (`out/terrain_png/`, sorted by residual;
-`docs/figures/peaks_examples.png` for six spanning the range) undermines part of the audit
+Looking at the rendered overlays (`python -m src.figlib.fig_peaks png` regenerates them
+into `out/terrain_png/`, sorted by residual; `docs/figures/peaks_examples.png` is six
+spanning the range, and is committed) undermines part of the audit
 above. On the two *worst* cameras -- `sm-n` at -614 px and `bh-n` at -674 px -- the orange
 predicted skyline traces the distant crest about right and its summits land on visible
 peaks. It is the **blue observed skyline that is wrong**, locked onto a nearer ridge, a
