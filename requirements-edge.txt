@@ -1,0 +1,12 @@
+# Apple Silicon only: Core ML export and the M3 measurements in docs/edge-m3.md.
+# Install on macOS, in a separate environment from requirements.txt.
+
+coremltools==9.0
+ultralytics==8.3.0       # exports best.pt -> .mlpackage (ML Program)
+
+# The pin that matters. coremltools 9.0's converter breaks on torch 2.14 with
+#   TypeError: only 0-dimensional arrays can be converted to Python scalars
+# raised from ops.py::_cast -- there is no workaround in user code, and coremltools
+# itself warns that 2.7.0 is the newest version it has been tested against.
+torch==2.7.0
+torchvision==0.22.0

@@ -19,3 +19,26 @@ pyronear release and to SmokeyNet, which is the FIgLib paper's own model.
 Geolocation results are unaffected: kilometre error against official ignition
 coordinates tests geometry, not generalisation, and a memorised detection still yields a
 valid bearing.
+
+## Core ML variants — built, not fetched
+
+The M3 measurements in [`docs/edge-m3.md`](../docs/edge-m3.md) run three exports of the same
+weights, produced on macOS with `requirements-edge.txt` installed:
+
+| variant | file | size |
+|---|---|---|
+| FP32 | `coreml/fp32_ref.mlpackage` | 36.0 MB |
+| FP16 | `coreml/fp16.mlpackage` | 18.2 MB |
+| INT8-weight | `coreml/int8w.mlpackage` | 9.3 MB |
+
+`coreml/` is gitignored — the packages are reproducible from the ONNX weights above, and the
+measurements they produced are committed instead (`data/edge/pm-m3-20260909.txt.gz`, and the
+figure).
+
+Two traps worth knowing before re-exporting:
+
+- **Ultralytics writes every export to the same path.** Exporting FP16 silently moves the FP32
+  `.mlpackage` aside. Rename each one before exporting the next.
+- **`MLComputePlan.load_from_path` aborts the process** when handed an `.mlpackage` — a C++
+  `libc++abi` abort that no Python `except` can catch, and it surfaces as a macOS crash dialog.
+  Load `ct.models.MLModel(path)` first and pass `.get_compiled_model_path()` instead.

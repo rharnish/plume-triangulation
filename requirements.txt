@@ -1,0 +1,13 @@
+# Linux / x86 side: ingest, ground-truth join, detection, geometry, evaluation.
+# Python 3.12. Versions are the ones the committed results were produced with.
+
+numpy==2.5.3
+opencv-python==5.0.0.88
+rasterio==1.5.1          # Copernicus DEM GLO-30 COG tiles
+scipy==1.18.1            # chi2, for the exact Poisson bound on false-alarm rates
+matplotlib==3.11.1
+onnxruntime==1.29.0      # pyronear yolo11s, CPU
+pillow==12.3.0
+
+# Nothing else is needed. Ground truth comes from WFIGS/IRWIN over urllib, and the
+# frame archives from data/fetch.sh -- no requests, no API key, no credentials.
