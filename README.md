@@ -1,5 +1,7 @@
 # plume-triangulation
 
+[![tests](https://github.com/rharnish/plume-triangulation/actions/workflows/ci.yml/badge.svg)](https://github.com/rharnish/plume-triangulation/actions/workflows/ci.yml)
+
 **Where is the fire, how fast can we say so, and can the model run on the camera?**
 
 Wildfire smoke detection is usually reported as mAP on a held-out split. That number does
@@ -151,6 +153,23 @@ python -m src.figlib.falsealarm    # the seconds-to-alert sweep
 
 The Core ML work is macOS-only and installs separately (`requirements-edge.txt`); see
 [docs/edge-m3.md](docs/edge-m3.md).
+
+### Reproducing without the download
+
+The full run needs ~13 GB of FIgLib archives, but the geometry does not. The camera table,
+the sequence index, and the resolved ground truth are committed under `data/meta/`, and
+`tests/fixtures/` carries one fire's real detections — enough to run bearings, the
+likelihood field, and evidence accumulation end to end:
+
+```sh
+pip install -r requirements-dev.txt
+pytest                     # ~3 s; geolocates 20240701_Kitchenfire to 0.08 km
+```
+
+CI runs this on every push. `tests/test_geom.py` pins the bearing and projection maths
+against hand-checkable cases; `test_geolocation.py` and `test_accumulate.py` are the
+end-to-end smoke tests, including that a confident wrong bearing perturbs the estimate
+rather than capturing it.
 
 ## Map of the code
 

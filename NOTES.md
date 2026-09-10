@@ -850,6 +850,12 @@ They are 23 of the 33 ground-truth fires, so they carry real weight.
 README. The other four mp4s in `out/videos/` (21 MB) still have nowhere to live; a GIF
 each is the cheapest fix if they are wanted.
 
+**Tests, 2026-09-10.** `tests/` runs the geometry against committed metadata and one
+fire's detections in `tests/fixtures/yolo/` — no 13 GB download. `test_geom.py` pins the
+bearing/projection/field maths; `test_geolocation.py` and `test_accumulate.py` are
+end-to-end (Kitchen fire to 0.08 km, plus the bounded-influence property of the mixture).
+`requirements-dev.txt` is numpy + pytest only. GitHub Actions (`.github/workflows/ci.yml`)
+runs `compileall` and `pytest` on every push.
 
 
 **Figures and videos live under `out/`, which is gitignored.** That is right for 21 MB of mp4 and

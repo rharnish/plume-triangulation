@@ -1,0 +1,5 @@
+# Test dependencies. The suite exercises the geometry only -- bearings, the likelihood
+# field, evidence accumulation -- against the committed metadata and one fire's detections
+# in tests/fixtures/, so it needs numpy and pytest and nothing from the heavy pipeline.
+numpy==2.5.3
+pytest==9.1.1
