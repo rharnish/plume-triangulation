@@ -100,32 +100,6 @@ number.
 Priced downstream in kilometres: FP16 is free (2.28 km, identical recall). INT8-weight costs
 2.67 km at 40 minutes and 3.57 km at 3 minutes — the accuracy loss lands where latency matters.
 
-### Terrain: the camera metadata is a nameplate
-
-![peak matching](docs/figures/peaks_examples.png)
-
-Ray-marching a public 30 m DEM gives the skyline each camera *ought* to see, with no pixels
-consulted — an independent check on published pose. Counting how many `cams.json` fields are
-actually populated across all 505 cameras:
-
-| field | populated | what it really is |
-|---|---|---|
-| `lat`/`lon`/`elev`/`agl` | 505 | surveyed, credible |
-| `az` | 505 — but **482 are exactly 0/90/180/270** | the cardinal direction in the camera's name |
-| `fov` | 505 — but **483 are exactly 90 or 60** | a spec-sheet number |
-| `pitch` / `roll` / `yaw` | **9 / 14 / 3 non-zero** | placeholders |
-
-There is no focal length, no principal point, no distortion coefficient, no measured
-orientation. So the honest framing of the failed pose refinement is not "the published pose is
-wrong" but **"there was nothing published to be wrong."**
-
-And the skyline could never have recovered it: **it occupies 34–46 px of a 1536 px frame**. It
-is a horizontal line, and pitch, camera height and focal length are mutually degenerate against
-one. Extracting *every* visible ridge instead — the running-max staircase along each ray, which
-the march already computed and discarded — spans 137–442 px across 2–24 km, giving 4–10× the
-vertical lever arm and the range diversity that separates those parameters. That instrument is
-built; matching it to image content is open.
-
 ---
 
 ## Running it
@@ -133,7 +107,7 @@ built; matching it to image content is open.
 ```sh
 python -m venv .venv && .venv/bin/pip install -r requirements.txt
 ./data/fetch.sh            # ~13 GB of FIgLib archives, idempotent
-./data/fetch_dem.sh        # ~435 MB of Copernicus DEM GLO-30 tiles
+./data/fetch_dem.sh        # optional: ~435 MB of DEM tiles, for the terrain modules only
 ```
 
 Then, roughly in pipeline order:
@@ -159,7 +133,8 @@ All modules live flat in [src/figlib/](src/figlib/) and run as `python -m src.fi
 |---|---|
 | **Ingest & ground truth** | `ingest` `fires` `truth` `resolve` `wind` |
 | **Detection** | `detect_yolo` (ONNX) · `detect_coreml` (Apple) · `detect_diff` (training-free floor) |
-| **Geometry** | `geom` `terrain` `geolocate` `accumulate` `calibrate` `pose_validate` |
+| **Geometry** | `geom` `geolocate` `accumulate` |
+| **Terrain** *(pose audit)* | `terrain` `calibrate` `pose_validate` — see `NOTES.md` |
 | **Evaluation** | `falsealarm` `quantization` `evolve` |
 | **Edge** | `bench_edge` `power` |
 | **Figures** | `viz` `viz_map` `viz_terrain` `animate` `fig_peaks` `fig_pose` |
@@ -183,6 +158,13 @@ corrected. It is the honest record, not a summary.
   **4.99 camera-days in total**. Rates below ~1 FA/camera-day rest on zero to three events, and
   one false alarm per camera-week is not measurable on FIgLib at all. A Poisson upper bound is
   carried in the JSON for every row so the ratios are never read as more than they are.
+- **The camera metadata is a nameplate, not a calibration.** Across all 505 cameras, `az` is
+  exactly 0/90/180/270 on **482** and `fov` exactly 90 or 60 on **483**; `pitch`, `roll` and
+  `yaw` are non-zero on only **9**, **14** and **3**, and are literal `0.0` placeholders
+  everywhere else. There is no focal length, principal point or distortion coefficient
+  anywhere. Bearings are therefore only as good as a compass heading rounded to a quadrant,
+  which is worth knowing before reading a kilometre figure. `NOTES.md` records the attempt to
+  refine it against terrain, and why that failed.
 - **"Minutes of warning gained" is not a claim this data supports.** Official
   `FireDiscoveryDateTime` minus annotated plume appearance has a median of **+1.0 min** — humans
   reported 7 of the 10 name-confirmed fires *before* the plume was annotated visible. What the
