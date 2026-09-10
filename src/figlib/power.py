@@ -25,9 +25,27 @@ POWER = re.compile(r"^(CPU|GPU|ANE|Combined) Power(?: \(.*?\))?: (\d+) mW", re.M
 PRESSURE = re.compile(r"Current pressure level: (\w+)")
 
 
+def _open(path: Path):
+    """Read the log whether or not it is compressed.
+
+    The raw `powermetrics` output is the one artefact here that cannot be regenerated --
+    the Mac session that produced it is over -- so the committed copy is gzipped, at
+    1.5 MB against 28 MB plain.
+    """
+    import gzip
+    return (gzip.open(path, "rt") if path.suffix == ".gz" else open(path))
+
+
+def _default_log() -> Path:
+    """Prefer a local uncompressed run, fall back to the committed gzip."""
+    local = OUT / "pm.txt"
+    return local if local.exists() else ROOT / "data" / "edge" / "pm-m3-20260909.txt.gz"
+
+
 def parse(path: Path) -> list[dict]:
     """One record per powermetrics sample: epoch seconds, mW per unit, pressure."""
-    text = path.read_text(errors="ignore")
+    with _open(path) as fh:
+        text = fh.read()
     blocks = text.split("*** Sampled system activity")
     out = []
     for b in blocks[1:]:
@@ -151,7 +169,7 @@ def figure(pm_path: Path) -> None:
 
 
 def main(argv: list[str]) -> None:
-    pm = Path(argv[0]) if argv else OUT / "pm.txt"
+    pm = Path(argv[0]) if argv else _default_log()
     samples = parse(pm)
     print(f"{len(samples)} powermetrics samples, "
           f"{datetime.fromtimestamp(samples[0]['t'])} .. "
