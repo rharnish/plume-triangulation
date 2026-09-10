@@ -83,12 +83,13 @@ number.
 | FP16 | CPU | 48.6 ms | 20.6 fps | 2.3 |
 | FP16 | GPU | 24.0 ms | 41.6 fps | 5.6 |
 | **FP16** | **ANE** | **11.0 ms** | **91.0 fps** | **12.0** |
-| INT8-weight | ANE | 10.4 ms | 96.7 fps | 12.0 |
+| INT8-weight | ANE | 10.4 ms | 96.7 fps | 12.8 |
 
 - **FP32 silently does not use the NPU.** The compute plan places **0 of 241 ops** on the ANE,
   and requesting it returns the *CPU* at 97 ms and 0 mW ANE — with no error and no warning.
   Verify dispatch; never trust the requested setting.
-- **INT8 buys size, not speed, on M3.** Identical latency and power, 9.3 MB against 18.2 MB.
+- **INT8 buys size, not speed, on M3.** 10.4 ms against 11.0, and 7,574 mW against 7,566 — the
+  same within run-to-run noise — for 9.3 MB against 18.2 MB.
   Through the M3 generation the ANE supports weight-only INT8; full INT8 activation compute
   arrived with A17 Pro and M4. Stating that distinction is the point.
 - **Preprocessing is half the budget.** End-to-end is 20.2 ms against 11.0 model-only, so
