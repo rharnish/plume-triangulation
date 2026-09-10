@@ -31,11 +31,31 @@ in kilometres against the official ignition coordinate.
 Best is `20240701_Kitchenfire` at **0.08 km** from four sites. Every confirmed-tier fire
 lands within 3.61 km; the probable tier carries the entire tail.
 
+![Kitchen fire triangulation](docs/figures/triangulate_kitchenfire.jpg)
+
+*How to read these: each camera's most confident detection (right) casts a bearing (matching
+colour) from its tower; the bearings are accumulated into the likelihood field, whose peak is
+the estimate (✗) and whose falloff is the 95% contour. The open circle is the official
+coordinate. The inset appears only where the credible region is too small to see at the main
+scale.*
+
+The geometry holds up in conditions that are not benign. `20201202_WillowFire` is a night
+ignition seen against continuous city light from three sites, and lands **0.30 km** from the
+assigned coordinate (probable-tier truth).
+
+![Willow fire triangulation, at night against urban light](docs/figures/triangulate_willow_night.jpg)
+
 **That split is the finding.** Where the probable-tier fires fail they fail in a diagnostic
 shape — bearings agreeing with each other to within a few km² while sitting 20–60 km from the
 assigned incident. Independent cameras do not agree by accident, so error much larger than
 √area₉₅ indicts the *ground truth*, not the geometry. Geolocation error turns out to be an
 audit of the weaker resolution tier.
+
+![PORTOLA: three bearings agree tightly 24 km from the assigned incident](docs/figures/triangulate_portola.jpg)
+
+*`20171010_FIRE` → PORTOLA: three bearings from two sites close on an 8 km² region, with the
+assigned incident 24 km away and no ray passing near it. The geometry is not the thing that
+is wrong here.*
 
 ### Seconds-to-alert vs false alarms per camera-day
 
@@ -138,7 +158,7 @@ All modules live flat in [src/figlib/](src/figlib/) and run as `python -m src.fi
 | **Terrain** *(pose audit)* | `terrain` `calibrate` `pose_validate` — see `NOTES.md` |
 | **Evaluation** | `falsealarm` `quantization` `evolve` |
 | **Edge** | `bench_edge` `power` |
-| **Figures** | `viz` `viz_map` `viz_terrain` `animate` `fig_peaks` `fig_pose` |
+| **Figures** | `viz` `viz_map` `viz_terrain` `animate` `fig_peaks` `fig_pose` `fig_triangulate` |
 
 Two environment variables let a whole pipeline be re-scored against different inputs without
 editing anything: `FIGLIB_DETS` points at an alternative detection directory (this is how
