@@ -92,9 +92,9 @@ def main(argv: list[str]) -> None:
                         "blue = skyline found in the image",
                 (12, 34), cv2.FONT_HERSHEY_SIMPLEX, 0.72, (190, 190, 190), 2)
     sheet = np.vstack([legend] + panels)
-    dest = ROOT / "docs" / "figures" / "peaks_examples.jpg"
+    dest = ROOT / "docs" / "figures" / "peaks_examples.png"
     dest.parent.mkdir(parents=True, exist_ok=True)
-    cv2.imwrite(str(dest), sheet, [cv2.IMWRITE_JPEG_QUALITY, 86])
+    cv2.imwrite(str(dest), sheet)
     print(f"\nwrote {dest}  ({sheet.shape[1]}x{sheet.shape[0]})")
 
 
