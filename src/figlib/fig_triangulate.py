@@ -285,6 +285,40 @@ def main(argv: list[str]) -> None:
     print(f"\n{len(index)} figures -> {OUT}")
 
 
+def sheet(tile_w: int = 560, cols: int = 4) -> Path:
+    """All 26 on one page, best-first within tier, for choosing between them."""
+    import cv2
+    idx = json.loads((OUT / "index.json").read_text())
+    idx.sort(key=lambda r: (r["tier"] != "confirmed", r["error_km"]))
+    tiles = []
+    for r in idx:
+        img = cv2.imread(str(OUT / f"{r['fire_id']}.png"))
+        if img is None:
+            continue
+        h, w = img.shape[:2]
+        t = cv2.resize(img, (tile_w, int(tile_w * h / w)))
+        lab = np.full((34, tile_w, 3), (26, 22, 18), np.uint8)
+        col = (140, 230, 120) if r["tier"] == "confirmed" else (110, 190, 255)
+        cv2.putText(lab, f"{r['fire_id'][:30]}  {r['n_sites']}s  {r['error_km']:.2f}km",
+                    (6, 23), cv2.FONT_HERSHEY_SIMPLEX, 0.52, col, 1, cv2.LINE_AA)
+        tiles.append(np.vstack([lab, t]))
+    h = max(t.shape[0] for t in tiles)
+    tiles = [cv2.copyMakeBorder(t, 0, h - t.shape[0], 0, 0, cv2.BORDER_CONSTANT,
+                                value=(26, 22, 18)) for t in tiles]
+    rows = [np.hstack(tiles[i:i + cols]) for i in range(0, len(tiles), cols)]
+    w = max(r.shape[1] for r in rows)
+    rows = [cv2.copyMakeBorder(r, 0, 0, 0, w - r.shape[1], cv2.BORDER_CONSTANT,
+                               value=(26, 22, 18)) for r in rows]
+    out = OUT / "_contact_sheet.png"
+    cv2.imwrite(str(out), np.vstack(rows))
+    print(f"{len(tiles)} tiles -> {out}")
+    return out
+
+
 if __name__ == "__main__":
     import sys
-    main(sys.argv[1:])
+    a = sys.argv[1:]
+    if a and a[0] == "sheet":
+        sheet()
+    else:
+        main(a)
