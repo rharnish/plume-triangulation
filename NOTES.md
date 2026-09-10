@@ -640,6 +640,67 @@ so the row confound cannot leak in; or a segmentation model asked for boundaries
 than depth. Either way the partial-correlation control above is the acceptance test, and
 it is now written down.
 
+## Classical edge detection: the same confound, and a flat alignment surface (2026-09-09)
+
+Tried after the depth models failed, on the reasonable argument that a silhouette is an
+edge and that edge *contrast* has a physical claim depth did not: airlight adds a constant
+to both sides of a ridge line, so it cancels in the difference, while intrinsic contrast is
+attenuated by exp(-beta*d). Edge magnitude should therefore fall off with range while being
+immune to the additive haze offset.
+
+Vertical Sobel on a horizontally smoothed grey image -- smoothing along rows because ridges
+are near-horizontal, which lifts a long faint crest above noise while leaving masts and
+poles unreinforced.
+
+### Three tests, three negatives
+
+**Does edge strength rank range?** No. Partial Spearman with image row held fixed:
+-0.04 to +0.19 across six cameras. Same result as the dark channel and Depth Anything.
+
+**Are edges even present at predicted crests?** The first measurement said yes -- median
+gradient at predicted crest pixels was **1.7 to 3.6x** the column median. That figure is
+wrong, and wrong in exactly the way this file had just finished warning about. Crests
+concentrate in the middle rows where terrain texture lives, while a column median is
+dragged down by flat sky. Against a **row-matched** control -- the same rows, random
+columns -- the ratio is **0.76 to 1.09**. No better than chance, and below it on three
+cameras.
+
+| camera | vs column median | vs same-row random |
+|---|---|---|
+| sm-s | 2.04 | 0.76 |
+| sm-n | 2.22 | 0.89 |
+| bh-n | 1.89 | 0.77 |
+| stgo-e | 3.56 | 1.09 |
+| wc-n | 1.69 | 1.08 |
+| vo-n | 2.31 | 1.07 |
+
+**Does the whole stack align anywhere?** This is the only pose-robust test of the three,
+and the one worth having run. Render every predicted ridge as a soft mask, correlate it
+against the edge map by FFT, and look across every shift in +-400 px of pitch and +-260 px
+of azimuth. If the layered structure is in the image, one shift should line the whole stack
+up at once and stand clear of the rest.
+
+It does not. Peak z is 1.3 to 2.0, and the peak stands clear of the best rival shift by
+**0.01 to 0.08** -- a flat surface with no unique solution. Four of six pegged near the dy
+search bound, which is the usual signature of no peak at all rather than a peak outside the
+window.
+
+### What this does and does not establish
+
+It does not establish that ridges are invisible to classical CV. Two limitations are real.
+The search was a **rigid translation**, but the actual pose error is pitch, roll, azimuth
+and distortion together, which is not a pure shift -- a stack that would align under the
+right four-parameter warp can look unalignable under two. And raw gradient magnitude is
+dominated by terrain texture, roads and vegetation boundaries, which are as horizontal as
+the ridges and far more numerous.
+
+What it does establish is that **nothing tried so far -- learned depth, haze physics, or
+edge magnitude -- carries range information once image row is controlled for.** Three
+independent methods, one control, same answer. The next attempt should extract *long
+coherent* structures rather than per-pixel response (dynamic programming along a path,
+or matching the count and spacing of layer boundaries per column rather than pixel
+overlap), and it must clear the row-matched control before anything else is claimed.
+
 ## Open questions
 
 **Lens distortion and pose -- settled 2026-09-09, and not the way it first looked.**
