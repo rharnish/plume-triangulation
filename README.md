@@ -1,4 +1,4 @@
-# ignition-geolocation
+# plume-triangulation
 
 **Where is the fire, how fast can we say so, and can the model run on the camera?**
 
@@ -198,3 +198,8 @@ corrected. It is the honest record, not a summary.
 - **pyronear** — `yolo11s_rapid-raccoon_v8.1.0`, Apache 2.0.
 - **WFIGS / IRWIN** — interagency wildland fire incident locations, NIFC open data.
 - **Copernicus DEM GLO-30** — ESA, via the AWS Open Data registry.
+
+## License
+
+Code is MIT ([LICENSE](LICENSE)). The data and model weights above are used under
+their own terms and are not redistributed here.

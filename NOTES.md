@@ -286,7 +286,7 @@ Figure `out/figures/edge_m3.png`; raw in `out/bench_latency.json`,
 
 The M3 MacBook Air is a defensible stand-in for a fielded camera in the ways that matter:
 real ARM64, a real NPU, per-unit wattage from `powermetrics`, and -- being fanless -- a
-genuine sustained-throughput curve rather than a burst number. Pano's cameras sit in
+genuine sustained-throughput curve rather than a burst number. Fielded fire cameras sit in
 sealed enclosures on mountaintops; a laptop that cannot dump heat is closer to that than
 any rented GPU. Host: M3, 8 GB, macOS 15.6, AC power, Low Power Mode off, batch 1.
 
@@ -308,7 +308,7 @@ exercise, and it is invisible without instrumentation:
 The Neural Engine cannot run FP32. Ask for `CPU_AND_NE` with an FP32 model and every
 operation lands on the CPU at 97 ms a frame, drawing zero ANE power, and **Core ML reports
 no error and returns correct results throughout**. Two independent instruments agree --
-`MLComputePlan` op placement and the ANE wattage rail. A portfolio that benchmarked FP32
+`MLComputePlan` op placement and the ANE wattage rail. A benchmark that ran FP32
 and called the result "ANE performance" would be 9x wrong and would never find out.
 
 **Latency and energy, model-only, batch 1:**

@@ -3,8 +3,8 @@
 Written for the M3 MacBook Air, which is a defensible stand-in for a fielded camera in
 the ways that matter here -- it is ARM64 with a real NPU, it reports per-unit wattage,
 and being fanless it produces a genuine sustained-throughput throttle curve rather than
-a burst number. Pano's cameras sit in sealed enclosures on mountaintops; a laptop that
-cannot dump heat is closer to that than any rented GPU.
+a burst number. Fielded fire cameras sit in sealed enclosures on mountaintops; a laptop
+that cannot dump heat is closer to that than any rented GPU.
 
 Three things this measures that a bare latency number does not:
 
