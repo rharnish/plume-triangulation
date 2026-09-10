@@ -573,6 +573,73 @@ The ridge field spans 137-442 px and 2-24 km. The vertical lever arm is 4-10x lo
 and -- more important -- correspondences now sit at *different ranges*, so a camera-height
 error (which falls off with range) separates from a pitch error (which does not).
 
+## Monocular depth does not reach these ranges (2026-09-09)
+
+Tested, because layered ridges at different distances is exactly what a depth model
+claims to give, and it would have replaced the whole skyline-extraction problem.
+
+### The control that matters
+
+The obvious test -- does predicted depth correlate with the DEM's range? -- is worthless
+here, and finding that out was the useful part. Elevation angle already predicts range in
+these scenes, so **image row alone scores Spearman +0.84 to +0.98** against DEM range.
+Any monotone function of height passes. The test that means something is the **partial**
+correlation with image row held fixed: within a horizontal band, do the pixels the DEM
+calls distant look further than the ones it calls near? That is the only kind of range
+information that can separate a near ridge from a far one at the same elevation angle.
+
+| camera | row-only rho | dark-channel haze, partial | Depth Anything V2, partial |
+|---|---|---|---|
+| sm-s | +0.934 | -0.162 | +0.129 |
+| sm-n | +0.984 | -0.120 | -0.195 |
+| bh-n | +0.839 | +0.277 | +0.634 |
+| stgo-e | +0.840 | -0.249 | -0.305 |
+| wc-n | +0.973 | -0.072 | -0.061 |
+| vo-n | +0.394 | -- | +0.296 |
+
+### Dark channel prior: a confounded +0.83 that is really +0.00
+
+He et al.'s transmission estimate is a physically motivated depth proxy -- Koschmieder
+gives t = exp(-beta*d), so -log t is proportional to range, and haze is the cue a person
+actually uses on these scenes. Raw correlation looked convincing at +0.48 to +0.89.
+Controlled for row it collapses to between -0.25 and +0.28, mostly slightly negative. It
+was measuring "higher in the frame is further", which the DEM already states exactly.
+
+### Depth Anything V2: correct, and useless here
+
+`onnx-community/depth-anything-v2-small`, run through the onnxruntime already in the
+project -- no torch, 99 MB, ~900 ms/frame on four x86 cores. Partial correlation -0.31 to
++0.63, median near zero. Not better than the free physics baseline.
+
+The depth map says why, and says it more clearly than the statistic. On `sm-s` the model
+resolves the antenna masts, the equipment huts and the foreground scrub beautifully --
+sharp, correctly ordered, genuinely impressive. **Everything past about a kilometre is one
+saturated value, indistinguishable from the sky.** The entire ridge stack from 2 to 24 km
+is flat. Its dynamic range is spent on the 0-100 m foreground, which is what MDE training
+sets contain: NYU tops out around 10 m, KITTI around 80. Our shortest useful ridge is
+twenty times KITTI's longest.
+
+Metric models (Depth Pro, ZoeDepth) are worse candidates for the same reason: they emit
+metres calibrated on scenes a thousand times closer. Video variants would fix flicker,
+which is not the problem.
+
+### The honest caveat
+
+Pose is wrong, so the predicted ridge polylines do not land exactly on the ridges they
+name, and both methods are being scored on partly mismatched pixels. The correlations are
+a lower bound. But the saturation visible in the depth map is not a pose artefact, and no
+correspondence fix recovers information the model never encoded.
+
+### What this changes about the open question
+
+The requirement was never metric depth -- the DEM already gives exact ranges. What is
+missing is which *image* pixels belong to which layer, i.e. **ordinal layer segmentation**,
+and a saturated depth map cannot supply an ordering it does not represent. Options that
+remain: contrast/texture statistics computed *within* a band rather than across the frame,
+so the row confound cannot leak in; or a segmentation model asked for boundaries rather
+than depth. Either way the partial-correlation control above is the acceptance test, and
+it is now written down.
+
 ## Open questions
 
 **Lens distortion and pose -- settled 2026-09-09, and not the way it first looked.**
