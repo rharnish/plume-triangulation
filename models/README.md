@@ -27,9 +27,12 @@ weights, produced on macOS with `requirements-edge.txt` installed:
 
 | variant | file | size |
 |---|---|---|
-| FP32 | `coreml/fp32_ref.mlpackage` | 36.0 MB |
-| FP16 | `coreml/fp16.mlpackage` | 18.2 MB |
-| INT8-weight | `coreml/int8w.mlpackage` | 9.3 MB |
+| FP32 | `coreml/pyronear_rr_v8.1.0.mlpackage` | 36.3 MB |
+| FP16 | `coreml/pyronear_rr_v8.1.0_fp16.mlpackage` | 18.2 MB |
+| INT8-weight | `coreml/pyronear_rr_v8.1.0_int8w.mlpackage` | 9.3 MB |
+
+Sizes and op placement are recorded in `out/edge_provenance.json`, alongside a parity check
+against ONNX (24 frames, 14/14 detections matched, max Δconfidence 0.0).
 
 `coreml/` is gitignored — the packages are reproducible from the ONNX weights above, and the
 measurements they produced are committed instead (`data/edge/pm-m3-20260909.txt.gz`, and the
