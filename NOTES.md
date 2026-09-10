@@ -843,8 +843,13 @@ They are 23 of the 33 ground-truth fires, so they carry real weight.
 ## Housekeeping that will bite later
 
 **Partly addressed 2026-09-09:** `docs/figures/` now holds committed copies of
-`edge_m3.png` and `falsealarm.png`, and `docs/edge-m3.md` is a linkable write-up. The
-animations (21 MB of mp4 in `out/videos/`) still have nowhere to live.
+`edge_m3.png` and `falsealarm.png`, and `docs/edge-m3.md` is a linkable write-up.
+
+**Addressed 2026-09-10:** the Kitchen fire animation is committed as a 3 MB GIF
+(`docs/figures/triangulate_kitchenfire.gif`, 760 px, thinned frames) and linked from the
+README. The other four mp4s in `out/videos/` (21 MB) still have nowhere to live; a GIF
+each is the cheapest fix if they are wanted.
+
 
 
 **Figures and videos live under `out/`, which is gitignored.** That is right for 21 MB of mp4 and

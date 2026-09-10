@@ -31,6 +31,13 @@ in kilometres against the official ignition coordinate.
 Best is `20240701_Kitchenfire` at **0.08 km** from four sites. Every confirmed-tier fire
 lands within 3.61 km; the probable tier carries the entire tail.
 
+![Kitchen fire: bearings accumulate and the posterior converges](docs/figures/triangulate_kitchenfire.gif)
+
+*The posterior over the ground as detections arrive: four camera views on the left, the
+likelihood field with each site's bearing on the right, error against time below. A
+spurious early crossing of two false-positive rays is outvoted as further evidence
+accumulates. The static version, with the reading guide:*
+
 ![Kitchen fire triangulation](docs/figures/triangulate_kitchenfire.jpg)
 
 *How to read these: each camera's most confident detection (right) casts a bearing (matching
