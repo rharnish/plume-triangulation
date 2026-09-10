@@ -28,7 +28,8 @@ TGZ = ROOT / "data" / "tgz"
 OUT = ROOT / "out" / "triangulate"
 
 # Ray colours, chosen to stay distinguishable against hillshade and against each other.
-PALETTE = ["#ff5d5d", "#ffd166", "#4dd2a0", "#5fa8ff", "#c792ea", "#ff9f45"]
+PALETTE = ["#ff5d5d", "#ffd166", "#4dd2a0", "#5fa8ff", "#c792ea", "#ff9f45",
+           "#3fd0d8", "#ff8fc7"]
 CROP_ASPECT = 2.4          # wide crop around the plume: sky above, terrain below
 
 
@@ -141,7 +142,7 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
     clat = (max(pts_lat) + min(pts_lat)) / 2
     clon = (max(pts_lon) + min(pts_lon)) / 2
     cos_lat = math.cos(math.radians(clat))
-    half_km = max(9.0, 0.60 * max((max(pts_lat) - min(pts_lat)) * 111.32,
+    half_km = max(9.0, 0.66 * max((max(pts_lat) - min(pts_lat)) * 111.32,
                                   (max(pts_lon) - min(pts_lon)) * 111.32 * cos_lat))
 
     crops = []
@@ -151,13 +152,15 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
                       if got else None))
 
     n = len(crops)
-    ncol = 1 if n <= 2 else 2
-    nrow = -(-n // ncol)
-    fig = plt.figure(figsize=(17.0, 9.6), dpi=125)
+    # Every camera view in one vertical stack down the right edge, so the map keeps the
+    # whole left half and every ray stays in one frame. Never fewer than three rows, so a
+    # two-camera fire does not stretch its crops to fill half a page.
+    grid_rows = max(n, 3)
+    fig_h = max(9.0, 1.7 * grid_rows + 1.2)
+    fig = plt.figure(figsize=(16.0, fig_h), dpi=125)
     fig.patch.set_facecolor("#11131a")
-    gs = fig.add_gridspec(nrow, 1 + ncol,
-                          width_ratios=[2.05] + [1.15] * ncol,
-                          wspace=0.045, hspace=0.14,
+    gs = fig.add_gridspec(grid_rows, 2, width_ratios=[2.35, 1.0],
+                          wspace=0.05, hspace=0.22,
                           left=0.035, right=0.985, top=0.90, bottom=0.045)
     ax = fig.add_subplot(gs[:, 0])
     ax.set_facecolor("#11131a")
@@ -205,16 +208,72 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
     ax.set_xlim(clon - dlon, clon + dlon)
     ax.set_ylim(clat - dlat, clat + dlat)
 
-    # Scale bar, because degrees of longitude mean nothing at a glance.
-    bar_km = max(2, int(round(half_km / 2.5)))
-    bx0 = clon - dlon * 0.92
-    by = clat - dlat * 0.92
-    ax.plot([bx0, bx0 + bar_km / (111.32 * cos_lat)],
-            [by, by], color="#e8e8e8", lw=3, solid_capstyle="butt", zorder=9)
-    ax.text(bx0, by + dlat * 0.028, f"{bar_km} km", color="#e8e8e8", fontsize=9)
     ax.set_xticks([]); ax.set_yticks([])
     for sp in ax.spines.values():
         sp.set_color("#3a4050")
+
+    # The inset answers a second question -- how tightly the surface constrains the answer
+    # -- but only earns its space when the credible region is genuinely too small to read
+    # on the main map. Once the rays cross wide, or estimate and truth disagree by enough
+    # that the falloff is already legible at the main span, it is clutter, and is dropped.
+    z_km = max(1.6, 2.6 * math.sqrt(max(area, 0.4)), err * 1.5)
+    inset_corner = None
+    if z_km < 0.24 * half_km:
+        # Drop it into whichever corner holds the fewest markers; the legend takes the
+        # upper left, so it is left out of the running.
+        def _axfrac(lon, lat):
+            return ((lon - (clon - dlon)) / (2 * dlon),
+                    (lat - (clat - dlat)) / (2 * dlat))
+        pts_ax = ([_axfrac(b.lon, b.lat) for b in bs]
+                  + [_axfrac(elon, elat), _axfrac(truth["lon"], truth["lat"])])
+        iw = ih = 0.32
+        corners = {"lower left": (0.02, 0.03),
+                   "lower right": (0.97 - iw, 0.03),
+                   "upper right": (0.97 - iw, 0.96 - ih)}
+        inset_corner, (x0, y0) = min(
+            corners.items(),
+            key=lambda kv: sum(kv[1][0] - 0.05 <= px <= kv[1][0] + iw + 0.05
+                               and kv[1][1] - 0.05 <= py <= kv[1][1] + ih + 0.05
+                               for px, py in pts_ax))
+        iax = ax.inset_axes([x0, y0, iw, ih])
+        iax.set_facecolor("#0d0f15")
+        zlat, zlon = z_km / 111.32, z_km / (111.32 * cos_lat)
+        mlat, mlon = (elat + truth["lat"]) / 2, (elon + truth["lon"]) / 2
+        iax.imshow(rgba, origin="lower",
+                   extent=[lons[0], lons[-1], lats[0], lats[-1]],
+                   aspect="auto", zorder=1, interpolation="bilinear")
+        ics = iax.contour(lons, lats, rel, levels=[-6.0, -3.0, -1.0],
+                          colors=["#7fb2ff", "#bfe0ff", "#ffffff"],
+                          linewidths=[0.9, 1.2, 1.4], zorder=2)
+        iax.clabel(ics, fmt={-6.0: "", -3.0: "95%", -1.0: "peak"}, fontsize=7,
+                   colors="#e8eefc")
+        for b, col, _c in crops:
+            th = math.radians(b.bearing_deg)
+            iax.plot([b.lon,
+                      b.lon + math.sin(th) * span / math.cos(math.radians(b.lat))],
+                     [b.lat, b.lat + math.cos(th) * span], color=col, lw=1.4,
+                     alpha=0.9, zorder=3)
+        iax.plot(truth["lon"], truth["lat"], "o", mfc="none", mec="#ffffff", ms=14,
+                 mew=2, zorder=5)
+        iax.plot(elon, elat, "x", color="#ff3860", ms=11, mew=2.6, zorder=5)
+        iax.set_xlim(mlon - zlon, mlon + zlon); iax.set_ylim(mlat - zlat, mlat + zlat)
+        iax.set_xticks([]); iax.set_yticks([])
+        for sp in iax.spines.values():
+            sp.set_color("#8d93a3"); sp.set_linewidth(1.1)
+        iax.set_title(f"likelihood surface, {2 * z_km:.0f} km across", fontsize=8,
+                      color="#c8cedb", pad=2.5)
+        ax.indicate_inset_zoom(iax, edgecolor="#8d93a3", alpha=0.75, lw=0.9)
+
+    # Scale bar, because degrees of longitude mean nothing at a glance. Sits bottom-left
+    # unless the inset took that corner, then bottom-right.
+    bar_km = max(2, int(round(half_km / 2.5)))
+    bar_dlon = bar_km / (111.32 * cos_lat)
+    bx0 = (clon - dlon * 0.92 if inset_corner != "lower left"
+           else clon + dlon * 0.92 - bar_dlon)
+    by = clat - dlat * 0.93
+    ax.plot([bx0, bx0 + bar_dlon], [by, by],
+            color="#e8e8e8", lw=3, solid_capstyle="butt", zorder=9)
+    ax.text(bx0, by + dlat * 0.028, f"{bar_km} km", color="#e8e8e8", fontsize=9)
 
     ax.legend(handles=[
         Line2D([], [], color="#8d93a3", lw=2, label="bearing from one camera"),
@@ -223,43 +282,11 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
                label="estimate"),
         Line2D([], [], color="#ffffff", marker="o", mfc="none", ls="none", ms=12,
                mew=2, label="official ignition point"),
-    ], loc="best", fontsize=9, facecolor="#181b24", edgecolor="#3a4050",
+    ], loc="upper left", fontsize=9, facecolor="#181b24", edgecolor="#3a4050",
         labelcolor="#dfe3ea", framealpha=0.92)
 
-    # A wide view shows the rays converging; the credible region is a few km across and
-    # invisible at that span. The inset carries the second question -- how tightly the
-    # surface actually constrains the answer -- without splitting it into a second figure.
-    iax = ax.inset_axes([0.678, 0.028, 0.305, 0.305])
-    iax.set_facecolor("#0d0f15")
-    z_km = max(1.6, 2.6 * math.sqrt(max(area, 0.4)), err * 1.5)
-    zlat, zlon = z_km / 111.32, z_km / (111.32 * cos_lat)
-    mlat, mlon = (elat + truth["lat"]) / 2, (elon + truth["lon"]) / 2
-    iax.imshow(rgba, origin="lower",
-               extent=[lons[0], lons[-1], lats[0], lats[-1]],
-               aspect="auto", zorder=1, interpolation="bilinear")
-    ics = iax.contour(lons, lats, rel, levels=[-6.0, -3.0, -1.0],
-                      colors=["#7fb2ff", "#bfe0ff", "#ffffff"],
-                      linewidths=[0.9, 1.2, 1.4], zorder=2)
-    iax.clabel(ics, fmt={-6.0: "", -3.0: "95%", -1.0: "peak"}, fontsize=7,
-               colors="#e8eefc")
-    for b, col, _c in crops:
-        th = math.radians(b.bearing_deg)
-        iax.plot([b.lon, b.lon + math.sin(th) * span / math.cos(math.radians(b.lat))],
-                 [b.lat, b.lat + math.cos(th) * span], color=col, lw=1.4, alpha=0.9,
-                 zorder=3)
-    iax.plot(truth["lon"], truth["lat"], "o", mfc="none", mec="#ffffff", ms=14, mew=2,
-             zorder=5)
-    iax.plot(elon, elat, "x", color="#ff3860", ms=11, mew=2.6, zorder=5)
-    iax.set_xlim(mlon - zlon, mlon + zlon); iax.set_ylim(mlat - zlat, mlat + zlat)
-    iax.set_xticks([]); iax.set_yticks([])
-    for sp in iax.spines.values():
-        sp.set_color("#8d93a3"); sp.set_linewidth(1.1)
-    iax.set_title(f"likelihood surface, {2 * z_km:.0f} km across", fontsize=8,
-                  color="#c8cedb", pad=2.5)
-    ax.indicate_inset_zoom(iax, edgecolor="#8d93a3", alpha=0.75, lw=0.9)
-
     for i, (b, col, crop) in enumerate(crops):
-        cax = fig.add_subplot(gs[i // ncol, 1 + i % ncol])
+        cax = fig.add_subplot(gs[i, 1])
         cax.set_facecolor("#11131a")
         if crop is not None:
             cax.imshow(crop)
