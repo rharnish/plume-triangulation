@@ -152,3 +152,36 @@ def project(cam: dict, az_deg: np.ndarray, elev_deg: np.ndarray,
         x = 0.5 + (xc * math.cos(r) - yc * math.sin(r))
         y = 0.5 + (xc * math.sin(r) + yc * math.cos(r)) * width / height
     return x, y
+
+
+def prominent_peaks(prof: "HorizonProfile", min_prominence_deg: float = 0.25,
+                    max_peaks: int = 12) -> list[int]:
+    """Indices of summits worth calling summits, by topographic prominence.
+
+    Taking every local maximum of the elevation profile returns twenty-odd "peaks" on a
+    single ridge, most of them a tenth of a degree of noise on a smooth crest -- crowded,
+    unmatchable, and useless for pinning azimuth. Prominence is the standard fix and the
+    right one here: how far a summit stands above the highest saddle connecting it to
+    anything taller. It keeps the handful of features a person would actually point at.
+    """
+    e = np.asarray(prof.elev_deg, dtype=float)
+    n = len(e)
+    cand = [i for i in range(1, n - 1) if e[i] >= e[i - 1] and e[i] > e[i + 1]]
+    out = []
+    for i in cand:
+        key = e[i]
+        left = i
+        while left > 0 and e[left - 1] <= key:
+            left -= 1
+        right = i
+        while right < n - 1 and e[right + 1] <= key:
+            right += 1
+        # Saddle on each side: the lowest point before reaching higher ground. Where the
+        # profile never rises again, the frame edge bounds it.
+        lo_l = e[left:i + 1].min() if left < i else e[i]
+        lo_r = e[i:right + 1].min() if right > i else e[i]
+        prom = key - max(lo_l, lo_r)
+        if prom >= min_prominence_deg:
+            out.append((prom, i))
+    out.sort(reverse=True)
+    return sorted(i for _p, i in out[:max_peaks])

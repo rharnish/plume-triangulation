@@ -487,6 +487,40 @@ been:
 **Deliberately not done:** the fitted poses are kept in `out/` rather than beside the
 published metadata, because they are not an improvement and should not be mistaken for one.
 
+### The audit number is an upper bound, not a measurement (corrected 2026-09-09)
+
+Looking at the rendered overlays (`out/terrain_png/`, sorted by residual;
+`docs/figures/peaks_examples.png` for six spanning the range) undermines part of the audit
+above. On the two *worst* cameras -- `sm-n` at -614 px and `bh-n` at -674 px -- the orange
+predicted skyline traces the distant crest about right and its summits land on visible
+peaks. It is the **blue observed skyline that is wrong**, locked onto a nearer ridge, a
+haze band, or in `bh-n` the roof of the building the camera sits on.
+
+The signed statistics say the same thing: **median -93 px, and predicted sits above
+observed on 48 of 61 cameras.** A one-sided bias in exactly the direction a nearer,
+lower ridge would produce. Within-frame scatter (median IQR 61 px) is large too, which is
+not what a rigid pose error looks like -- a pose error offsets the whole curve.
+
+So **106 px conflates pose error with skyline-extraction error and is an upper bound on
+the former.** It cannot be separated until the extractor is fixed. This also supplies a
+second and probably more damning reason the pose fit failed: it was regressing onto a
+target that is frequently not the skyline. Degeneracy in azimuth explains why the
+optimizer *could* wander; an unreliable target explains why it was *rewarded* for it.
+
+**`observed_skyline` is the weak link, and it is weak by construction.** It segments sky
+by blue dominance and brightness. That fails on haze, on backlit scenes, on layered
+ridges (it has no notion of *which* ridge is the skyline), and completely on the ten
+monochrome units, where "blue dominant" is not expressible. Replacing it is the highest-
+value next step in this thread -- see Open questions.
+
+**Peaks are now selected by topographic prominence** (`terrain.prominent_peaks`) rather
+than by local maximum. A smooth crest carries twenty local maxima that are a tenth of a
+degree of noise apiece; prominence keeps the handful a person would point at, typically
+1-6 per camera. This does not change any residual, but it makes the overlays legible and
+it is a precondition for any real peak-to-peak matching. `bm-w` is instructive: exactly
+**one** prominent peak in a 90 deg field, and a +1 px residual that means only "a flat
+line matches a flat line" -- a good score carrying no azimuth information at all.
+
 ## Open questions
 
 **Lens distortion and pose -- settled 2026-09-09, and not the way it first looked.**
@@ -499,6 +533,24 @@ geolocation. Kilometre errors are no longer provisional on this.
 `models/README.md`. Detection and timing numbers are a labelled reference point, never a
 generalisation claim. Geolocation is unaffected: kilometre error against official
 coordinates tests geometry, and a memorised detection still yields a valid bearing.
+
+**Replace the skyline extractor -- the highest-value open item in the terrain thread.**
+`observed_skyline`'s blue-dominance heuristic is the limiting factor on everything above.
+Options, cheapest first: (1) a **sky-segmentation CNN pretrained on ADE20K**, which has a
+`sky` class -- SegFormer-B0/B2 runs on CPU or the M3's ANE, no training, and would work on
+the monochrome units too; (2) classical **dynamic-programming skyline extraction** over an
+edge map, exploiting the constraint that the skyline is single-valued in each column --
+cheap and no dependency; (3) the **mountain-skyline CNNs from the geolocalisation
+literature** (PeakLens and the Baatz/Saurer line of work), which are trained for exactly
+this and handle layered ridges. Until one of these is in, the 106 px audit figure and the
+whole pose question stay unresolved.
+
+**Match layered ridges, not one skyline.** The frames plainly show three to five nested
+ridgelines, and `horizon()` returns only the outermost. Local maxima of elevation angle
+*along each ray* would give the secondary silhouettes too. Matching a set of ridges rather
+than a single curve is far more constraining, and it attacks the azimuth-identifiability
+problem directly -- nested ridges at different ranges parallax against each other, which a
+single skyline cannot.
 
 **Not yet validated:** the 23 `probable`-tier fires are resolved by geometry and timing
 but not by name. Nothing has yet confirmed one visually the way the confirmed tier was.

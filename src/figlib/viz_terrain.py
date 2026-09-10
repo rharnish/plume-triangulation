@@ -15,7 +15,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from .terrain import Dem, horizon, project, vfov_deg
+from .terrain import Dem, horizon, project, prominent_peaks, vfov_deg
 
 ROOT = Path(__file__).resolve().parents[2]
 META = ROOT / "data" / "meta"
@@ -65,16 +65,20 @@ def render(camera: str, img: np.ndarray, pitch_deg: float = 0.0,
     for a, b in zip(pts, pts[1:]):
         cv2.line(vis, a, b, (0, 200, 255), 3)
 
-    # Peaks: local maxima of the elevation profile, which is what the eye picks out too.
-    e = prof.elev_deg
+    # Peaks by prominence, not by local maximum: a smooth crest carries twenty local
+    # maxima that are a tenth of a degree of noise, and none of them is a landmark.
     stats = {"camera": camera, "n_peaks": 0}
-    for i in range(2, len(e) - 2):
-        if e[i] == max(e[i - 2:i + 3]) and e[i] > np.median(e) + 0.15:
+    for i in prominent_peaks(prof):
+        if True:
             px, py = int(x[i] * W), int(y[i] * H)
             if 0 <= px < W and 0 <= py < H:
+                # A tick dropped from each predicted summit: whether it lands on a real
+                # one is the whole question, and a dot alone does not show that.
+                cv2.line(vis, (px, max(0, py - 42)), (px, min(H - 1, py + 42)),
+                         (0, 0, 255), 2)
                 cv2.circle(vis, (px, py), 9, (0, 0, 255), -1)
                 cv2.circle(vis, (px, py), 9, (255, 255, 255), 2)
-                cv2.putText(vis, f"{prof.range_km[i]:.0f}km", (px + 12, py - 8),
+                cv2.putText(vis, f"{prof.range_km[i]:.0f}km", (px + 12, py - 14),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.85, (0, 0, 255), 2)
                 stats["n_peaks"] += 1
 
