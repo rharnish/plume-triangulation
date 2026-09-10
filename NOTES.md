@@ -521,6 +521,57 @@ it is a precondition for any real peak-to-peak matching. `bm-w` is instructive: 
 **one** prominent peak in a 90 deg field, and a +1 px residual that means only "a flat
 line matches a flat line" -- a good score carrying no azimuth information at all.
 
+## There are no intrinsics, and the extrinsics are a nameplate (2026-09-09)
+
+Worth stating plainly, because every pose result in this file rests on it. `cams.json`
+carries eleven fields per camera. Counting how many are actually populated across all
+505:
+
+| field | populated | what it really is |
+|---|---|---|
+| `lat` / `lon` / `elev` / `agl` | 505 / 505 | surveyed, varied, credible |
+| `az` | 505, but **482 are exactly 0/90/180/270** | the cardinal direction in the camera's own name |
+| `fov` | 505, but **483 are exactly 90 or 60** | a spec-sheet number |
+| `pitch` | **9 non-zero** | placeholder |
+| `roll` | **14 non-zero** | placeholder |
+| `yaw` | **3 non-zero** | placeholder |
+
+So there is no focal length, no principal point, no distortion coefficients, no sensor
+size -- and no measured orientation. `pitch`, `roll` and `yaw` exist as columns and are
+literal `0.0` for 96%, 97% and 99% of cameras respectively. What the code has been
+calling "published pose" is a position, a compass heading rounded to a quadrant, and a
+lens model assumed to be the rectilinear ideal.
+
+That is not a complaint about HPWREN -- the network was built to give people pictures,
+not to be photogrammetry. But it does mean the pose numbers were never measurements to
+begin with, and the honest framing of the earlier fit is not "the published pose is
+wrong" but "there was nothing published to be wrong."
+
+### Why the skyline could never have calibrated it
+
+The failed four-parameter fit was diagnosed as an 80:1 conditioning problem between
+azimuth and pitch. That was true but shallow. The real reason, measured:
+
+| camera | skyline points | vertical spread | ridge points | vertical spread | gain |
+|---|---|---|---|---|---|
+| bh-n | 531 | 43 px | 2 397 | 226 px | 5.3x |
+| sm-s | 531 | 42 px | 4 982 | 247 px | 5.8x |
+| vo-n | 531 | 34 px | 1 879 | 137 px | 4.1x |
+| stgo-e | 531 | 46 px | 5 985 | 442 px | 9.5x |
+| wc-n | 531 | 43 px | 5 287 | 268 px | 6.3x |
+
+**The skyline occupies 34-46 px of a 1536 px frame.** It is, to within a couple of
+percent of frame height, a horizontal line. Fitting pitch, roll, focal length and radial
+distortion to a horizontal line is degenerate no matter how good the extractor is: every
+correspondence sits at essentially the same image row and the same range, so a pitch
+error, a camera-height error and a focal-length error all produce very nearly the same
+residual. No amount of care with the blue curve fixes that, which is why replacing the
+extractor was the wrong first move.
+
+The ridge field spans 137-442 px and 2-24 km. The vertical lever arm is 4-10x longer,
+and -- more important -- correspondences now sit at *different ranges*, so a camera-height
+error (which falls off with range) separates from a pitch error (which does not).
+
 ## Open questions
 
 **Lens distortion and pose -- settled 2026-09-09, and not the way it first looked.**
