@@ -701,6 +701,50 @@ coherent* structures rather than per-pixel response (dynamic programming along a
 or matching the count and spacing of layer boundaries per column rather than pixel
 overlap), and it must clear the row-matched control before anything else is claimed.
 
+### Why none of it worked: the step is at the noise floor (2026-09-09)
+
+The edge maps make the statistics unnecessary. On `sm-s` a bright continuous line marks the
+near ridge on the left of frame, and the hazy right two-thirds -- where the layered ridges
+actually are -- is a near-uniform wash with no gradient structure at all. The brightest
+features in the whole image are the antenna masts.
+
+Measured directly: the grey-level step across a predicted crest, smoothed along the ridge
+only, against the standard deviation of a flat sky patch put through the same filter.
+
+**Noise floor: 4.48 grey levels.**
+
+| range | n | median step | p75 | below 2 levels |
+|---|---|---|---|---|
+| 2-4 km | 9 230 | 5.99 | 13.89 | 22% |
+| 4-8 km | 6 548 | 6.70 | 13.64 | 19% |
+| 8-15 km | 4 844 | 5.68 | 11.09 | 24% |
+| 15-25 km | 1 152 | 4.49 | 9.88 | 28% |
+| **25-45 km** | 611 | **1.52** | 2.74 | **62%** |
+| 45-90 km | 120 | 3.95 | 4.79 | 22% |
+
+A ridge step is about **6 grey levels against a 4.48-level floor -- SNR near 1.3** even in
+the near field, and at 25-45 km it is 1.5 levels, three times *below* the floor, with 62%
+of crests under two levels. The last row is 120 samples and should not be read as a
+recovery; it is small-n, and those crests are mostly true skyline against bright sky.
+
+That is the answer to why learned depth, haze inversion and edge magnitude all returned the
+same nothing. It is not that the methods are unsuited. **Beyond roughly 20 km the ridge
+step is not in the pixels** -- haze has taken it below what an 8-bit JPEG preserves. No
+filter, classical or learned, recovers information that was destroyed before the file was
+written.
+
+Two caveats hold the claim honest. Pose error means these samples are taken slightly off
+the true crests, which *understates* the step, so the numbers are a lower bound. And the
+noise floor measured on sky includes JPEG blocking, which is the relevant floor for this
+data but not a property of the scene.
+
+What survives is narrow and worth keeping: the **outermost** silhouette does produce a
+strong, clean, continuous edge, on every camera looked at. That is a much better skyline
+extractor than `observed_skyline`'s blue-dominance heuristic, and it needs no model and no
+sky segmentation. It just cannot deliver the *layers*, which was the thing wanted.
+
+Diagnostic figures: `python -m src.figlib.fig_edges [cameras]` -> `out/edges/`.
+
 ## Open questions
 
 **Lens distortion and pose -- settled 2026-09-09, and not the way it first looked.**
