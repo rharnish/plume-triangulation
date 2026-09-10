@@ -243,7 +243,14 @@ def render_ridges(camera: str, img: np.ndarray, dem: Dem | None = None,
         sel = sel[np.argsort(field.az_deg[sel])]
         col = _range_colour(float(np.median(field.range_km[sel])))
         pts = [(int(x[i] * W), int(y[i] * H)) for i in sel]
+        # Break the polyline rather than bridge a vertical jump. Chain linking bounds
+        # the step in *degrees*, which on a 36 deg lens is several times the pixels it
+        # is on a 90 deg one; an unbroken bridge draws a spike through the frame, and at
+        # 0.1 deg ray spacing a run of them fills as a solid block of colour.
+        max_jump = 0.025 * H
         for a, b in zip(pts, pts[1:]):
+            if abs(b[1] - a[1]) > max_jump:
+                continue
             if -W < a[0] < 2 * W and -H < a[1] < 2 * H:
                 cv2.line(vis, a, b, col, 2, cv2.LINE_AA)
         drawn += 1
