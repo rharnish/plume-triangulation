@@ -15,6 +15,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
+from .geom import load_cams
 from .terrain import Dem, horizon, project, prominent_peaks, vfov_deg
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -200,6 +201,114 @@ def main(argv: list[str]) -> None:
               f"within 100 px: {(med <= 100).sum()}")
 
 
+
+
+def _range_colour(km: float) -> tuple:
+    """Near ridges warm, far ridges cool -- the same cue haze gives the eye.
+
+    Log scale, because the interesting spread is 1-10 km and 10-80 km equally, and a
+    linear ramp would paint everything beyond the first ridge the same colour.
+    """
+    t = float(np.clip((np.log10(max(km, 0.5)) - np.log10(0.5))
+                      / (np.log10(80.0) - np.log10(0.5)), 0, 1))
+    lut = cv2.applyColorMap(np.array([[int(t * 255)]], np.uint8), cv2.COLORMAP_TURBO)
+    return tuple(int(v) for v in lut[0, 0])
+
+
+def render_ridges(camera: str, img: np.ndarray, dem: Dem | None = None,
+                  pitch_deg: float = 0.0, roll_deg: float = 0.0,
+                  min_chain_pts: int = 8) -> tuple[np.ndarray, dict]:
+    """Draw every visible ridgeline, coloured by range, with its summits marked.
+
+    Where `render()` draws one curve and asks whether it lands on the skyline, this draws
+    the whole nested stack. That matters for two reasons. It no longer depends on finding
+    the sky, which is the step that fails on haze and on the monochrome units; and each
+    ridge carries a distance, so agreement is evidence about pose at a known range rather
+    than a single bearing residual.
+    """
+    from .terrain import ridges, summits
+    cams = load_cams()
+    cam = cams[camera]
+    H, W = img.shape[:2]
+    dem = dem or Dem()
+    field = ridges(cam, dem)
+    x, y = project(cam, field.az_deg, field.elev_deg, W, H, pitch_deg, roll_deg)
+
+    vis = img.copy()
+    drawn = 0
+    for cid in np.unique(field.layer):
+        sel = np.flatnonzero(field.layer == cid)
+        if sel.size < min_chain_pts:
+            continue
+        sel = sel[np.argsort(field.az_deg[sel])]
+        col = _range_colour(float(np.median(field.range_km[sel])))
+        pts = [(int(x[i] * W), int(y[i] * H)) for i in sel]
+        for a, b in zip(pts, pts[1:]):
+            if -W < a[0] < 2 * W and -H < a[1] < 2 * H:
+                cv2.line(vis, a, b, col, 2, cv2.LINE_AA)
+        drawn += 1
+
+    sm = summits(field, min_chain_pts=min_chain_pts)
+    shown = 0
+    for i in sm:
+        px, py = int(x[i] * W), int(y[i] * H)
+        if not (0 <= px < W and 0 <= py < H):
+            continue
+        col = _range_colour(float(field.range_km[i]))
+        cv2.circle(vis, (px, py), 8, col, -1)
+        cv2.circle(vis, (px, py), 8, (255, 255, 255), 2)
+        cv2.putText(vis, f"{field.range_km[i]:.0f}", (px + 11, py - 11),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+        shown += 1
+
+    band = np.zeros((116, W, 3), np.uint8)
+    cv2.putText(band, f"{camera}  az={cam['az']} fov={cam['fov']}  "
+                      f"{drawn} ridgelines, {shown} summits in frame",
+                (14, 40), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 2)
+    cv2.putText(band, "colour = range to the ridge (blue near ... red far), "
+                      "labels in km.  No pixels consulted.",
+                (14, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.85, (200, 200, 200), 2)
+    for k in range(9):
+        km = 0.5 * (160.0 ** (k / 8.0))
+        cv2.rectangle(band, (int(W * 0.66) + k * 40, 20),
+                      (int(W * 0.66) + k * 40 + 38, 50), _range_colour(km), -1)
+        cv2.putText(band, f"{km:.0f}", (int(W * 0.66) + k * 40, 74),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (200, 200, 200), 1)
+    stats = {"camera": camera, "n_chains": drawn, "n_summits_in_frame": shown,
+             "n_crest_pts": int(len(field.az_deg))}
+    return np.vstack([band, vis]), stats
+
+
+def main_ridges(argv: list[str]) -> None:
+    seqs = json.loads((META / "sequences.json").read_text())
+    by_cam: dict[str, dict] = {}
+    for s in seqs:
+        if s["has_pose"] and s["camera"] not in by_cam:
+            by_cam[s["camera"]] = s
+    if argv:
+        by_cam = {k: v for k, v in by_cam.items() if any(a in k for a in argv)}
+    out_dir = ROOT / "out" / "ridges"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    dem = Dem()
+    for k, (cam, seq) in enumerate(sorted(by_cam.items()), 1):
+        img = _best_frame(seq)
+        if img is None:
+            print(f"[{k}/{len(by_cam)}] {cam}: no frame")
+            continue
+        try:
+            vis, st = render_ridges(cam, img, dem=dem)
+        except Exception as exc:
+            print(f"[{k}/{len(by_cam)}] {cam}: FAIL {exc}")
+            continue
+        cv2.imwrite(str(out_dir / f"{cam}.png"), vis)
+        print(f"[{k}/{len(by_cam)}] {cam:22s} {st['n_chains']} chains  "
+              f"{st['n_summits_in_frame']} summits", flush=True)
+
+
 if __name__ == "__main__":
     import sys
-    main(sys.argv[1:])
+    a = sys.argv[1:]
+    if a and a[0] == "ridges":
+        main_ridges(a[1:])
+    else:
+        main(a)

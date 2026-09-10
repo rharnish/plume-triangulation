@@ -185,3 +185,143 @@ def prominent_peaks(prof: "HorizonProfile", min_prominence_deg: float = 0.25,
             out.append((prom, i))
     out.sort(reverse=True)
     return sorted(i for _p, i in out[:max_peaks])
+
+
+@dataclass
+class RidgeField:
+    """Every terrain silhouette a camera can see, not just the outermost one.
+
+    A frame of mountains is not one curve. It is a stack of nested crests at different
+    ranges, and the eye reads depth from them directly. `horizon()` collapses that stack
+    to its top edge and discards the rest, which is most of the geometric information in
+    the picture -- and the part that carries range.
+    """
+    az_deg: np.ndarray        # azimuth of the silhouette point
+    elev_deg: np.ndarray      # apparent elevation angle
+    range_km: np.ndarray      # distance to the crest
+    peak_m: np.ndarray        # terrain height there
+    layer: np.ndarray         # chain id: points sharing one continuous ridge
+
+
+def ridges(cam: dict, dem: Dem, half_fov_pad: float = 8.0, step_deg: float = 0.1,
+           max_km: float = 80.0, step_m: float = 60.0, min_step_deg: float = 0.6,
+           link_tol: float = 0.25, link_d_elev: float = 0.35,
+           min_km: float = 1.5) -> RidgeField:
+    """All visible ridge crests, near to far, grouped into continuous ridgelines.
+
+    March each ray as `horizon()` does, but keep the whole elevation-angle profile rather
+    than its argmax. A terrain point is *visible* exactly when its angle exceeds every
+    closer point's -- that is, when it sets a new running maximum. So the running-max
+    staircase along a ray has one step per silhouette the eye can see, and the top step
+    is the horizon. Reading off the steps costs nothing beyond the march already done.
+
+    `min_step_deg` is what separates a genuinely new ridge standing clear behind the one
+    in front from a metre of noise on a single slope. Below about 0.3 deg the count runs
+    to twenty-odd per ray; at 0.6 it settles to the three-to-nine a person would count.
+
+    Crests in neighbouring rays are then linked into chains, so a ridgeline is one object
+    with a depth rather than a scatter of independent points. Linking on range alone is
+    not enough -- two crests 15 km away on opposite sides of a valley are unrelated, and
+    joining them draws a vertical spike through the frame -- so continuity in elevation
+    angle is required as well. `min_km` drops the near field, where a 30 m surface model
+    is reporting the canopy and the rooftop the camera is bolted to, not landmarks.
+    """
+    half = cam["fov"] / 2.0 + half_fov_pad
+    az = np.arange(cam["az"] - half, cam["az"] + half + 1e-9, step_deg)
+    d_m = np.arange(step_m, max_km * 1000.0, step_m)
+
+    lat0, lon0 = cam["lat"], cam["lon"]
+    h_cam = cam["elev"] + (cam.get("agl") or 0.0)
+    band, transform = dem.window(lat0, lon0, max_km / 111.0 + 0.05)
+
+    m_per_deg_lat = 111_132.0
+    m_per_deg_lon = 111_320.0 * math.cos(math.radians(lat0))
+    A = np.radians(az)[:, None]
+    D = d_m[None, :]
+    lats = lat0 + (D * np.cos(A)) / m_per_deg_lat
+    lons = lon0 + (D * np.sin(A)) / m_per_deg_lon
+    h = Dem.sample(band, transform, lats.ravel(), lons.ravel()).reshape(lats.shape)
+    ang = np.degrees(np.arctan2(h - h_cam - D ** 2 / (2.0 * R_EFF), D))
+
+    run = np.maximum.accumulate(ang, axis=1)
+    rec = ang >= run - 1e-12                      # visible: nothing nearer stands higher
+    desc = np.ones_like(rec)
+    desc[:, :-1] = ang[:, 1:] < ang[:, :-1]       # and the profile turns over here
+    crest = rec & desc
+
+    # Chains are grown ray by ray: each crest either continues the nearest open chain at
+    # a similar range, or starts a new one. Ratio rather than absolute tolerance, because
+    # a 2 km discrepancy is a different ridge at 5 km and the same one at 60.
+    a_out, e_out, r_out, p_out, l_out = [], [], [], [], []
+    open_chains: list[tuple[int, float, float]] = []   # (id, last range km, last elev)
+    next_id = 0
+    for j in range(len(az)):
+        idx = np.flatnonzero(crest[j])
+        if idx.size == 0:
+            open_chains = []
+            continue
+        levels = ang[j, idx]
+        keep = idx[np.concatenate(([True], np.diff(levels) >= min_step_deg))]
+        keep = keep[d_m[keep] / 1000.0 >= min_km]
+        if keep.size == 0:
+            open_chains = []
+            continue
+        rng = d_m[keep] / 1000.0
+        new_open = []
+        taken: set[int] = set()
+        for i, rk in zip(keep, rng):
+            ev = ang[j, i]
+            best, best_d = None, link_tol
+            for cid, prev, pev in open_chains:
+                if cid in taken or abs(ev - pev) > link_d_elev:
+                    continue
+                rel = abs(rk - prev) / max(rk, prev)
+                if rel < best_d:
+                    best, best_d = cid, rel
+            if best is None:
+                best = next_id
+                next_id += 1
+            taken.add(best)
+            new_open.append((best, rk, ev))
+            a_out.append(az[j]); e_out.append(ang[j, i])
+            r_out.append(rk); p_out.append(h[j, i]); l_out.append(best)
+        open_chains = new_open
+
+    return RidgeField(np.array(a_out), np.array(e_out), np.array(r_out),
+                      np.array(p_out), np.array(l_out, dtype=int))
+
+
+def summits(field: RidgeField, min_prominence_deg: float = 0.15,
+            min_chain_pts: int = 8, max_per_chain: int = 6) -> np.ndarray:
+    """Indices of true summits: local maxima *along* a ridgeline, by prominence.
+
+    A summit is a peak in two senses at once -- a crest along the ray, which membership
+    in a RidgeField already guarantees, and a high point across azimuth relative to the
+    ridge it sits on. Requiring both is what distinguishes a landmark from a point on a
+    smooth skyline, and each one carries a range, so it is a 3-D landmark rather than a
+    bearing. Short chains are dropped: a ridge glimpsed over four rays has no summit.
+    """
+    out: list[int] = []
+    for cid in np.unique(field.layer):
+        sel = np.flatnonzero(field.layer == cid)
+        if sel.size < min_chain_pts:
+            continue
+        sel = sel[np.argsort(field.az_deg[sel])]
+        e = field.elev_deg[sel]
+        n = len(e)
+        cand = []
+        for i in range(1, n - 1):
+            if not (e[i] >= e[i - 1] and e[i] > e[i + 1]):
+                continue
+            left = i
+            while left > 0 and e[left - 1] <= e[i]:
+                left -= 1
+            right = i
+            while right < n - 1 and e[right + 1] <= e[i]:
+                right += 1
+            prom = e[i] - max(e[left:i + 1].min(), e[i:right + 1].min())
+            if prom >= min_prominence_deg:
+                cand.append((prom, sel[i]))
+        cand.sort(reverse=True)
+        out += [i for _p, i in cand[:max_per_chain]]
+    return np.array(sorted(out), dtype=int)
