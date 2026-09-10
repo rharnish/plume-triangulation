@@ -99,9 +99,9 @@ better.
 **Wind correction is a wash.** Taking the upwind box edge rather than the centre moves
 the median from 2.58 to 2.55 km, better on 10 fires and worse on 11. Preferring early
 detections, which have drifted less, is worse (3.68 km).
-Reported as measured. The likely reason is that a box edge is a crude stand-in for the
-plume base; a mask would give the real axis, which is why that was deferred rather than
-dropped.
+Reported as measured. The likely reason looked like the box being a crude stand-in for the
+plume base -- so a mask should give the real axis. Tested 2026-09-10 and it does not: see
+"Segmentation and per-plume wind fits" below. No mask-derived bearing beats the box edge.
 
 ## Does the estimate evolve? (2026-09-09)
 
@@ -744,6 +744,66 @@ extractor than `observed_skyline`'s blue-dominance heuristic, and it needs no mo
 sky segmentation. It just cannot deliver the *layers*, which was the thing wanted.
 
 Diagnostic figures: `python -m src.figlib.fig_edges [cameras]` -> `out/edges/`.
+
+## Segmentation and per-plume wind fits: measured, and none beat the box (2026-09-10)
+
+`wind.py` corrects the downwind centroid bias by taking the box's upwind *edge*. That edge
+is set by whichever plume pixel reaches furthest, which is almost always high in the column
+where the smoke has drifted longest -- so it over-corrects in the axis the centroid
+under-corrects. A pixel mask can do better in principle: the **foot** of the mask, the
+lowest visible smoke, is the least-drifted part of the plume and the closest thing in the
+image to the source. Two mask sources, both training-free so neither adds a FIgLib
+contamination asterisk (`masks.py`): **diff**, the temporal-differencing mask `detect_diff`
+already builds; **sam**, Segment Anything prompted with the pyronear box.
+
+Five ways to turn a mask into a source column (`plumefit.py`), each scored as its own
+geolocation variant against `upwind`, pairwise on the fires where both solved, split by
+tier:
+
+| variant | masks used | confirmed n=10 | probable n=16 | all n=26 (better/worse) |
+|---|---|---|---|---|
+| **upwind (box)** | -- | **1.86** | **3.81** | **2.53** |
+| foot (diff) | 75/93 | 1.97 | 4.16 | 2.89  (11 / 12) |
+| foot (sam) | 93/93 | 2.00 | 4.50 | 2.49  (9 / 13) |
+| axis PCA (diff) | 33/93 | 1.86 | 4.07 | 2.85  (3 / 10) |
+| axis PCA (sam) | 43/93 | 1.84 | 4.77 | 2.87  (6 / 10) |
+| wedge apex (diff) | 25/93 | 2.25 | 3.81 | 2.75  (1 / 10) |
+| wedge apex (sam) | 32/93 | 2.15 | 3.81 | 2.75  (2 / 12) |
+| sequence apex (diff) | 60/93 | 1.90 | 6.61 | 3.09  (8 / 12) |
+| sequence apex (sam) | 68/93 | 1.76 | 4.67 | 3.15  (6 / 13) |
+| field log-lik curve (diff) | 68/93 | 2.83 | 5.34 | 3.52  (6 / 14) |
+| field log-lik curve (sam) | 92/93 | 3.00 | 4.93 | 3.36  (8 / 17) |
+
+**Not one variant wins.** The closest is `sequence apex (sam)` at 1.76 km on the confirmed
+tier -- but 2 fires better, 5 worse, and it costs the probable tier badly. On the full 26
+every variant is worse or within noise, and the more the method commits to the pixels the
+worse it does: the `field` mode, which hands `geolocate.py` a whole log-likelihood curve
+over direction instead of a bearing and a sigma, is the worst of all (2.53 -> 3.36).
+
+The reason is visible in `out/masks/*.jpg` and measured in `plumefit.fit_report`. By the
+time the detector is most confident the plume has flattened into a horizontal sheet:
+
+- **the foot degenerates into the mask centroid.** The lowest fifth of a horizontal sheet
+  is most of the sheet, so `foot_x` loses exactly the vertical selectivity it was for,
+  with extra variance on top.
+- **the cone fits refuse.** `wedge_fit` needs width to shrink downward and `axis_fit` needs
+  a non-horizontal principal axis; a flattened sheet has neither, so they return `None` on
+  60-75% of frames and the variant falls back to the box on most of its bearings. The few
+  frames where they do fit are the early, still-vertical ones -- which is the argument for
+  the sequence fit, and the sequence fit is the one that blows up the probable tier.
+- **SAM's failure mode is worse than diff's.** SAM always returns *a* mask (93/93), but on a
+  diffuse plume against haze it snaps to the ridgeline or fills the prompt box, so its extra
+  coverage is extra noise, not extra signal.
+
+This is the same shape as the terrain/depth/edge negatives: the information wanted is not in
+the pixels at the range and JPEG quality this data has. The box edge is a crude estimator,
+but it is crude in a bounded way, and nothing built here improves on it.
+
+Kept opt-in, not deleted: `masks.build_all` builds the cache (~25 min on the GTX 1070,
+hours on CPU), then `FIGLIB_VARIANTS=upwind,foot_diff,...` on `geolocate.py` re-scores the
+comparison. `python -m src.figlib.plumefit [diff|sam]` prints why each fit refused.
+Diagnostic stills: `python -m src.figlib.masks <fire_id>` -> `out/masks/`; mask video
+`python -c "from src.figlib.masks import mask_video; mask_video('<fire_id>')"`.
 
 ## Open questions
 

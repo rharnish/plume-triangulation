@@ -1,0 +1,44 @@
+# Plume masks: src/figlib/masks.py and src/figlib/plumefit.py only.
+#
+# Kept out of requirements.txt on purpose. This file pulls ~3 GB of CUDA runtime, and
+# nothing in the headline results needs it -- geolocation, the false-alarm sweep and the
+# edge measurements all run from requirements.txt alone. The mask work is an experiment
+# hanging off the side of those, and it is the only thing that imports torch.
+#
+#     python -m venv .venv && .venv/bin/pip install -r requirements.txt
+#     .venv/bin/pip install -r requirements-masks.txt --extra-index-url \
+#         https://download.pytorch.org/whl/cu126
+#
+# The --extra-index-url is required: the +cu126 local version does not exist on PyPI.
+# For a CPU-only box, drop the flag and the "+cu126" suffixes -- everything still runs,
+# about 25x slower (0.53 s/frame -> 13 s/frame for SAM on the machine below).
+
+torch==2.7.1+cu126
+torchvision==0.22.1+cu126
+transformers==5.17.0     # SamModel / SamProcessor; pulls huggingface-hub, tokenizers
+
+# SAM weights are fetched at first use, not vendored: facebook/sam-vit-base, ~375 MB,
+# cached under ~/.cache/huggingface. Apache 2.0, and NOT trained on FIgLib -- so unlike
+# the pyronear detector it adds no contamination to anything measured with it.
+
+# ---------------------------------------------------------------------------
+# Why these versions, and why not newer.
+#
+# The development machine has a GTX 1070: Pascal, compute capability sm_61. PyTorch's
+# CUDA wheels have been dropping the older architectures, and the failure mode is nasty
+# -- a wheel without your arch imports cleanly, reports torch.cuda.is_available() == True,
+# and then dies at the first kernel launch with "no kernel image is available".
+#
+# sm_61 is not in this wheel's arch list either:
+#
+#     ['sm_50', 'sm_60', 'sm_70', 'sm_75', 'sm_80', 'sm_86', 'sm_90']
+#
+# It works anyway, because CUDA cubins are binary compatible within a major version:
+# the sm_60 image runs on any sm_6x device. So the rule when bumping torch here is
+# "sm_60 must still be in torch.cuda.get_arch_list()", not "sm_61 must be". Verify with
+# an actual matmul, never with is_available().
+#
+# Do not add half precision to this path. On Pascal, cuBLAS computes fp16 matmuls in
+# fp32 anyway, so fp16 is *slower* than fp32 here (4.2 vs 5.1 TFLOP/s measured) and
+# bfloat16 is worse still (3.0 TFLOP/s) despite torch.cuda.is_bf16_supported()
+# returning True. Half precision on this box buys VRAM, never speed.

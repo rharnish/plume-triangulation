@@ -134,6 +134,7 @@ All modules live flat in [src/figlib/](src/figlib/) and run as `python -m src.fi
 | **Ingest & ground truth** | `ingest` `fires` `truth` `resolve` `wind` |
 | **Detection** | `detect_yolo` (ONNX) · `detect_coreml` (Apple) · `detect_diff` (training-free floor) |
 | **Geometry** | `geom` `geolocate` `accumulate` |
+| **Plume masks** *(tested, lost)* | `masks` `plumefit` — segmentation-based bearings, see `NOTES.md` |
 | **Terrain** *(pose audit)* | `terrain` `calibrate` `pose_validate` — see `NOTES.md` |
 | **Evaluation** | `falsealarm` `quantization` `evolve` |
 | **Edge** | `bench_edge` `power` |
