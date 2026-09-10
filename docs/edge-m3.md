@@ -20,7 +20,7 @@ one way it is not.
   into a measured question across CPU, GPU and ANE, which is the same question Orin poses
   with its GPU and DLA.
 - **Real power measurement.** `powermetrics` reports CPU, GPU and ANE wattage on separate
-  rails. Very few portfolio benchmarks report watts at all.
+  rails.
 - **Fanless, which is a feature here.** A sustained run on a machine that cannot spin up a
   fan produces a genuine thermal throttle curve. That is the sustained-throughput problem
   a sealed mountaintop enclosure has, and it is the single most transferable result on this
@@ -33,7 +33,9 @@ throughput. Knowing that distinction is the point — it is the same discipline 
 to quote FP16 figures from a Pascal card.
 
 Host for everything below: Apple M3, 8 GB, macOS 15.6 (24G84), Mac15,13, on AC power,
-Low Power Mode off, batch size 1.
+Low Power Mode off, batch size 1. Ambient was an indoor room at roughly 80 °F (27 °C) —
+warm for an office, cooler than a sun-loaded enclosure, and worth stating because the
+throttle curve in Result 3 is only meaningful relative to it.
 
 ## Method
 
@@ -132,7 +134,9 @@ Twenty minutes of continuous FP16 inference on the Neural Engine:
 | 16–20 | 85.2 | 4.36 | 6.88 | Heavy |
 
 Throughput holds at 94 fps for about eight minutes, steps down roughly 10%, and stays
-there. Two observations matter more than the headline number.
+there. This is with ~80 °F ambient; a sealed mountaintop enclosure in sun would cross into
+throttle sooner and settle lower, so the eight-minute plateau is an indoor best case, not a
+field number. Two observations matter more than the headline number.
 
 **Thermal pressure reads *Heavy* at about four minutes — four minutes before throughput
 moves.** A three-minute burst benchmark would have reported 94 fps and missed the entire
