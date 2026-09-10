@@ -33,10 +33,10 @@ def score_one() -> dict:
     """Run inside a subprocess with FIGLIB_DETS already set."""
     from .accumulate import gather, posterior
     from .falsealarm import sweep
-    from .geom import haversine_km
+    from .geom import haversine_km, load_cams
 
     META = ROOT / "data" / "meta"
-    cams = json.loads((META / "cams.json").read_text())
+    cams = load_cams()
     seqs = {s["seq"]: s for s in json.loads((META / "sequences.json").read_text())}
     fires = {f["fire_id"]: f for f in json.loads((META / "fires.json").read_text())}
     resolved = json.loads((META / "resolved.json").read_text())

@@ -14,9 +14,23 @@ fan, two an ellipse, near-parallel views an honestly elongated smear.
 
 from __future__ import annotations
 
+import json
 import math
+from pathlib import Path
 
 EARTH_R_KM = 6371.0
+
+
+def load_cams() -> dict:
+    """Camera table, overridable so a refined pose can be scored through this pipeline.
+
+    Set FIGLIB_CAMS to `data/meta/cams_refined.json` to run everything downstream against
+    terrain-fitted azimuths instead of the published ones.
+    """
+    import os
+    p = os.environ.get("FIGLIB_CAMS")
+    root = Path(__file__).resolve().parents[2]
+    return json.loads(Path(p if p else root / "data" / "meta" / "cams.json").read_text())
 
 
 def bearing_deg(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
@@ -52,7 +66,27 @@ def in_view(cam: dict, lat: float, lon: float, margin_deg: float = 0.0) -> bool:
     return abs(angdiff_deg(b, cam["az"])) <= half
 
 
-def offset_bearing_deg(cam: dict, x_frac: float) -> float:
+def undistort_x(cam: dict, x_frac: float, y_frac: float = 0.5) -> float:
+    """Remove the fitted radial distortion, mapping observed x back to ideal x.
+
+    `calibrate.py` fits the forward map (ideal -> observed), so recovering a bearing from
+    a detection needs its inverse. There is no closed form for the one-parameter radial
+    model, but the fixed-point iteration converges in a handful of steps at these
+    magnitudes. Cameras with no fitted `k1` pass straight through.
+    """
+    k1 = cam.get("k1")
+    if not k1:
+        return x_frac
+    aspect = cam.get("aspect", 0.75)          # 1536/2048 for these units
+    dxo, dyo = x_frac - 0.5, (y_frac - 0.5) * aspect
+    dx, dy = dxo, dyo
+    for _ in range(8):
+        s_ = 1.0 + k1 * (dx * dx + dy * dy)
+        dx, dy = dxo / s_, dyo / s_
+    return 0.5 + dx
+
+
+def offset_bearing_deg(cam: dict, x_frac: float, y_frac: float = 0.5) -> float:
     """Bearing to a feature at horizontal position `x_frac` across the image.
 
     `x_frac` runs 0 (left edge) to 1 (right edge); 0.5 is the optical axis. Uses the
@@ -61,6 +95,7 @@ def offset_bearing_deg(cam: dict, x_frac: float) -> float:
     which at 20 km is a kilometre of error.
     """
     half = math.radians(cam["fov"] / 2.0)
+    x_frac = undistort_x(cam, x_frac, y_frac)
     # Image plane at unit focal length spans [-tan(half), +tan(half)]
     u = (x_frac - 0.5) * 2.0 * math.tan(half)
     return (cam["az"] + cam.get("yaw", 0.0) + math.degrees(math.atan(u))) % 360.0

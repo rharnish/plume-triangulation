@@ -84,15 +84,20 @@ def render(camera: str, img: np.ndarray, pitch_deg: float = 0.0,
         for px in range(0, W, 6):
             if not np.isnan(obs[px]):
                 cv2.circle(vis, (px, int(obs[px])), 2, (255, 120, 0), -1)
-        xs = np.clip((x * W).astype(int), 0, W - 1)
-        pred = np.full(W, np.nan)
-        order = np.argsort(xs)
-        pred[xs[order]] = (y * H)[order]
+        # The horizon is sampled every 0.2 deg, which lands on only ~530 of 2048
+        # columns. Interpolating onto every column compares like with like instead of
+        # scoring the prediction on a sparse subset of the frame.
+        xs = x * W
+        keep = np.isfinite(xs) & np.isfinite(y)
+        order = np.argsort(xs[keep])
+        pred = np.interp(np.arange(W), xs[keep][order], (y * H)[keep][order],
+                         left=np.nan, right=np.nan)
         m = ~np.isnan(obs) & ~np.isnan(pred)
         if m.sum() > 50:
             resid = (pred - obs)[m]
             stats.update(
                 n_cols=int(m.sum()),
+                coverage=round(float(m.sum()) / W, 3),
                 resid_median_px=float(np.median(resid)),
                 resid_iqr_px=float(np.percentile(resid, 75) - np.percentile(resid, 25)),
                 # Distortion signature: a lens that is not rectilinear leaves a residual
@@ -114,3 +119,83 @@ def render(camera: str, img: np.ndarray, pitch_deg: float = 0.0,
                           f"IQR {stats['resid_iqr_px']:.0f} px",
                     (int(W * 0.62), 40), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 255), 2)
     return np.vstack([band, vis]), stats
+
+
+def _best_frame(seq: dict, n_try: int = 3):
+    """A pre-ignition frame with the most usable sky.
+
+    Pre-ignition on purpose: no plume over the ridge. Several are tried because haze and
+    low cloud make some frames useless for skyline extraction, and a camera should not be
+    judged on its worst morning.
+    """
+    import tarfile
+    p = ROOT / "data" / "tgz" / f"{seq['seq'].split('#')[0]}.tgz"
+    if not p.exists():
+        return None
+    with tarfile.open(p, "r:gz") as tf:
+        names = sorted(((int(Path(m.name).name[:-4].split("_")[1]), m.name)
+                        for m in tf
+                        if m.name.endswith(".jpg") and "_" in Path(m.name).name))
+    best = None
+    for _off, name in names[:n_try]:
+        with tarfile.open(p, "r:gz") as tf:
+            fh = tf.extractfile(name)
+            img = cv2.imdecode(np.frombuffer(fh.read(), np.uint8), cv2.IMREAD_COLOR)
+        if img is None:
+            continue
+        cov = float(np.isfinite(observed_skyline(img)).mean())
+        if best is None or cov > best[0]:
+            best = (cov, img)
+    return best[1] if best else None
+
+
+def main(argv: list[str]) -> None:
+    """Skyline residual for every posed camera -- a pose audit, not an anecdote."""
+    from .terrain import Dem
+
+    seqs = json.loads((META / "sequences.json").read_text())
+    by_cam: dict[str, dict] = {}
+    for s in seqs:
+        if s["has_pose"] and s["camera"] not in by_cam:
+            by_cam[s["camera"]] = s
+    if argv:
+        by_cam = {k: v for k, v in by_cam.items() if any(a in k for a in argv)}
+
+    out_dir = ROOT / "out" / "terrain"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    dem = Dem()
+    rows = []
+    for k, (cam, seq) in enumerate(sorted(by_cam.items()), 1):
+        img = _best_frame(seq)
+        if img is None:
+            print(f"[{k}/{len(by_cam)}] {cam}: no frame")
+            continue
+        try:
+            vis, st = render(cam, img, dem=dem)
+        except Exception as exc:
+            print(f"[{k}/{len(by_cam)}] {cam}: FAIL {exc}")
+            continue
+        cv2.imwrite(str(out_dir / f"{cam}.jpg"), vis,
+                    [cv2.IMWRITE_JPEG_QUALITY, 80])
+        st["seq"] = seq["seq"]
+        rows.append(st)
+        print(f"[{k}/{len(by_cam)}] {cam:22s} cov {st.get('coverage')} "
+              f"median {st.get('resid_median_px')} IQR {st.get('resid_iqr_px')}",
+              flush=True)
+
+    (ROOT / "out" / "terrain_audit.json").write_text(json.dumps(rows, indent=1) + "\n")
+    good = [r for r in rows if r.get("coverage", 0) >= 0.5
+            and r.get("resid_median_px") is not None]
+    if good:
+        med = np.array([abs(r["resid_median_px"]) for r in good])
+        print(f"\n{len(good)} cameras with >=50% skyline coverage")
+        print(f"|median residual|: p50 {np.median(med):.0f} px  "
+              f"p90 {np.percentile(med, 90):.0f} px  max {med.max():.0f} px")
+        print(f"within 20 px: {(med <= 20).sum()}   "
+              f"within 50 px: {(med <= 50).sum()}   "
+              f"within 100 px: {(med <= 100).sum()}")
+
+
+if __name__ == "__main__":
+    import sys
+    main(sys.argv[1:])

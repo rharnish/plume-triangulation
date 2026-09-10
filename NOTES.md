@@ -405,15 +405,95 @@ where it matters operationally, not that it is better.
 *Throughput note:* the 93-sequence pass takes **182 s on the ANE** against roughly 90
 minutes for the same work on four x86 cores.
 
+## Terrain-refined pose: a four-fold better fit that made everything worse (2026-09-09)
+
+`src/figlib/calibrate.py`, `pose_validate.py`, `viz_terrain.py`.
+Figure `docs/figures/pose_fit.png`; raw in `out/terrain_audit.json`, `out/pose_fit.json`,
+`out/pose_fit_staged.json`, `out/pose_geo_compare.json`.
+
+**First: the earlier claim was wrong.** "Camera pose validated against a DEM-synthesised
+skyline to within 13 px" came from **one** camera, computed ad hoc, and `viz_terrain.py`
+had no `main()` so it could not even be re-run. Made reproducible and swept over all 71
+posed cameras:
+
+| | |
+|---|---|
+| cameras with usable sky | 61 (the 10 monochrome units fail by construction -- the sky test is blue dominance) |
+| median absolute residual | **106 px** |
+| p90 / max | 223 px / 674 px |
+| within 20 px | **6 of 61** |
+
+The 13 px camera was the best in the set.
+
+**The obvious next step, and why it failed.** Fit four parameters per camera against the
+observed skyline -- azimuth, pitch, roll, and one radial distortion coefficient -- under a
+Huber loss with multi-start. Skyline MAD improved **106 -> 24 px**, four-fold.
+
+Then the held-out test: re-run geolocation against WFIGS coordinates, which the fit never
+saw (it only ever looked at ridgelines in pre-ignition frames).
+
+| | median error | <=2 km | |
+|---|---|---|---|
+| published pose | 2.16 km | 12/26 | |
+| **terrain-refined** | **3.38 km** | **6/26** | worse on 17 of 26 |
+
+**The surface metric improved four-fold while the metric that matters got 56% worse.**
+Held-out evaluation is the only reason this was caught; on the fitted objective it looked
+like a triumph.
+
+**The diagnosis is quantitative.** Perturbing each parameter by one degree and measuring
+the loss response:
+
+| parameter | delta loss per degree |
+|---|---|
+| azimuth | ~0.5 |
+| pitch | ~50 |
+
+**An 80:1 ratio.** A ridgeline is nearly horizontal, so sliding it sideways barely changes
+it -- azimuth is close to unidentifiable from dense skyline matching. Given free rein the
+optimizer spent azimuth on noise: **24 of 61 cameras pegged at the +-6 deg azimuth bound
+and 34 of 61 at the k1 bound.** Parameters at their bounds are the tell.
+
+**Second attempt: separate the identifiable from the not.** Azimuth information lives in
+*distinctive* ridgeline features, not in the skyline's overall height, so fit shape
+(pitch/roll/k1) first with azimuth pinned, then estimate azimuth alone by correlating
+skyline gradients, and accept it only where the correlation actually picks a shift out.
+
+Estimates immediately became plausible -- **median +0.40 deg, sd 2.01 deg, centred on
+zero** rather than +-6 deg. But the correlation is weak: **azimuth is identifiable on 1 of
+61 cameras**, and that one wants 0.30 deg. Applying the staged fit (azimuth pinned, k1
+applied, since distortion *does* feed bearings through `undistort_x`) is a wash: median
+2.16 -> 2.28 km, better on 7 fires and worse on 9.
+
+A real bug surfaced while chasing this: the gradients were being taken at sigma = 9 px,
+which is skyline-extraction jitter rather than terrain. On `vo-n` the predicted and
+observed **rows** correlated at 0.910 while their **gradients** correlated at 0.011.
+At sigma = 101 px it reaches 0.24 -- still under the gate, but the fix was real and the
+symptom was diagnostic.
+
+**What this actually establishes**, which is more useful than the refinement would have
+been:
+
+* **The published azimuths hold up.** An independent, feature-based estimate proposes
+  corrections centred on zero with sd 2.01 deg -- comparable to the 2 deg sigma already
+  assumed per bearing. This is the pose parameter that reaches a bearing, and it is fine.
+* **The published pitch often does not hold up, and it does not matter.** A 106 px vertical
+  residual is a pitch/elevation error, and pitch does not enter a bearing at all. That
+  reconciles the two facts that looked contradictory: badly misaligned skylines alongside
+  1.90 km geolocation on the confirmed tier.
+* **Terrain is an audit instrument, not a correction.** It catches bad pitch and elevation
+  metadata, and it can say when azimuth is unconstrained. It cannot improve azimuth here.
+
+**Deliberately not done:** the fitted poses are kept in `out/` rather than beside the
+published metadata, because they are not an improvement and should not be mistaken for one.
+
 ## Open questions
 
-**Lens distortion — the biggest threat to kilometre accuracy.** `geom.py` assumes a
-rectilinear 90 deg camera. Rendered frames show heavy vignetting and visibly bowed
-horizons on some units (`vo-n`, `bm-e`). If real barrel distortion is present, pixel to
-bearing carries systematic error that grows toward frame edges -- and detections do land
-there (`vo-w` at x=0.861). Check by fitting horizon curvature across frames, and against
-HPWREN's per-site `peakfinder` horizon profiles as an independent reference. Until this
-is settled, treat kilometre errors as provisional.
+**Lens distortion and pose -- settled 2026-09-09, and not the way it first looked.**
+See "Terrain-refined pose" below. Short version: the published *azimuths* hold up, which
+is the only part of the pose that reaches a bearing; the published pitch does not, and
+does not matter; and no distortion coefficient recoverable from terrain improves
+geolocation. Kilometre errors are no longer provisional on this.
 
 **Contamination.** Every pyronear model, and SmokeyNet, trains on FIgLib -- see
 `models/README.md`. Detection and timing numbers are a labelled reference point, never a

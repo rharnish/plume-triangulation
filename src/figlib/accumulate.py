@@ -37,7 +37,7 @@ from pathlib import Path
 import numpy as np
 
 from .geolocate import credible_area_km2
-from .geom import haversine_km, offset_bearing_deg
+from .geom import haversine_km, load_cams, offset_bearing_deg
 
 ROOT = Path(__file__).resolve().parents[2]
 META = ROOT / "data" / "meta"
@@ -123,7 +123,7 @@ def posterior(det_by_cam: dict, cams: dict, centre: tuple[float, float],
 
 
 def main() -> None:
-    cams = json.loads((META / "cams.json").read_text())
+    cams = load_cams()
     seqs = {s["seq"]: s for s in json.loads((META / "sequences.json").read_text())}
     fires = {f["fire_id"]: f for f in json.loads((META / "fires.json").read_text())}
     resolved = json.loads((META / "resolved.json").read_text())
