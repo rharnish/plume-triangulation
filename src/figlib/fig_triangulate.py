@@ -165,6 +165,11 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
     ax = fig.add_subplot(gs[:, 0])
     ax.set_facecolor("#11131a")
 
+    dlat = half_km / 111.32
+    dlon = half_km / (111.32 * cos_lat)
+    ax.set_xlim(clon - dlon, clon + dlon)
+    ax.set_ylim(clat - dlat, clat + dlat)
+
     hs, extent = _hillshade(clat, clon, half_km)
     if hs is not None:
         ax.imshow(hs, origin="lower", extent=extent, cmap="gray",
@@ -187,7 +192,33 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
               colors="#e8eefc")
 
     span = half_km * 2.4 / 111.32
+
+    # Pixel size of the axes box, to size the FOV wedge in screen pixels rather than
+    # ground distance -- a wedge drawn to scale would span kilometers and bury the map,
+    # when all it needs to do is show which way the camera looks.
+    ax_bbox = ax.get_position()
+    fig_w_px, fig_h_px = fig.get_size_inches() * fig.dpi
+    ax_w_px, ax_h_px = ax_bbox.width * fig_w_px, ax_bbox.height * fig_h_px
+    km_per_px = math.sqrt((2 * dlon * 111.32 * cos_lat / ax_w_px)
+                          * (2 * dlat * 111.32 / ax_h_px))
+    wedge_span = 50 * km_per_px / 111.32
+
     for b, col, _crop in crops:
+        # The camera's own fixed field of view, faint and short behind the sighting: the
+        # bearing ray is one detection, but the wedge is what the camera can ever see, so
+        # it's the thing that actually reads as "which way is this camera facing."
+        cam = cams.get(b.camera)
+        if cam is not None:
+            clat_c = math.radians(cam["lat"])
+            half_fov = math.radians(cam["fov"] / 2.0)
+            az0 = math.radians(cam["az"])
+            edges = np.linspace(az0 - half_fov, az0 + half_fov, 24)
+            wx = [cam["lon"]] + [cam["lon"] + math.sin(a) * wedge_span / math.cos(clat_c)
+                                  for a in edges] + [cam["lon"]]
+            wy = [cam["lat"]] + [cam["lat"] + math.cos(a) * wedge_span for a in edges] \
+                + [cam["lat"]]
+            ax.fill(wx, wy, color=col, alpha=0.16, lw=0, zorder=1)
+            ax.plot(wx, wy, color=col, lw=0.8, alpha=0.45, zorder=1)
         th = math.radians(b.bearing_deg)
         ax.plot([b.lon, b.lon + math.sin(th) * span / math.cos(math.radians(b.lat))],
                 [b.lat, b.lat + math.cos(th) * span],
@@ -202,11 +233,6 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
     ax.plot(truth["lon"], truth["lat"], "o", mfc="none", mec="#ffffff", ms=21, mew=2.4,
             zorder=7)
     ax.plot(elon, elat, "x", color="#ff3860", ms=15, mew=3.4, zorder=8)
-
-    dlat = half_km / 111.32
-    dlon = half_km / (111.32 * cos_lat)
-    ax.set_xlim(clon - dlon, clon + dlon)
-    ax.set_ylim(clat - dlat, clat + dlat)
 
     ax.set_xticks([]); ax.set_yticks([])
     for sp in ax.spines.values():
@@ -277,6 +303,7 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
 
     ax.legend(handles=[
         Line2D([], [], color="#8d93a3", lw=2, label="bearing from one camera"),
+        Line2D([], [], color="#8d93a3", lw=6, alpha=0.35, label="camera field of view"),
         Line2D([], [], color="#bfe0ff", lw=1.2, label="95% credible contour"),
         Line2D([], [], color="#ff3860", marker="x", ls="none", ms=10, mew=3,
                label="estimate"),

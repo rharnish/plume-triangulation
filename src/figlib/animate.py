@@ -32,7 +32,8 @@ STRIP_H = 92          # error-vs-time trace under the map
 CAM_W = 480
 
 
-def _map_panel(lats, lons, ll, est, truth, cam_pts, bearings, px=MAP_PX, trail=None):
+def _map_panel(lats, lons, ll, est, truth, cam_pts, bearings, px=MAP_PX, trail=None,
+               cams=None):
     """Posterior as an image: magma heat, camera markers, bearing rays, estimate, truth."""
     rel = ll - ll.max()
     if not np.any(ll):                       # nothing observed yet: draw it as empty
@@ -62,7 +63,24 @@ def _map_panel(lats, lons, ll, est, truth, cam_pts, bearings, px=MAP_PX, trail=N
         q = to_px(clat + math.cos(th) * span,
                   clon + math.sin(th) * span / math.cos(math.radians(clat)))
         cv2.line(img, p, q, (160, 210, 77), 1, cv2.LINE_AA)
-    for clat, clon in cam_pts:
+    # Each camera's fixed field of view, short and faint behind its marker -- the bearing
+    # ray is one detection, but the wedge is what the camera can ever see.
+    wedge_span = span * (30.0 / px)
+    for clat, clon, camera in cam_pts:
+        cam = (cams or {}).get(camera)
+        if cam is not None:
+            half_fov = math.radians(cam["fov"] / 2.0)
+            az0 = math.radians(cam["az"])
+            edges = np.linspace(az0 - half_fov, az0 + half_fov, 16)
+            pts = [to_px(clat, clon)] + [
+                to_px(clat + math.cos(a) * wedge_span,
+                      clon + math.sin(a) * wedge_span / math.cos(math.radians(clat)))
+                for a in edges]
+            poly = np.array(pts, dtype=np.int32)
+            overlay = img.copy()
+            cv2.fillPoly(overlay, [poly], (160, 210, 77))
+            cv2.addWeighted(overlay, 0.28, img, 0.72, 0, dst=img)
+            cv2.polylines(img, [poly], True, (160, 210, 77), 1, cv2.LINE_AA)
         cv2.drawMarker(img, to_px(clat, clon), (160, 210, 77),
                        cv2.MARKER_TRIANGLE_UP, 13, 2)
     if trail:
@@ -193,7 +211,7 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
         det = gather(fire, seqs, cams, max(off, 0), conf_thr=0.10)
         det = {k: v for k, v in det.items() if k in dets_by_cam}
         est, err, lats, lons, ll = None, None, None, None, None
-        bearing_rays, cam_pts = [], [(cams[c[2]]["lat"], cams[c[2]]["lon"])
+        bearing_rays, cam_pts = [], [(cams[c[2]]["lat"], cams[c[2]]["lon"], c[2])
                                      for c in chosen]
         if len({k.split("-")[0] for k in det}) >= 2:
             # Coarse pass first, then a fine grid about its peak. Centering the fine grid
@@ -221,7 +239,7 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
             ll = np.zeros((len(lats), len(lons)))
 
         right = _map_panel(lats, lons, ll, est, truth, cam_pts, bearing_rays,
-                           trail=trail)
+                           trail=trail, cams=cams)
         # error-vs-time strip: the whole point is that this is a trajectory, not a number
         strip = np.full((STRIP_H, MAP_PX, 3), 18, np.uint8)
         if hist:
