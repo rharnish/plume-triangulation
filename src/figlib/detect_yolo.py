@@ -2,7 +2,7 @@
 
 NOTE ON PROVENANCE: this model was trained on FIgLib (see models/README.md), so its
 detection and timing numbers on FIgLib measure memorisation as well as skill. They are
-reported as a labelled reference point, never as a generalisation claim. Its *bearings*
+reported as a labeled reference point, never as a generalisation claim. Its *bearings*
 are still sound, and geolocation error against official coordinates tests geometry
 rather than generalisation -- which is why this detector is used for the geolocation
 work without an asterisk.

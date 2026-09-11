@@ -106,7 +106,7 @@ def render(camera: str, img: np.ndarray, pitch_deg: float = 0.0,
                 resid_median_px=float(np.median(resid)),
                 resid_iqr_px=float(np.percentile(resid, 75) - np.percentile(resid, 25)),
                 # Distortion signature: a lens that is not rectilinear leaves a residual
-                # that is symmetric about frame centre and grows toward the edges, so a
+                # that is symmetric about frame center and grows toward the edges, so a
                 # quadratic in (x-0.5) captures it where a constant offset cannot.
                 quad_fit=np.polyfit(((np.where(m)[0] / W) - 0.5), resid, 2).tolist(),
             )
@@ -207,7 +207,7 @@ def _range_colour(km: float) -> tuple:
     """Near ridges warm, far ridges cool -- the same cue haze gives the eye.
 
     Log scale, because the interesting spread is 1-10 km and 10-80 km equally, and a
-    linear ramp would paint everything beyond the first ridge the same colour.
+    linear ramp would paint everything beyond the first ridge the same color.
     """
     t = float(np.clip((np.log10(max(km, 0.5)) - np.log10(0.5))
                       / (np.log10(80.0) - np.log10(0.5)), 0, 1))
@@ -218,7 +218,7 @@ def _range_colour(km: float) -> tuple:
 def render_ridges(camera: str, img: np.ndarray, dem: Dem | None = None,
                   pitch_deg: float = 0.0, roll_deg: float = 0.0,
                   min_chain_pts: int = 8) -> tuple[np.ndarray, dict]:
-    """Draw every visible ridgeline, coloured by range, with its summits marked.
+    """Draw every visible ridgeline, colored by range, with its summits marked.
 
     Where `render()` draws one curve and asks whether it lands on the skyline, this draws
     the whole nested stack. That matters for two reasons. It no longer depends on finding
@@ -246,7 +246,7 @@ def render_ridges(camera: str, img: np.ndarray, dem: Dem | None = None,
         # Break the polyline rather than bridge a vertical jump. Chain linking bounds
         # the step in *degrees*, which on a 36 deg lens is several times the pixels it
         # is on a 90 deg one; an unbroken bridge draws a spike through the frame, and at
-        # 0.1 deg ray spacing a run of them fills as a solid block of colour.
+        # 0.1 deg ray spacing a run of them fills as a solid block of color.
         max_jump = 0.025 * H
         for a, b in zip(pts, pts[1:]):
             if abs(b[1] - a[1]) > max_jump:
@@ -272,7 +272,7 @@ def render_ridges(camera: str, img: np.ndarray, dem: Dem | None = None,
     cv2.putText(band, f"{camera}  az={cam['az']} fov={cam['fov']}  "
                       f"{drawn} ridgelines, {shown} summits in frame",
                 (14, 40), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 2)
-    cv2.putText(band, "colour = range to the ridge (blue near ... red far), "
+    cv2.putText(band, "color = range to the ridge (blue near ... red far), "
                       "labels in km.  No pixels consulted.",
                 (14, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.85, (200, 200, 200), 2)
     for k in range(9):

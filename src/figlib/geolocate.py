@@ -40,7 +40,7 @@ META = ROOT / "data" / "meta"
 # paired comparison, and a second implementation would be a second source of difference.
 YOLO_DIR = Path(os.environ.get("FIGLIB_DETS", ROOT / "out" / "yolo"))
 
-# Angular budget per bearing. Pose is published to a degree, the plume is a metres-wide
+# Angular budget per bearing. Pose is published to a degree, the plume is a meters-wide
 # object seen as a box several degrees across, and its centroid sits downwind of the
 # source. Two degrees is deliberately generous: claiming less would shrink the
 # uncertainty region without earning it.
@@ -51,7 +51,7 @@ SIGMA_DEG = 2.0
 # edge, needs the mask cache `masks.build_all` builds (hours on CPU), and lost -- see
 # NOTES.md, "Segmentation and per-plume wind fits". Name them in FIGLIB_VARIANTS to
 # re-score that comparison: `FIGLIB_VARIANTS=upwind,foot_diff,wedge_sam,...`.
-BOX_VARIANTS = ("centre", "upwind", "early", "early_upwind")
+BOX_VARIANTS = ("center", "upwind", "early", "early_upwind")
 MASK_VARIANTS = ("foot_diff", "foot_sam", "axis_diff", "axis_sam",
                  "wedge_diff", "wedge_sam", "seq_diff", "seq_sam",
                  "field_diff", "field_sam")
@@ -73,7 +73,7 @@ class Bearing:
     epoch: int
     x_frac: float
     wind_from_deg: float | None = None
-    x_source: str = "centre"
+    x_source: str = "center"
     # (bearings_deg, loglik) for the `field` mode: the whole curve a mask implies over
     # direction, kept instead of being collapsed to a mean and a sigma first.
     ll_curve: tuple | None = None
@@ -89,7 +89,7 @@ def bearings_for_fire(fire: dict, seqs: dict, cams: dict,
     """One bearing per camera: its most confident detection inside the window.
 
     With `use_wind`, the bearing is taken from the box edge nearest the source rather
-    than from the box centre -- see wind.py for why the centre is biased downwind.
+    than from the box center -- see wind.py for why the center is biased downwind.
 
     `x_mode` of `"foot_diff"` or `"foot_sam"` replaces both with the horizontal position
     of the *foot* of a pixel mask -- the lowest visible smoke, which is the least drifted
@@ -133,7 +133,7 @@ def bearings_for_fire(fire: dict, seqs: dict, cams: dict,
             wfrom = w and w["from_deg_100m"]
         x = (upwind_x(d["x0"], d["x1"], cam["az"], wfrom) if use_wind
              else (d["x0"] + d["x1"]) / 2)
-        source = "upwind" if use_wind else "centre"
+        source = "upwind" if use_wind else "center"
 
         ll_curve = None
         if x_mode != "box":
@@ -206,11 +206,11 @@ def _fit_x(kind: str, method: str, seq_name: str, offset: int, det: dict,
     raise ValueError(kind)
 
 
-def solve(bearings: list[Bearing], centre: tuple[float, float],
+def solve(bearings: list[Bearing], center: tuple[float, float],
           half_extent_km: float = 60.0, step_km: float = 0.4,
           sigma_deg: float = SIGMA_DEG):
     """Log-likelihood surface over the ground, and its peak."""
-    lat0, lon0 = centre
+    lat0, lon0 = center
     dlat = step_km / 111.32
     dlon = step_km / (111.32 * math.cos(math.radians(lat0)))
     n = int(half_extent_km / step_km)
@@ -265,7 +265,7 @@ def main() -> None:
                "truth_lat": t["lat"], "truth_lon": t["lon"], "truth_name": t["name"]}
 
         for tag, use_wind, pick, win, x_mode in [v for v in (
-                ("centre", False, "best", (0, 2400), "box"),
+                ("center", False, "best", (0, 2400), "box"),
                 ("upwind", True, "best", (0, 2400), "box"),
                 ("early", False, "earliest", (0, 900), "box"),
                 ("early_upwind", True, "earliest", (0, 900), "box"),
@@ -289,21 +289,21 @@ def main() -> None:
                 row[tag] = {"status": f"only {len(sites)} site(s)",
                             "n_bearings": len(bs)}
                 continue
-            centre = (float(np.mean([b.lat for b in bs])),
+            center = (float(np.mean([b.lat for b in bs])),
                       float(np.mean([b.lon for b in bs])))
-            lats, lons, ll, la, lo = solve(bs, centre)
+            lats, lons, ll, la, lo = solve(bs, center)
             row[tag] = {
                 "status": "solved", "n_bearings": len(bs), "n_sites": len(sites),
                 "est_lat": round(la, 5), "est_lon": round(lo, 5),
                 "error_km": round(haversine_km(la, lo, t["lat"], t["lon"]), 2),
                 "area95_km2": round(credible_area_km2(lats, lons, ll), 1),
                 "n_from_mask": sum(1 for b in bs
-                                   if b.x_source not in ("centre", "upwind")),
+                                   if b.x_source not in ("center", "upwind")),
                 "bearings": [{"camera": b.camera, "deg": round(b.bearing_deg, 2),
                               "conf": b.conf, "x": b.x_frac,
                               "wind_from": b.wind_from_deg,
                               "x_source": b.x_source} for b in bs]}
-        row["status"] = row["centre"]["status"]
+        row["status"] = row["center"]["status"]
         rows.append(row)
     _save_wind(wind_cache)
 
@@ -311,7 +311,7 @@ def main() -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps(rows, indent=1) + "\n")
 
-    solved = [r for r in rows if r["centre"].get("status") == "solved"]
+    solved = [r for r in rows if r["center"].get("status") == "solved"]
     print(f"{len(rows)} scoring fires, {len(solved)} solved")
     if not solved:
         return
@@ -330,14 +330,14 @@ def main() -> None:
               f"5 km {sum(x<=5 for x in e)}")
 
     for tier in ("confirmed", "probable"):
-        e = sorted(r["centre"]["error_km"] for r in solved
-                   if r["tier"] == tier and r["centre"]["status"] == "solved")
+        e = sorted(r["center"]["error_km"] for r in solved
+                   if r["tier"] == tier and r["center"]["status"] == "solved")
         if e:
             print(f"  [{tier:>9}] n={len(e):2d}  median {e[len(e)//2]:6.2f} km  "
                   f"max {e[-1]:6.2f}")
 
-    both = [(r["centre"]["error_km"], r["upwind"]["error_km"], r["fire_id"])
-            for r in solved if r["centre"]["status"] == "solved"
+    both = [(r["center"]["error_km"], r["upwind"]["error_km"], r["fire_id"])
+            for r in solved if r["center"]["status"] == "solved"
             and r["upwind"]["status"] == "solved"]
     if both:
         better = sum(1 for c, u, _ in both if u < c - 0.05)
@@ -350,9 +350,9 @@ def main() -> None:
     # The mask variants change one thing only -- where in the box the bearing is taken
     # from -- so they are scored against `upwind` pairwise, on the fires where both
     # solved, and split by tier. The probable tier carries the whole error tail and
-    # would otherwise swamp any few-hundred-metre effect on the confirmed one.
+    # would otherwise swamp any few-hundred-meter effect on the confirmed one.
     for tag in [v for v in VARIANTS if v not in
-                ("centre", "upwind", "early", "early_upwind")]:
+                ("center", "upwind", "early", "early_upwind")]:
         pairs = [(r["upwind"]["error_km"], r[tag]["error_km"], r["tier"],
                   r[tag].get("n_from_mask", 0), r[tag]["n_bearings"], r["fire_id"])
                  for r in solved
@@ -374,9 +374,9 @@ def main() -> None:
             print(f"  [{tier:>9}] n={len(sub):2d}  {mu:6.2f} -> {mf:6.2f} km   "
                   f"better {better}, worse {worse}, unchanged {len(sub)-better-worse}")
 
-    print("\nper fire (centre | early):")
+    print("\nper fire (center | early):")
     for r in sorted(solved, key=lambda r: r["upwind"]["error_km"]):
-        c = r["centre"]
+        c = r["center"]
         ea = r.get("early", {})
         eas = f"{ea['error_km']:6.2f}" if ea.get("status") == "solved" else "   -- "
         print(f"  {c['error_km']:7.2f} | {eas} km  {c['n_sites']} sites  "

@@ -9,7 +9,7 @@ bearing is real rather than a passing cloud.
 Summing log-likelihoods over all detections is not enough either, because a false
 positive at the wrong bearing then contributes an unbounded penalty and can drag the
 peak anywhere -- and these detectors do produce confident false positives, 0.81 on a
-cumulus in one case. So each detection is modelled as a mixture:
+cumulus in one case. So each detection is modeled as a mixture:
 
     P(detection | fire at x) = pi * Normal(bearing | bearing_to_x, sigma)
                              + (1 - pi) * Uniform(field of view)
@@ -85,10 +85,10 @@ def gather(fire: dict, seqs: dict, cams: dict, t_max: int,
     return {k: v for k, v in out.items() if v}
 
 
-def posterior(det_by_cam: dict, cams: dict, centre: tuple[float, float],
+def posterior(det_by_cam: dict, cams: dict, center: tuple[float, float],
               half_extent_km: float = 60.0, step_km: float = 0.4,
               sigma_deg: float = SIGMA_DEG, alpha: float = 0.5):
-    lat0, lon0 = centre
+    lat0, lon0 = center
     dlat = step_km / 111.32
     dlon = step_km / (111.32 * math.cos(math.radians(lat0)))
     n = int(half_extent_km / step_km)

@@ -3,19 +3,19 @@
 A detection box does not sit over the fire. Smoke rises and drifts, so by the time a
 plume is big enough to detect, the bright part of it has moved downwind of its source --
 which is why cameras in this dataset recorded smoke whose origin lay outside their own
-field of view. Taking the bearing to the box centre therefore carries a *systematic*
+field of view. Taking the bearing to the box center therefore carries a *systematic*
 error, always downwind, and systematic error is what makes an estimate confidently
 wrong rather than merely imprecise.
 
 Only the component of that drift across the line of sight matters. Smoke blowing
 directly away from a camera lengthens the plume without moving its bearing; smoke
 blowing across the view moves the bearing by the full displacement. So the correction is
-to take the *upwind* horizontal edge of the box instead of its centre, and which edge
+to take the *upwind* horizontal edge of the box instead of its center, and which edge
 that is depends on the sign of the crosswind -- which needs to be looked up, not guessed.
 
 Winds come from Open-Meteo's historical archive: free, unauthenticated, hourly, at 10 m
 and 100 m. The 100 m level is the better guide, since a plume detectable from tens of
-kilometres away has risen well clear of the surface layer.
+kilometers away has risen well clear of the surface layer.
 """
 
 from __future__ import annotations
@@ -98,7 +98,7 @@ def upwind_x(x0: float, x1: float, view_az_deg: float,
 
     With no wind information, or with the wind blowing nearly along the line of sight
     (where the crosswind component is small and the edge choice would be arbitrary),
-    fall back to the box centre.
+    fall back to the box center.
     """
     if wind_from_deg is None:
         return (x0 + x1) / 2.0

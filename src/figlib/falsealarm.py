@@ -22,7 +22,7 @@ Three decision rules are swept, in increasing order of how much they exploit:
                 thing that removes a 0.81-confidence cumulus (see geolocate.py).
 
 PROVENANCE: the detector was trained on FIgLib (models/README.md), so absolute rates
-here measure memorisation as well as skill and are a labelled reference point, not a
+here measure memorisation as well as skill and are a labeled reference point, not a
 generalisation claim. The *shape* of the tradeoff -- how much a persistence or a
 cross-site requirement buys -- is the transferable result.
 """
@@ -299,7 +299,7 @@ def figure(result: dict) -> None:
                  transform=axes[0].transAxes, fontsize=7.5, color="0.3", va="top")
     fig.text(0.5, 0.015,
              "pyronear yolo11s. The detector was trained on FIgLib, so absolute rates "
-             "are a labelled reference point, not a generalisation claim.",
+             "are a labeled reference point, not a generalisation claim.",
              ha="center", fontsize=8.5, color="0.3")
     fig.tight_layout(rect=(0, 0.045, 1, 1))
     dest = OUT / "figures" / "falsealarm.png"

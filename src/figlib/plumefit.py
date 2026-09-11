@@ -16,8 +16,8 @@ the foot got weaker. Degenerates when the axis goes horizontal, and says so rath
 returning a number.
 
 **wedge** -- a plume is a cone opening upward and downwind, so its width grows linearly
-with height above the source and its centreline drifts linearly too. Two regressions --
-width on row, centre on row -- give an apex without needing a horizon estimate at all.
+with height above the source and its centerline drifts linearly too. Two regressions --
+width on row, center on row -- give an apex without needing a horizon estimate at all.
 
 **sequence** -- the fire does not move. Fit one shared apex to every frame's mask in the
 sequence at once, with each frame's lean and spread free. Trades one noisy frame for
@@ -48,7 +48,7 @@ MIN_AXIS_SLOPE = 0.36  # ~20 degrees from horizontal
 
 
 def _rows_extent(mask: np.ndarray):
-    """Per-row left edge, right edge, centre, width and mass, for occupied rows."""
+    """Per-row left edge, right edge, center, width and mass, for occupied rows."""
     occ = mask.any(axis=1)
     ys = np.where(occ)[0]
     if ys.size < 4:
@@ -66,7 +66,7 @@ def _rows_extent(mask: np.ndarray):
 def axis_fit(mask: np.ndarray, horizon_y: float) -> dict:
     """Principal axis of the mask, extrapolated down to the terrain row.
 
-    The axis is the direction the plume is travelling: up and downwind. Running it
+    The axis is the direction the plume is traveling: up and downwind. Running it
     backwards to the ground is the geometric statement of "where did this come from".
     """
     ys, xs = np.nonzero(mask)
@@ -103,15 +103,15 @@ def axis_fit(mask: np.ndarray, horizon_y: float) -> dict:
 def wedge_fit(mask: np.ndarray, cross_sign: float | None = None) -> dict:
     """Apex of the cone that best explains the mask.
 
-    Width grows linearly with distance above the apex and the centreline drifts
+    Width grows linearly with distance above the apex and the centerline drifts
     linearly, so two weighted least-squares lines in row `y` locate the apex without any
-    terrain reference: the width line's root is the apex row, and the centre line
+    terrain reference: the width line's root is the apex row, and the center line
     evaluated there is the apex column.
     """
     e = _rows_extent(mask)
     if e is None:
         return {"x": None, "why": "too few rows"}
-    ys, left, right, centre, width, mass = e
+    ys, left, right, center, width, mass = e
     if ys.max() - ys.min() < 6:
         return {"x": None, "why": "too few rows"}
 
@@ -132,7 +132,7 @@ def wedge_fit(mask: np.ndarray, cross_sign: float | None = None) -> dict:
     ay = -b0 / b1                           # row where the fitted width reaches zero
     ay = float(np.clip(ay, ys.min(), ys.max() + 0.5 * (ys.max() - ys.min())))
 
-    c0, c1 = wls(centre)
+    c0, c1 = wls(center)
     ax = c0 + c1 * ay
     lean = -c1                              # columns per row *upward*
 
@@ -154,10 +154,10 @@ def sequence_fit(masks: dict[int, np.ndarray], cross_sign: float | None = None,
 
     The fire is stationary and the plume is not, so the apex is the only parameter the
     frames genuinely have in common. Solving for it jointly is what turns forty noisy
-    single-frame fits into one estimate: each frame contributes its centreline, and a
+    single-frame fits into one estimate: each frame contributes its centerline, and a
     single column has to sit at the foot of all of them.
 
-    For a candidate apex row `ay`, every frame's centreline is linear in the shared
+    For a candidate apex row `ay`, every frame's centerline is linear in the shared
     apex column and that frame's own lean, so the whole system is one least-squares
     problem with `1 + T` unknowns. `ay` is then searched over a coarse grid.
     """
@@ -166,10 +166,10 @@ def sequence_fit(masks: dict[int, np.ndarray], cross_sign: float | None = None,
         e = _rows_extent(m)
         if e is None:
             continue
-        ys, _, _, centre, _, mass = e
+        ys, _, _, center, _, mass = e
         if ys.max() - ys.min() < 6:
             continue
-        per.append((ys.astype(np.float64), centre, mass.astype(np.float64), m.shape[1]))
+        per.append((ys.astype(np.float64), center, mass.astype(np.float64), m.shape[1]))
     if len(per) < min_frames:
         return {"x": None, "why": f"only {len(per)} usable frames"}
 
@@ -188,11 +188,11 @@ def sequence_fit(masks: dict[int, np.ndarray], cross_sign: float | None = None,
         b = np.zeros(rows)
         sw = np.zeros(rows)
         r = 0
-        for j, (ys, centre, mass, _) in enumerate(per):
+        for j, (ys, center, mass, _) in enumerate(per):
             k = len(ys)
             A[r:r + k, 0] = 1.0
             A[r:r + k, 1 + j] = ay - ys      # per-frame lean, in columns per row
-            b[r:r + k] = centre
+            b[r:r + k] = center
             sw[r:r + k] = np.sqrt(mass)
             r += k
         sol, *_ = np.linalg.lstsq(A * sw[:, None], b * sw, rcond=None)
@@ -240,7 +240,7 @@ def column_loglik(mask: np.ndarray, cross_sign: float | None = None,
     # The source sits at or below the lowest visible smoke -- often a little below,
     # since the base of a distant plume is usually hidden behind a ridge. Putting the
     # apex one row under the mask keeps the wedge non-empty for a plume that is only a
-    # few rows tall, which is the common case for a fire forty kilometres out.
+    # few rows tall, which is the common case for a fire forty kilometers out.
     ay = float(np.nonzero(sm.any(axis=1))[0].max()) + 1.0
     yy = np.arange(small_h, dtype=np.float64)
     dy = ay - yy                                        # positive above the apex
@@ -257,9 +257,9 @@ def column_loglik(mask: np.ndarray, cross_sign: float | None = None,
     for lean in leans:
         for k in spreads:
             # wedge(c): |x - (c + lean*dy)| <= k*dy, for rows above the apex
-            centre = cols[:, None] + lean * dy[None, :]           # (C, H)
+            center = cols[:, None] + lean * dy[None, :]           # (C, H)
             half = k * dy[None, :] + 0.5      # a wedge is at least one column wide
-            d = np.abs(xx[None, None, :] - centre[:, :, None])
+            d = np.abs(xx[None, None, :] - center[:, :, None])
             inside = (d <= half[:, :, None]) & above[None, :, None]
             inter = (inside & sm[None, :, :]).sum(axis=(1, 2)).astype(np.float64)
             union = (inside | sm[None, :, :]).sum(axis=(1, 2)).astype(np.float64)
@@ -286,7 +286,7 @@ def column_loglik(mask: np.ndarray, cross_sign: float | None = None,
 def fit_report(method: str = "diff") -> None:
     """Why each fit refuses, and how big the masks it is refusing actually are.
 
-    The kilometre columns in `geolocate.py` say these methods lose. This says whether
+    The kilometer columns in `geolocate.py` say these methods lose. This says whether
     they lost or were never really tried: a variant that falls back to the box on three
     quarters of its bearings is not evidence about the fit, it is evidence about the
     masks.

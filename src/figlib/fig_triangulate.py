@@ -2,7 +2,7 @@
 
 A likelihood contour plot on its own is unreadable to anyone who has not been told what
 it is. The thing that makes triangulation legible is showing both halves at once and
-colour-matching them -- this camera saw *that* plume, and its bearing is *this* ray --
+color-matching them -- this camera saw *that* plume, and its bearing is *this* ray --
 so the crossing point is something the eye arrives at rather than something the caption
 asserts.
 
@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parents[2]
 TGZ = ROOT / "data" / "tgz"
 OUT = ROOT / "out" / "triangulate"
 
-# Ray colours, chosen to stay distinguishable against hillshade and against each other.
+# Ray colors, chosen to stay distinguishable against hillshade and against each other.
 PALETTE = ["#ff5d5d", "#ffd166", "#4dd2a0", "#5fa8ff", "#c792ea", "#ff9f45",
            "#3fd0d8", "#ff8fc7"]
 CROP_ASPECT = 2.4          # wide crop around the plume: sky above, terrain below
@@ -117,26 +117,26 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
     import matplotlib.pyplot as plt
     from matplotlib.lines import Line2D
 
-    # use_wind=False deliberately: the reported table is the box-centre variant, and a
+    # use_wind=False deliberately: the reported table is the box-center variant, and a
     # figure that disagreed with the number beside it would be worse than no figure.
     bs = bearings_for_fire(fire, seqs, cams, use_wind=False, wind_cache=wind_cache)
     if len({b.camera.split("-")[0] for b in bs}) < 2:
         return None
     bs = sorted(bs, key=lambda b: -b.conf)[:len(PALETTE)]
 
-    # Solve on the same grid geolocate.main uses -- centred on the mean camera position,
-    # not on the answer. Centring the grid on truth would snap the peak to the truth cell
+    # Solve on the same grid geolocate.main uses -- centered on the mean camera position,
+    # not on the answer. Centering the grid on truth would snap the peak to the truth cell
     # and report an error better than the pipeline's, which is the one way a figure like
     # this can quietly lie.
-    centre = (float(np.mean([b.lat for b in bs])), float(np.mean([b.lon for b in bs])))
-    lats, lons, ll, elat, elon = solve(bs, centre)
+    center = (float(np.mean([b.lat for b in bs])), float(np.mean([b.lon for b in bs])))
+    lats, lons, ll, elat, elon = solve(bs, center)
     err = haversine_km(elat, elon, truth["lat"], truth["lon"])
     area = credible_area_km2(lats, lons, ll)
 
     # Frame on the bounding box of everything that must be visible -- every camera, the
-    # estimate and the truth -- centred on that box rather than on the fire. Centring on
+    # estimate and the truth -- centered on that box rather than on the fire. Centering on
     # truth pushes the estimate off the edge exactly in the cases worth looking at, where
-    # the two disagree by tens of kilometres.
+    # the two disagree by tens of kilometers.
     pts_lat = [b.lat for b in bs] + [truth["lat"], elat]
     pts_lon = [b.lon for b in bs] + [truth["lon"], elon]
     clat = (max(pts_lat) + min(pts_lat)) / 2

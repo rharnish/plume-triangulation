@@ -1,7 +1,7 @@
 """End-to-end geolocation on one fire's real detections.
 
 This is the smoke test: if bearings, the projection, and the likelihood surface all agree,
-`20240701_Kitchenfire` lands within a few hundred metres of its official coordinate. The
+`20240701_Kitchenfire` lands within a few hundred meters of its official coordinate. The
 full corpus run reports 0.08 km here; the assertion leaves generous margin so detector
 noise or a grid-resolution change does not make it flaky.
 """
@@ -18,9 +18,9 @@ FIRE_ID = "20240701_Kitchenfire"
 
 def _solve(fire, seqs, cams, **kw):
     bs = G.bearings_for_fire(fire, seqs, cams, use_wind=False, x_mode="box", **kw)
-    centre = (float(np.mean([b.lat for b in bs])),
+    center = (float(np.mean([b.lat for b in bs])),
               float(np.mean([b.lon for b in bs])))
-    lats, lons, ll, la, lo = G.solve(bs, centre)
+    lats, lons, ll, la, lo = G.solve(bs, center)
     return bs, (la, lo), G.credible_area_km2(lats, lons, ll)
 
 
@@ -53,8 +53,8 @@ def test_a_wrong_bearing_does_not_run_away_with_the_estimate(fires, seqs, cams,
     """The Gaussian surface is not robust; check the failure is graceful, not wild."""
     bs = G.bearings_for_fire(fires[FIRE_ID], seqs, cams, use_wind=False, x_mode="box")
     bs[0].bearing_deg = (bs[0].bearing_deg + 25.0) % 360.0
-    centre = (float(np.mean([b.lat for b in bs])),
+    center = (float(np.mean([b.lat for b in bs])),
               float(np.mean([b.lon for b in bs])))
-    _, _, _, la, lo = G.solve(bs, centre)
+    _, _, _, la, lo = G.solve(bs, center)
     err = haversine_km(la, lo, kitchen_truth["lat"], kitchen_truth["lon"])
     assert err < 15.0          # pulled off, but still in the right basin

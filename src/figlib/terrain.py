@@ -10,7 +10,7 @@ What the comparison buys:
 
 * **Pose check.** A horizon that sits too high or low is a pitch error; one shifted left
   or right is an azimuth error; one that tilts is roll.
-* **Distortion check.** A predicted skyline that matches at frame centre but diverges
+* **Distortion check.** A predicted skyline that matches at frame center but diverges
   toward the edges is barrel distortion, and that is the error which matters most here,
   because it corrupts the pixel-to-bearing conversion exactly where detections often sit.
 * **Range.** The march already knows how far along each ray the skyline was reached, so
@@ -216,10 +216,10 @@ def ridges(cam: dict, dem: Dem, half_fov_pad: float = 8.0, step_deg: float = 0.1
     is the horizon. Reading off the steps costs nothing beyond the march already done.
 
     `min_step_deg` is what separates a genuinely new ridge standing clear behind the one
-    in front from a metre of noise on a single slope. Below about 0.3 deg the count runs
+    in front from a meter of noise on a single slope. Below about 0.3 deg the count runs
     to twenty-odd per ray; at 0.6 it settles to the three-to-nine a person would count.
 
-    Crests in neighbouring rays are then linked into chains, so a ridgeline is one object
+    Crests in neighboring rays are then linked into chains, so a ridgeline is one object
     with a depth rather than a scatter of independent points. Linking on range alone is
     not enough -- two crests 15 km away on opposite sides of a valley are unrelated, and
     joining them draws a vertical spike through the frame -- so continuity in elevation

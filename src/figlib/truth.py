@@ -93,9 +93,9 @@ def match_fire(fire: dict, seq_by_name: dict, cache: dict) -> dict:
             max(lons) + BBOX_PAD_DEG, max(lats) + BBOX_PAD_DEG)
 
     t0 = fire["t0_median"]
-    centre = datetime.fromtimestamp(t0, UTC)
-    cands = query(bbox, centre - timedelta(hours=WINDOW_H),
-                  centre + timedelta(hours=WINDOW_H), cache)
+    center = datetime.fromtimestamp(t0, UTC)
+    cands = query(bbox, center - timedelta(hours=WINDOW_H),
+                  center + timedelta(hours=WINDOW_H), cache)
 
     # A named event carries a strong prior; keep name agreement as a separate signal
     # rather than a filter, so a mislabelled name cannot silently discard the truth.

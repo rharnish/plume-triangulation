@@ -95,13 +95,13 @@ def figure(pm_path: Path) -> None:
     # --- efficiency by variant x placement
     variants = ["fp32", "fp16", "int8w"]
     units = ["cpu", "gpu", "ane", "all"]
-    colour = {"cpu": "#8c8c8c", "gpu": "#1f77b4", "ane": "#d62728", "all": "#2ca02c"}
+    color = {"cpu": "#8c8c8c", "gpu": "#1f77b4", "ane": "#d62728", "all": "#2ca02c"}
     w = 0.2
     by = {(r["variant"], r["units"]): r for r in lat["rows"]}
     for j, u in enumerate(units):
         vals = [by[(v, u)]["frames_per_joule"] or 0 for v in variants]
         x = np.arange(len(variants)) + (j - 1.5) * w
-        axes[0].bar(x, vals, w, label=u.upper(), color=colour[u])
+        axes[0].bar(x, vals, w, label=u.upper(), color=color[u])
         for xi, val, v in zip(x, vals, variants):
             ane = by[(v, u)]["power_model_only"].get("ane_mw")
             axes[0].text(xi, val + 0.25, f"{val:.1f}", ha="center", fontsize=7.5)

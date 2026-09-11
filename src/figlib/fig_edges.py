@@ -95,7 +95,7 @@ def render(camera: str, img: np.ndarray, dem: Dem) -> np.ndarray:
         return p
 
     panels = [lab(img.copy(), f"{camera}  frame"),
-              lab(over, "vertical gradient + DEM-predicted ridges (colour = range)"),
+              lab(over, "vertical gradient + DEM-predicted ridges (color = range)"),
               lab(prop, "vertical gradient + strongest 6 peaks per column")]
     panels = [cv2.resize(p, (PANEL_W, int(PANEL_W * p.shape[0] / p.shape[1])))
               for p in panels]

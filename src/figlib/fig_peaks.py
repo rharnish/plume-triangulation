@@ -105,7 +105,7 @@ def to_png(argv: list[str]) -> None:
 
     Works from the JPGs the audit already wrote rather than re-marching the DEM, so this
     is seconds rather than a quarter of an hour. The band is located by finding the rows
-    that actually contain overlay colour, which is more robust than recomputing the
+    that actually contain overlay color, which is more robust than recomputing the
     projection and has to agree with what was drawn.
     """
     src_dir = OUT / "terrain"

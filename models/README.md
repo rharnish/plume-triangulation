@@ -12,11 +12,11 @@ tar xzf rr.tar.gz && mv best.onnx pyronear_rr_v8.1.0.onnx && rm rr.tar.gz
 **This model was trained on FIgLib.** `pyro-dataset`'s raw-data README lists
 `FIGLIB_ANNOTATED_RESIZED` — "re-annotated dataset from the Fire Ignition images
 Library" — as its first source. Detection and timing figures produced with it on FIgLib
-therefore measure memorisation as well as detection, and are reported here as a labelled
+therefore measure memorisation as well as detection, and are reported here as a labeled
 reference point rather than a generalisation claim. The same applies to every other
 pyronear release and to SmokeyNet, which is the FIgLib paper's own model.
 
-Geolocation results are unaffected: kilometre error against official ignition
+Geolocation results are unaffected: kilometer error against official ignition
 coordinates tests geometry, not generalisation, and a memorised detection still yields a
 valid bearing.
 

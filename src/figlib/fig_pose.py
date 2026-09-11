@@ -33,7 +33,7 @@ ax[1].text(-2.9, 0.37, "identifiability gate", fontsize=8, color="#d62728")
 ax[1].set_xlabel("azimuth correction proposed (deg)")
 ax[1].set_ylabel("ridgeline feature correlation")
 ax[1].set_title("Azimuth: 1 of 61 cameras identifiable")
-ax[1].text(0.03, 0.03, f"proposals centre on zero:\nmedian {np.median(a):+.2f}°, "
+ax[1].text(0.03, 0.03, f"proposals center on zero:\nmedian {np.median(a):+.2f}°, "
            f"sd {a.std():.2f}°\n→ published azimuths hold up",
            transform=ax[1].transAxes, fontsize=8, color="0.25")
 ax[1].grid(alpha=0.3)

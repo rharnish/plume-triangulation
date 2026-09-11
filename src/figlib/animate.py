@@ -5,7 +5,7 @@ the evidence arriving is visible. On the right the posterior over the ground, re
 from every detection seen so far, with the bearings that produced it.
 
 The pairing is the point. A still image of the final answer says nothing about when it
-became knowable, and the interesting behaviour is all in the transient: a single camera
+became knowable, and the interesting behavior is all in the transient: a single camera
 gives a fan with no depth at all, the second collapses it to a blob, and a confident
 false positive on a cloud swings the surface until the other cameras outvote it.
 """
@@ -150,7 +150,7 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
         frames_by_cam[camera] = {o: b for _, o, b in read_frames(tgz)}
         dets_by_cam[camera] = {r["offset"]: r["dets"] for r in recs}
 
-    centre = (float(np.mean([cams[c[2]]["lat"] for c in chosen])),
+    center = (float(np.mean([cams[c[2]]["lat"] for c in chosen])),
               float(np.mean([cams[c[2]]["lon"] for c in chosen])))
     offsets = sorted({o for m in dets_by_cam.values() for o in m})
     offsets = [o for o in offsets if -600 <= o <= 2400]
@@ -196,11 +196,11 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
         bearing_rays, cam_pts = [], [(cams[c[2]]["lat"], cams[c[2]]["lon"])
                                      for c in chosen]
         if len({k.split("-")[0] for k in det}) >= 2:
-            # Coarse pass first, then a fine grid about its peak. Centring the fine grid
+            # Coarse pass first, then a fine grid about its peak. Centering the fine grid
             # on the cameras instead is a trap: with sites 80 km from the fire the true
             # peak can fall outside a 35 km window entirely, and argmax then returns an
             # edge cell -- which read as a 19 km error on Ranch2 that was pure artefact.
-            _, _, _, cla, clo = posterior(det, cams, centre, half_extent_km=90.0,
+            _, _, _, cla, clo = posterior(det, cams, center, half_extent_km=90.0,
                                           step_km=1.5, alpha=0.25)
             lats, lons, ll, la, lo = posterior(det, cams, (cla, clo),
                                                half_extent_km=half_extent_km,
@@ -215,9 +215,9 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
                 bearing_rays.append(((cams[camera]["lat"], cams[camera]["lon"]), b))
         if ll is None:
             n = int(half_extent_km / step_km)
-            lats = centre[0] + np.arange(-n, n + 1) * (step_km / 111.32)
-            lons = centre[1] + np.arange(-n, n + 1) * (
-                step_km / (111.32 * math.cos(math.radians(centre[0]))))
+            lats = center[0] + np.arange(-n, n + 1) * (step_km / 111.32)
+            lons = center[1] + np.arange(-n, n + 1) * (
+                step_km / (111.32 * math.cos(math.radians(center[0]))))
             ll = np.zeros((len(lats), len(lons)))
 
         right = _map_panel(lats, lons, ll, est, truth, cam_pts, bearing_rays,

@@ -6,7 +6,7 @@
 
 Wildfire smoke detection is usually reported as mAP on a held-out split. That number does
 not tell an operator anything they can act on. This project measures three things that it
-does: **how far off the located ignition point is, in kilometres, against official
+does: **how far off the located ignition point is, in kilometers, against official
 coordinates**; **how many seconds until a real fire is called, at a false-alarm rate a
 dispatcher could absorb**; and **what the detector costs in milliseconds and watts on an
 ARM64 device with an NPU**.
@@ -22,7 +22,7 @@ interagency [WFIGS/IRWIN](https://data-nifc.opendata.arcgis.com/) incident feed.
 ### Geolocation: 1.90 km median where the ground truth is solid
 
 Bearings from two or more sites, accumulated into a likelihood field over the ground, scored
-in kilometres against the official ignition coordinate.
+in kilometers against the official ignition coordinate.
 
 | set | n | median error | max | ≤1 km | ≤2 km | ≤5 km |
 |---|---|---|---|---|---|---|
@@ -43,7 +43,7 @@ accumulates. The static version, with the reading guide:*
 ![Kitchen fire triangulation](docs/figures/triangulate_kitchenfire.jpg)
 
 *How to read these: each camera's most confident detection (right) casts a bearing (matching
-colour) from its tower; the bearings are accumulated into the likelihood field, whose peak is
+color) from its tower; the bearings are accumulated into the likelihood field, whose peak is
 the estimate (✗) and whose falloff is the 95% contour. The open circle is the official
 coordinate. The inset appears only where the credible region is too small to see at the main
 scale.*
@@ -126,7 +126,7 @@ number.
 - **Thermal throttle is real but mild.** 94 fps sustained for ~8 minutes, then a 9.8% step down;
   frames/joule *improves* (12.0 → 12.4) as clocks drop.
 
-Priced downstream in kilometres: FP16 is free (2.28 km, identical recall). INT8-weight costs
+Priced downstream in kilometers: FP16 is free (2.28 km, identical recall). INT8-weight costs
 2.67 km at 40 minutes and 3.57 km at 3 minutes — the accuracy loss lands where latency matters.
 
 ---
@@ -147,7 +147,7 @@ python -m src.figlib.fires         # cluster event labels into real ignitions
 python -m src.figlib.truth         # WFIGS/IRWIN join -- no credentials needed
 python -m src.figlib.resolve       # disambiguate by bearing
 ./run_detect.sh                    # pyronear yolo11s over 189 sequences, 4 workers
-python -m src.figlib.geolocate     # kilometres against official coordinates
+python -m src.figlib.geolocate     # kilometers against official coordinates
 python -m src.figlib.falsealarm    # the seconds-to-alert sweep
 ```
 
@@ -188,7 +188,7 @@ All modules live flat in [src/figlib/](src/figlib/) and run as `python -m src.fi
 
 Two environment variables let a whole pipeline be re-scored against different inputs without
 editing anything: `FIGLIB_DETS` points at an alternative detection directory (this is how
-quantized variants are priced in kilometres) and `FIGLIB_CAMS` at an alternative camera table.
+quantized variants are priced in kilometers) and `FIGLIB_CAMS` at an alternative camera table.
 
 **[NOTES.md](NOTES.md) is the lab notebook** — running state, findings, and the reasoning
 behind each decision, including the predictions that were refuted and the claims that had to be
@@ -198,9 +198,9 @@ corrected. It is the honest record, not a summary.
 
 - **The detector was trained on FIgLib.** pyronear's `yolo11s_rapid-raccoon_v8.1.0` lists
   `FIGLIB_ANNOTATED_RESIZED` as a training source, so detection and timing figures measure
-  memorisation as well as detection. They are reported as a labelled reference point, not a
+  memorisation as well as detection. They are reported as a labeled reference point, not a
   generalisation claim. Geolocation is unaffected — a memorised detection still yields a valid
-  bearing, and kilometre error tests geometry.
+  bearing, and kilometer error tests geometry.
 - **The corpus cannot resolve the rate that matters.** 40 minutes of negatives per sequence is
   **4.99 camera-days in total**. Rates below ~1 FA/camera-day rest on zero to three events, and
   one false alarm per camera-week is not measurable on FIgLib at all. A Poisson upper bound is
@@ -210,7 +210,7 @@ corrected. It is the honest record, not a summary.
   `yaw` are non-zero on only **9**, **14** and **3**, and are literal `0.0` placeholders
   everywhere else. There is no focal length, principal point or distortion coefficient
   anywhere. Bearings are therefore only as good as a compass heading rounded to a quadrant,
-  which is worth knowing before reading a kilometre figure. `NOTES.md` records the attempt to
+  which is worth knowing before reading a kilometer figure. `NOTES.md` records the attempt to
   refine it against terrain, and why that failed.
 - **"Minutes of warning gained" is not a claim this data supports.** Official
   `FireDiscoveryDateTime` minus annotated plume appearance has a median of **+1.0 min** — humans

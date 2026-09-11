@@ -96,7 +96,7 @@ point estimate is 2.10 km out, but the truth lies well inside the contour. A cro
 point would report only the 2.10 km and hide the fact that the geometry never supported
 better.
 
-**Wind correction is a wash.** Taking the upwind box edge rather than the centre moves
+**Wind correction is a wash.** Taking the upwind box edge rather than the center moves
 the median from 2.58 to 2.55 km, better on 10 fires and worse on 11. Preferring early
 detections, which have drifted less, is worse (3.68 km).
 Reported as measured. The likely reason looked like the box being a crude stand-in for the
@@ -131,7 +131,7 @@ arrive roughly as fast as the region would otherwise shrink.
 
 **The estimate wanders, and neither wind nor geometry explains where.** Holding the
 camera set fixed across windows -- necessary, since a camera joining the solution can
-move it kilometres on its own -- the estimate still moves a median 1.79 km. The angle
+move it kilometers on its own -- the estimate still moves a median 1.79 km. The angle
 between that motion and the wind direction has median 45.9 deg, and against the major
 axis of its own uncertainty ellipse 41.4 deg. Both are indistinguishable from random
 (n=11). The motion is the detector's box wandering over a growing diffuse plume, not
@@ -188,7 +188,7 @@ is a long ellipse throughout and the truth sits inside it while the point estima
 
 Two bugs the animation exposed, both of which had been silently degrading results:
 
-* **Grid centred on the camera centroid.** Ranch2 has sites 78 and 81 km from the fire,
+* **Grid centered on the camera centroid.** Ranch2 has sites 78 and 81 km from the fire,
   so a 35 km window about their centroid did not contain the true peak at all and argmax
   returned an edge cell -- reported as a 19 km error that was pure artefact. Fixed with a
   coarse pass followed by a fine grid about its peak. The correct answer is 1.88 km.
@@ -332,7 +332,7 @@ cannot test.
 
 **Preprocessing becomes the bottleneck once the model leaves the CPU.** End-to-end is
 20.2 ms against 11.0 ms model-only, so JPEG decode plus letterbox costs ~9.4 ms -- about
-47% of the frame budget. Move inference to the NPU and the next thing to optimise is
+47% of the frame budget. Move inference to the NPU and the next thing to optimize is
 image handling, which no model-only benchmark would ever reveal.
 
 *Capacity, since the false-alarm sweep showed alert latency is partly sampling-bound:* 49
@@ -361,7 +361,7 @@ its thermal ceiling by dropping clocks and power together. For a battery- or
 solar-constrained enclosure that is the benign form of throttling -- you lose frame rate,
 not energy per frame.
 
-## What did quantization cost? In kilometres and seconds (2026-09-09)
+## What did quantization cost? In kilometers and seconds (2026-09-09)
 
 "INT8 lost 0.4 mAP" tells an operator nothing. Every variant was therefore run through the
 same pipeline over the same 93 sequences -- the FP32 reference restricted to that identical
@@ -459,7 +459,7 @@ and 34 of 61 at the k1 bound.** Parameters at their bounds are the tell.
 (pitch/roll/k1) first with azimuth pinned, then estimate azimuth alone by correlating
 skyline gradients, and accept it only where the correlation actually picks a shift out.
 
-Estimates immediately became plausible -- **median +0.40 deg, sd 2.01 deg, centred on
+Estimates immediately became plausible -- **median +0.40 deg, sd 2.01 deg, centered on
 zero** rather than +-6 deg. But the correlation is weak: **azimuth is identifiable on 1 of
 61 cameras**, and that one wants 0.30 deg. Applying the staged fit (azimuth pinned, k1
 applied, since distortion *does* feed bearings through `undistort_x`) is a wash: median
@@ -475,7 +475,7 @@ symptom was diagnostic.
 been:
 
 * **The published azimuths hold up.** An independent, feature-based estimate proposes
-  corrections centred on zero with sd 2.01 deg -- comparable to the 2 deg sigma already
+  corrections centered on zero with sd 2.01 deg -- comparable to the 2 deg sigma already
   assumed per bearing. This is the pose parameter that reaches a bearing, and it is fine.
 * **The published pitch often does not hold up, and it does not matter.** A 106 px vertical
   residual is a pitch/elevation error, and pitch does not enter a bearing at all. That
@@ -613,14 +613,14 @@ project -- no torch, 99 MB, ~900 ms/frame on four x86 cores. Partial correlation
 
 The depth map says why, and says it more clearly than the statistic. On `sm-s` the model
 resolves the antenna masts, the equipment huts and the foreground scrub beautifully --
-sharp, correctly ordered, genuinely impressive. **Everything past about a kilometre is one
+sharp, correctly ordered, genuinely impressive. **Everything past about a kilometer is one
 saturated value, indistinguishable from the sky.** The entire ridge stack from 2 to 24 km
 is flat. Its dynamic range is spent on the 0-100 m foreground, which is what MDE training
 sets contain: NYU tops out around 10 m, KITTI around 80. Our shortest useful ridge is
 twenty times KITTI's longest.
 
 Metric models (Depth Pro, ZoeDepth) are worse candidates for the same reason: they emit
-metres calibrated on scenes a thousand times closer. Video variants would fix flicker,
+meters calibrated on scenes a thousand times closer. Video variants would fix flicker,
 which is not the problem.
 
 ### The honest caveat
@@ -648,7 +648,7 @@ to both sides of a ridge line, so it cancels in the difference, while intrinsic 
 attenuated by exp(-beta*d). Edge magnitude should therefore fall off with range while being
 immune to the additive haze offset.
 
-Vertical Sobel on a horizontally smoothed grey image -- smoothing along rows because ridges
+Vertical Sobel on a horizontally smoothed gray image -- smoothing along rows because ridges
 are near-horizontal, which lifts a long faint crest above noise while leaving masts and
 poles unreinforced.
 
@@ -708,10 +708,10 @@ near ridge on the left of frame, and the hazy right two-thirds -- where the laye
 actually are -- is a near-uniform wash with no gradient structure at all. The brightest
 features in the whole image are the antenna masts.
 
-Measured directly: the grey-level step across a predicted crest, smoothed along the ridge
+Measured directly: the gray-level step across a predicted crest, smoothed along the ridge
 only, against the standard deviation of a flat sky patch put through the same filter.
 
-**Noise floor: 4.48 grey levels.**
+**Noise floor: 4.48 gray levels.**
 
 | range | n | median step | p75 | below 2 levels |
 |---|---|---|---|---|
@@ -722,7 +722,7 @@ only, against the standard deviation of a flat sky patch put through the same fi
 | **25-45 km** | 611 | **1.52** | 2.74 | **62%** |
 | 45-90 km | 120 | 3.95 | 4.79 | 22% |
 
-A ridge step is about **6 grey levels against a 4.48-level floor -- SNR near 1.3** even in
+A ridge step is about **6 gray levels against a 4.48-level floor -- SNR near 1.3** even in
 the near field, and at 25-45 km it is 1.5 levels, three times *below* the floor, with 62%
 of crests under two levels. The last row is 120 samples and should not be read as a
 recovery; it is small-n, and those crests are mostly true skyline against bright sky.
@@ -811,11 +811,11 @@ Diagnostic stills: `python -m src.figlib.masks <fire_id>` -> `out/masks/`; mask 
 See "Terrain-refined pose" below. Short version: the published *azimuths* hold up, which
 is the only part of the pose that reaches a bearing; the published pitch does not, and
 does not matter; and no distortion coefficient recoverable from terrain improves
-geolocation. Kilometre errors are no longer provisional on this.
+geolocation. Kilometer errors are no longer provisional on this.
 
 **Contamination.** Every pyronear model, and SmokeyNet, trains on FIgLib -- see
-`models/README.md`. Detection and timing numbers are a labelled reference point, never a
-generalisation claim. Geolocation is unaffected: kilometre error against official
+`models/README.md`. Detection and timing numbers are a labeled reference point, never a
+generalisation claim. Geolocation is unaffected: kilometer error against official
 coordinates tests geometry, and a memorised detection still yields a valid bearing.
 
 **Replace the skyline extractor -- the highest-value open item in the terrain thread.**
@@ -864,13 +864,13 @@ either move the handful of README figures into a tracked `figures/` directory, o
 CI. The videos are too large for git regardless and need hosting or conversion to short animated
 GIFs.
 
-**Monochrome/NIR data is already in hand.** The Club fire animation shows colour *and* monochrome
+**Monochrome/NIR data is already in hand.** The Club fire animation shows color *and* monochrome
 views of the same two sites, so the deferred "does NIR see smoke earlier" question has usable
 paired data sitting in the existing download -- no new fetch needed.
 
 ## Deliberately deferred
 
-Monochrome/NIR sequences (11 of them, paired with colour views of the same fires) --
+Monochrome/NIR sequences (11 of them, paired with color views of the same fires) --
 "does NIR see smoke earlier" is a real question, saved for later. Terrain: flat-earth
 triangulation first, ray-terrain intersection against Copernicus DEM GLO-30 as a
 refinement if time allows.

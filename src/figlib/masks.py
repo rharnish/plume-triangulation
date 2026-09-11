@@ -30,7 +30,7 @@ adversarial case. When it fails it fails by snapping to the ridgeline or by retu
 the box.
 
 Neither is trusted here. Both are rendered, side by side, for the eye to judge before
-anything is wired into a kilometre.
+anything is wired into a kilometer.
 """
 
 from __future__ import annotations
@@ -238,35 +238,35 @@ C_TRUTH, C_BOX = (60, 220, 60), (60, 60, 235)
 C_CENTRE, C_UPWIND, C_FOOT = (0, 235, 235), (235, 160, 40), (235, 60, 235)
 
 
-def _overlay(img: np.ndarray, mask: np.ndarray | None, colour) -> np.ndarray:
+def _overlay(img: np.ndarray, mask: np.ndarray | None, color) -> np.ndarray:
     out = img.copy()
     if mask is not None and mask.any():
         if mask.shape[:2] != img.shape[:2]:
             mask = cv2.resize(mask.astype(np.uint8), (img.shape[1], img.shape[0]),
                               interpolation=cv2.INTER_NEAREST) > 0
         tint = np.zeros_like(out)
-        tint[mask] = colour
+        tint[mask] = color
         out = cv2.addWeighted(out, 0.62, tint, 0.38, 0)
         cont, _ = cv2.findContours(mask.astype(np.uint8), cv2.RETR_EXTERNAL,
                                    cv2.CHAIN_APPROX_SIMPLE)
-        cv2.drawContours(out, cont, -1, colour, 2)
+        cv2.drawContours(out, cont, -1, color, 2)
     return out
 
 
-def _vline(img, xf, colour, dashed=False):
+def _vline(img, xf, color, dashed=False):
     if xf is None:
         return
     x = int(round(xf * img.shape[1]))
     if not dashed:
-        cv2.line(img, (x, 0), (x, img.shape[0]), colour, 3)
+        cv2.line(img, (x, 0), (x, img.shape[0]), color, 3)
         return
     for y in range(0, img.shape[0], 26):
-        cv2.line(img, (x, y), (x, min(y + 13, img.shape[0])), colour, 3)
+        cv2.line(img, (x, y), (x, min(y + 13, img.shape[0])), color, 3)
 
 
-def _label(img, text, colour=(255, 255, 255)):
+def _label(img, text, color=(255, 255, 255)):
     cv2.rectangle(img, (0, 0), (img.shape[1], 34), (18, 18, 18), -1)
-    cv2.putText(img, text, (8, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.62, colour, 2)
+    cv2.putText(img, text, (8, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.62, color, 2)
     return img
 
 
@@ -274,7 +274,7 @@ def render_fire(fire_id: str, conf_thr: float = 0.25, pad: float = 0.45,
                 out: Path | None = None):
     """Three panels per camera: the box, the diff mask, the SAM mask.
 
-    Cropped around the detection, because at full frame a plume forty kilometres away is
+    Cropped around the detection, because at full frame a plume forty kilometers away is
     a smudge a hundred pixels wide and nothing about a mask is visible.
     """
     from .geom import bearing_x_frac
@@ -385,7 +385,7 @@ def render_fire(fire_id: str, conf_thr: float = 0.25, pad: float = 0.45,
     cv2.putText(hdr, f"{fire_id}" + (f"  ->  {truth['name']}" if truth else ""),
                 (12, 32), cv2.FONT_HERSHEY_SIMPLEX, 0.85, (255, 255, 255), 2)
     lx = 12
-    for txt, c in (("truth", C_TRUTH), ("box centre", C_CENTRE),
+    for txt, c in (("truth", C_TRUTH), ("box center", C_CENTRE),
                    ("upwind edge", C_UPWIND), ("mask foot", C_FOOT)):
         cv2.line(hdr, (lx, 62), (lx + 26, 62), c, 4)
         cv2.putText(hdr, txt, (lx + 34, 68), cv2.FONT_HERSHEY_SIMPLEX, 0.6, c, 2)
@@ -405,14 +405,14 @@ def _fmt(v):
     return "--" if v is None else f"{v:.4f}"
 
 
-def _vline_at(img, x, colour, dashed=False):
+def _vline_at(img, x, color, dashed=False):
     if not (0 <= x < img.shape[1]):
         return
     if not dashed:
-        cv2.line(img, (x, 0), (x, img.shape[0]), colour, 2)
+        cv2.line(img, (x, 0), (x, img.shape[0]), color, 2)
         return
     for y in range(0, img.shape[0], 22):
-        cv2.line(img, (x, y), (x, min(y + 11, img.shape[0])), colour, 2)
+        cv2.line(img, (x, y), (x, min(y + 11, img.shape[0])), color, 2)
 
 
 if __name__ == "__main__":
@@ -445,7 +445,7 @@ def detected_frames(seq_name: str, conf_thr: float = 0.25,
 # Cap on frames per sequence, or None for every frame carrying a detection.
 #
 # This was 12 while SAM ran on CPU at 13 s/frame, which was a budget decision dressed up
-# as a modelling one. On the GTX 1070 the same call is 0.53 s, so all 2,883 detected
+# as a modeling one. On the GTX 1070 the same call is 0.53 s, so all 2,883 detected
 # frames across the scoring set cost about twenty-five minutes and the cap comes off.
 # That matters for one method specifically: `plumefit.sequence_fit` estimates a single
 # shared apex across the sequence, so frames are the whole resource it has, and it was
@@ -461,7 +461,7 @@ def sequence_masks(seq_name: str, method: str, conf_thr: float = 0.25,
     Cached as one bit-packed npz per sequence and method. Both methods are resampled
     onto the same grid so a column index means the same thing in either -- the fits
     below compare them, and a half-pixel of resampling difference would show up as a
-    difference in kilometres.
+    difference in kilometers.
 
     Returns {"masks": {offset: bool array}, "horizon_y": float, "shape": (h, w)}.
     """
