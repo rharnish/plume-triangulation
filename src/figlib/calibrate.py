@@ -205,7 +205,7 @@ if __name__ == "__main__":
 
 AZ_SEARCH_DEG = 3.0
 AZ_STEP_DEG = 0.1
-MIN_PEAK_CORR = 0.35        # below this the ridgeline is too bland to localise
+MIN_PEAK_CORR = 0.35        # below this the ridgeline is too bland to localize
 MIN_PROMINENCE = 0.12       # peak must stand above the rest of the search, not just be its max
 
 

@@ -45,7 +45,7 @@ converter, so the PyTorch checkpoint is the only supported route.
 
 **The parity gate, before any number was believed.** Ultralytics folds its own
 preprocessing into the export — the input becomes a 1024×1024 RGB *image* type with 1/255
-scaling baked in — while the existing ONNX pipeline does letterboxing, colour conversion
+scaling baked in — while the existing ONNX pipeline does letterboxing, color conversion
 and NMS itself. So the first thing measured was whether the two agree:
 
 | | detections | matched | max Δconf | max Δcx |
@@ -58,7 +58,7 @@ Identical to stored precision. Everything after this is the hardware, not a conv
 drop-in for the ONNX detector — same letterbox, same NMS, same `Det` fields, same JSON on
 disk. Bearings, the likelihood field, evidence accumulation and the false-alarm sweep all
 run against Core ML detections unchanged, selected by an environment variable. That is what
-makes "what did quantization cost?" answerable in kilometres and seconds instead of mAP,
+makes "what did quantization cost?" answerable in kilometers and seconds instead of mAP,
 and it removes a second implementation as a source of difference.
 
 **Duration, not iteration count.** Every condition runs for a fixed wall-clock duration so
@@ -114,7 +114,7 @@ cannot test.
 **Preprocessing becomes the bottleneck the moment the model leaves the CPU.** End-to-end
 latency is 20.2 ms against 11.0 ms model-only, so JPEG decode plus letterbox costs about
 **9.4 ms — roughly 47% of the frame budget**. Move inference to the NPU and the next thing
-worth optimising is image handling, which no model-only benchmark would ever surface.
+worth optimizing is image handling, which no model-only benchmark would ever surface.
 
 **Capacity.** 49 fps end-to-end means a single M3 could serve roughly **49 cameras at 1 fps
 at about 7.4 W**. For context, the same 93-sequence detection pass takes **182 seconds on
@@ -186,7 +186,7 @@ The extra detections are **low-confidence, thin out with threshold, and reach ex
 at 0.70**. Quantization noise perturbs marginal detections and leaves confident ones
 untouched — so nothing that would ever raise an alarm changes.
 
-What those weak extra detections *do* change is early localisation, and they help it:
+What those weak extra detections *do* change is early localization, and they help it:
 **3.57 km against 3.93 km at three minutes, with 9 fires inside 2 km against 6.** That is the
 robust mixture behaving as designed — disagreement falls back on the uniform term and its
 influence is bounded, so extra noisy bearings cost little while extra true ones accumulate.
@@ -206,38 +206,129 @@ about this silicon generation*, and the correct expectation on Orin is the oppos
 
 **The method transfers, and so does the shape of the problem.** Verify where operations
 actually ran rather than trusting the setting requested. Measure by duration, because a
-fanless or passively cooled enclosure changes its behaviour minutes in. Report energy per
+fanless or passively cooled enclosure changes its behavior minutes in. Report energy per
 frame alongside latency, because that is the constraint a solar-powered site actually has.
-And price quantization in the units the deployment cares about — kilometres of location
-error and seconds to alert — because a model that is 0.4 mAP worse but 90 metres more
+And price quantization in the units the deployment cares about — kilometers of location
+error and seconds to alert — because a model that is 0.4 mAP worse but 90 meters more
 accurate and two minutes faster is not worse.
 
 ## Reproducing this
 
-Environment pins that matter — both were discovered the hard way:
+This needs an actual Apple silicon Mac — `powermetrics`, the Neural Engine and the Core ML
+export path are not emulable. Everything below ran on the M3 host itself, in a Python
+environment separate from `requirements.txt` (`requirements-edge.txt` pulls in a pinned
+`torch`/`coremltools`/`ultralytics` that would otherwise fight the main project's deps).
+
+**[`run_edge_experiment.sh`](../run_edge_experiment.sh)** runs steps 0 through 5 below
+end to end — clone the repo onto any Mac and run it. It stops once, at the `powermetrics`
+launch, for your `sudo` password (that's the one step that needs a real terminal); every
+other step is idempotent, so re-running after an interruption skips work already done.
+The steps are spelled out individually below for anyone who wants to understand or adapt
+a piece of it rather than run the whole thing.
+
+### 0. Environment pins that matter — all three discovered the hard way
 
 - **`torch==2.7.0`.** torch 2.14 breaks the coremltools converter with a `TypeError` in the
   cast op. coremltools 9.0 warns that 2.7.0 is the newest version it has been tested with,
   and it means it.
-- Ultralytics writes **every** export to the same path, so exporting FP16 will silently move
-  the FP32 package out from under you. Rename between exports.
+- **`ultralytics==8.4.146`, not 8.3.0.** In 8.3.0, `export_coreml()`'s own `compute_precision`
+  is left at coremltools' default (`Float16`) regardless of the `half` flag, and its
+  post-conversion quantization step has a dead branch for `half=True` (bits==16 hits neither
+  the k-means nor the bits==8 arm, so nothing runs). Net effect: `half=False` and `half=True`
+  silently produce **byte-identical FP16 packages** — there is no true FP32 export at all,
+  and nothing errors or warns. 8.4.146 produces a genuine 36.3 MB FP32 package against 18.2
+  MB FP16 and is what actually produced the numbers on this page.
+- Ultralytics writes **every** Core ML export to the same default path (`<stem>.mlpackage`),
+  so exporting FP16 after FP32 silently clobbers the FP32 package sitting at that name.
+  Move each export out of the way before running the next one.
+
+**Keep the Mac from sleeping for the whole session** — the data fetch alone runs long
+enough to hit the default sleep timer, and the thermal run in step 4 depends on twenty
+*unbroken* minutes of load. A sleep mid-run doesn't just stall it, it invalidates the
+throttle curve. Run everything below under `caffeinate`, e.g. prefix the whole session with:
 
 ```sh
-# on the Apple silicon host
-python -m src.figlib.bench_edge latency          # 12 conditions -> out/bench_latency.json
-python -m src.figlib.bench_edge thermal fp16 ane 20
-python -m src.figlib.detect_coreml fp16 ane      # detections, drop-in with the ONNX pass
-python -m src.figlib.detect_coreml int8w ane
-
-# powermetrics needs root, so it runs alongside rather than from the harness:
-sudo powermetrics --samplers cpu_power,gpu_power,ane_power,thermal -i 1000 -o ~/pm.txt
-
-# then, anywhere
-python -m src.figlib.power out/pm.txt            # joins watts to runs by wall clock
-python -m src.figlib.quantization                # kilometres and seconds per variant
+caffeinate -dis &   # -d: no display sleep, -i: no idle sleep, -s: no system sleep (AC only)
 ```
 
-Captured artefacts: `out/bench_latency.json`, `out/bench_thermal_fp16_ane.json`,
+or wrap each long command individually: `caffeinate -dis <command>`.
+
+```sh
+python3 -m venv .venv-edge && source .venv-edge/bin/activate
+pip install -r requirements-edge.txt
+```
+
+### 1. Get the checkpoint
+
+`best.pt` is the source weights the Core ML export starts from. It is **not** the same file
+`models/README.md`'s `curl` fetches (that gets the pre-exported ONNX) and it is gitignored,
+so it has to be pulled separately from the same Hugging Face repo:
+
+```sh
+curl -sL -o models/pyronear_rr_v8.1.0.pt \
+  https://huggingface.co/pyronear/yolo11s_rapid-raccoon_v8.1.0/resolve/main/best.pt
+```
+
+### 2. Export the three Core ML variants
+
+FP32 and FP16 are Ultralytics exports of `best.pt`; **INT8-weight is not an export flag** —
+it is a separate `coremltools` weight-quantization pass applied to the already-exported FP16
+package (the ANE only does weight-only INT8 through the M3 generation, so quantizing weights
+after the fact is the honest way to produce it, not `int8=True` on the export call, which
+targets a different, activation-quantizing pipeline).
+
+All three variants have to end up flat in `models/`, next to `best.pt` — `detect_coreml.py`
+and `bench_edge.py` resolve `MODELS / "pyronear_rr_v8.1.0[_variant].mlpackage"` with no
+subdirectory, so that's the only place they're found from. That collides with the clobber
+trap above: since `best.pt` and the FP32 output share a directory, Ultralytics' default
+export path for FP32 *is already* the final FP32 name, and the FP16 export right after it
+would write to that identical default path and destroy it.
+[`models/export_variants.py`](../models/export_variants.py) stashes FP32 aside for the
+duration of the FP16 export rather than relying on a separate directory:
+
+```sh
+.venv-edge/bin/python models/export_variants.py
+```
+
+This should reproduce the sizes in [`models/README.md`](../models/README.md): 36.3 MB / 18.2
+MB / 9.3 MB.
+
+### 3. Get the frame sequences
+
+`bench_edge` and `detect_coreml` both read `data/tgz/*.tgz`. If this checkout doesn't have
+them yet, fetch with the main project's own script (from the repo root, not the edge venv —
+this step needs nothing from `requirements-edge.txt`):
+
+```sh
+./data/fetch.sh          # ~13 GB of FIgLib archives, idempotent
+```
+
+### 4. Run the benchmarks
+
+```sh
+# on the Apple silicon host, edge venv active
+python -m src.figlib.bench_edge latency          # 12 conditions -> out/bench_latency.json
+python -m src.figlib.bench_edge thermal fp16 ane 20
+
+# detections, drop-in with the ONNX pass -- run all three variants
+python -m src.figlib.detect_coreml fp32 ane
+python -m src.figlib.detect_coreml fp16 ane
+python -m src.figlib.detect_coreml int8w ane
+
+# quantization.py reads the FP32 pass from out/coreml/fp32_ref, not out/coreml/fp32 --
+# detect_coreml names its output dir after the variant string, so rename once:
+mv out/coreml/fp32 out/coreml/fp32_ref
+
+# powermetrics needs root, so it runs alongside rather than from the harness. Start it
+# before the runs above (or re-run them under it) so its window covers their timestamps:
+sudo powermetrics --samplers cpu_power,gpu_power,ane_power,thermal -i 1000 -o ~/pm.txt
+
+# then, anywhere -- same path given to -o above, not out/pm.txt
+python -m src.figlib.power ~/pm.txt              # joins watts to runs by wall clock
+python -m src.figlib.quantization                # kilometers and seconds per variant
+```
+
+Captured artifacts: `out/bench_latency.json`, `out/bench_thermal_fp16_ane.json`,
 `out/quantization.json`, `out/edge_provenance.json` (host, op placement, parity),
 `out/edge/power_samples.csv` (7,468 samples), `out/edge/mac-requirements.txt`,
 `out/edge/mac-sysinfo.txt`.
@@ -245,8 +336,8 @@ Captured artefacts: `out/bench_latency.json`, `out/bench_thermal_fp16_ane.json`,
 ## Provenance
 
 The detector is `pyronear/yolo11s_rapid-raccoon_v8.1.0` (Apache 2.0), which **was trained on
-FIgLib**. Its absolute detection and timing figures on FIgLib therefore measure memorisation
-as well as skill and are reported as a labelled reference point, not a generalisation claim.
+FIgLib**. Its absolute detection and timing figures on FIgLib therefore measure memorization
+as well as skill and are reported as a labeled reference point, not a generalization claim.
 Nothing on this page depends on that: latency, placement, power and thermals are properties
 of the hardware, and the quantization comparison is a paired one in which the same
 contamination sits on both sides.

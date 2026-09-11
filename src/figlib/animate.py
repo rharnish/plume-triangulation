@@ -199,7 +199,7 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
             # Coarse pass first, then a fine grid about its peak. Centering the fine grid
             # on the cameras instead is a trap: with sites 80 km from the fire the true
             # peak can fall outside a 35 km window entirely, and argmax then returns an
-            # edge cell -- which read as a 19 km error on Ranch2 that was pure artefact.
+            # edge cell -- which read as a 19 km error on Ranch2 that was pure artifact.
             _, _, _, cla, clo = posterior(det, cams, center, half_extent_km=90.0,
                                           step_km=1.5, alpha=0.25)
             lats, lons, ll, la, lo = posterior(det, cams, (cla, clo),

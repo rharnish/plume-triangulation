@@ -92,7 +92,7 @@ def offset_bearing_deg(cam: dict, x_frac: float, y_frac: float = 0.5) -> float:
     `x_frac` runs 0 (left edge) to 1 (right edge); 0.5 is the optical axis. Uses the
     rectilinear projection rather than assuming degrees scale linearly with pixels --
     at 90 deg FoV the linear approximation is off by several degrees at the edges,
-    which at 20 km is a kilometre of error.
+    which at 20 km is a kilometer of error.
     """
     half = math.radians(cam["fov"] / 2.0)
     x_frac = undistort_x(cam, x_frac, y_frac)

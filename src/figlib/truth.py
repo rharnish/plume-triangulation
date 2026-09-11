@@ -98,7 +98,7 @@ def match_fire(fire: dict, seq_by_name: dict, cache: dict) -> dict:
                   center + timedelta(hours=WINDOW_H), cache)
 
     # A named event carries a strong prior; keep name agreement as a separate signal
-    # rather than a filter, so a mislabelled name cannot silently discard the truth.
+    # rather than a filter, so a mislabeled name cannot silently discard the truth.
     label = fire["event"].split("_", 1)[1].lower().replace("fire", "").strip("-_ ")
     for c in cands:
         c["dt_s"] = c["discovery_epoch"] - t0

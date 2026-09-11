@@ -28,7 +28,7 @@ PRESSURE = re.compile(r"Current pressure level: (\w+)")
 def _open(path: Path):
     """Read the log whether or not it is compressed.
 
-    The raw `powermetrics` output is the one artefact here that cannot be regenerated --
+    The raw `powermetrics` output is the one artifact here that cannot be regenerated --
     the Mac session that produced it is over -- so the committed copy is gzipped, at
     1.5 MB against 28 MB plain.
     """

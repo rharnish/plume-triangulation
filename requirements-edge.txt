@@ -2,7 +2,15 @@
 # Install on macOS, in a separate environment from requirements.txt.
 
 coremltools==9.0
-ultralytics==8.3.0       # exports best.pt -> .mlpackage (ML Program)
+
+# The other pin that matters. 8.3.0's export_coreml() has a dead branch for half=True
+# (bits==16 hits neither the kmeans nor the bits==8 arm, so nothing runs) while
+# ct.convert()'s own compute_precision defaults to Float16 regardless of the half flag
+# it was given -- so half=False and half=True silently produce byte-identical FP16
+# packages, and there is no true-FP32 export at all. 8.4.146 is confirmed to produce a
+# real 36.3 MB FP32 package (vs. 18.2 MB FP16) and is what actually produced the
+# measurements in docs/edge-m3.md.
+ultralytics==8.4.146     # exports best.pt -> .mlpackage (ML Program)
 
 # The pin that matters. coremltools 9.0's converter breaks on torch 2.14 with
 #   TypeError: only 0-dimensional arrays can be converted to Python scalars

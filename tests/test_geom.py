@@ -1,6 +1,6 @@
 """Unit tests for the bearing and likelihood-field maths in `geom.py`.
 
-A sign error here is silent -- every downstream kilometre figure would just be wrong -- so
+A sign error here is silent -- every downstream kilometer figure would just be wrong -- so
 the primitives are pinned against hand-checkable cases.
 """
 

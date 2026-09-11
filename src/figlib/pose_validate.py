@@ -10,7 +10,7 @@ Two held-out tests, neither of which the fit could have seen:
 * **Another day.** Fit on one frame, measure the residual on a frame from a *different
   sequence* of the same camera -- a different date, different weather, different clouds. A
   pose that is real transfers; a pose that traced one afternoon's cloud bank does not.
-* **The fires.** Re-run geolocation with the refined azimuths and compare kilometre error
+* **The fires.** Re-run geolocation with the refined azimuths and compare kilometer error
   against official WFIGS coordinates. The fit never saw a fire, a detection or a ground
   truth coordinate, so this is as independent as evidence gets here. If pose refinement is
   real geometry, error should fall; if it is curve-bending, it should not.

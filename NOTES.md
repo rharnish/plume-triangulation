@@ -190,7 +190,7 @@ Two bugs the animation exposed, both of which had been silently degrading result
 
 * **Grid centered on the camera centroid.** Ranch2 has sites 78 and 81 km from the fire,
   so a 35 km window about their centroid did not contain the true peak at all and argmax
-  returned an edge cell -- reported as a 19 km error that was pure artefact. Fixed with a
+  returned an edge cell -- reported as a 19 km error that was pure artifact. Fixed with a
   coarse pass followed by a fine grid about its peak. The correct answer is 1.88 km.
 * **Camera selection ignored sites.** Ranking by detection count picked four cameras from
   one site on the Club fire, two of them the same camera twice (that archive holds two
@@ -338,7 +338,7 @@ image handling, which no model-only benchmark would ever reveal.
 *Capacity, since the false-alarm sweep showed alert latency is partly sampling-bound:* 49
 fps end-to-end means one M3 could serve roughly **49 cameras at 1 fps** at about 7.4 W, or
 one camera at 1 fps for a small fraction of a watt. Running at video rate is affordable at
-the edge in a way that streaming frames to a datacentre is not.
+the edge in a way that streaming frames to a datacenter is not.
 
 **Fanless sustained throughput: -9.8% over twenty minutes, as a step rather than a decay.**
 
@@ -627,7 +627,7 @@ which is not the problem.
 
 Pose is wrong, so the predicted ridge polylines do not land exactly on the ridges they
 name, and both methods are being scored on partly mismatched pixels. The correlations are
-a lower bound. But the saturation visible in the depth map is not a pose artefact, and no
+a lower bound. But the saturation visible in the depth map is not a pose artifact, and no
 correspondence fix recovers information the model never encoded.
 
 ### What this changes about the open question
