@@ -490,7 +490,7 @@ published metadata, because they are not an improvement and should not be mistak
 ### The audit number is an upper bound, not a measurement (corrected 2026-09-09)
 
 Looking at the rendered overlays (`python -m src.figlib.fig_peaks png` regenerates them
-into `out/terrain_png/`, sorted by residual; `docs/figures/peaks_examples.png` is six
+into `out/terrain_png/`, sorted by residual; `docs/figures/dem_skyline_peaks_examples.png` is six
 spanning the range, and is committed) undermines part of the audit
 above. On the two *worst* cameras -- `sm-n` at -614 px and `bh-n` at -674 px -- the orange
 predicted skyline traces the distant crest about right and its summits land on visible
@@ -572,6 +572,12 @@ extractor was the wrong first move.
 The ridge field spans 137-442 px and 2-24 km. The vertical lever arm is 4-10x longer,
 and -- more important -- correspondences now sit at *different ranges*, so a camera-height
 error (which falls off with range) separates from a pitch error (which does not).
+
+`docs/figures/dem_ridge_layers_examples.png` (`python -m src.figlib.fig_peaks ridges`)
+renders the nested-layer structure this argument depends on, over these same five cameras
+-- the companion to `docs/figures/dem_skyline_peaks_examples.png`'s single curve. Nothing
+here has calibrated a pose against it; see "Monocular depth does not reach these ranges"
+and the sections after it for why that never happened.
 
 ## Monocular depth does not reach these ranges (2026-09-09)
 

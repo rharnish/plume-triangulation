@@ -18,8 +18,8 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from .terrain import Dem, horizon, project
-from .viz_terrain import observed_skyline, render, _best_frame
+from .terrain import Dem, horizon, project, ridges
+from .viz_terrain import observed_skyline, render, render_ridges, _best_frame
 
 ROOT = Path(__file__).resolve().parents[2]
 META = ROOT / "data" / "meta"
@@ -92,12 +92,89 @@ def main(argv: list[str]) -> None:
                         "blue = skyline found in the image",
                 (12, 34), cv2.FONT_HERSHEY_SIMPLEX, 0.72, (190, 190, 190), 2)
     sheet = np.vstack([legend] + panels)
-    dest = ROOT / "docs" / "figures" / "peaks_examples.png"
+    dest = ROOT / "docs" / "figures" / "dem_skyline_peaks_examples.png"
     dest.parent.mkdir(parents=True, exist_ok=True)
     cv2.imwrite(str(dest), sheet)
     print(f"\nwrote {dest}  ({sheet.shape[1]}x{sheet.shape[0]})")
 
 
+# The five cameras from the skyline-vs-ridge lever-arm comparison in NOTES.md: the ridge
+# field's vertical spread on each is 4-10x the single skyline's, which is *why* ridge
+# matching conditions pitch/height/azimuth better -- there is no audit-residual metric for
+# ridges to sort by, since nothing here fits pose against them, so these are picked to
+# match that table rather than to span a range.
+RIDGE_EXAMPLE_CAMS = ["bh-n-mobo-c", "sm-s-mobo-c", "vo-n-mobo-c", "stgo-e-mobo-c",
+                      "wc-n-mobo-c"]
+
+
+def ridge_band_crop(camera: str, img: np.ndarray, dem: Dem) -> tuple[np.ndarray, dict]:
+    cams = json.loads((META / "cams.json").read_text())
+    cam = cams[camera]
+    H, W = img.shape[:2]
+    vis, st = render_ridges(camera, img, dem=dem)
+    vis = vis[116:]                                   # drop render_ridges's own caption band
+
+    field = ridges(cam, dem)
+    x, y = project(cam, field.az_deg, field.elev_deg, W, H)
+    inframe = (x >= 0) & (x < 1) & (y >= 0) & (y < 1)
+    rows = (y[inframe] * H)
+    if rows.size == 0:
+        return vis, st
+    lo = int(max(0, rows.min() - PAD_PX))
+    hi = int(min(H, rows.max() + PAD_PX))
+    if hi - lo < 200:
+        mid = (lo + hi) // 2
+        lo, hi = max(0, mid - 100), min(H, mid + 100)
+    return vis[lo:hi], st
+
+
+def main_ridges(argv: list[str]) -> None:
+    """Contact sheet: the full nested ridge stack, colored by range, over the same frames.
+
+    Companion to `main()` above. Where that figure shows one predicted curve against one
+    extracted skyline, this shows every layer `ridges()` finds -- the structure the ridge-
+    matching approach depends on, and the reason NOTES.md argues it is better conditioned
+    than skyline fitting even though nothing here has actually calibrated a pose against
+    it yet.
+    """
+    seqs = {s["seq"]: s for s in json.loads((META / "sequences.json").read_text())}
+    cams = json.loads((META / "cams.json").read_text())
+    chosen = [c for c in RIDGE_EXAMPLE_CAMS if not argv or any(a in c for a in argv)]
+
+    dem = Dem()
+    panels = []
+    for camera in chosen:
+        seq = next((s for s in seqs.values()
+                   if s["camera"] == camera and s["has_pose"]), None)
+        if seq is None:
+            print(f"{camera}: no posed sequence")
+            continue
+        img = _best_frame(seq)
+        if img is None:
+            print(f"{camera}: no frame")
+            continue
+        crop, st = ridge_band_crop(camera, img, dem)
+        h = int(crop.shape[0] * PANEL_W / crop.shape[1])
+        crop = cv2.resize(crop, (PANEL_W, h), interpolation=cv2.INTER_AREA)
+        bar = np.zeros((46, PANEL_W, 3), np.uint8)
+        cv2.putText(bar, f"{camera}   az={cams[camera]['az']}   "
+                         f"{st['n_chains']} ridgelines   {st['n_summits_in_frame']} summits",
+                    (12, 32), cv2.FONT_HERSHEY_SIMPLEX, 0.78, (255, 255, 255), 2)
+        panels.append(np.vstack([bar, crop]))
+        print(f"{camera:22s} band {crop.shape[0]:4d}px  "
+              f"{st['n_chains']} chains  {st['n_summits_in_frame']} summits", flush=True)
+
+    if not panels:
+        return
+    legend = np.zeros((52, PANEL_W, 3), np.uint8)
+    cv2.putText(legend, "color = range to the ridge, blue (near) to red (far)   "
+                        "labels = distance in km   no pixels consulted",
+                (12, 34), cv2.FONT_HERSHEY_SIMPLEX, 0.72, (190, 190, 190), 2)
+    sheet = np.vstack([legend] + panels)
+    dest = ROOT / "docs" / "figures" / "dem_ridge_layers_examples.png"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    cv2.imwrite(str(dest), sheet)
+    print(f"\nwrote {dest}  ({sheet.shape[1]}x{sheet.shape[0]})")
 
 
 def to_png(argv: list[str]) -> None:
@@ -144,5 +221,7 @@ if __name__ == "__main__":
     import sys
     if sys.argv[1:2] == ["png"]:
         to_png(sys.argv[2:])
+    elif sys.argv[1:2] == ["ridges"]:
+        main_ridges(sys.argv[2:])
     else:
         main(sys.argv[1:])
