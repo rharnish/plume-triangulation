@@ -21,6 +21,8 @@ import numpy as np
 
 from .accumulate import gather, posterior
 from .detect_yolo import read_frames
+from .fig_triangulate import PALETTE
+from .geolocate import bearings_for_fire
 from .geom import haversine_km, offset_bearing_deg
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -32,8 +34,12 @@ STRIP_H = 92          # error-vs-time trace under the map
 CAM_W = 480
 
 
+def _bgr(hex_color: str) -> tuple[int, int, int]:
+    return tuple(int(hex_color[i:i + 2], 16) for i in (5, 3, 1))
+
+
 def _map_panel(lats, lons, ll, est, truth, cam_pts, bearings, px=MAP_PX, trail=None,
-               cams=None):
+               cams=None, colors=None):
     """Posterior as an image: magma heat, camera markers, bearing rays, estimate, truth."""
     rel = ll - ll.max()
     if not np.any(ll):                       # nothing observed yet: draw it as empty
@@ -56,17 +62,23 @@ def _map_panel(lats, lons, ll, est, truth, cam_pts, bearings, px=MAP_PX, trail=N
         y = (1 - (lat - lats[0]) / (lats[-1] - lats[0])) * (px - 1)
         return int(round(x)), int(round(y))
 
+    # One color per camera, shared with its frame on the left and with fig_triangulate,
+    # so which ray came from which view is something the eye matches, not a lookup.
+    def color(camera):
+        return (colors or {}).get(camera, (160, 210, 77))
+
     span = max(lats[-1] - lats[0], lons[-1] - lons[0])
-    for (clat, clon), brg in bearings:
+    for camera, (clat, clon), brg in bearings:
         th = math.radians(brg)
         p = to_px(clat, clon)
         q = to_px(clat + math.cos(th) * span,
                   clon + math.sin(th) * span / math.cos(math.radians(clat)))
-        cv2.line(img, p, q, (160, 210, 77), 1, cv2.LINE_AA)
+        cv2.line(img, p, q, color(camera), 2, cv2.LINE_AA)
     # Each camera's fixed field of view, short and faint behind its marker -- the bearing
     # ray is one detection, but the wedge is what the camera can ever see.
     wedge_span = span * (30.0 / px)
     for clat, clon, camera in cam_pts:
+        col = color(camera)
         cam = (cams or {}).get(camera)
         if cam is not None:
             half_fov = math.radians(cam["fov"] / 2.0)
@@ -78,11 +90,21 @@ def _map_panel(lats, lons, ll, est, truth, cam_pts, bearings, px=MAP_PX, trail=N
                 for a in edges]
             poly = np.array(pts, dtype=np.int32)
             overlay = img.copy()
-            cv2.fillPoly(overlay, [poly], (160, 210, 77))
+            cv2.fillPoly(overlay, [poly], col)
             cv2.addWeighted(overlay, 0.28, img, 0.72, 0, dst=img)
-            cv2.polylines(img, [poly], True, (160, 210, 77), 1, cv2.LINE_AA)
-        cv2.drawMarker(img, to_px(clat, clon), (160, 210, 77),
-                       cv2.MARKER_TRIANGLE_UP, 13, 2)
+            cv2.polylines(img, [poly], True, col, 1, cv2.LINE_AA)
+        mp = to_px(clat, clon)
+        cv2.drawMarker(img, mp, col, cv2.MARKER_TRIANGLE_UP, 13, 2)
+        if 0 <= mp[0] < px and 0 <= mp[1] < px:
+            # Put the name behind the camera, away from where it looks, so it never sits
+            # on the rays or the crossing point.
+            back = math.radians((cam or {}).get("az", 0.0)) + math.pi
+            (tw, th), _ = cv2.getTextSize(camera, cv2.FONT_HERSHEY_SIMPLEX, 0.45, 1)
+            ax_, ay_ = mp[0] + 24 * math.sin(back), mp[1] - 24 * math.cos(back)
+            lx = ax_ - tw * (1 - math.sin(back)) / 2
+            ly = ay_ + th * (1 - math.cos(back)) / 2
+            _tag(img, camera, (int(np.clip(lx, 6, px - tw - 6)), int(np.clip(ly, th + 6, px - 6))),
+                 0.45, col)
     if trail:
         pts = [to_px(a, b) for a, b in trail]
         for a, b in zip(pts, pts[1:]):
@@ -90,18 +112,29 @@ def _map_panel(lats, lons, ll, est, truth, cam_pts, bearings, px=MAP_PX, trail=N
 
     tp = to_px(*truth)
     if 0 <= tp[0] < px and 0 <= tp[1] < px:
-        cv2.circle(img, tp, 13, (102, 209, 255), 3, cv2.LINE_AA)
+        # White, as in fig_triangulate: yellow would read as one of the cameras
+        cv2.circle(img, tp, 13, (255, 255, 255), 3, cv2.LINE_AA)
     else:
         # Say so rather than silently omitting it, so a viewer is never left assuming
         # the truth is somewhere inside the frame.
         q = (int(np.clip(tp[0], 14, px - 14)), int(np.clip(tp[1], 14, px - 14)))
-        cv2.drawMarker(img, q, (102, 209, 255), cv2.MARKER_DIAMOND, 20, 3)
+        cv2.drawMarker(img, q, (255, 255, 255), cv2.MARKER_DIAMOND, 20, 3)
         cv2.putText(img, "truth off-frame", (q[0] - 70, min(px - 6, q[1] + 30)),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (102, 209, 255), 1, cv2.LINE_AA)
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
     if est is not None:
         ep = to_px(*est)
         cv2.drawMarker(img, ep, (109, 77, 255), cv2.MARKER_TILTED_CROSS, 20, 3)
     return img
+
+
+def _tag(img, text, org, scale, color):
+    """Colored text on a dark plate -- a black outline turns thin colored text to mush."""
+    (tw, th), base = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, scale, 1)
+    x, y = org
+    overlay = img.copy()
+    cv2.rectangle(overlay, (x - 4, y - th - 5), (x + tw + 4, y + base + 2), (20, 20, 20), -1)
+    cv2.addWeighted(overlay, 0.75, img, 0.25, 0, dst=img)
+    cv2.putText(img, text, (x, y), cv2.FONT_HERSHEY_SIMPLEX, scale, color, 1, cv2.LINE_AA)
 
 
 def _label(img, lines, org=(12, 26), scale=0.6, color=(255, 255, 255)):
@@ -162,6 +195,13 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
         print(f"  {fire_id}: fewer than 2 usable cameras")
         return None
 
+    # Same camera-to-color assignment as fig_triangulate (cameras by best confidence, in
+    # palette order), so a camera is the same color in the still and in the animation.
+    ranked = [b.camera for b in sorted(
+        bearings_for_fire(fire, seqs, cams, use_wind=False), key=lambda b: -b.conf)]
+    ranked += [c[2] for c in chosen if c[2] not in ranked]
+    colors = {cam: _bgr(PALETTE[i % len(PALETTE)]) for i, cam in enumerate(ranked)}
+
     frames_by_cam, dets_by_cam = {}, {}
     for _, seq_name, camera, recs in chosen:
         tgz = ROOT / "data" / "tgz" / f"{seq_name.split('#')[0]}.tgz"
@@ -198,11 +238,13 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
                 for d in dets_by_cam[camera].get(key, []):
                     if d["conf"] < 0.10:
                         continue
-                    c = (0, 0, 255) if d["conf"] >= 0.3 else (0, 165, 255)
+                    # Camera color; confidence shows as weight, heavy at >= 0.3
                     cv2.rectangle(img, (int(d["x0"] * W), int(d["y0"] * H)),
-                                  (int(d["x1"] * W), int(d["y1"] * H)), c, 3)
+                                  (int(d["x1"] * W), int(d["y1"] * H)), colors[camera],
+                                  9 if d["conf"] >= 0.3 else 3)
                 img = cv2.resize(img, (CAM_W, cam_h))
-            _label(img, [camera], scale=0.55)
+            cv2.rectangle(img, (1, 1), (CAM_W - 2, cam_h - 2), colors[camera], 3)
+            _tag(img, camera, (14, 30), 0.6, colors[camera])
             panels.append(img)
         while len(panels) < rows * 2:
             panels.append(np.full((cam_h, CAM_W, 3), 25, np.uint8))
@@ -230,7 +272,7 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
             hist.append((off, err))
             for camera, ds in det.items():
                 b = max(ds, key=lambda z: z[1])[0]
-                bearing_rays.append(((cams[camera]["lat"], cams[camera]["lon"]), b))
+                bearing_rays.append((camera, (cams[camera]["lat"], cams[camera]["lon"]), b))
         if ll is None:
             n = int(half_extent_km / step_km)
             lats = center[0] + np.arange(-n, n + 1) * (step_km / 111.32)
@@ -239,7 +281,7 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
             ll = np.zeros((len(lats), len(lons)))
 
         right = _map_panel(lats, lons, ll, est, truth, cam_pts, bearing_rays,
-                           trail=trail, cams=cams)
+                           trail=trail, cams=cams, colors=colors)
         # error-vs-time strip: the whole point is that this is a trajectory, not a number
         strip = np.full((STRIP_H, MAP_PX, 3), 18, np.uint8)
         if hist:
@@ -269,7 +311,7 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
         vw.write(np.hstack([left, right]))
 
     vw.release()
-    print(f"  {fire_id}: {len(offsets)} frames -> {out.relative_to(ROOT)}")
+    print(f"  {fire_id}: {len(offsets)} frames -> {out}")
     return out
 
 
