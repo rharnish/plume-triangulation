@@ -119,8 +119,12 @@ def match_fire(fire: dict, seq_by_name: dict, cache: dict) -> dict:
 
 
 def main() -> None:
-    fires = json.loads((META_DIR / "fires.json").read_text())
-    seqs = json.loads((META_DIR / "sequences.json").read_text())
+    from . import corpus as C
+    from . import provenance as P
+    started = P.utc_now()
+    meta = C.current().meta
+    fires = json.loads((meta / "fires.json").read_text())
+    seqs = json.loads((meta / "sequences.json").read_text())
     seq_by_name = {s["seq"]: s for s in seqs}
     cache = _load_cache()
 
@@ -132,8 +136,14 @@ def main() -> None:
             out.append({"fire_id": fire["fire_id"], "event": fire["event"],
                         "status": f"error: {exc}"})
     CACHE.write_text(json.dumps(cache, indent=1) + "\n")
-    dest = META_DIR / "truth.json"
+    dest = meta / "truth.json"
     dest.write_text(json.dumps(out, indent=1) + "\n")
+    # The WFIGS cache is an input as much as an output: a query answered from it is only
+    # as current as the day it was cached, so its hash goes in the record.
+    P.record("truth", [dest, CACHE], started=started,
+             params={"bbox_pad_deg": BBOX_PAD_DEG, "window_h": WINDOW_H,
+                     "source": WFIGS},
+             extra_inputs=[meta / "fires.json", meta / "sequences.json"])
 
     matched = [r for r in out if r["status"] == "matched"]
     named = [r for r in matched if r["best"]["name_match"]]

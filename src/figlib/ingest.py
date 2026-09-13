@@ -18,9 +18,11 @@ import tarfile
 from dataclasses import dataclass, asdict
 from pathlib import Path
 
+from . import corpus as C
+
 ROOT = Path(__file__).resolve().parents[2]
 TGZ_DIR = ROOT / "data" / "tgz"
-META_DIR = ROOT / "data" / "meta"
+META_DIR = ROOT / "data" / "meta"      # camera table; outputs follow FIGLIB_CORPUS
 
 FRAME_RE = re.compile(r"(?P<epoch>\d{9,11})_(?P<offset>[+-]\d+)\.jpg$")
 # Fallback split when a camera id is absent from cams.json (retired hardware).
@@ -118,10 +120,13 @@ def read_archive(path: Path, cams: dict) -> list[Sequence]:
     return out
 
 
-def build(tgz_dir: Path = TGZ_DIR) -> list[Sequence]:
+def build(tgz_dir: Path | None = None, errors: list[str] | None = None) -> list[Sequence]:
+    """Parse every archive in `tgz_dir`, or in the current corpus when it is omitted."""
     cams = load_cams()
-    out, errors = [], []
-    for path in sorted(tgz_dir.glob("*.tgz")):
+    out = []
+    errors = [] if errors is None else errors
+    paths = sorted(tgz_dir.glob("*.tgz")) if tgz_dir is not None else C.tgz_paths()
+    for path in paths:
         try:
             out.extend(read_archive(path, cams))
         except (ValueError, tarfile.TarError) as exc:
@@ -132,8 +137,12 @@ def build(tgz_dir: Path = TGZ_DIR) -> list[Sequence]:
 
 
 def main() -> None:
-    seqs = build()
-    dest = META_DIR / "sequences.json"
+    from . import provenance as P
+    started = P.utc_now()
+    skipped: list[str] = []
+    seqs = build(errors=skipped)
+    dest = C.current().meta / "sequences.json"
+    dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps([asdict(s) for s in seqs], indent=1) + "\n")
 
     events = {s.event for s in seqs}
@@ -155,6 +164,7 @@ def main() -> None:
         spreads.sort()
         print(f"per-camera t0 disagreement across {len(spreads)} multi-cam events: "
               f"median {spreads[len(spreads)//2]}s, max {spreads[-1]}s")
+    P.record("ingest", [dest], params={"skipped": skipped}, started=started)
 
 
 if __name__ == "__main__":

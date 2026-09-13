@@ -189,6 +189,10 @@ All modules live flat in [src/figlib/](src/figlib/) and run as `python -m src.fi
 Two environment variables let a whole pipeline be re-scored against different inputs without
 editing anything: `FIGLIB_DETS` points at an alternative detection directory (this is how
 quantized variants are priced in kilometers) and `FIGLIB_CAMS` at an alternative camera table.
+Two more select the data: `FIGLIB_CORPUS` scores separately fetched FIgLib archives in their
+own directories, and `FIGLIB_TIER` restricts scoring to sequences the detector cannot have
+trained on. Archive hashes and a per-run log live in `data/meta/` — see
+[data/README.md](data/README.md#corpora-and-provenance).
 
 **[NOTES.md](NOTES.md) is the lab notebook** — running state, findings, and the reasoning
 behind each decision, including the predictions that were refuted and the claims that had to be

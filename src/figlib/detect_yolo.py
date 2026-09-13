@@ -146,13 +146,21 @@ def make_session(threads: int = 1):
 
 def main(argv: list[str]) -> None:
     import sys
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    paths = sorted(TGZ_DIR.glob("*.tgz"))
+    from . import corpus as C
+    from .provenance import check_model
+    corpus = C.current()
+    if corpus.name == "all":
+        raise SystemExit("detect core and extra separately, then "
+                         "`python -m src.figlib.corpus link`")
+    out_dir = corpus.dets
+    out_dir.mkdir(parents=True, exist_ok=True)
+    paths = C.tgz_paths(corpus)
     if argv:
         paths = [p for p in paths if any(a in p.name for a in argv)]
+    check_model(MODEL)
     sess = make_session()
     for k, p in enumerate(paths, 1):
-        dest = OUT_DIR / f"{p.name[:-4]}.json"
+        dest = out_dir / f"{p.name[:-4]}.json"
         if dest.exists():
             continue
         try:
