@@ -114,15 +114,21 @@ def detect(sess, img: np.ndarray, conf_thr: float = 0.05) -> list[Det]:
 
 
 def read_frames(tgz: Path):
-    frames = []
+    """(epoch, offset, jpeg bytes) per frame, in time order.
+
+    Names are parsed by `ingest.resolve_frame_names`, the same parser ingest and the
+    archive manifests use, so the three can never disagree about which frames exist.
+    """
+    from .ingest import resolve_frame_names
+    blobs = {}
     with tarfile.open(tgz, "r:gz") as tf:
         for m in tf:
-            name = Path(m.name).name
-            if name.endswith(".jpg") and "_" in name:
-                e, o = name[:-4].split("_")
+            if m.name.endswith(".jpg"):
                 fh = tf.extractfile(m)
                 if fh:
-                    frames.append((int(e), int(o), fh.read()))
+                    blobs[m.name] = fh.read()
+    resolved, _stats = resolve_frame_names(blobs)
+    frames = [(e, o, blobs[n]) for n, (e, o) in resolved.items()]
     frames.sort()
     return frames
 

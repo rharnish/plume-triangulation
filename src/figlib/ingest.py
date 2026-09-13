@@ -25,6 +25,56 @@ TGZ_DIR = ROOT / "data" / "tgz"
 META_DIR = ROOT / "data" / "meta"      # camera table; outputs follow FIGLIB_CORPUS
 
 FRAME_RE = re.compile(r"(?P<epoch>\d{9,11})_(?P<offset>[+-]\d+)\.jpg$")
+FRAME_NAME_RE = re.compile(r"(?P<epoch>\d{9,11})_(?P<sign>[+-]|%%2B|%2B)(?P<digits>\d+)\.jpg$")
+
+
+def resolve_frame_names(names) -> tuple[dict[str, tuple[int, int]], dict[str, int]]:
+    """Map archive member names to (epoch, signed offset), and count what needed repair.
+
+    Two 2025 archives carry frames whose sign was URL-encoded as `%%2B` -- and it is the
+    wrong sign: every such frame's epoch equals t0 *minus* its offset, so they are
+    pre-ignition frames. In `20250801_BernardoFire_bl-n-mobo-c` they are byte-identical
+    copies of frames also present with a plain `-`; in `20250804_CoolFire_bi-w-mobo-c` they
+    are the only negatives. So an encoded frame takes whichever sign puts it on a t0 the
+    plainly named frames establish, is dropped if neither or both do, and any frame
+    repeating an (epoch, offset) already seen is dropped. Deduplicating on epoch alone
+    would be wrong: an archive annotated twice holds one epoch under two offsets.
+    """
+    plain: dict[str, tuple[int, int]] = {}
+    encoded: dict[str, tuple[int, int]] = {}
+    for n in names:
+        m = FRAME_NAME_RE.search(n)
+        if not m:
+            continue
+        e, d = int(m.group("epoch")), int(m.group("digits"))
+        if m.group("sign") in ("+", "-"):
+            plain[n] = (e, d if m.group("sign") == "+" else -d)
+        else:
+            encoded[n] = (e, d)
+
+    t0s = {e - o for e, o in plain.values()}
+    out: dict[str, tuple[int, int]] = {}
+    seen: set[tuple[int, int]] = set()
+    stats = {"sign_repaired": 0, "duplicates": 0, "unresolved": 0}
+    for n, v in plain.items():
+        if v in seen:
+            stats["duplicates"] += 1
+            continue
+        out[n] = v
+        seen.add(v)
+    for n, (e, d) in encoded.items():
+        offs = {o for o in (d, -d) if e - o in t0s}
+        if len(offs) != 1:
+            stats["unresolved"] += 1
+            continue
+        v = (e, offs.pop())
+        if v in seen:
+            stats["duplicates"] += 1
+            continue
+        out[n] = v
+        seen.add(v)
+        stats["sign_repaired"] += 1
+    return out, stats
 # Fallback split when a camera id is absent from cams.json (retired hardware).
 SEQ_RE = re.compile(r"^(?P<event>\d{8}_.+?)_(?P<camera>(?:[a-z0-9]+-)+[a-z0-9]+)$")
 
@@ -90,12 +140,10 @@ def read_archive(path: Path, cams: dict) -> list[Sequence]:
     seq = path.name[: -len(".tgz")]
     event, camera = split_seq_name(seq, cams)
 
-    frames: list[tuple[int, int]] = []
     with tarfile.open(path, "r:gz") as tf:
-        for member in tf:
-            m = FRAME_RE.search(member.name)
-            if m:
-                frames.append((int(m.group("epoch")), int(m.group("offset"))))
+        names = [member.name for member in tf]
+    resolved, _stats = resolve_frame_names(names)
+    frames: list[tuple[int, int]] = list(resolved.values())
     if not frames:
         raise ValueError(f"no frames parsed in {path.name}")
 

@@ -183,26 +183,25 @@ class _HashingReader:
 
 
 def _inspect(path: str) -> dict:
-    from .ingest import FRAME_RE
+    from .ingest import resolve_frame_names
     p = Path(path)
-    t0s: dict[int, int] = {}
-    unannotated = 0
+    names: list[str] = []
     status = "ok"
     with open(p, "rb") as raw:
         hr = _HashingReader(raw)
         try:
             with tarfile.open(fileobj=hr, mode="r|gz") as tf:
-                for m in tf:
-                    fm = FRAME_RE.search(m.name)
-                    if fm:
-                        t0 = int(fm.group("epoch")) - int(fm.group("offset"))
-                        t0s[t0] = t0s.get(t0, 0) + 1
-                    elif m.name.endswith(".jpg"):
-                        unannotated += 1
+                names = [m.name for m in tf]
         except (tarfile.TarError, OSError, EOFError) as exc:
             status = f"unreadable: {type(exc).__name__}: {exc}"
         while hr.read(1 << 20):          # hash any trailing bytes the tar reader skipped
             pass
+    resolved, repairs = resolve_frame_names(names)
+    t0s: dict[int, int] = {}
+    for e, o in resolved.values():
+        t0s[e - o] = t0s.get(e - o, 0) + 1
+    unannotated = sum(1 for n in names if n.endswith(".jpg")) - len(resolved) \
+        - repairs["duplicates"] - repairs["unresolved"]
     n_frames = sum(t0s.values())
     if status == "ok" and n_frames == 0:
         # Frames named by epoch alone carry no plume-appearance offset, so there is no
@@ -213,6 +212,7 @@ def _inspect(path: str) -> dict:
             "local_mtime_utc": datetime.fromtimestamp(p.stat().st_mtime, UTC)
             .strftime("%Y-%m-%dT%H:%M:%SZ"),
             "n_frames": n_frames, "t0_frames": {str(k): v for k, v in sorted(t0s.items())},
+            "frame_name_repairs": {k: v for k, v in repairs.items() if v},
             "status": status}
 
 

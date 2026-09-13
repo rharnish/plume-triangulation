@@ -70,3 +70,34 @@ def test_hyphen_joined_sequence_names_split_without_changing_underscore_ones(cam
     # An event name that itself contains hyphens still splits on the underscore.
     assert split_seq_name("20201202_WillowFire-nightime-near-CDF-HQ_sm-n-mobo-c", cams)[0] \
         == "20201202_WillowFire-nightime-near-CDF-HQ"
+
+
+def test_frame_names_with_an_encoded_sign_resolve_against_t0():
+    from src.figlib.ingest import resolve_frame_names
+    t0 = 1754084174
+    d = "Data/HPWREN-FIgLib/HPWREN-FIgLib-Data/seq/"
+    pos = [f"{d}{t0 + o}_+{o:05d}.jpg" for o in (0, 60)]
+    neg = [f"{d}{t0 - o}_-{o:05d}.jpg" for o in (60, 120)]
+    enc = [f"{d}{t0 - o}_%%2B{o:05d}.jpg" for o in (60, 120)]
+
+    # Bernardo: encoded copies of frames already present with a plain '-'.
+    frames, stats = resolve_frame_names(pos + neg + enc + [f"{d}index.html"])
+    assert sorted(frames.values()) == sorted([(t0 - 120, -120), (t0 - 60, -60),
+                                              (t0, 0), (t0 + 60, 60)])
+    assert stats == {"sign_repaired": 0, "duplicates": 2, "unresolved": 0}
+
+    # Cool: the encoded frames are the only negatives, and are recovered.
+    frames, stats = resolve_frame_names(pos + enc)
+    assert sorted(o for _, o in frames.values()) == [-120, -60, 0, 60]
+    assert stats["sign_repaired"] == 2
+
+    # Nothing plain to anchor t0: an encoded sign cannot be trusted either way.
+    frames, stats = resolve_frame_names(enc)
+    assert frames == {} and stats["unresolved"] == 2
+
+
+def test_one_epoch_under_two_annotation_passes_is_not_a_duplicate():
+    from src.figlib.ingest import resolve_frame_names
+    names = ["s/1700000000_+00000.jpg", "s/1700000000_-00360.jpg"]
+    frames, stats = resolve_frame_names(names)
+    assert len(frames) == 2 and stats["duplicates"] == 0
