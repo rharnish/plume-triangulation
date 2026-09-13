@@ -1,0 +1,5645 @@
+[
+ {
+  "fire_id": "20160604_FIRE",
+  "event": "20160604_FIRE",
+  "triangulable": true,
+  "sites": [
+   "rm",
+   "smertcs3"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "Temecula",
+   "discovery_epoch": 1465065900,
+   "lat": 33.45472220000005,
+   "lon": -117.13583329999994,
+   "acres": 139,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{B46AE2AF-5966-4C24-A283-7268AB6D6066}",
+   "dt_s": 232,
+   "km_to_nearest_cam": 3.98,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20160619_FIRE",
+  "event": "20160619_FIRE",
+  "triangulable": true,
+  "sites": [
+   "om",
+   "pi"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "Border 3",
+   "discovery_epoch": 1466359200,
+   "lat": 32.60750000000007,
+   "lon": -116.64083329999994,
+   "acres": 7609,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{93B700E2-CFBD-484C-9DEE-8CBE72511E4B}",
+   "dt_s": -253,
+   "km_to_nearest_cam": 15.32,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20160711_FIRE",
+  "event": "20160711_FIRE",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20160718_FIRE",
+  "event": "20160718_FIRE",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20160722_FIRE.1",
+  "event": "20160722_FIRE",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20160722_FIRE.2",
+  "event": "20160722_FIRE",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20161113_FIRE.1",
+  "event": "20161113_FIRE",
+  "triangulable": true,
+  "sites": [
+   "bl2",
+   "bm"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "GOPHER 10",
+   "discovery_epoch": 1479063900,
+   "lat": 33.25277777800005,
+   "lon": -117.15611111099996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{0A4CA83B-633B-4CC4-8401-A9ED3F305D52}",
+   "dt_s": -519,
+   "km_to_nearest_cam": 30.4,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20161113_FIRE.2",
+  "event": "20161113_FIRE",
+  "triangulable": false,
+  "sites": [
+   "bm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20170519_FIRE",
+  "event": "20170519_FIRE",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "DELUZ",
+   "discovery_epoch": 1495227600,
+   "lat": 33.371110000000044,
+   "lon": -117.32860999999995,
+   "acres": 486,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{6094E623-CF19-45F2-9557-AD9D0775A49D}",
+   "dt_s": 1314,
+   "km_to_nearest_cam": 13.24,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20170520_FIRE.1",
+  "event": "20170520_FIRE",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20170520_FIRE.2",
+  "event": "20170520_FIRE",
+  "triangulable": false,
+  "sites": [
+   "pi"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "REC",
+   "discovery_epoch": 1495302000,
+   "lat": 32.71028000000007,
+   "lon": -116.57332999999994,
+   "acres": 0.1,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{B22C2525-1993-4B35-8C6D-F0A75FB16C92}",
+   "dt_s": 173,
+   "km_to_nearest_cam": 2.74,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20170520_FIRE.3",
+  "event": "20170520_FIRE",
+  "triangulable": false,
+  "sites": [
+   "pi"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "GATE",
+   "discovery_epoch": 1495305120,
+   "lat": 32.65416667000005,
+   "lon": -116.80749999999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{43DF6519-44FC-47D6-87F1-EEAC925E57A6}",
+   "dt_s": 651,
+   "km_to_nearest_cam": 23.29,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20170609_FIRE",
+  "event": "20170609_FIRE",
+  "triangulable": false,
+  "sites": [
+   "sm"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20170613_FIRE.1",
+  "event": "20170613_FIRE",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "VALLEY",
+   "discovery_epoch": 1497381720,
+   "lat": 33.56861111000006,
+   "lon": -116.93416666999995,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{FE0752CE-A169-495C-8D0F-993F0EEA274F}",
+   "dt_s": 1475,
+   "km_to_nearest_cam": 24.6,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20170613_FIRE.2",
+  "event": "20170613_FIRE",
+  "triangulable": false,
+  "sites": [
+   "bh"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "DOUGLAS",
+   "discovery_epoch": 1497387120,
+   "lat": 33.25000000000006,
+   "lon": -117.31777777999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{6D2567C6-D04A-48EF-BA59-859791BB46DF}",
+   "dt_s": 2024,
+   "km_to_nearest_cam": 38.21,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20170625_BBM",
+  "event": "20170625_BBM",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20170625_FIRE",
+  "event": "20170625_FIRE",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20170627_FIRE.1",
+  "event": "20170627_FIRE",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20170627_FIRE.2",
+  "event": "20170627_FIRE",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20170708_Whittier",
+  "event": "20170708_Whittier",
+  "triangulable": false,
+  "sites": [
+   "syp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "Whittier  CA-LBOR-001770",
+   "discovery_epoch": 1499546580,
+   "lat": 34.567000000000064,
+   "lon": -119.9525,
+   "acres": 18430,
+   "county": "Santa Barbara",
+   "state": "US-CA",
+   "irwin": "{26AAFB26-B568-42CA-98A4-BADD7915EF50}",
+   "dt_s": 317,
+   "km_to_nearest_cam": 5.05,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20170711_FIRE.1",
+  "event": "20170711_FIRE",
+  "triangulable": false,
+  "sites": [
+   "bm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20170711_FIRE.2",
+  "event": "20170711_FIRE",
+  "triangulable": true,
+  "sites": [
+   "bl2",
+   "sdsc",
+   "sm"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "MUTUAL AID JENNINGS",
+   "discovery_epoch": 1499808118,
+   "lat": 32.85382000000004,
+   "lon": -116.82549999999998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{176BF9F5-FBDA-4FFF-A7C7-9C24BBD3E76C}",
+   "dt_s": 1651,
+   "km_to_nearest_cam": 20.29,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20170713_FIRE",
+  "event": "20170713_FIRE",
+  "triangulable": false,
+  "sites": [
+   "smertcs8"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20170722_FIRE",
+  "event": "20170722_FIRE",
+  "triangulable": true,
+  "sites": [
+   "bm",
+   "hp"
+  ],
+  "tier": "ambiguous",
+  "reason": "2 survive",
+  "truth": {
+   "name": "LOST",
+   "discovery_epoch": 1500760920,
+   "lat": 33.34917000000007,
+   "lon": -116.66065999999996,
+   "acres": 255,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{F464CD7B-28FD-453B-A030-AF845F6E261C}",
+   "dt_s": -393,
+   "km_to_nearest_cam": 16.38,
+   "name_match": false
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20170807_FIRE",
+  "event": "20170807_FIRE",
+  "triangulable": false,
+  "sites": [
+   "bh"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "REED",
+   "discovery_epoch": 1502140500,
+   "lat": 33.56527778000003,
+   "lon": -116.82805555999994,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{F8853081-0294-40A9-ACEF-9E9FF802D50A}",
+   "dt_s": -430,
+   "km_to_nearest_cam": 27.01,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20170821_FIRE",
+  "event": "20170821_FIRE",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20170826_FIRE",
+  "event": "20170826_FIRE",
+  "triangulable": false,
+  "sites": [
+   "tp"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "MONTEZUMA",
+   "discovery_epoch": 1503772140,
+   "lat": 33.212500000000034,
+   "lon": -116.57,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{852E3BD4-BF87-4887-9820-B8A9D1355D59}",
+   "dt_s": -793,
+   "km_to_nearest_cam": 37.09,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20170901_FIRE",
+  "event": "20170901_FIRE",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20170927_FIRE",
+  "event": "20170927_FIRE",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20171010_FIRE",
+  "event": "20171010_FIRE",
+  "triangulable": true,
+  "sites": [
+   "hp",
+   "rm"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "PORTOLA",
+   "discovery_epoch": 1507674120,
+   "lat": 33.30000000000007,
+   "lon": -116.99972221999997,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{AEEDABEA-D986-4F33-8C99-8CD27E71B0CB}",
+   "dt_s": 1498,
+   "km_to_nearest_cam": 16.73,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20171016_FIRE",
+  "event": "20171016_FIRE",
+  "triangulable": false,
+  "sites": [
+   "sdsc"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20171017_FIRE",
+  "event": "20171017_FIRE",
+  "triangulable": false,
+  "sites": [
+   "smertcs3"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20171021_FIRE",
+  "event": "20171021_FIRE",
+  "triangulable": false,
+  "sites": [
+   "pi"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "CHURCH 2",
+   "discovery_epoch": 1508616420,
+   "lat": 32.64527778000007,
+   "lon": -116.36416666999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{FF0BBFD4-13D8-465B-BB2A-C6CF94FAF18A}",
+   "dt_s": 295,
+   "km_to_nearest_cam": 22.32,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20171026_FIRE",
+  "event": "20171026_FIRE",
+  "triangulable": true,
+  "sites": [
+   "rm",
+   "smertcs8"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "WILDOMAR",
+   "discovery_epoch": 1509046320,
+   "lat": 33.582170000000076,
+   "lon": -117.3404,
+   "acres": 866,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{C883C263-82A7-4E09-80EA-7EF44D33F4E1}",
+   "dt_s": 120,
+   "km_to_nearest_cam": 22.46,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20171207_FIRE.1",
+  "event": "20171207_FIRE",
+  "triangulable": false,
+  "sites": [
+   "bh"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "LILAC 5",
+   "discovery_epoch": 1512674100,
+   "lat": 33.348610000000065,
+   "lon": -117.19138999999996,
+   "acres": 4100,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{8822D5B4-E265-4FD2-A2BD-88E4AC044B93}",
+   "dt_s": -496,
+   "km_to_nearest_cam": 25.32,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20171207_FIRE.2",
+  "event": "20171207_FIRE",
+  "triangulable": true,
+  "sites": [
+   "bh",
+   "smertcs8"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "LIBERTY",
+   "discovery_epoch": 1512684000,
+   "lat": 33.585560000000044,
+   "lon": -117.13332999999994,
+   "acres": 300,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{21EFA3AA-CB50-4943-B5AC-890C0A1E2E2C}",
+   "dt_s": 2390,
+   "km_to_nearest_cam": 13.93,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20171207_Lilac",
+  "event": "20171207_Lilac",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20180504_FIRE",
+  "event": "20180504_FIRE",
+  "triangulable": true,
+  "sites": [
+   "bh",
+   "rm",
+   "smertcs8"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "TORNADO",
+   "discovery_epoch": 1525470540,
+   "lat": 33.47277777800008,
+   "lon": -117.16861111099996,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{B9896951-B405-4448-87E0-74ACA8F64FFF}",
+   "dt_s": 110,
+   "km_to_nearest_cam": 2.43,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20180517_FIRE",
+  "event": "20180517_FIRE",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20180522_FIRE",
+  "event": "20180522_FIRE",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20180602_Alison",
+  "event": "20180602_Alison",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20180602_FIRE",
+  "event": "20180602_FIRE",
+  "triangulable": true,
+  "sites": [
+   "rm",
+   "smertcs8"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "JARDIN",
+   "discovery_epoch": 1527978780,
+   "lat": 33.45027777800004,
+   "lon": -117.22222222199996,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{6F7AA7E2-926A-4C7A-A538-AB27F2135E2B}",
+   "dt_s": 543,
+   "km_to_nearest_cam": 6.24,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20180603_FIRE.1",
+  "event": "20180603_FIRE",
+  "triangulable": true,
+  "sites": [
+   "rm",
+   "smertcs8"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20180603_FIRE.2",
+  "event": "20180603_FIRE",
+  "triangulable": true,
+  "sites": [
+   "bl2",
+   "sm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20180603_FIRE.3",
+  "event": "20180603_FIRE",
+  "triangulable": false,
+  "sites": [
+   "sm"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20180605_FIRE",
+  "event": "20180605_FIRE",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "ambiguous",
+  "reason": "2 survive",
+  "truth": {
+   "name": "VISTA",
+   "discovery_epoch": 1528231620,
+   "lat": 33.40472222200003,
+   "lon": -117.23305555599995,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{B5C0AFA0-E14A-4D0B-9CFC-3D2304D20057}",
+   "dt_s": 363,
+   "km_to_nearest_cam": 3.98,
+   "name_match": false
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20180606_FIRE.1",
+  "event": "20180606_FIRE",
+  "triangulable": false,
+  "sites": [
+   "pi"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "RECYCLE",
+   "discovery_epoch": 1528303500,
+   "lat": 32.63000000000005,
+   "lon": -116.46999999999996,
+   "acres": 265,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{F4A65FEA-A595-4826-AF31-D6499F60666A}",
+   "dt_s": -983,
+   "km_to_nearest_cam": 15.4,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20180606_FIRE.2",
+  "event": "20180606_FIRE",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20180611_fallbrook",
+  "event": "20180611_fallbrook",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20180612_FIRE",
+  "event": "20180612_FIRE",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "ambiguous",
+  "reason": "2 survive",
+  "truth": {
+   "name": "EUCLID",
+   "discovery_epoch": 1528839600,
+   "lat": 33.91888888900007,
+   "lon": -117.65138888899996,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{A484BCF4-DA5C-430F-B577-5D6A44427693}",
+   "dt_s": -1557,
+   "km_to_nearest_cam": 71.68,
+   "name_match": false
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20180614_Bridle",
+  "event": "20180614_Bridle",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "BRIDLE",
+   "discovery_epoch": 1529021237,
+   "lat": 33.524500000000046,
+   "lon": -116.82129999999997,
+   "acres": 20,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{CCEEF81C-BDD1-4C4D-80C2-115BFEEC0C76}",
+   "dt_s": 532,
+   "km_to_nearest_cam": 18.01,
+   "name_match": true
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20180614_FIRE",
+  "event": "20180614_FIRE",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20180614_Hope",
+  "event": "20180614_Hope",
+  "triangulable": false,
+  "sites": [
+   "wc"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "HOPE",
+   "discovery_epoch": 1529001300,
+   "lat": 33.021388889000036,
+   "lon": -116.89555555599998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{6553499F-036C-420C-A112-0DCBCECCB79F}",
+   "dt_s": 340,
+   "km_to_nearest_cam": 7.18,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20180704_Benton",
+  "event": "20180704_Benton",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "BENTON",
+   "discovery_epoch": 1530739320,
+   "lat": 33.56750000000005,
+   "lon": -116.72722199999998,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{07FC7ACD-3B5E-4EB7-85AC-4E25A6EB749A}",
+   "dt_s": 275,
+   "km_to_nearest_cam": 24.88,
+   "name_match": true
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20180706_FIRE.1",
+  "event": "20180706_FIRE",
+  "triangulable": false,
+  "sites": [
+   "sm"
+  ],
+  "tier": "ambiguous",
+  "reason": "2 survive",
+  "truth": {
+   "name": "BUILDING",
+   "discovery_epoch": 1530896880,
+   "lat": 32.61805555600006,
+   "lon": -116.76638888899998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{4842B00E-0DDF-4209-A56F-5DAC97AF62FA}",
+   "dt_s": -29,
+   "km_to_nearest_cam": 18.15,
+   "name_match": false
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20180706_FIRE.2",
+  "event": "20180706_FIRE",
+  "triangulable": true,
+  "sites": [
+   "sm",
+   "wc"
+  ],
+  "tier": "ambiguous",
+  "reason": "3 survive",
+  "truth": {
+   "name": "PENDLETON COMPLEX",
+   "discovery_epoch": 1530901800,
+   "lat": 33.38000000000005,
+   "lon": -117.42999999999996,
+   "acres": 1520,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E2FD3EA8-1904-4C1A-9654-F20BC8098802}",
+   "dt_s": -80,
+   "km_to_nearest_cam": 59.4,
+   "name_match": false
+  },
+  "n_survivors": 3
+ },
+ {
+  "fire_id": "20180706_West",
+  "event": "20180706_West",
+  "triangulable": false,
+  "sites": [
+   "lp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "WEST",
+   "discovery_epoch": 1530901440,
+   "lat": 32.833380000000034,
+   "lon": -116.73270999999994,
+   "acres": 505,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{2E333193-E67D-406E-AFB1-AB438E13A944}",
+   "dt_s": -241,
+   "km_to_nearest_cam": 14.96,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20180717_otay",
+  "event": "20180717_otay",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "BORDER 8",
+   "discovery_epoch": 1531863000,
+   "lat": 32.593890000000044,
+   "lon": -116.84499999999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{25FF0F9B-E38C-4788-9245-289DB3B73790}",
+   "dt_s": 1881,
+   "km_to_nearest_cam": 0.11,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20180718_FIRE",
+  "event": "20180718_FIRE",
+  "triangulable": false,
+  "sites": [
+   "syp"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "CRUCES",
+   "discovery_epoch": 1531940280,
+   "lat": 34.516944444000046,
+   "lon": -120.25138888899994,
+   "acres": null,
+   "county": "Santa Barbara",
+   "state": "US-CA",
+   "irwin": "{C674BA44-8CCB-423B-B1F6-549A190FFD15}",
+   "dt_s": -289,
+   "km_to_nearest_cam": 24.99,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20180719_Skyline",
+  "event": "20180719_Skyline",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20180720_Cinnamon",
+  "event": "20180720_Cinnamon",
+  "triangulable": false,
+  "sites": [
+   "wc"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "MVU CINNAMON",
+   "discovery_epoch": 1532118000,
+   "lat": 33.05537000000004,
+   "lon": -116.77839999999998,
+   "acres": 10,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{25498223-1B8A-4B6A-8C16-ACAB1AA25482}",
+   "dt_s": 760,
+   "km_to_nearest_cam": 18.69,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20180720_FIRE",
+  "event": "20180720_FIRE",
+  "triangulable": false,
+  "sites": [
+   "syp"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "WINDMILL",
+   "discovery_epoch": 1532121600,
+   "lat": 34.627500000000055,
+   "lon": -120.21111111099998,
+   "acres": null,
+   "county": "Santa Barbara",
+   "state": "US-CA",
+   "irwin": "{8EF2B2DE-E07D-4EA1-BFD2-6708489302D1}",
+   "dt_s": 11,
+   "km_to_nearest_cam": 24.02,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20180723_FIRE",
+  "event": "20180723_FIRE",
+  "triangulable": false,
+  "sites": [
+   "tp"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20180725_Cranston",
+  "event": "20180725_Cranston",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "CRANSTON",
+   "discovery_epoch": 1532544060,
+   "lat": 33.711290000000076,
+   "lon": -116.7693,
+   "acres": 13139,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{8F312825-9F86-41E6-BB27-DC25AF1A445F}",
+   "dt_s": -865,
+   "km_to_nearest_cam": 39.22,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20180725_FIRE",
+  "event": "20180725_FIRE",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20180726_FIRE",
+  "event": "20180726_FIRE",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20180727_FIRE.1",
+  "event": "20180727_FIRE",
+  "triangulable": false,
+  "sites": [
+   "bh"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20180727_FIRE.2",
+  "event": "20180727_FIRE",
+  "triangulable": true,
+  "sites": [
+   "bh",
+   "bl2",
+   "mg",
+   "wc"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20180728_FIRE",
+  "event": "20180728_FIRE",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20180806_FIRE",
+  "event": "20180806_FIRE",
+  "triangulable": true,
+  "sites": [
+   "mg",
+   "vo"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20180806_Holy",
+  "event": "20180806_Holy",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20180809_FIRE",
+  "event": "20180809_FIRE",
+  "triangulable": true,
+  "sites": [
+   "bh",
+   "bl2",
+   "mg"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "RANGELAND",
+   "discovery_epoch": 1533845640,
+   "lat": 33.07333333300005,
+   "lon": -116.91638888899996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{87554DFA-0D09-412A-A9C7-E2950A182E77}",
+   "dt_s": 200,
+   "km_to_nearest_cam": 19.38,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20180813_FIRE",
+  "event": "20180813_FIRE",
+  "triangulable": true,
+  "sites": [
+   "bh",
+   "bl2",
+   "mg"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20180827_Holyflareup",
+  "event": "20180827_Holyflareup",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20180910_FIRE",
+  "event": "20180910_FIRE",
+  "triangulable": false,
+  "sites": [
+   "smertcs8"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20180919_FIRE",
+  "event": "20180919_FIRE",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20181112_house",
+  "event": "20181112_house",
+  "triangulable": false,
+  "sites": [
+   "wc"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "SALIDA",
+   "discovery_epoch": 1542057000,
+   "lat": 33.01722222200004,
+   "lon": -116.97111111099996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{9F11899E-C8F3-48B0-9C4B-32D773C31E2C}",
+   "dt_s": 162,
+   "km_to_nearest_cam": 0.95,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20190529_94Fire",
+  "event": "20190529_94Fire",
+  "triangulable": true,
+  "sites": [
+   "lp",
+   "om"
+  ],
+  "tier": "ambiguous",
+  "reason": "2 survive",
+  "truth": {
+   "name": "SKYDIVE",
+   "discovery_epoch": 1559167200,
+   "lat": 32.639170000000036,
+   "lon": -116.88027999999996,
+   "acres": 0.1,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{4B33F81A-7665-4B28-81EB-8A3AE9C818A3}",
+   "dt_s": -185,
+   "km_to_nearest_cam": 5.95,
+   "name_match": false
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20190610_FIRE",
+  "event": "20190610_FIRE",
+  "triangulable": false,
+  "sites": [
+   "bh"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "PAUMA",
+   "discovery_epoch": 1560198180,
+   "lat": 33.302778000000046,
+   "lon": -116.97777799999994,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{AD0BBA0E-1450-4022-9E7C-6F61C3DF21A0}",
+   "dt_s": 60,
+   "km_to_nearest_cam": 6.48,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20190610_Pauma",
+  "event": "20190610_Pauma",
+  "triangulable": false,
+  "sites": [
+   "bh"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "PAUMA",
+   "discovery_epoch": 1560198180,
+   "lat": 33.302778000000046,
+   "lon": -116.97777799999994,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{AD0BBA0E-1450-4022-9E7C-6F61C3DF21A0}",
+   "dt_s": 60,
+   "km_to_nearest_cam": 6.48,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20190620_FIRE",
+  "event": "20190620_FIRE",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "WISEGARBER",
+   "discovery_epoch": 1561066500,
+   "lat": 33.398888889000034,
+   "lon": -117.28805555599996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{D68965FF-5A99-4225-881F-9851A8F10121}",
+   "dt_s": 903,
+   "km_to_nearest_cam": 9.06,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20190629_FIRE",
+  "event": "20190629_FIRE",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20190712_CottonwoodFire",
+  "event": "20190712_CottonwoodFire",
+  "triangulable": false,
+  "sites": [
+   "lp"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20190712_FIRE",
+  "event": "20190712_FIRE",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20190712_RockHouse",
+  "event": "20190712_RockHouse",
+  "triangulable": false,
+  "sites": [
+   "wc"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "ROCKHOUSE 2",
+   "discovery_epoch": 1562959560,
+   "lat": 33.01277777800004,
+   "lon": -116.95166666699998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{A8155D72-E6B9-494E-8A30-8A410987292C}",
+   "dt_s": 219,
+   "km_to_nearest_cam": 1.86,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20190714_MLOSouth",
+  "event": "20190714_MLOSouth",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20190714_PinosSouth",
+  "event": "20190714_PinosSouth",
+  "triangulable": false,
+  "sites": [
+   "pi"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20190715_MLOSouth1",
+  "event": "20190715_MLOSouth1",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20190715_MLOSouth2",
+  "event": "20190715_MLOSouth2",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20190715_MLOSouth3",
+  "event": "20190715_MLOSouth3",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20190716_FIRE",
+  "event": "20190716_FIRE",
+  "triangulable": true,
+  "sites": [
+   "bl2",
+   "mg"
+  ],
+  "tier": "ambiguous",
+  "reason": "2 survive",
+  "truth": {
+   "name": "OR supporting MEADOW",
+   "discovery_epoch": 1563306750,
+   "lat": 33.5125,
+   "lon": -116.7925,
+   "acres": 80,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{1E137279-DA9C-4A14-AA28-DA04DBDB696B}",
+   "dt_s": -664,
+   "km_to_nearest_cam": 36.1,
+   "name_match": false
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20190716_Meadowfire",
+  "event": "20190716_Meadowfire",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "MEADOW",
+   "discovery_epoch": 1563306720,
+   "lat": 33.512500000000045,
+   "lon": -116.79249999999996,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{92FA2D97-0FF9-4E46-9575-0FEBF3EFFD51}",
+   "dt_s": 395,
+   "km_to_nearest_cam": 17.11,
+   "name_match": true
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20190716_Riverfire",
+  "event": "20190716_Riverfire",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20190717_FIRE",
+  "event": "20190717_FIRE",
+  "triangulable": true,
+  "sites": [
+   "lp",
+   "pi"
+  ],
+  "tier": "ambiguous",
+  "reason": "2 survive",
+  "truth": {
+   "name": "VISTA",
+   "discovery_epoch": 1563403740,
+   "lat": 32.79000000000008,
+   "lon": -116.83722222199998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{A151678A-5F3E-466C-BCB3-59F5CA6B86D7}",
+   "dt_s": -9,
+   "km_to_nearest_cam": 11.96,
+   "name_match": false
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20190728_Dehesa",
+  "event": "20190728_Dehesa",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20190728_FIRE.1",
+  "event": "20190728_FIRE",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20190728_FIRE.2",
+  "event": "20190728_FIRE",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "DEHESA 8",
+   "discovery_epoch": 1564361946,
+   "lat": 32.78003200000006,
+   "lon": -116.87177499999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{EF56C588-6843-4063-9715-C98A41F72A1C}",
+   "dt_s": -449,
+   "km_to_nearest_cam": 20.75,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20190801_Caliente",
+  "event": "20190801_Caliente",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20190803_OtaySouth",
+  "event": "20190803_OtaySouth",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20190803_Sage",
+  "event": "20190803_Sage",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20190805_FIRE",
+  "event": "20190805_FIRE",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20190809_PinosSouth",
+  "event": "20190809_PinosSouth",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20190810_SantaFire",
+  "event": "20190810_SantaFire",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20190813_FIRE",
+  "event": "20190813_FIRE",
+  "triangulable": false,
+  "sites": [
+   "69bravo"
+  ],
+  "tier": "ambiguous",
+  "reason": "2 survive",
+  "truth": {
+   "name": "PALERMO",
+   "discovery_epoch": 1565732321,
+   "lat": 34.07893000000007,
+   "lon": -118.57316999999996,
+   "acres": null,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{2BE3DD48-0E6A-455F-810F-E53A8BFA9F14}",
+   "dt_s": 1137,
+   "km_to_nearest_cam": 5.06,
+   "name_match": false
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20190813_Topanga",
+  "event": "20190813_Topanga",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20190814_Border",
+  "event": "20190814_Border",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20190814_FIRE.1",
+  "event": "20190814_FIRE",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20190814_FIRE.2",
+  "event": "20190814_FIRE",
+  "triangulable": false,
+  "sites": [
+   "pi"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "BORDER 8",
+   "discovery_epoch": 1565823000,
+   "lat": 32.57277780000004,
+   "lon": -116.69972219999994,
+   "acres": 1507,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{AD9D4ED6-5F42-4FC2-BF52-D0A59263EDCD}",
+   "dt_s": 353,
+   "km_to_nearest_cam": 21.32,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20190825_FIRE.1",
+  "event": "20190825_FIRE",
+  "triangulable": false,
+  "sites": [
+   "smertcs8"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "IVY",
+   "discovery_epoch": 1566755996,
+   "lat": 33.77325900000005,
+   "lon": -117.48495799999996,
+   "acres": null,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{A1C825AB-10E0-4121-B5C6-CF8837ADCE69}",
+   "dt_s": -239,
+   "km_to_nearest_cam": 46.78,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20190825_FIRE.2",
+  "event": "20190825_FIRE",
+  "triangulable": false,
+  "sites": [
+   "sm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20190826_FIRE.1",
+  "event": "20190826_FIRE",
+  "triangulable": false,
+  "sites": [
+   "pi"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20190826_FIRE.2",
+  "event": "20190826_FIRE",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20190827_FIRE",
+  "event": "20190827_FIRE",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20190829_FIRE.1",
+  "event": "20190829_FIRE",
+  "triangulable": false,
+  "sites": [
+   "smertcs8"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20190829_FIRE.2",
+  "event": "20190829_FIRE",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "TIGER",
+   "discovery_epoch": 1567102680,
+   "lat": 33.39722222200004,
+   "lon": -117.36305555599996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{34CFE388-5214-4B63-91E9-2AACEBE85DAE}",
+   "dt_s": 1674,
+   "km_to_nearest_cam": 16.03,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20190829_FIRE.3",
+  "event": "20190829_FIRE",
+  "triangulable": false,
+  "sites": [
+   "pi"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20190829_FIRE.4",
+  "event": "20190829_FIRE",
+  "triangulable": false,
+  "sites": [
+   "bl2"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "TOYON",
+   "discovery_epoch": 1567120397,
+   "lat": 33.06081700000004,
+   "lon": -117.124507,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{8624D943-E4EE-4AE1-9CAA-B8B3F050EBA6}",
+   "dt_s": 88,
+   "km_to_nearest_cam": 8.86,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20190913_FIRE",
+  "event": "20190913_FIRE",
+  "triangulable": false,
+  "sites": [
+   "lp"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "MONTE",
+   "discovery_epoch": 1568419899,
+   "lat": 32.87821900000006,
+   "lon": -116.88088499999998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{9BF9B175-FC0A-4E73-B601-855A0CF8A35A}",
+   "dt_s": 157,
+   "km_to_nearest_cam": 22.45,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20190915_FIRE",
+  "event": "20190915_FIRE",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "ASPEN",
+   "discovery_epoch": 1568583389,
+   "lat": 33.41639900000007,
+   "lon": -117.17570899999998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{FF2A6A80-1BC0-4BAF-BF39-29CB267354AB}",
+   "dt_s": 869,
+   "km_to_nearest_cam": 2.21,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20190922_FIRE",
+  "event": "20190922_FIRE",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20190924_FIRE",
+  "event": "20190924_FIRE",
+  "triangulable": true,
+  "sites": [
+   "bl2",
+   "hp",
+   "lp",
+   "pi",
+   "sm",
+   "wc"
+  ],
+  "tier": "ambiguous",
+  "reason": "2 survive",
+  "truth": {
+   "name": "DEHESA",
+   "discovery_epoch": 1569362212,
+   "lat": 32.785720000000026,
+   "lon": -116.80679999999997,
+   "acres": 200,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{4D7198C4-56BF-465A-AD2C-251ECA47DE13}",
+   "dt_s": 24,
+   "km_to_nearest_cam": 10.16,
+   "name_match": false
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20190925_FIRE",
+  "event": "20190925_FIRE",
+  "triangulable": false,
+  "sites": [
+   "wc"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "WILLOW 3",
+   "discovery_epoch": 1569439906,
+   "lat": 32.878535000000056,
+   "lon": -116.880137,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{F2466BC9-F5E3-45DB-9A62-50B7CA823C85}",
+   "dt_s": -2496,
+   "km_to_nearest_cam": 16.78,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20190930_FIRE",
+  "event": "20190930_FIRE",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20191001_FIRE.1",
+  "event": "20191001_FIRE",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20191001_FIRE.2",
+  "event": "20191001_FIRE",
+  "triangulable": true,
+  "sites": [
+   "lp",
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20191001_FIRE.3",
+  "event": "20191001_FIRE",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20191001_FIRE.4",
+  "event": "20191001_FIRE",
+  "triangulable": false,
+  "sites": [
+   "bh"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20191003_FIRE.1",
+  "event": "20191003_FIRE",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20191003_FIRE.2",
+  "event": "20191003_FIRE",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20191005_FIRE",
+  "event": "20191005_FIRE",
+  "triangulable": true,
+  "sites": [
+   "bm",
+   "hp",
+   "vo",
+   "wc"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "SCOUT",
+   "discovery_epoch": 1570309836,
+   "lat": 33.225955000000056,
+   "lon": -116.70201699999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{6D4D9691-09EE-4CCA-900B-B4A648260927}",
+   "dt_s": -402,
+   "km_to_nearest_cam": 12.3,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20191006_FIRE",
+  "event": "20191006_FIRE",
+  "triangulable": true,
+  "sites": [
+   "lp",
+   "om",
+   "pi"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "GREEN 3",
+   "discovery_epoch": 1570383799,
+   "lat": 32.90638900000005,
+   "lon": -116.57972199999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{91B31D98-6838-40E7-B3A3-7B3642E7B09E}",
+   "dt_s": -486,
+   "km_to_nearest_cam": 19.1,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20191007_FIRE.1",
+  "event": "20191007_FIRE",
+  "triangulable": false,
+  "sites": [
+   "sm"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20191007_FIRE.2",
+  "event": "20191007_FIRE",
+  "triangulable": true,
+  "sites": [
+   "lp",
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20191030_CopperCanyon",
+  "event": "20191030_CopperCanyon",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "COPPER",
+   "discovery_epoch": 1572498454,
+   "lat": 32.58125000000007,
+   "lon": -116.83458299999997,
+   "acres": 371,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{AC0266E5-20DF-4D91-92DC-BC439D9A88AF}",
+   "dt_s": 595,
+   "km_to_nearest_cam": 1.78,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200202_FIRE",
+  "event": "20200202_FIRE",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20200205_FIRE",
+  "event": "20200205_FIRE",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20200206_FIRE",
+  "event": "20200206_FIRE",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20200226_FIRE",
+  "event": "20200226_FIRE",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "RAINBOW 3",
+   "discovery_epoch": 1582744324,
+   "lat": 33.409662000000026,
+   "lon": -117.12709099999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{AEC45A7E-8260-4916-A381-7A263CCCC078}",
+   "dt_s": 1742,
+   "km_to_nearest_cam": 5.97,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200304_FIRE",
+  "event": "20200304_FIRE",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "SANDIA",
+   "discovery_epoch": 1583345427,
+   "lat": 33.445580000000064,
+   "lon": -117.245094,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{6682FD28-4824-41FE-87A9-9C10A897F2F4}",
+   "dt_s": 381,
+   "km_to_nearest_cam": 7.11,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200306_FIRE",
+  "event": "20200306_FIRE",
+  "triangulable": true,
+  "sites": [
+   "mlo",
+   "pi"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20200521_FIRE.1",
+  "event": "20200521_FIRE",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20200521_FIRE.2",
+  "event": "20200521_FIRE",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "CA-SND-University",
+   "discovery_epoch": 1590100860,
+   "lat": 32.74861110000006,
+   "lon": -117.06249999999994,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{6F7707F2-3A83-4A54-94ED-7198D3AD3CAE}",
+   "dt_s": 1579,
+   "km_to_nearest_cam": 26.61,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200521_VEGMGMT",
+  "event": "20200521_VEGMGMT",
+  "triangulable": true,
+  "sites": [
+   "bm",
+   "wc"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20200529_StructFire",
+  "event": "20200529_StructFire",
+  "triangulable": false,
+  "sites": [
+   "wc"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20200601_WILDLAND-DRILLS",
+  "event": "20200601_WILDLAND-DRILLS",
+  "triangulable": true,
+  "sites": [
+   "mlo",
+   "om",
+   "pi"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20200608_FIRE",
+  "event": "20200608_FIRE",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20200611_skyline",
+  "event": "20200611_skyline",
+  "triangulable": false,
+  "sites": [
+   "lp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "SKYLINE 3",
+   "discovery_epoch": 1591901288,
+   "lat": 32.72801500000003,
+   "lon": -116.77946099999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E91C6A87-1366-43EB-8FAE-675854908BEB}",
+   "dt_s": 727,
+   "km_to_nearest_cam": 3.26,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200614_DrumCanyon",
+  "event": "20200614_DrumCanyon",
+  "triangulable": false,
+  "sites": [
+   "syp"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "Drum",
+   "discovery_epoch": 1592165160,
+   "lat": 34.63861110000005,
+   "lon": -120.28833329999998,
+   "acres": 696,
+   "county": "Santa Barbara",
+   "state": "US-CA",
+   "irwin": "{E09F9139-C5DF-4735-A607-F1B664BFCDC6}",
+   "dt_s": 911,
+   "km_to_nearest_cam": 30.93,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200615_Rainbow",
+  "event": "20200615_Rainbow",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "RAINBOW 5",
+   "discovery_epoch": 1592253792,
+   "lat": 33.43045200000006,
+   "lon": -117.14538799999995,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{D44A0494-21CF-4BB2-A769-6E1C79B4337D}",
+   "dt_s": 310,
+   "km_to_nearest_cam": 5.33,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200618_FIRE",
+  "event": "20200618_FIRE",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20200705_FIRE",
+  "event": "20200705_FIRE",
+  "triangulable": true,
+  "sites": [
+   "bm",
+   "wc"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "PASQUAL",
+   "discovery_epoch": 1593983630,
+   "lat": 33.095616000000064,
+   "lon": -117.00715699999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{87CCED78-B944-43F1-BCE0-136EF687E20B}",
+   "dt_s": 371,
+   "km_to_nearest_cam": 10.23,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200709_Tripp",
+  "event": "20200709_Tripp",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "TRIPP",
+   "discovery_epoch": 1594324461,
+   "lat": 33.564891259000035,
+   "lon": -116.75035114599996,
+   "acres": 59.7,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{17836638-0B0D-4805-A050-8945560B7C94}",
+   "dt_s": 116,
+   "km_to_nearest_cam": 23.82,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200712_USSBonhommeRichard",
+  "event": "20200712_USSBonhommeRichard",
+  "triangulable": false,
+  "sites": [
+   "sm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20200727_Border11Fire",
+  "event": "20200727_Border11Fire",
+  "triangulable": true,
+  "sites": [
+   "lp",
+   "om"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "BORDER 11",
+   "discovery_epoch": 1595906786,
+   "lat": 32.56609863500006,
+   "lon": -116.79626407999996,
+   "acres": 41,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E659F009-E697-411A-885B-343E77BDCA71}",
+   "dt_s": 49,
+   "km_to_nearest_cam": 5.55,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200806_BorderFire",
+  "event": "20200806_BorderFire",
+  "triangulable": true,
+  "sites": [
+   "lp",
+   "om"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "BORDER 14",
+   "discovery_epoch": 1596731324,
+   "lat": 32.584160000000054,
+   "lon": -116.69768,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{5DBA1AEC-5243-4FA1-9F5B-6DF47E290B68}",
+   "dt_s": 1959,
+   "km_to_nearest_cam": 13.82,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200806_SpringsFire",
+  "event": "20200806_SpringsFire",
+  "triangulable": true,
+  "sites": [
+   "lp",
+   "om",
+   "sm"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "HONEY 2",
+   "discovery_epoch": 1596764086,
+   "lat": 32.66988200000003,
+   "lon": -116.82530099999995,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E1F87DA7-3AF9-4677-AB48-3DB82172C3D7}",
+   "dt_s": 10,
+   "km_to_nearest_cam": 6.68,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200807_AppleFire-backfire-operation",
+  "event": "20200807_AppleFire-backfire-operation",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20200808_OliveFire",
+  "event": "20200808_OliveFire",
+  "triangulable": false,
+  "sites": [
+   "wc"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "OLIVE 3",
+   "discovery_epoch": 1596909153,
+   "lat": 33.04750100000007,
+   "lon": -116.87123899999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{FAF747FE-D297-4E94-857B-1C35D2B70F11}",
+   "dt_s": 613,
+   "km_to_nearest_cam": 10.25,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200812_LakeFire",
+  "event": "20200812_LakeFire",
+  "triangulable": false,
+  "sites": [
+   "dwpgm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20200813_Ranch2Fire",
+  "event": "20200813_Ranch2Fire",
+  "triangulable": true,
+  "sites": [
+   "marconi",
+   "sjh",
+   "wilson"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "RANCH2",
+   "discovery_epoch": 1597355580,
+   "lat": 34.156720000000064,
+   "lon": -117.91069999999996,
+   "acres": 4237,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{D3F5D9A5-75C8-4650-87CD-9C3E1051802D}",
+   "dt_s": -638,
+   "km_to_nearest_cam": 15.56,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200813_SkylineFire",
+  "event": "20200813_SkylineFire",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20200813_VictoriaFire",
+  "event": "20200813_VictoriaFire",
+  "triangulable": false,
+  "sites": [
+   "lp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "VICTORIA 2",
+   "discovery_epoch": 1597361840,
+   "lat": 32.83502500000003,
+   "lon": -116.75099099999994,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{2300ED4F-A0E0-43D3-81D8-3F3F2C5621A3}",
+   "dt_s": 259,
+   "km_to_nearest_cam": 14.9,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200822_BrattonFire",
+  "event": "20200822_BrattonFire",
+  "triangulable": false,
+  "sites": [
+   "lp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "BRATTON",
+   "discovery_epoch": 1598126480,
+   "lat": 32.689204000000075,
+   "lon": -116.74849799999998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{D0E43F29-A60C-4612-83AA-C2F46E40F89F}",
+   "dt_s": 315,
+   "km_to_nearest_cam": 2.03,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200822_SloaneFire",
+  "event": "20200822_SloaneFire",
+  "triangulable": false,
+  "sites": [
+   "lp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "SLOANE 2",
+   "discovery_epoch": 1598129729,
+   "lat": 32.781408000000056,
+   "lon": -116.85238999999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{F14A59F6-4744-4786-81DA-D3274E036049}",
+   "dt_s": -158,
+   "km_to_nearest_cam": 12.1,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200823_OakFire",
+  "event": "20200823_OakFire",
+  "triangulable": false,
+  "sites": [
+   "pi"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "OAK 6",
+   "discovery_epoch": 1598216456,
+   "lat": 32.700398000000064,
+   "lon": -116.32512499999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E77B9E22-C654-4A7C-8792-B4D42DA7C9A9}",
+   "dt_s": 51,
+   "km_to_nearest_cam": 23.94,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200828_BorderFire",
+  "event": "20200828_BorderFire",
+  "triangulable": true,
+  "sites": [
+   "om",
+   "sm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "BORDER 17",
+   "discovery_epoch": 1598629695,
+   "lat": 32.63495900000004,
+   "lon": -116.88687499999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E330367A-168E-4115-BA19-3794C8778E3D}",
+   "dt_s": 374,
+   "km_to_nearest_cam": 5.96,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200829_inside-Mexico",
+  "event": "20200829_inside-Mexico",
+  "triangulable": true,
+  "sites": [
+   "cp",
+   "mlo",
+   "om",
+   "pi"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "BORDER 18",
+   "discovery_epoch": 1598724152,
+   "lat": 32.59064900000004,
+   "lon": -116.45691399999998,
+   "acres": 0.1,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{C892AE67-2E8C-456F-8553-D8F51F3F2F73}",
+   "dt_s": 669,
+   "km_to_nearest_cam": 19.61,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200905_ValleyFire",
+  "event": "20200905_ValleyFire",
+  "triangulable": true,
+  "sites": [
+   "lp",
+   "pi",
+   "sm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "VALLEY 3",
+   "discovery_epoch": 1599340629,
+   "lat": 32.76334600000007,
+   "lon": -116.69534099999998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{8DABC58C-97B2-4570-8E44-82DA66DE7E44}",
+   "dt_s": -592,
+   "km_to_nearest_cam": 9.44,
+   "name_match": true
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20200911_FIRE",
+  "event": "20200911_FIRE",
+  "triangulable": true,
+  "sites": [
+   "lp",
+   "mlo",
+   "pi"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "Shore",
+   "discovery_epoch": 1599853920,
+   "lat": 32.682330000000036,
+   "lon": -116.51716999999996,
+   "acres": 1.5,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{3689808F-72A8-468D-B7EA-AA36DC7CB1EC}",
+   "dt_s": -23,
+   "km_to_nearest_cam": 8.12,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200930_BoundaryFire",
+  "event": "20200930_BoundaryFire",
+  "triangulable": false,
+  "sites": [
+   "wc"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "BOUNDARY",
+   "discovery_epoch": 1601488101,
+   "lat": 33.02023800000006,
+   "lon": -116.87948899999998,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{DDAB393F-5C36-42C5-93D5-35D8BE9FB47C}",
+   "dt_s": 61,
+   "km_to_nearest_cam": 8.63,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20200930_DeLuzFire",
+  "event": "20200930_DeLuzFire",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20200930_inMexico",
+  "event": "20200930_inMexico",
+  "triangulable": true,
+  "sites": [
+   "lp",
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20201003_structurefire",
+  "event": "20201003_structurefire",
+  "triangulable": true,
+  "sites": [
+   "bh",
+   "bm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20201013_FIRE",
+  "event": "20201013_FIRE",
+  "triangulable": false,
+  "sites": [
+   "cp"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "Arturo",
+   "discovery_epoch": 1602633000,
+   "lat": 32.86444000000006,
+   "lon": -116.65999999999995,
+   "acres": 1,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{A5E98DA9-7537-4373-83EC-AB907B9A87BF}",
+   "dt_s": 340,
+   "km_to_nearest_cam": 10.39,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20201105_Roundfire",
+  "event": "20201105_Roundfire",
+  "triangulable": true,
+  "sites": [
+   "lp",
+   "om",
+   "pi"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "ROUND",
+   "discovery_epoch": 1604614795,
+   "lat": 32.63514300000003,
+   "lon": -116.63575099999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{7F1F6A01-EA82-4FE4-9C83-3B75C1715A9E}",
+   "dt_s": 168,
+   "km_to_nearest_cam": 12.33,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20201127_Hawkfire",
+  "event": "20201127_Hawkfire",
+  "triangulable": false,
+  "sites": [
+   "pi"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "Hawk",
+   "discovery_epoch": 1606510200,
+   "lat": 32.783150000000035,
+   "lon": -116.66492999999996,
+   "acres": 9,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{C124B2AA-72FE-4455-813B-726DF3C4D9D8}",
+   "dt_s": 51,
+   "km_to_nearest_cam": 9.77,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20201202_BondFire-nightime",
+  "event": "20201202_BondFire-nightime",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20201202_WillowFire-nightime-near-CDF-HQ",
+  "event": "20201202_WillowFire-nightime-near-CDF-HQ",
+  "triangulable": true,
+  "sites": [
+   "lp",
+   "om",
+   "sm"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "WILLOW 3",
+   "discovery_epoch": 1606976862,
+   "lat": 32.752923,
+   "lon": -116.906803,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{7A037624-7341-4382-8276-422BFBE65AC0}",
+   "dt_s": 1231,
+   "km_to_nearest_cam": 6.81,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20201205_typical-range-fire",
+  "event": "20201205_typical-range-fire",
+  "triangulable": false,
+  "sites": [
+   "sclm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20201206_JEEP-ON-FIRE",
+  "event": "20201206_JEEP-ON-FIRE",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "HARVEST 3",
+   "discovery_epoch": 1607248435,
+   "lat": 32.578505000000064,
+   "lon": -116.94511999999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{2F61FD20-824B-4D2A-9A33-9646EA6908C9}",
+   "dt_s": 314,
+   "km_to_nearest_cam": 9.58,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20201207_La",
+  "event": "20201207_La",
+  "triangulable": false,
+  "sites": [
+   "bh"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "PASALL",
+   "discovery_epoch": 1607412998,
+   "lat": 33.294970000000035,
+   "lon": -116.91514399999994,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{0841FF82-B3B6-4063-9AE4-0A931456F66E}",
+   "dt_s": 1344,
+   "km_to_nearest_cam": 4.43,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20201208_FIRE",
+  "event": "20201208_FIRE",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "BORDER 26",
+   "discovery_epoch": 1607465911,
+   "lat": 32.55726063700007,
+   "lon": -116.85575272699998,
+   "acres": 7,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{9E4F2F44-64DB-4739-BD65-13394468C22F}",
+   "dt_s": 592,
+   "km_to_nearest_cam": 4.3,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20201216_ChaparralFire",
+  "event": "20201216_ChaparralFire",
+  "triangulable": true,
+  "sites": [
+   "lp",
+   "om",
+   "pi",
+   "sm"
+  ],
+  "tier": "ambiguous",
+  "reason": "2 survive",
+  "truth": {
+   "name": "CUYAMACA",
+   "discovery_epoch": 1608154320,
+   "lat": 32.86944440000008,
+   "lon": -116.98138889999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{46E88D21-E1EE-4173-8F81-8FB036031ECE}",
+   "dt_s": -129,
+   "km_to_nearest_cam": 19.65,
+   "name_match": false
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20201223_Creekfire",
+  "event": "20201223_Creekfire",
+  "triangulable": false,
+  "sites": [
+   "bh"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "CREEK 5",
+   "discovery_epoch": 1608794575,
+   "lat": 33.40264600000006,
+   "lon": -117.26679499999996,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{4DFBAC3D-26B7-4900-99ED-C03A6FB87837}",
+   "dt_s": 1239,
+   "km_to_nearest_cam": 33.14,
+   "name_match": true
+  },
+  "n_survivors": 3
+ },
+ {
+  "fire_id": "20210107_Miguelfire",
+  "event": "20210107_Miguelfire",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "MIGUEL 3",
+   "discovery_epoch": 1610043901,
+   "lat": 32.66940000000005,
+   "lon": -116.96579999999994,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{C4A45046-F9D4-4C0F-8120-093969283926}",
+   "dt_s": -400,
+   "km_to_nearest_cam": 14.05,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20210110_Borderfire",
+  "event": "20210110_Borderfire",
+  "triangulable": false,
+  "sites": [
+   "lp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "BORDER",
+   "discovery_epoch": 1610306031,
+   "lat": 32.591429608000055,
+   "lon": -116.76859101699996,
+   "acres": 1.9,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{560903DC-8AFF-4091-9C85-A3B806EDE7BA}",
+   "dt_s": 945,
+   "km_to_nearest_cam": 12.25,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20210113_Borderfire",
+  "event": "20210113_Borderfire",
+  "triangulable": true,
+  "sites": [
+   "mlo",
+   "pi"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "BORDER 3",
+   "discovery_epoch": 1610572395,
+   "lat": 32.59861321900007,
+   "lon": -116.52814492699996,
+   "acres": 18.6,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{B36106D6-22FD-4AB4-9603-C045EC5FAD62}",
+   "dt_s": 188,
+   "km_to_nearest_cam": 15.83,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20210115_Bonitafire",
+  "event": "20210115_Bonitafire",
+  "triangulable": false,
+  "sites": [
+   "tp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "BONITA",
+   "discovery_epoch": 1610702297,
+   "lat": 33.71110927900003,
+   "lon": -116.684356074,
+   "acres": 681.1,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{FF90CD09-752E-4F94-8BE4-2CCFFEA97795}",
+   "dt_s": 661,
+   "km_to_nearest_cam": 31.76,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20210204_FIRE",
+  "event": "20210204_FIRE",
+  "triangulable": false,
+  "sites": [
+   "tp"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "HORN",
+   "discovery_epoch": 1612466247,
+   "lat": 33.28419100000008,
+   "lon": -116.37527099999994,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{D5F26C12-EF48-473A-8C3B-8DD67F5894AA}",
+   "dt_s": 494,
+   "km_to_nearest_cam": 27.02,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20210209_FIRE",
+  "event": "20210209_FIRE",
+  "triangulable": true,
+  "sites": [
+   "hp",
+   "tp"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20210302_FIRE",
+  "event": "20210302_FIRE",
+  "triangulable": false,
+  "sites": [
+   "lp"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20210319_FIRE",
+  "event": "20210319_FIRE",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20210711_FIRE",
+  "event": "20210711_FIRE",
+  "triangulable": false,
+  "sites": [
+   "wc"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "WILDCAT 2",
+   "discovery_epoch": 1626026441,
+   "lat": 32.95075000000003,
+   "lon": -116.841906,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E6D3259E-781D-4E5D-92B8-2D171DA75527}",
+   "dt_s": 287,
+   "km_to_nearest_cam": 13.66,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240608_AquaductFire",
+  "event": "20240608_AquaductFire",
+  "triangulable": false,
+  "sites": [
+   "sdsc"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "Aquaduct",
+   "discovery_epoch": 1717880580,
+   "lat": 32.8530556,
+   "lon": -117.1177778,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{BE9B14DE-D401-4E50-ACAA-D7B9C06AE9ED}",
+   "dt_s": 3409,
+   "km_to_nearest_cam": 11.91,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240616_BuckmanFire",
+  "event": "20240616_BuckmanFire",
+  "triangulable": false,
+  "sites": [
+   "pi"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "BUCKMAN 12",
+   "discovery_epoch": 1718565172,
+   "lat": 32.639394,
+   "lon": -116.47488,
+   "acres": 4.4,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{93352D77-F462-4659-ADE0-645AF9200BE7}",
+   "dt_s": -8,
+   "km_to_nearest_cam": 14.31,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240622_Border58Fire",
+  "event": "20240622_Border58Fire",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "BORDER 58",
+   "discovery_epoch": 1719094361,
+   "lat": 32.58748,
+   "lon": -116.894511,
+   "acres": 137,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E382DE80-3B90-42AE-B96F-1815963A87C4}",
+   "dt_s": 463,
+   "km_to_nearest_cam": 4.74,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240625_DelMarFire",
+  "event": "20240625_DelMarFire",
+  "triangulable": false,
+  "sites": [
+   "tdlln"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20240625_OtayFire",
+  "event": "20240625_OtayFire",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "BORDER 59",
+   "discovery_epoch": 1719374821,
+   "lat": 32.5588,
+   "lon": -116.8424,
+   "acres": 0.01,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{AECC66FE-B69E-4BDA-AEDB-F5A8040E03A4}",
+   "dt_s": 604,
+   "km_to_nearest_cam": 4.01,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240701_Kitchenfire",
+  "event": "20240701_Kitchenfire",
+  "triangulable": true,
+  "sites": [
+   "lp",
+   "mlo",
+   "pi",
+   "ws"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "KITCHEN",
+   "discovery_epoch": 1719855241,
+   "lat": 32.713133,
+   "lon": -116.473917,
+   "acres": 49,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{1B583D5A-34BF-4EA4-8D42-4813F3714B0F}",
+   "dt_s": 60,
+   "km_to_nearest_cam": 10.0,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240701_McCainfire",
+  "event": "20240701_McCainfire",
+  "triangulable": false,
+  "sites": [
+   "ws"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "MCCAIN 4",
+   "discovery_epoch": 1719873254,
+   "lat": 32.668151,
+   "lon": -116.260045,
+   "acres": 1595,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{3456E2DB-A36C-4135-A4D7-78BEE1A73FE7}",
+   "dt_s": -45,
+   "km_to_nearest_cam": 5.9,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240706_StewartFire",
+  "event": "20240706_StewartFire",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "STEWART",
+   "discovery_epoch": 1720305966,
+   "lat": 33.376195,
+   "lon": -117.159404,
+   "acres": 1.5,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{58906999-BE58-456A-B50D-0D8557F8802A}",
+   "dt_s": 61,
+   "km_to_nearest_cam": 3.97,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240708_VistaFire",
+  "event": "20240708_VistaFire",
+  "triangulable": false,
+  "sites": [
+   "wilson"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20240718_EggStructureFire",
+  "event": "20240718_EggStructureFire",
+  "triangulable": false,
+  "sites": [
+   "bm"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "EGG",
+   "discovery_epoch": 1721349026,
+   "lat": 33.07492,
+   "lon": -116.771214,
+   "acres": 0.01,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{451A8112-BF6B-4123-97E3-0FDD86A674EF}",
+   "dt_s": 369,
+   "km_to_nearest_cam": 10.06,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240719_ForkFire",
+  "event": "20240719_ForkFire",
+  "triangulable": false,
+  "sites": [
+   "wilson"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "FORK",
+   "discovery_epoch": 1721427785,
+   "lat": 34.228672,
+   "lon": -117.772176,
+   "acres": 301,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{3AA76D74-7BB8-4E69-B23A-0B7950415518}",
+   "dt_s": -828,
+   "km_to_nearest_cam": 26.34,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240721_EagleFire",
+  "event": "20240721_EagleFire",
+  "triangulable": false,
+  "sites": [
+   "stgo"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "EAGLE",
+   "discovery_epoch": 1721531476,
+   "lat": 33.849065,
+   "lon": -117.479779,
+   "acres": 5.5,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{7366033B-22AD-4509-9343-0FF94C6D53FE}",
+   "dt_s": -16187,
+   "km_to_nearest_cam": 16.14,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240724_GroveFire",
+  "event": "20240724_GroveFire",
+  "triangulable": true,
+  "sites": [
+   "hp",
+   "tp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "GROVE 2",
+   "discovery_epoch": 1721851952,
+   "lat": 33.409448,
+   "lon": -116.741601,
+   "acres": 863,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{3A5A7247-CD4F-44FA-B427-56A2BA9919B9}",
+   "dt_s": 490,
+   "km_to_nearest_cam": 10.19,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240727_Fire",
+  "event": "20240727_Fire",
+  "triangulable": false,
+  "sites": [
+   "bh"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20240728_Border65Fire",
+  "event": "20240728_Border65Fire",
+  "triangulable": true,
+  "sites": [
+   "lp",
+   "om",
+   "pi"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20240729_NixonFire",
+  "event": "20240729_NixonFire",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "NIXON",
+   "discovery_epoch": 1722281448,
+   "lat": 33.484957,
+   "lon": -116.779785,
+   "acres": 5192,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{9DA145D8-6710-46BD-A9B1-AD879BCF7801}",
+   "dt_s": 492,
+   "km_to_nearest_cam": 14.54,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240802_WarnersFire",
+  "event": "20240802_WarnersFire",
+  "triangulable": false,
+  "sites": [
+   "sojr"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "WARNERS 3",
+   "discovery_epoch": 1722632965,
+   "lat": 33.320013,
+   "lon": -116.582646,
+   "acres": 0.59,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{8C958A4E-34C4-4FE1-A3A1-73F707923E3F}",
+   "dt_s": 1317,
+   "km_to_nearest_cam": 7.49,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240803_RangeFire",
+  "event": "20240803_RangeFire",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20240806_Border68FireMayBeHardToFind.1",
+  "event": "20240806_Border68FireMayBeHardToFind",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20240806_Border68FireMayBeHardToFind.2",
+  "event": "20240806_Border68FireMayBeHardToFind",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20240812_AnitaFire",
+  "event": "20240812_AnitaFire",
+  "triangulable": false,
+  "sites": [
+   "sm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "ANITA",
+   "discovery_epoch": 1723494477,
+   "lat": 32.721055,
+   "lon": -116.929508,
+   "acres": 20,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{28E6C2FE-2F25-4948-A25B-A42D10294D2A}",
+   "dt_s": 279,
+   "km_to_nearest_cam": 2.76,
+   "name_match": true
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20240813_PapaFire",
+  "event": "20240813_PapaFire",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20240823_ProctorFire",
+  "event": "20240823_ProctorFire",
+  "triangulable": false,
+  "sites": [
+   "sm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "PROCTOR 8",
+   "discovery_epoch": 1724459172,
+   "lat": 32.676127,
+   "lon": -116.92536,
+   "acres": 27,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{6227FFDE-0EF4-4794-90BE-4889B2DE36D1}",
+   "dt_s": 354,
+   "km_to_nearest_cam": 2.52,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240825_TenajaFire",
+  "event": "20240825_TenajaFire",
+  "triangulable": false,
+  "sites": [
+   "buff"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "TENAJA",
+   "discovery_epoch": 1724611680,
+   "lat": 33.584167,
+   "lon": -117.403444,
+   "acres": 130,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{C783AE61-686F-4C5C-BDD5-0DE5FEC41C59}",
+   "dt_s": 279,
+   "km_to_nearest_cam": 17.43,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240828_KeysFire",
+  "event": "20240828_KeysFire",
+  "triangulable": false,
+  "sites": [
+   "bh"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "KEYS",
+   "discovery_epoch": 1724878599,
+   "lat": 33.287772,
+   "lon": -117.083426,
+   "acres": 18.6,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{30B45E71-04B0-4442-873B-9856891F0412}",
+   "dt_s": 28,
+   "km_to_nearest_cam": 16.11,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240902_GabrielFire",
+  "event": "20240902_GabrielFire",
+  "triangulable": false,
+  "sites": [
+   "wilson"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "GABRIEL",
+   "discovery_epoch": 1725316077,
+   "lat": 34.12882,
+   "lon": -117.9372,
+   "acres": null,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{47104F45-5D07-4417-A03C-E1342F62BF31}",
+   "dt_s": -956,
+   "km_to_nearest_cam": 15.43,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240903_NavajoFire",
+  "event": "20240903_NavajoFire",
+  "triangulable": false,
+  "sites": [
+   "cp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "NAVAJO",
+   "discovery_epoch": 1725409718,
+   "lat": 32.980335,
+   "lon": -116.574159,
+   "acres": 4,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{C96D94EE-1C60-46A4-9AAE-E2BBFA1890A2}",
+   "dt_s": 428,
+   "km_to_nearest_cam": 4.84,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240905_ValleyFire",
+  "event": "20240905_ValleyFire",
+  "triangulable": false,
+  "sites": [
+   "cp"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20240907_ChurchFire",
+  "event": "20240907_ChurchFire",
+  "triangulable": false,
+  "sites": [
+   "ws"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "CHURCH 2",
+   "discovery_epoch": 1725734466,
+   "lat": 32.6862,
+   "lon": -116.36135,
+   "acres": 39.6,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{2C3015FC-0709-4A93-8206-5562F515E0DD}",
+   "dt_s": 665,
+   "km_to_nearest_cam": 5.94,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240907_FIRE",
+  "event": "20240907_FIRE",
+  "triangulable": false,
+  "sites": [
+   "ws"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20240908_BridgeFire",
+  "event": "20240908_BridgeFire",
+  "triangulable": false,
+  "sites": [
+   "wilson"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "BRIDGE",
+   "discovery_epoch": 1725829920,
+   "lat": 34.2305,
+   "lon": -117.758,
+   "acres": 56030,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{928C4DA9-5AD6-4E0C-A3A4-2C36FFEF7223}",
+   "dt_s": 125,
+   "km_to_nearest_cam": 27.65,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240908_RiceFire",
+  "event": "20240908_RiceFire",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "RICE 2",
+   "discovery_epoch": 1725848006,
+   "lat": 33.353446,
+   "lon": -117.135771,
+   "acres": 20,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{1AF0E216-9AC4-411B-B054-34AB0CC3FCAC}",
+   "dt_s": -640,
+   "km_to_nearest_cam": 7.32,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20240909_BridgeFire",
+  "event": "20240909_BridgeFire",
+  "triangulable": true,
+  "sites": [
+   "marconi",
+   "starr",
+   "stgo"
+  ],
+  "tier": "ambiguous",
+  "reason": "2 survive",
+  "truth": {
+   "name": "LAC-320018",
+   "discovery_epoch": 1725912489,
+   "lat": 34.10707,
+   "lon": -117.94289,
+   "acres": null,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{95DB08CD-D350-4EB3-84C9-E86807A36B06}",
+   "dt_s": -25,
+   "km_to_nearest_cam": 57.98,
+   "name_match": false
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20240924_OtayLakesFire",
+  "event": "20240924_OtayLakesFire",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20240927_86Fire",
+  "event": "20240927_86Fire",
+  "triangulable": false,
+  "sites": [
+   "tp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "86 LEAVE OPEN",
+   "discovery_epoch": 1727483158,
+   "lat": 33.540008,
+   "lon": -116.099893,
+   "acres": 38,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{0051E0B0-2659-428A-9951-D1EADA2B3E72}",
+   "dt_s": -651,
+   "km_to_nearest_cam": 30.25,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20241006_SaddlebackFire",
+  "event": "20241006_SaddlebackFire",
+  "triangulable": false,
+  "sites": [
+   "stgo"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "SADDLEBACK",
+   "discovery_epoch": 1728244800,
+   "lat": 33.6644444,
+   "lon": -117.65,
+   "acres": null,
+   "county": "Orange",
+   "state": "US-CA",
+   "irwin": "{FBF9844D-47A7-4395-8684-EE935A9113D5}",
+   "dt_s": 84,
+   "km_to_nearest_cam": 11.91,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20241007_Posta3Fire",
+  "event": "20241007_Posta3Fire",
+  "triangulable": true,
+  "sites": [
+   "pi",
+   "ws"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "POSTA 3",
+   "discovery_epoch": 1728336904,
+   "lat": 32.723511,
+   "lon": -116.426985,
+   "acres": 413,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{1899163D-428A-4120-98F3-F147F8098A86}",
+   "dt_s": 243,
+   "km_to_nearest_cam": 13.27,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20241009_BahrmanFire",
+  "event": "20241009_BahrmanFire",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "BAHRMAN",
+   "discovery_epoch": 1728504282,
+   "lat": 33.555137,
+   "lon": -116.683446,
+   "acres": 110,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{BADD4BE4-3F6C-4E0F-A85C-AB561412FE02}",
+   "dt_s": 183,
+   "km_to_nearest_cam": 25.64,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20241021_PalomarRidge",
+  "event": "20241021_PalomarRidge",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "CONIFER 3",
+   "discovery_epoch": 1729517838,
+   "lat": 33.320186,
+   "lon": -116.845639,
+   "acres": 0.01,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{5E5C87C4-E248-46F6-AC68-385FC1775451}",
+   "dt_s": 1903,
+   "km_to_nearest_cam": 4.84,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20241031_MontezumaFire",
+  "event": "20241031_MontezumaFire",
+  "triangulable": false,
+  "sites": [
+   "sm"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "Fairmount",
+   "discovery_epoch": 1730407320,
+   "lat": 32.77241,
+   "lon": -117.097069,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{2DEB37A7-DE7A-414E-AE8E-C32D091C6B6B}",
+   "dt_s": 456,
+   "km_to_nearest_cam": 17.24,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20241031_QuarryFire",
+  "event": "20241031_QuarryFire",
+  "triangulable": false,
+  "sites": [
+   "sm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "Quarry",
+   "discovery_epoch": 1730403660,
+   "lat": 32.6812,
+   "lon": -117.030894,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{A7E73C64-E23F-4542-A629-F6613EE939FB}",
+   "dt_s": 1956,
+   "km_to_nearest_cam": 9.04,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20241108_GardenFire",
+  "event": "20241108_GardenFire",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "ambiguous",
+  "reason": "2 survive",
+  "truth": {
+   "name": "GARDEN",
+   "discovery_epoch": 1731098912,
+   "lat": 33.338891,
+   "lon": -117.180551,
+   "acres": 48,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{5CC8A505-9BC7-4C7F-A44B-7454390F9428}",
+   "dt_s": 323,
+   "km_to_nearest_cam": 6.94,
+   "name_match": false
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20241108_Pasqual4Fire",
+  "event": "20241108_Pasqual4Fire",
+  "triangulable": false,
+  "sites": [
+   "wc"
+  ],
+  "tier": "ambiguous",
+  "reason": "2 survive",
+  "truth": {
+   "name": "PASQUAL 4",
+   "discovery_epoch": 1731098248,
+   "lat": 33.102607,
+   "lon": -117.028313,
+   "acres": 0.5,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{2B39296B-EE49-491C-8637-EE480D9884BF}",
+   "dt_s": -85,
+   "km_to_nearest_cam": 11.73,
+   "name_match": false
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20241108_ResortFire.1",
+  "event": "20241108_ResortFire",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "ambiguous",
+  "reason": "2 survive",
+  "truth": {
+   "name": "GARDEN",
+   "discovery_epoch": 1731098912,
+   "lat": 33.338891,
+   "lon": -117.180551,
+   "acres": 48,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{5CC8A505-9BC7-4C7F-A44B-7454390F9428}",
+   "dt_s": 323,
+   "km_to_nearest_cam": 6.94,
+   "name_match": false
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20241108_ResortFire.2",
+  "event": "20241108_ResortFire",
+  "triangulable": true,
+  "sites": [
+   "bm",
+   "hp",
+   "mg"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "RESORT 2",
+   "discovery_epoch": 1731109244,
+   "lat": 33.286514,
+   "lon": -116.64017,
+   "acres": 26.7,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{C3605E53-9297-4D1A-9CFD-886EFC62EEC9}",
+   "dt_s": -2,
+   "km_to_nearest_cam": 15.6,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20241113_Fire",
+  "event": "20241113_Fire",
+  "triangulable": false,
+  "sites": [
+   "dwpgm"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "PALISADES",
+   "discovery_epoch": 1731520924,
+   "lat": 34.07212,
+   "lon": -118.56374,
+   "acres": null,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{3317B4B2-50B9-49F8-AF26-01F0571CF305}",
+   "dt_s": 871,
+   "km_to_nearest_cam": 2.1,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20241202_mulch_fire",
+  "event": "20241202_mulch_fire",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "RAINBOW 4",
+   "discovery_epoch": 1733152301,
+   "lat": 33.418018,
+   "lon": -117.147704,
+   "acres": 0.5,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{30120B3C-4903-4876-8F00-500703F4F735}",
+   "dt_s": 813,
+   "km_to_nearest_cam": 4.41,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20241209_FranklinFire",
+  "event": "20241209_FranklinFire",
+  "triangulable": false,
+  "sites": [
+   "69bravo"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "FRANKLIN",
+   "discovery_epoch": 1733813453,
+   "lat": 34.06343,
+   "lon": -118.69642,
+   "acres": 4037,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{E3ECF651-9999-4283-B6C5-21846D041273}",
+   "dt_s": 109,
+   "km_to_nearest_cam": 6.43,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20241216_PrescribedFireNearWitchCreek",
+  "event": "20241216_PrescribedFireNearWitchCreek",
+  "triangulable": false,
+  "sites": [
+   "bm"
+  ],
+  "tier": "none",
+  "reason": "no-candidate",
+  "truth": null
+ },
+ {
+  "fire_id": "20250101_Border1Fire",
+  "event": "20250101_Border1Fire",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "BORDER",
+   "discovery_epoch": 1735784589,
+   "lat": 32.59853,
+   "lon": -116.82817,
+   "acres": 17,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{3A99A059-7B44-427A-9470-8DB062638552}",
+   "dt_s": 254,
+   "km_to_nearest_cam": 1.6,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250101_Fire",
+  "event": "20250101_Fire",
+  "triangulable": true,
+  "sites": [
+   "69bravo",
+   "dwpgm"
+  ],
+  "tier": "ambiguous",
+  "reason": "2 survive",
+  "truth": {
+   "name": "CALFD-000042",
+   "discovery_epoch": 1735719431,
+   "lat": 34.075328,
+   "lon": -118.544948,
+   "acres": 5,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{39C2CD9F-4829-4D86-8412-0FB954D5B33C}",
+   "dt_s": 309,
+   "km_to_nearest_cam": 1.28,
+   "name_match": false
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20250107_EatonFire",
+  "event": "20250107_EatonFire",
+  "triangulable": false,
+  "sites": [
+   "wilson"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "EATON",
+   "discovery_epoch": 1736302727,
+   "lat": 34.19163,
+   "lon": -118.10544,
+   "acres": 14021,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{72660ADC-B5EF-4D96-A33F-B4EA3740A4E3}",
+   "dt_s": -552,
+   "km_to_nearest_cam": 5.64,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250107_PalisadesFire",
+  "event": "20250107_PalisadesFire",
+  "triangulable": true,
+  "sites": [
+   "69bravo",
+   "dwpgm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "Palisades",
+   "discovery_epoch": 1736274600,
+   "lat": 34.0677778,
+   "lon": -118.5511111,
+   "acres": 23448,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{A7EA5D21-F882-44B8-BF64-44AB11059DC1}",
+   "dt_s": 268,
+   "km_to_nearest_cam": 2.08,
+   "name_match": true
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20250120_TedWilliamsFire",
+  "event": "20250120_TedWilliamsFire",
+  "triangulable": false,
+  "sites": [
+   "wc"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "Ted Williams",
+   "discovery_epoch": 1737408600,
+   "lat": 32.97821,
+   "lon": -117.06567,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{07DBDF19-B2EA-4FAD-B9BD-2A9C03608DA1}",
+   "dt_s": 784,
+   "km_to_nearest_cam": 9.46,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250121_LiliacFire",
+  "event": "20250121_LiliacFire",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "PALA 2",
+   "discovery_epoch": 1737447525,
+   "lat": 33.33099,
+   "lon": -117.1595,
+   "acres": 16.8,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{7072F3D8-BE05-4A63-9D6E-B8ECFB807FC9}",
+   "dt_s": 98,
+   "km_to_nearest_cam": 8.28,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250121_PalaFire",
+  "event": "20250121_PalaFire",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "PALA 2",
+   "discovery_epoch": 1737447525,
+   "lat": 33.33099,
+   "lon": -117.1595,
+   "acres": 16.8,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{7072F3D8-BE05-4A63-9D6E-B8ECFB807FC9}",
+   "dt_s": 98,
+   "km_to_nearest_cam": 8.28,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250122_BernardoFire",
+  "event": "20250122_BernardoFire",
+  "triangulable": false,
+  "sites": [
+   "ch"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "Bernardo",
+   "discovery_epoch": 1737565980,
+   "lat": 33.005129,
+   "lon": -117.0842242,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{0B0F9FE8-0B30-445F-BB76-9FE2375539F1}",
+   "dt_s": 1116,
+   "km_to_nearest_cam": 13.37,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250123_Border2Fire.1",
+  "event": "20250123_Border2Fire",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20250123_Border2Fire.2",
+  "event": "20250123_Border2Fire",
+  "triangulable": false,
+  "sites": [
+   "om"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20250123_GilmanFire",
+  "event": "20250123_GilmanFire",
+  "triangulable": false,
+  "sites": [
+   "tdlln"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "BORDER 2",
+   "discovery_epoch": 1737669494,
+   "lat": 32.600524,
+   "lon": -116.841271,
+   "acres": 6625,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{386EBECF-AF18-442D-B5D9-E2772B91914A}",
+   "dt_s": -870,
+   "km_to_nearest_cam": 48.18,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250226_PennyFire",
+  "event": "20250226_PennyFire",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20250429_TrailFire",
+  "event": "20250429_TrailFire",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "TRAIL 4",
+   "discovery_epoch": 1745959244,
+   "lat": 33.425145,
+   "lon": -117.268526,
+   "acres": 2,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{EC8D1B47-697E-4C17-B48D-7CE335C95866}",
+   "dt_s": 4716,
+   "km_to_nearest_cam": 7.73,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250501_FelipeFire",
+  "event": "20250501_FelipeFire",
+  "triangulable": false,
+  "sites": [],
+  "tier": "none",
+  "reason": "no-pose",
+  "truth": null
+ },
+ {
+  "fire_id": "20250514_PrescribedFire",
+  "event": "20250514_PrescribedFire",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20250516_AcademyFire",
+  "event": "20250516_AcademyFire",
+  "triangulable": false,
+  "sites": [
+   "wc"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "ACADEMY",
+   "discovery_epoch": 1747431628,
+   "lat": 33.086333,
+   "lon": -116.945783,
+   "acres": 50,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{1F09F945-EE6B-4085-98A9-6B3FD6881489}",
+   "dt_s": 92,
+   "km_to_nearest_cam": 8.94,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250520_CrossingFire",
+  "event": "20250520_CrossingFire",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "CROSSING",
+   "discovery_epoch": 1747773635,
+   "lat": 33.466361,
+   "lon": -116.843771,
+   "acres": 126,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{8AF1DADA-FD9B-4E9C-B3A0-9B9DBA0E70CF}",
+   "dt_s": 360,
+   "km_to_nearest_cam": 11.51,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250530_HendersonFire",
+  "event": "20250530_HendersonFire",
+  "triangulable": false,
+  "sites": [
+   "bh"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "HENDERSON",
+   "discovery_epoch": 1748652274,
+   "lat": 33.372312,
+   "lon": -117.065529,
+   "acres": 256,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{80A560E1-5EA0-4F60-8BAC-C81D3A121A62}",
+   "dt_s": 444,
+   "km_to_nearest_cam": 14.21,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250610_CahuillaFire",
+  "event": "20250610_CahuillaFire",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "CAHUILLA",
+   "discovery_epoch": 1749583783,
+   "lat": 33.540872,
+   "lon": -116.740299,
+   "acres": 188,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{54A30E34-85DF-44BB-830A-B0EB20FF37DC}",
+   "dt_s": 308,
+   "km_to_nearest_cam": 21.69,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250612_HighwayFire",
+  "event": "20250612_HighwayFire",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "HIGHWAY",
+   "discovery_epoch": 1749743097,
+   "lat": 33.3507,
+   "lon": -116.744633,
+   "acres": 0.1,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{9DC43261-190A-4107-9DA3-DAB6549B7482}",
+   "dt_s": 322,
+   "km_to_nearest_cam": 8.62,
+   "name_match": true
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20250616_MissionFire",
+  "event": "20250616_MissionFire",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "MISSION 2",
+   "discovery_epoch": 1750110976,
+   "lat": 33.300563,
+   "lon": -117.22912,
+   "acres": 21.4,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{292DEE5B-3891-4991-920A-FF459E4A74FA}",
+   "dt_s": 430,
+   "km_to_nearest_cam": 11.71,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250617_MonteFire",
+  "event": "20250617_MonteFire",
+  "triangulable": false,
+  "sites": [
+   "cp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "MONTE",
+   "discovery_epoch": 1750195606,
+   "lat": 32.891216,
+   "lon": -116.841545,
+   "acres": 1051,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{2F3488C6-736D-4161-AFF6-A7729A7E28C0}",
+   "dt_s": -1009,
+   "km_to_nearest_cam": 22.77,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250709_SteeleFire",
+  "event": "20250709_SteeleFire",
+  "triangulable": true,
+  "sites": [
+   "lp",
+   "om",
+   "sm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "STEELE 2",
+   "discovery_epoch": 1752094798,
+   "lat": 32.727378,
+   "lon": -116.920221,
+   "acres": 28,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{44732838-6820-41A3-9880-76B354F952B5}",
+   "dt_s": -579,
+   "km_to_nearest_cam": 3.71,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250710_SpringsFire",
+  "event": "20250710_SpringsFire",
+  "triangulable": false,
+  "sites": [
+   "lp"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20250716_DaleBradfordFire",
+  "event": "20250716_DaleBradfordFire",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "ambiguous",
+  "reason": "2 survive",
+  "truth": {
+   "name": "DALE",
+   "discovery_epoch": 1752694641,
+   "lat": 33.526501,
+   "lon": -116.787954,
+   "acres": 1096,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{251D19CF-3C61-48A7-8711-26C4F3BD1A29}",
+   "dt_s": 161,
+   "km_to_nearest_cam": 18.72,
+   "name_match": false
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20250724_PostaFire",
+  "event": "20250724_PostaFire",
+  "triangulable": true,
+  "sites": [
+   "mlo",
+   "ws"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "POSTA",
+   "discovery_epoch": 1753383518,
+   "lat": 32.667663,
+   "lon": -116.430132,
+   "acres": 20,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{D7813EB7-99D3-4C47-9764-85835123DE0F}",
+   "dt_s": 216,
+   "km_to_nearest_cam": 10.74,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250801_BernardoFire",
+  "event": "20250801_BernardoFire",
+  "triangulable": false,
+  "sites": [
+   "bl2"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "Bernardo",
+   "discovery_epoch": 1754084940,
+   "lat": 33.0019967,
+   "lon": -117.0892067,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{C1237DD5-B7B6-4128-BD14-04006901688A}",
+   "dt_s": 766,
+   "km_to_nearest_cam": 3.42,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250804_CoolFire",
+  "event": "20250804_CoolFire",
+  "triangulable": false,
+  "sites": [
+   "bi"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "COOL",
+   "discovery_epoch": 1754332684,
+   "lat": 33.213005,
+   "lon": -117.002097,
+   "acres": 17.4,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E6D1D7AF-DFFF-4DBF-9415-5226F5C662B7}",
+   "dt_s": 1492,
+   "km_to_nearest_cam": 17.27,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250823_Clubfire",
+  "event": "20250823_Clubfire",
+  "triangulable": true,
+  "sites": [
+   "starr",
+   "stgo"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "CLUB",
+   "discovery_epoch": 1755964800,
+   "lat": 33.6344444,
+   "lon": -117.57,
+   "acres": null,
+   "county": "Orange",
+   "state": "US-CA",
+   "irwin": "{C8007C7B-C3D8-4D47-9D00-2E493381E21E}",
+   "dt_s": -35,
+   "km_to_nearest_cam": 3.14,
+   "name_match": true
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20250823_VailFire",
+  "event": "20250823_VailFire",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "VAIL",
+   "discovery_epoch": 1755963034,
+   "lat": 33.491489,
+   "lon": -116.980426,
+   "acres": 55,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{5CEF89BA-A96C-48A2-951A-CB3695DB987A}",
+   "dt_s": -2163,
+   "km_to_nearest_cam": 19.57,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250905_LodgeFire",
+  "event": "20250905_LodgeFire",
+  "triangulable": false,
+  "sites": [
+   "sm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "LODGE",
+   "discovery_epoch": 1757106099,
+   "lat": 32.727645,
+   "lon": -116.96354,
+   "acres": 75,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{A73668BB-DAD1-45A5-ADA3-5A57E0D263BE}",
+   "dt_s": 378,
+   "km_to_nearest_cam": 4.28,
+   "name_match": true
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20250908_CochesFire",
+  "event": "20250908_CochesFire",
+  "triangulable": false,
+  "sites": [
+   "sm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "COCHES 2",
+   "discovery_epoch": 1757368716,
+   "lat": 32.833978,
+   "lon": -116.90085,
+   "acres": 5.3,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{1AE09DE9-A59A-44D8-B978-36F73D6CDADB}",
+   "dt_s": 14,
+   "km_to_nearest_cam": 15.6,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20250914_HenshawFire",
+  "event": "20250914_HenshawFire",
+  "triangulable": false,
+  "sites": [
+   "mg"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "HENSHAW 2",
+   "discovery_epoch": 1757889870,
+   "lat": 33.228444,
+   "lon": -116.757408,
+   "acres": 6,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{EE2D16D5-3C4C-476F-B4B3-0F91B9362B90}",
+   "dt_s": 646,
+   "km_to_nearest_cam": 4.41,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20251009_RanchoFire",
+  "event": "20251009_RanchoFire",
+  "triangulable": false,
+  "sites": [
+   "bm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "RANCHO 3",
+   "discovery_epoch": 1760040450,
+   "lat": 33.076433,
+   "lon": -116.774334,
+   "acres": 105,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{7A28DA1E-2BCD-4C9A-98EC-266A0201659C}",
+   "dt_s": 72,
+   "km_to_nearest_cam": 9.8,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20251019_RanchFire",
+  "event": "20251019_RanchFire",
+  "triangulable": false,
+  "sites": [
+   "wc"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "Ranch",
+   "discovery_epoch": 1760916480,
+   "lat": 33.0172222,
+   "lon": -117.0786111,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{79B63DE6-8076-4036-8599-E89ECBB80AF4}",
+   "dt_s": 125,
+   "km_to_nearest_cam": 10.08,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20251102_ScissorsFire",
+  "event": "20251102_ScissorsFire",
+  "triangulable": true,
+  "sites": [
+   "mp",
+   "tp",
+   "vo"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "SCISSORS 2",
+   "discovery_epoch": 1762122055,
+   "lat": 33.098585,
+   "lon": -116.470729,
+   "acres": 68,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{97CFE796-2966-4291-AB90-DB7ABB77324E}",
+   "dt_s": -235,
+   "km_to_nearest_cam": 14.32,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20260128_Fire",
+  "event": "20260128_Fire",
+  "triangulable": false,
+  "sites": [
+   "wilson"
+  ],
+  "tier": "none",
+  "reason": "no candidate within geometry + time",
+  "truth": null,
+  "n_survivors": 0
+ },
+ {
+  "fire_id": "20260319_CrosleyFire",
+  "event": "20260319_CrosleyFire",
+  "triangulable": true,
+  "sites": [
+   "hp",
+   "mpo"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "CROSLEY",
+   "discovery_epoch": 1773946235,
+   "lat": 33.421107,
+   "lon": -116.94218,
+   "acres": 2,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{FF75E776-BE3D-47B0-8065-3C13734CC045}",
+   "dt_s": 1302,
+   "km_to_nearest_cam": 10.21,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20260408_RainbowFir",
+  "event": "20260408_RainbowFir",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "ambiguous",
+  "reason": "2 survive",
+  "truth": {
+   "name": "RAINBOW",
+   "discovery_epoch": 1775674967,
+   "lat": 33.408439,
+   "lon": -117.154587,
+   "acres": 1.64,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{D22891B1-4579-473E-8303-A709250B814A}",
+   "dt_s": 1541,
+   "km_to_nearest_cam": 3.44,
+   "name_match": false
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20260428_LiveOakFire",
+  "event": "20260428_LiveOakFire",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "Oak IC",
+   "discovery_epoch": 1777420680,
+   "lat": 33.3816667,
+   "lon": -117.2097222,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{849FBDB2-3D0F-4ADE-9FC3-0F4316D64E36}",
+   "dt_s": 2632,
+   "km_to_nearest_cam": 2.78,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20260502_MissionFire",
+  "event": "20260502_MissionFire",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "MISSION",
+   "discovery_epoch": 1777746339,
+   "lat": 33.295569,
+   "lon": -117.22036,
+   "acres": 19.5,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{529D4707-8E40-4564-994F-9D928F92D51E}",
+   "dt_s": -567,
+   "km_to_nearest_cam": 12.02,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20260519_TusilFire",
+  "event": "20260519_TusilFire",
+  "triangulable": false,
+  "sites": [
+   "mlo"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "TUSIL",
+   "discovery_epoch": 1779220808,
+   "lat": 32.707868,
+   "lon": -116.338245,
+   "acres": 820,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{1839E996-CB85-4D68-845A-FA8367DF7DD8}",
+   "dt_s": 320,
+   "km_to_nearest_cam": 16.84,
+   "name_match": true
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20260618_MissionFire",
+  "event": "20260618_MissionFire",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "MISSION 4",
+   "discovery_epoch": 1781814261,
+   "lat": 33.330086,
+   "lon": -117.15909,
+   "acres": 9.9,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{3C6D26C9-6B9B-4AD2-950C-C5F826E034C9}",
+   "dt_s": 1035,
+   "km_to_nearest_cam": 8.38,
+   "name_match": true
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20260622_BernardoFire",
+  "event": "20260622_BernardoFire",
+  "triangulable": false,
+  "sites": [
+   "wc"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "BERNARDO",
+   "discovery_epoch": 1782167283,
+   "lat": 33.055819,
+   "lon": -117.073423,
+   "acres": 3.39,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{621BA256-FB3A-4A21-A42D-F135A1CE78A8}",
+   "dt_s": 368,
+   "km_to_nearest_cam": 10.89,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20260629_JunctionFire",
+  "event": "20260629_JunctionFire",
+  "triangulable": true,
+  "sites": [
+   "bm",
+   "hp",
+   "mg",
+   "vo"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "JUNCTION",
+   "discovery_epoch": 1782778229,
+   "lat": 33.190665,
+   "lon": -116.703696,
+   "acres": 8.13,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{CA5F88AF-7F61-4454-AAF2-92FBF8AEB7E2}",
+   "dt_s": -63,
+   "km_to_nearest_cam": 5.3,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20260715_ThornFire",
+  "event": "20260715_ThornFire",
+  "triangulable": false,
+  "sites": [
+   "ws"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "THORN",
+   "discovery_epoch": 1784155184,
+   "lat": 32.691104,
+   "lon": -116.332927,
+   "acres": 1234,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{03C8555B-5842-496F-B327-63DFF323756F}",
+   "dt_s": 282,
+   "km_to_nearest_cam": 5.08,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20260722_CreelmanFire",
+  "event": "20260722_CreelmanFire",
+  "triangulable": true,
+  "sites": [
+   "bm",
+   "cp",
+   "mg"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "CREELMAN",
+   "discovery_epoch": 1784756988,
+   "lat": 33.018354,
+   "lon": -116.843448,
+   "acres": 347,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{72C28B64-91AE-46FF-9D43-C16E2AC8CB09}",
+   "dt_s": 64,
+   "km_to_nearest_cam": 16.08,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20260722_RainbowFire",
+  "event": "20260722_RainbowFire",
+  "triangulable": true,
+  "sites": [
+   "bh",
+   "rm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "RAINBOW 3",
+   "discovery_epoch": 1784739349,
+   "lat": 33.37737,
+   "lon": -117.116489,
+   "acres": 26.2,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{E12C0D58-48CE-4482-BD87-7C03B317E01D}",
+   "dt_s": 225,
+   "km_to_nearest_cam": 7.35,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20260807_BeaverFire",
+  "event": "20260807_BeaverFire",
+  "triangulable": false,
+  "sites": [
+   "lp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "BEAVER",
+   "discovery_epoch": 1786137627,
+   "lat": 32.734931,
+   "lon": -116.828165,
+   "acres": 20,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{19DB6C4D-8515-4998-9413-390B67729CFB}",
+   "dt_s": 50,
+   "km_to_nearest_cam": 7.01,
+   "name_match": true
+  },
+  "n_survivors": 2
+ },
+ {
+  "fire_id": "20260816_SorrentoFire",
+  "event": "20260816_SorrentoFire",
+  "triangulable": false,
+  "sites": [
+   "sdsc"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "Sorrento",
+   "discovery_epoch": 1786912620,
+   "lat": 32.9135667,
+   "lon": -117.1985083,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{935A7271-98F6-440E-85C1-1E954330267D}",
+   "dt_s": 587,
+   "km_to_nearest_cam": 5.03,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20260817_Church2Fire",
+  "event": "20260817_Church2Fire",
+  "triangulable": false,
+  "sites": [
+   "mlo"
+  ],
+  "tier": "probable",
+  "reason": "unique after geometry + time",
+  "truth": {
+   "name": "CHURCH 2",
+   "discovery_epoch": 1787000504,
+   "lat": 32.676963,
+   "lon": -116.354664,
+   "acres": 132,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{112B9B87-43FE-49C0-98C3-CBC6277625C4}",
+   "dt_s": 178,
+   "km_to_nearest_cam": 19.32,
+   "name_match": false
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20260820_ChiaFire",
+  "event": "20260820_ChiaFire",
+  "triangulable": false,
+  "sites": [
+   "hp"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "CHIA",
+   "discovery_epoch": 1787252763,
+   "lat": 33.484386,
+   "lon": -116.835267,
+   "acres": 51,
+   "county": "Riverside",
+   "state": "US-CA",
+   "irwin": "{B83F456B-95F2-480B-918D-F5B740519E31}",
+   "dt_s": 88,
+   "km_to_nearest_cam": 13.5,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20260906_BrengleFire",
+  "event": "20260906_BrengleFire",
+  "triangulable": false,
+  "sites": [
+   "rm"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "Brengle",
+   "discovery_epoch": 1788704400,
+   "lat": 33.207984,
+   "lon": -117.222015,
+   "acres": null,
+   "county": "San Diego",
+   "state": "US-CA",
+   "irwin": "{42B8FDF2-F353-45AD-8CE2-DEB4ECED6C6E}",
+   "dt_s": 113,
+   "km_to_nearest_cam": 21.64,
+   "name_match": true
+  },
+  "n_survivors": 1
+ },
+ {
+  "fire_id": "20260909_GettyFire",
+  "event": "20260909_GettyFire",
+  "triangulable": false,
+  "sites": [
+   "wilson"
+  ],
+  "tier": "confirmed",
+  "reason": "name + geometry",
+  "truth": {
+   "name": "GETTY FIRE",
+   "discovery_epoch": 1788995820,
+   "lat": 34.078018,
+   "lon": -118.474205,
+   "acres": null,
+   "county": "Los Angeles",
+   "state": "US-CA",
+   "irwin": "{77174264-839B-4846-B990-C5B49EAB7906}",
+   "dt_s": 64,
+   "km_to_nearest_cam": 41.56,
+   "name_match": true
+  },
+  "n_survivors": 1
+ }
+]
