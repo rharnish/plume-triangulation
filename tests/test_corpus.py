@@ -60,3 +60,13 @@ def test_tier_filter(monkeypatch):
     monkeypatch.setenv("FIGLIB_TIER", "clean")
     with pytest.raises(ValueError):
         C.tier_filter()
+
+
+def test_hyphen_joined_sequence_names_split_without_changing_underscore_ones(cams):
+    from src.figlib.ingest import split_seq_name
+    assert split_seq_name("20190814_FIRE-pi-s-mobo-c", cams) == ("20190814_FIRE", "pi-s-mobo-c")
+    assert split_seq_name("20240701_Kitchenfire_pi-e-mobo-c", cams) == (
+        "20240701_Kitchenfire", "pi-e-mobo-c")
+    # An event name that itself contains hyphens still splits on the underscore.
+    assert split_seq_name("20201202_WillowFire-nightime-near-CDF-HQ_sm-n-mobo-c", cams)[0] \
+        == "20201202_WillowFire-nightime-near-CDF-HQ"

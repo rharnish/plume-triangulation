@@ -67,6 +67,12 @@ def split_seq_name(name: str, cams: dict) -> tuple[str, str]:
     for cam in cams:
         if name.endswith("_" + cam):
             return name[: -(len(cam) + 1)], cam
+    # Two FIgLib archives join event and camera with a hyphen instead
+    # (`20190814_FIRE-pi-s-mobo-c`). Tried only after every underscore split fails, so
+    # no name that parsed before parses differently now.
+    for cam in sorted(cams, key=len, reverse=True):
+        if name.endswith("-" + cam) and "_" in name[: -(len(cam) + 1)]:
+            return name[: -(len(cam) + 1)], cam
     m = SEQ_RE.match(name)
     if m:
         return m.group("event"), m.group("camera")
