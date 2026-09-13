@@ -43,10 +43,12 @@ def _style(fig):
 
 def pose_corrections(dest: Path = DOCS / "star_pose_correction.jpg") -> Path:
     panels = [
+        ("hpwren_20260911_Q1_mlo-s-mobo-c", (0.0, 0.88),
+         "mlo-s-mobo-c, 2026-09-11: Grus, Phoenix and Cetus put the camera 23.0\u00b0 east of its published south azimuth"),
+        ("hpwren_20260911_Q1_vo-n-mobo-c", (0.0, 0.72),
+         "vo-n-mobo-c, 2026-09-11: Draco says 11.5\u00b0 east of north; July 14 agrees to 0.1\u00b0, and it is one of the JunctionFire cameras"),
         ("20240721_EagleFire_stgo-n-mobo-c", (0.0, 0.85),
-         "stgo-n-mobo-c, 2024-07-21: the Big Dipper and Draco say the camera points 9.3° west of its published azimuth"),
-        ("20191030_CopperCanyon_om-s-mobo-m", (0.0, 0.80),
-         "om-s-mobo-m, 2019-10-30: Phoenix and Grus put it 10.5° off (its color twin agrees, 10.7°); by 2024 the site solves at 0.4°, re-aimed in between"),
+         "stgo-n-mobo-c, 2024-07-21: the Big Dipper and Draco put it 9.3\u00b0 west of its published azimuth"),
     ]
     imgs = [_load(SKY / f"star_solve_{seq}.jpg", fig_track_solve.render, seq, BANNER_PX, rows) for seq, rows, _ in panels]
     heights = [im.shape[0] / im.shape[1] for im in imgs]
