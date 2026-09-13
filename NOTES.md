@@ -894,10 +894,11 @@ geolocation tests geometry rather than detector generalization.
 confident box sits at x=0.148, y=0.521 at 0.70-0.71 in every post-ignition frame -- and was
 detected 43 times *before* ignition. Its bearing is 78° from the official point, which lies
 2° inside the camera's right edge; `hp-w`'s bearing is 4° from truth. With two sites there is
-no third ray to outvote it. The real plume is probably among the nine lower-confidence boxes
-at x>0.85 (max 0.58), not checked by eye. It is the Kitchen fire's bird made permanent, and
-the rejection signal is already in the data: a detection at a fixed pixel before ignition is
-scenery.
+no third ray to outvote it. **The triangulation figure shows what it is: the white dome of
+the Palomar Observatory** (`mpo` is Mount Palomar), in frame all day. The real plume is
+probably among the nine lower-confidence boxes at x>0.85 (max 0.58). It is the Kitchen
+fire's bird made permanent, and the rejection signal is already in the data: a detection at a
+fixed pixel before ignition is scenery.
 
 **`20200806_BorderFire` does not solve because the detector missed it**: highest
 post-ignition confidence 0.17 on `om-e`, nothing on `lp-s`.
