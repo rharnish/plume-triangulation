@@ -18,8 +18,10 @@ import json
 from collections import defaultdict
 from pathlib import Path
 
+from . import corpus as C
+
 ROOT = Path(__file__).resolve().parents[2]
-META_DIR = ROOT / "data" / "meta"
+META_DIR = C.current().meta
 GAP_S = 1800
 
 
@@ -57,10 +59,14 @@ def cluster(seqs: list[dict], gap_s: int = GAP_S) -> list[dict]:
 
 
 def main() -> None:
+    from . import provenance as P
+    started = P.utc_now()
     seqs = json.loads((META_DIR / "sequences.json").read_text())
     fires = cluster(seqs)
     dest = META_DIR / "fires.json"
     dest.write_text(json.dumps(fires, indent=1) + "\n")
+    P.record("fires", [dest], params={"gap_s": GAP_S}, started=started,
+             extra_inputs=[META_DIR / "sequences.json"])
 
     tri = [f for f in fires if f["triangulable"]]
     split = [f for f in fires if "." in f["fire_id"]]

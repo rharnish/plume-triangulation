@@ -5,9 +5,24 @@ Weights are fetched, not committed.
 ## pyronear yolo11s (rapid-raccoon v8.1.0) — Apache 2.0
 
 ```sh
-curl -sL -o rr.tar.gz https://huggingface.co/pyronear/yolo11s_rapid-raccoon_v8.1.0/resolve/main/onnx_cpu.tar.gz
+REV=81a1f6bd060ca7100e496ff5dedeb2d327d135e0
+curl -sL -o rr.tar.gz https://huggingface.co/pyronear/yolo11s_rapid-raccoon_v8.1.0/resolve/$REV/onnx_cpu.tar.gz
 tar xzf rr.tar.gz && mv best.onnx pyronear_rr_v8.1.0.onnx && rm rr.tar.gz
+sha256sum pyronear_rr_v8.1.0.onnx   # must print 613db751...f1f10b
 ```
+
+**Pinned.** Every result in this repository came from these exact weights:
+
+| file | sha256 |
+|---|---|
+| `pyronear_rr_v8.1.0.onnx` | `613db7510865c48b3c1a9a4f6f2307a2822810490b121e5bb103ea8f1bf1f10b` |
+| `onnx_cpu.tar.gz` (as served) | `77bb91413277893ff70c2e57df3aad5e6d2cf40d989bea689f6b7b252b705976` |
+| `pyronear_rr_v8.1.0.pt` | `01bb40dabd1f994ac220cd8f779ee7f8aa0bae88d2b7410916788a76bdc89bbb` |
+
+Revision `81a1f6bd` is the repository's only commit (created 2026-05-25); the hashes above
+were checked against it on 2026-09-12. `detect_yolo` refuses to run on any other ONNX file
+(`provenance.check_model`) unless `FIGLIB_ALLOW_UNPINNED_MODEL=1` is set, and the run log
+then records the hash actually used.
 
 **This model was trained on FIgLib.** `pyro-dataset`'s raw-data README lists
 `FIGLIB_ANNOTATED_RESIZED` — "re-annotated dataset from the Fire Ignition images

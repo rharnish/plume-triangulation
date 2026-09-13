@@ -19,13 +19,24 @@ from pathlib import Path
 
 import numpy as np
 
+from . import corpus as C
 from .geolocate import (META, YOLO_DIR, Bearing, bearings_for_fire,
                         credible_area_km2, solve)
 from .geom import haversine_km, load_cams
 
 ROOT = Path(__file__).resolve().parents[2]
 TGZ = ROOT / "data" / "tgz"
-OUT = ROOT / "out" / "triangulate"
+OUT = C.current().out / "triangulate"      # out/triangulate for core, as before
+
+
+def _tgz_for(seq_name: str) -> Path | None:
+    """The archive holding a sequence, from whichever of the corpus's directories has it."""
+    stem = seq_name.split("#")[0]
+    for d in C.current().tgz_dirs:
+        p = d / f"{stem}.tgz"
+        if p.exists():
+            return p
+    return None
 
 # Ray colors, chosen to stay distinguishable against hillshade and against each other.
 PALETTE = ["#ff5d5d", "#ffd166", "#4dd2a0", "#5fa8ff", "#c792ea", "#ff9f45",
@@ -65,8 +76,8 @@ def _plume_crop(seq_name: str, camera: str, epoch: int, det: dict):
     """The frame that produced this bearing, cropped around the box it was drawn from."""
     import cv2
     from .detect_yolo import read_frames
-    tgz = TGZ / f"{seq_name.split('#')[0]}.tgz"
-    if not tgz.exists():
+    tgz = _tgz_for(seq_name)
+    if tgz is None:
         return None
     frames = [(e, o, b) for e, o, b in read_frames(tgz) if e == epoch]
     if not frames:
@@ -75,7 +86,11 @@ def _plume_crop(seq_name: str, camera: str, epoch: int, det: dict):
     if img is None:
         return None
     H, W = img.shape[:2]
+    return _crop_image(img, _crop_window(det, W, H), det)
 
+
+def _crop_window(det: dict, W: int, H: int) -> tuple:
+    """Pixel window around a detection, as (x0, y0, x1, y1, cw, W, H)."""
     # Crop wide enough that the plume sits in a landscape rather than filling the frame:
     # a box alone shows the detector worked, not what it was looking at.
     cx, cy = (det["x0"] + det["x1"]) / 2 * W, (det["y0"] + det["y1"]) / 2 * H
@@ -84,7 +99,13 @@ def _plume_crop(seq_name: str, camera: str, epoch: int, det: dict):
     ch = cw / CROP_ASPECT
     x0 = int(np.clip(cx - cw / 2, 0, W - cw)); y0 = int(np.clip(cy - ch / 2, 0, H - ch))
     x1, y1 = int(x0 + cw), int(y0 + ch)
+    return x0, y0, x1, y1, cw, W, H
 
+
+def _crop_image(img, window: tuple, det: dict):
+    """Cut `window` out of a BGR frame with the detection's box drawn in; returns RGB."""
+    import cv2
+    x0, y0, x1, y1, cw, W, H = window
     crop = img[y0:y1, x0:x1].copy()
     cv2.rectangle(crop, (int(det["x0"] * W) - x0, int(det["y0"] * H) - y0),
                   (int(det["x1"] * W) - x0, int(det["y1"] * H) - y0),
@@ -110,29 +131,8 @@ def _det_for(bearing: Bearing, fire: dict, seqs: dict) -> tuple[str, dict] | Non
     return None
 
 
-def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: dict,
-           wind_cache: dict | None = None, out_dir: Path = OUT) -> Path | None:
-    import matplotlib
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
-    from matplotlib.lines import Line2D
-
-    # use_wind=False deliberately: the reported table is the box-center variant, and a
-    # figure that disagreed with the number beside it would be worse than no figure.
-    bs = bearings_for_fire(fire, seqs, cams, use_wind=False, wind_cache=wind_cache)
-    if len({b.camera.split("-")[0] for b in bs}) < 2:
-        return None
-    bs = sorted(bs, key=lambda b: -b.conf)[:len(PALETTE)]
-
-    # Solve on the same grid geolocate.main uses -- centered on the mean camera position,
-    # not on the answer. Centering the grid on truth would snap the peak to the truth cell
-    # and report an error better than the pipeline's, which is the one way a figure like
-    # this can quietly lie.
-    center = (float(np.mean([b.lat for b in bs])), float(np.mean([b.lon for b in bs])))
-    lats, lons, ll, elat, elon = solve(bs, center)
-    err = haversine_km(elat, elon, truth["lat"], truth["lon"])
-    area = credible_area_km2(lats, lons, ll)
-
+def _view(bs, truth: dict, elat: float, elon: float) -> dict:
+    """Map extent for a set of bearings, an estimate and the truth."""
     # Frame on the bounding box of everything that must be visible -- every camera, the
     # estimate and the truth -- centered on that box rather than on the fire. Centering on
     # truth pushes the estimate off the edge exactly in the cases worth looking at, where
@@ -144,12 +144,58 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
     cos_lat = math.cos(math.radians(clat))
     half_km = max(9.0, 0.66 * max((max(pts_lat) - min(pts_lat)) * 111.32,
                                   (max(pts_lon) - min(pts_lon)) * 111.32 * cos_lat))
+    return {"clat": clat, "clon": clon, "cos_lat": cos_lat, "half_km": half_km,
+            "dlat": half_km / 111.32, "dlon": half_km / (111.32 * cos_lat)}
 
-    crops = []
-    for b, col in zip(bs, PALETTE):
-        got = _det_for(b, fire, seqs)
-        crops.append((b, col, _plume_crop(*got[:1], b.camera, b.epoch, got[1])
-                      if got else None))
+
+def _inset_spec(bs, truth: dict, elat: float, elon: float, err: float, area: float,
+                view: dict) -> dict | None:
+    """Where the likelihood zoom goes and how much it shows, or None to leave it out."""
+    # The inset answers a second question -- how tightly the surface constrains the answer
+    # -- but only earns its space when the credible region is genuinely too small to read
+    # on the main map. Once the rays cross wide, or estimate and truth disagree by enough
+    # that the falloff is already legible at the main span, it is clutter, and is dropped.
+    z_km = max(1.6, 2.6 * math.sqrt(max(area, 0.4)), err * 1.5)
+    if z_km >= 0.24 * view["half_km"]:
+        return None
+    clat, clon, dlat, dlon = view["clat"], view["clon"], view["dlat"], view["dlon"]
+
+    # Drop it into whichever corner holds the fewest markers; the legend takes the
+    # upper left, so it is left out of the running.
+    def _axfrac(lon, lat):
+        return ((lon - (clon - dlon)) / (2 * dlon),
+                (lat - (clat - dlat)) / (2 * dlat))
+    pts_ax = ([_axfrac(b.lon, b.lat) for b in bs]
+              + [_axfrac(elon, elat), _axfrac(truth["lon"], truth["lat"])])
+    iw = ih = 0.32
+    corners = {"lower left": (0.02, 0.03),
+               "lower right": (0.97 - iw, 0.03),
+               "upper right": (0.97 - iw, 0.96 - ih)}
+    corner, (x0, y0) = min(
+        corners.items(),
+        key=lambda kv: sum(kv[1][0] - 0.05 <= px <= kv[1][0] + iw + 0.05
+                           and kv[1][1] - 0.05 <= py <= kv[1][1] + ih + 0.05
+                           for px, py in pts_ax))
+    return {"corner": corner, "rect": [x0, y0, iw, ih], "z_km": z_km,
+            "mlat": (elat + truth["lat"]) / 2, "mlon": (elon + truth["lon"]) / 2}
+
+
+def _draw(title: str, view: dict, hillshade, cams: dict, cameras: list, rays: list,
+          surface, est, truth: dict, inset: dict | None, crops: list):
+    """Draw one figure and return it.
+
+    `cameras` is [(camera, color)] -- every camera gets its wedge and marker whether or not
+    it has a bearing yet. `rays` is {camera: Bearing}. `surface` is (lats, lons, ll) and
+    `est` is (lat, lon), both None until two sites have bearings. `crops` is
+    [(title, color, image-or-None)] in panel order.
+    """
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from matplotlib.lines import Line2D
+
+    clat, clon, cos_lat = view["clat"], view["clon"], view["cos_lat"]
+    half_km, dlat, dlon = view["half_km"], view["dlat"], view["dlon"]
 
     n = len(crops)
     # Every camera view in one vertical stack down the right edge, so the map keeps the
@@ -165,31 +211,32 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
     ax = fig.add_subplot(gs[:, 0])
     ax.set_facecolor("#11131a")
 
-    dlat = half_km / 111.32
-    dlon = half_km / (111.32 * cos_lat)
     ax.set_xlim(clon - dlon, clon + dlon)
     ax.set_ylim(clat - dlat, clat + dlat)
 
-    hs, extent = _hillshade(clat, clon, half_km)
+    hs, extent = hillshade
     if hs is not None:
         ax.imshow(hs, origin="lower", extent=extent, cmap="gray",
                   vmin=-0.15, vmax=1.25, alpha=0.55, aspect="auto", zorder=0)
 
-    # The likelihood as a heatmap rather than a flat patch: the shape of the falloff is
-    # the honest uncertainty, and a single outline throws it away. Alpha ramps to zero at
-    # the -9 contour so the relief stays visible everywhere the surface says nothing.
-    rel = ll - ll.max()
-    a = np.clip((rel + 9.0) / 9.0, 0.0, 1.0)
-    rgba = matplotlib.colormaps["magma"](a)
-    rgba[..., 3] = 0.90 * a ** 1.6
-    ax.imshow(rgba, origin="lower",
-              extent=[lons[0], lons[-1], lats[0], lats[-1]],
-              aspect="auto", zorder=2, interpolation="bilinear")
-    cs = ax.contour(lons, lats, rel, levels=[-6.0, -3.0, -1.0],
-                    colors=["#7fb2ff", "#bfe0ff", "#ffffff"],
-                    linewidths=[0.9, 1.2, 1.4], zorder=3)
-    ax.clabel(cs, fmt={-6.0: "", -3.0: "95%", -1.0: "peak"}, fontsize=7.5,
-              colors="#e8eefc")
+    if surface is not None:
+        lats, lons, ll = surface
+        # The likelihood as a heatmap rather than a flat patch: the shape of the falloff
+        # is the honest uncertainty, and a single outline throws it away. Alpha ramps to
+        # zero at the -9 contour so the relief stays visible everywhere the surface says
+        # nothing.
+        rel = ll - ll.max()
+        a = np.clip((rel + 9.0) / 9.0, 0.0, 1.0)
+        rgba = matplotlib.colormaps["magma"](a)
+        rgba[..., 3] = 0.90 * a ** 1.6
+        ax.imshow(rgba, origin="lower",
+                  extent=[lons[0], lons[-1], lats[0], lats[-1]],
+                  aspect="auto", zorder=2, interpolation="bilinear")
+        cs = ax.contour(lons, lats, rel, levels=[-6.0, -3.0, -1.0],
+                        colors=["#7fb2ff", "#bfe0ff", "#ffffff"],
+                        linewidths=[0.9, 1.2, 1.4], zorder=3)
+        ax.clabel(cs, fmt={-6.0: "", -3.0: "95%", -1.0: "peak"}, fontsize=7.5,
+                  colors="#e8eefc")
 
     span = half_km * 2.4 / 111.32
 
@@ -203,77 +250,64 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
                           * (2 * dlat * 111.32 / ax_h_px))
     wedge_span = 50 * km_per_px / 111.32
 
-    for b, col, _crop in crops:
+    for camera, col in cameras:
         # The camera's own fixed field of view, faint and short behind the sighting: the
         # bearing ray is one detection, but the wedge is what the camera can ever see, so
         # it's the thing that actually reads as "which way is this camera facing."
-        cam = cams.get(b.camera)
-        if cam is not None:
-            clat_c = math.radians(cam["lat"])
-            half_fov = math.radians(cam["fov"] / 2.0)
-            az0 = math.radians(cam["az"])
-            edges = np.linspace(az0 - half_fov, az0 + half_fov, 24)
-            wx = [cam["lon"]] + [cam["lon"] + math.sin(a) * wedge_span / math.cos(clat_c)
-                                  for a in edges] + [cam["lon"]]
-            wy = [cam["lat"]] + [cam["lat"] + math.cos(a) * wedge_span for a in edges] \
-                + [cam["lat"]]
-            ax.fill(wx, wy, color=col, alpha=0.16, lw=0, zorder=1)
-            ax.plot(wx, wy, color=col, lw=0.8, alpha=0.45, zorder=1)
-        th = math.radians(b.bearing_deg)
-        ax.plot([b.lon, b.lon + math.sin(th) * span / math.cos(math.radians(b.lat))],
-                [b.lat, b.lat + math.cos(th) * span],
-                color=col, lw=2.0, alpha=0.95, zorder=4,
-                solid_capstyle="round")
-        ax.plot(b.lon, b.lat, marker="^", color=col, ms=11, mec="#11131a", mew=1.2,
-                zorder=6)
-        ax.annotate(b.camera, (b.lon, b.lat), textcoords="offset points",
+        cam = cams[camera]
+        clat_c = math.radians(cam["lat"])
+        half_fov = math.radians(cam["fov"] / 2.0)
+        az0 = math.radians(cam["az"])
+        edges = np.linspace(az0 - half_fov, az0 + half_fov, 24)
+        wx = [cam["lon"]] + [cam["lon"] + math.sin(a) * wedge_span / math.cos(clat_c)
+                              for a in edges] + [cam["lon"]]
+        wy = [cam["lat"]] + [cam["lat"] + math.cos(a) * wedge_span for a in edges] \
+            + [cam["lat"]]
+        ax.fill(wx, wy, color=col, alpha=0.16, lw=0, zorder=1)
+        ax.plot(wx, wy, color=col, lw=0.8, alpha=0.45, zorder=1)
+        b = rays.get(camera)
+        if b is not None:
+            th = math.radians(b.bearing_deg)
+            ax.plot([b.lon, b.lon + math.sin(th) * span / math.cos(math.radians(b.lat))],
+                    [b.lat, b.lat + math.cos(th) * span],
+                    color=col, lw=2.0, alpha=0.95, zorder=4,
+                    solid_capstyle="round")
+        ax.plot(cam["lon"], cam["lat"], marker="^", color=col, ms=11, mec="#11131a",
+                mew=1.2, zorder=6)
+        ax.annotate(camera, (cam["lon"], cam["lat"]), textcoords="offset points",
                     xytext=(11, 7), fontsize=8.5, color=col, weight="bold",
                     zorder=6)
 
     ax.plot(truth["lon"], truth["lat"], "o", mfc="none", mec="#ffffff", ms=21, mew=2.4,
             zorder=7)
-    ax.plot(elon, elat, "x", color="#ff3860", ms=15, mew=3.4, zorder=8)
+    if est is not None:
+        ax.plot(est[1], est[0], "x", color="#ff3860", ms=15, mew=3.4, zorder=8)
 
     ax.set_xticks([]); ax.set_yticks([])
     for sp in ax.spines.values():
         sp.set_color("#3a4050")
 
-    # The inset answers a second question -- how tightly the surface constrains the answer
-    # -- but only earns its space when the credible region is genuinely too small to read
-    # on the main map. Once the rays cross wide, or estimate and truth disagree by enough
-    # that the falloff is already legible at the main span, it is clutter, and is dropped.
-    z_km = max(1.6, 2.6 * math.sqrt(max(area, 0.4)), err * 1.5)
     inset_corner = None
-    if z_km < 0.24 * half_km:
-        # Drop it into whichever corner holds the fewest markers; the legend takes the
-        # upper left, so it is left out of the running.
-        def _axfrac(lon, lat):
-            return ((lon - (clon - dlon)) / (2 * dlon),
-                    (lat - (clat - dlat)) / (2 * dlat))
-        pts_ax = ([_axfrac(b.lon, b.lat) for b in bs]
-                  + [_axfrac(elon, elat), _axfrac(truth["lon"], truth["lat"])])
-        iw = ih = 0.32
-        corners = {"lower left": (0.02, 0.03),
-                   "lower right": (0.97 - iw, 0.03),
-                   "upper right": (0.97 - iw, 0.96 - ih)}
-        inset_corner, (x0, y0) = min(
-            corners.items(),
-            key=lambda kv: sum(kv[1][0] - 0.05 <= px <= kv[1][0] + iw + 0.05
-                               and kv[1][1] - 0.05 <= py <= kv[1][1] + ih + 0.05
-                               for px, py in pts_ax))
-        iax = ax.inset_axes([x0, y0, iw, ih])
+    if inset is not None:
+        inset_corner = inset["corner"]
+        iax = ax.inset_axes(inset["rect"])
         iax.set_facecolor("#0d0f15")
+        z_km = inset["z_km"]
         zlat, zlon = z_km / 111.32, z_km / (111.32 * cos_lat)
-        mlat, mlon = (elat + truth["lat"]) / 2, (elon + truth["lon"]) / 2
-        iax.imshow(rgba, origin="lower",
-                   extent=[lons[0], lons[-1], lats[0], lats[-1]],
-                   aspect="auto", zorder=1, interpolation="bilinear")
-        ics = iax.contour(lons, lats, rel, levels=[-6.0, -3.0, -1.0],
-                          colors=["#7fb2ff", "#bfe0ff", "#ffffff"],
-                          linewidths=[0.9, 1.2, 1.4], zorder=2)
-        iax.clabel(ics, fmt={-6.0: "", -3.0: "95%", -1.0: "peak"}, fontsize=7,
-                   colors="#e8eefc")
-        for b, col, _c in crops:
+        mlat, mlon = inset["mlat"], inset["mlon"]
+        if surface is not None:
+            iax.imshow(rgba, origin="lower",
+                       extent=[lons[0], lons[-1], lats[0], lats[-1]],
+                       aspect="auto", zorder=1, interpolation="bilinear")
+            ics = iax.contour(lons, lats, rel, levels=[-6.0, -3.0, -1.0],
+                              colors=["#7fb2ff", "#bfe0ff", "#ffffff"],
+                              linewidths=[0.9, 1.2, 1.4], zorder=2)
+            iax.clabel(ics, fmt={-6.0: "", -3.0: "95%", -1.0: "peak"}, fontsize=7,
+                       colors="#e8eefc")
+        for camera, col in cameras:
+            b = rays.get(camera)
+            if b is None:
+                continue
             th = math.radians(b.bearing_deg)
             iax.plot([b.lon,
                       b.lon + math.sin(th) * span / math.cos(math.radians(b.lat))],
@@ -281,7 +315,8 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
                      alpha=0.9, zorder=3)
         iax.plot(truth["lon"], truth["lat"], "o", mfc="none", mec="#ffffff", ms=14,
                  mew=2, zorder=5)
-        iax.plot(elon, elat, "x", color="#ff3860", ms=11, mew=2.6, zorder=5)
+        if est is not None:
+            iax.plot(est[1], est[0], "x", color="#ff3860", ms=11, mew=2.6, zorder=5)
         iax.set_xlim(mlon - zlon, mlon + zlon); iax.set_ylim(mlat - zlat, mlat + zlat)
         iax.set_xticks([]); iax.set_yticks([])
         for sp in iax.spines.values():
@@ -312,7 +347,7 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
     ], loc="upper left", fontsize=9, facecolor="#181b24", edgecolor="#3a4050",
         labelcolor="#dfe3ea", framealpha=0.92)
 
-    for i, (b, col, crop) in enumerate(crops):
+    for i, (ctitle, col, crop) in enumerate(crops):
         cax = fig.add_subplot(gs[i, 1])
         cax.set_facecolor("#11131a")
         if crop is not None:
@@ -320,17 +355,55 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
         cax.set_xticks([]); cax.set_yticks([])
         for sp in cax.spines.values():
             sp.set_color(col); sp.set_linewidth(2.6)
-        cax.set_title(f"{b.camera}   conf {b.conf:.2f}   bearing {b.bearing_deg:.1f}°",
-                      fontsize=9.2, color=col, pad=3.5)
+        cax.set_title(ctitle, fontsize=9.2, color=col, pad=3.5)
 
+    fig.suptitle(title, color="#f2f4f8", fontsize=14.5, y=0.965)
+    return fig
+
+
+def _title(fire_id: str, truth: dict, tier: str, middle: str) -> str:
     acres = truth.get("acres")
-    fig.suptitle(
-        f"{fire_id}  →  {truth['name']}"
-        + (f"  ({acres} acres)" if acres else "")
-        + f"      {len({b.camera.split('-')[0] for b in bs})} sites"
-        f"      error {err:.2f} km      95% region {area:.1f} km²"
-        f"      [{tier}]",
-        color="#f2f4f8", fontsize=14.5, y=0.965)
+    return (f"{fire_id}  →  {truth['name']}"
+            + (f"  ({acres} acres)" if acres else "")
+            + middle + f"      [{tier}]")
+
+
+def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: dict,
+           wind_cache: dict | None = None, out_dir: Path = OUT) -> Path | None:
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    # use_wind=False deliberately: the reported table is the box-center variant, and a
+    # figure that disagreed with the number beside it would be worse than no figure.
+    bs = bearings_for_fire(fire, seqs, cams, use_wind=False, wind_cache=wind_cache)
+    if len({b.camera.split("-")[0] for b in bs}) < 2:
+        return None
+    bs = sorted(bs, key=lambda b: -b.conf)[:len(PALETTE)]
+
+    # Solve on the same grid geolocate.main uses -- centered on the mean camera position,
+    # not on the answer. Centering the grid on truth would snap the peak to the truth cell
+    # and report an error better than the pipeline's, which is the one way a figure like
+    # this can quietly lie.
+    center = (float(np.mean([b.lat for b in bs])), float(np.mean([b.lon for b in bs])))
+    lats, lons, ll, elat, elon = solve(bs, center)
+    err = haversine_km(elat, elon, truth["lat"], truth["lon"])
+    area = credible_area_km2(lats, lons, ll)
+    view = _view(bs, truth, elat, elon)
+
+    crops = []
+    for b, col in zip(bs, PALETTE):
+        got = _det_for(b, fire, seqs)
+        crops.append((f"{b.camera}   conf {b.conf:.2f}   bearing {b.bearing_deg:.1f}°", col,
+                      _plume_crop(*got[:1], b.camera, b.epoch, got[1]) if got else None))
+
+    title = _title(fire_id, truth, tier,
+                   f"      {len({b.camera.split('-')[0] for b in bs})} sites"
+                   f"      error {err:.2f} km      95% region {area:.1f} km²")
+    fig = _draw(title, view, _hillshade(view["clat"], view["clon"], view["half_km"]),
+                cams, [(b.camera, col) for b, col in zip(bs, PALETTE)],
+                {b.camera: b for b in bs}, (lats, lons, ll), (elat, elon), truth,
+                _inset_spec(bs, truth, elat, elon, err, area, view), crops)
 
     out_dir.mkdir(parents=True, exist_ok=True)
     out = out_dir / f"{fire_id}.png"
@@ -340,6 +413,8 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
 
 
 def main(argv: list[str]) -> None:
+    from . import provenance as P
+    started = P.utc_now()
     cams = load_cams()
     seqs = {s["seq"]: s for s in json.loads((META / "sequences.json").read_text())}
     fires = {f["fire_id"]: f for f in json.loads((META / "fires.json").read_text())}
@@ -377,8 +452,14 @@ def main(argv: list[str]) -> None:
         print(f"[{k}/{len(todo)}] {fid:26s} {r['tier']:9s} "
               f"{index[-1]['n_sites']} sites  {err:6.2f} km", flush=True)
 
+    OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "index.json").write_text(json.dumps(index, indent=1) + "\n")
     print(f"\n{len(index)} figures -> {OUT}")
+    P.record("fig_triangulate",
+             [OUT / "index.json"] + [OUT / f"{r['fire_id']}.png" for r in index],
+             started=started, params={"fires": argv or "all scoring fires"},
+             extra_inputs=[META / "sequences.json", META / "fires.json",
+                           META / "resolved.json", YOLO_DIR])
 
 
 def sheet(tile_w: int = 560, cols: int = 4) -> Path:

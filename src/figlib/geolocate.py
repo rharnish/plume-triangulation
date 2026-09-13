@@ -31,14 +31,15 @@ import numpy as np
 
 from .geom import (angdiff_deg, bearing_deg, haversine_km, load_cams,
                     offset_bearing_deg)
+from . import corpus as C
 from .wind import upwind_x, wind_at
 
 ROOT = Path(__file__).resolve().parents[2]
-META = ROOT / "data" / "meta"
+META = C.current().meta
 # Which detection pass to score. Overridable so the Core ML variants run through this
 # exact pipeline rather than a parallel one -- the point of the quantization study is a
 # paired comparison, and a second implementation would be a second source of difference.
-YOLO_DIR = Path(os.environ.get("FIGLIB_DETS", ROOT / "out" / "yolo"))
+YOLO_DIR = Path(os.environ.get("FIGLIB_DETS", C.current().dets))
 
 # Angular budget per bearing. Pose is published to a degree, the plume is a meters-wide
 # object seen as a box several degrees across, and its centroid sits downwind of the
@@ -247,6 +248,9 @@ def credible_area_km2(lats, lons, ll, drop: float = 3.0, step_km: float = 0.4) -
 
 
 def main() -> None:
+    from . import provenance as P
+    started = P.utc_now()
+    tiers = C.tier_filter()
     cams = load_cams()
     seqs = {s["seq"]: s for s in json.loads((META / "sequences.json").read_text())}
     fires = {f["fire_id"]: f for f in json.loads((META / "fires.json").read_text())}
@@ -258,6 +262,8 @@ def main() -> None:
     rows = []
     for r in resolved:
         if r["tier"] not in ("confirmed", "probable") or not r.get("triangulable"):
+            continue
+        if not C.in_tier(r["fire_id"], tiers):
             continue
         fire = fires[r["fire_id"]]
         t = r["truth"]
@@ -307,9 +313,14 @@ def main() -> None:
         rows.append(row)
     _save_wind(wind_cache)
 
-    dest = ROOT / "out" / "geolocation.json"
+    dest = C.current().out / f"geolocation{C.tier_suffix(tiers)}.json"
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps(rows, indent=1) + "\n")
+    from .wind import CACHE as WIND_CACHE
+    P.record("geolocate", [dest, WIND_CACHE], started=started,
+             params={"variants": list(VARIANTS), "sigma_deg": SIGMA_DEG},
+             extra_inputs=[META / "sequences.json", META / "fires.json",
+                           META / "resolved.json", YOLO_DIR])
 
     solved = [r for r in rows if r["center"].get("status") == "solved"]
     print(f"{len(rows)} scoring fires, {len(solved)} solved")

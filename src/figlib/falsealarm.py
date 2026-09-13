@@ -37,6 +37,7 @@ from pathlib import Path
 
 import numpy as np
 
+from . import corpus as C
 from .geom import offset_bearing_deg
 
 
@@ -54,12 +55,15 @@ def poisson_hi(n: int, cam_days: float) -> float | None:
     return round(float(chi2.ppf(0.975, 2 * (n + 1)) / 2 / cam_days), 3)
 
 ROOT = Path(__file__).resolve().parents[2]
-META = ROOT / "data" / "meta"
+CORPUS = C.current()
+META = CORPUS.meta
 # Which detection pass to score. Overridable so the Core ML variants run through this
 # exact pipeline rather than a parallel one -- the point of the quantization study is a
 # paired comparison, and a second implementation would be a second source of difference.
-YOLO_DIR = Path(os.environ.get("FIGLIB_DETS", ROOT / "out" / "yolo"))
-OUT = ROOT / "out"
+YOLO_DIR = Path(os.environ.get("FIGLIB_DETS", CORPUS.dets))
+OUT = CORPUS.out
+# Restrict scoring to what the detector cannot have trained on (corpus.contamination).
+TIERS = C.tier_filter()
 
 # Frames within this many seconds before annotated plume appearance are discarded
 # rather than counted as negatives. The annotation is a human judgement of when smoke
@@ -78,9 +82,11 @@ SECONDS_PER_DAY = 86400
 
 
 def load() -> tuple[list[dict], dict, dict]:
-    seqs = {s["seq"]: s for s in json.loads((META / "sequences.json").read_text())}
-    cams = json.loads((META / "cams.json").read_text())
-    fires = json.loads((META / "fires.json").read_text())
+    seqs = {s["seq"]: s for s in json.loads((META / "sequences.json").read_text())
+            if C.in_tier(s["seq"], TIERS)}
+    cams = json.loads((C.SHARED_META / "cams.json").read_text())
+    fires = [f for f in json.loads((META / "fires.json").read_text())
+             if C.in_tier(f["fire_id"], TIERS)]
     return fires, seqs, cams
 
 
@@ -294,21 +300,31 @@ def figure(result: dict) -> None:
     axes[1].set_ylabel("median seconds from plume appearance to alert")
     axes[1].set_title("Latency vs false-alarm budget")
     axes[0].legend(fontsize=8, loc="lower right")
-    axes[0].text(0.02, 0.985, "shaded: the corpus holds under\n5 camera-days of negatives,\n"
-                 "so rates here rest on 0-3 events",
+    cam_days = result["single"][0]["cam_days"]
+    note = ("shaded: the corpus holds under\n5 camera-days of negatives,\n"
+            "so rates here rest on 0-3 events")
+    if CORPUS.name != "core" or TIERS:
+        # The published figure's wording is kept verbatim for the core corpus; any other
+        # selection states its own exposure rather than inheriting that one.
+        note = (f"shaded: the selection holds\n{cam_days:.2f} camera-days of negatives,"
+                f"\nso rates under ~{3 / cam_days:.2g}/day rest on 0-3 events"
+                if cam_days else "no negatives in this selection")
+    axes[0].text(0.02, 0.985, note,
                  transform=axes[0].transAxes, fontsize=7.5, color="0.3", va="top")
     fig.text(0.5, 0.015,
              "pyronear yolo11s. The detector was trained on FIgLib, so absolute rates "
              "are a labeled reference point, not a generalisation claim.",
              ha="center", fontsize=8.5, color="0.3")
     fig.tight_layout(rect=(0, 0.045, 1, 1))
-    dest = OUT / "figures" / "falsealarm.png"
+    dest = OUT / "figures" / f"falsealarm{C.tier_suffix(TIERS)}.png"
     dest.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(dest, dpi=140)
     print(f"\nwrote {dest}")
 
 
 def main() -> None:
+    from . import provenance as P
+    started = P.utc_now()
     taus = [round(t, 3) for t in
             [0.05, 0.08, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45,
              0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90]]
@@ -320,9 +336,16 @@ def main() -> None:
         "any_site": cross_site(taus, require_cross=False),
         "cross": cross_site(taus),
     }
-    OUT.mkdir(exist_ok=True)
-    (OUT / "falsealarm.json").write_text(json.dumps(result, indent=1) + "\n")
+    OUT.mkdir(parents=True, exist_ok=True)
+    suffix = C.tier_suffix(TIERS)
+    dest = OUT / f"falsealarm{suffix}.json"
+    dest.write_text(json.dumps(result, indent=1) + "\n")
     figure(result)
+    P.record("falsealarm", [dest, OUT / "figures" / f"falsealarm{suffix}.png"],
+             params={"taus": taus, "guard_s": GUARD_S, "refractory_s": REFRACTORY_S,
+                     "latency_window_s": LATENCY_WINDOW_S},
+             started=started,
+             extra_inputs=[META / "sequences.json", META / "fires.json", YOLO_DIR])
     for rule in ("single", "2of3", "3of5", "any_site", "cross"):
         print(f"\n== {rule}")
         print(f"  observed over {result[rule][0]['cam_days']} camera-days of negatives")

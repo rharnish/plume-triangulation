@@ -811,6 +811,119 @@ comparison. `python -m src.figlib.plumefit [diff|sam]` prints why each fit refus
 Diagnostic stills: `python -m src.figlib.masks <fire_id>` -> `out/masks/`; mask video
 `python -c "from src.figlib.masks import mask_video; mask_video('<fire_id>')"`.
 
+## All of FIgLib, scored by what the detector cannot have seen (2026-09-12)
+
+The published numbers come from 189 archives. The other 267 FIgLib archives were fetched
+separately (`out/figlib_extra/tgz/`, not `fetch.sh`) and scored as their own corpus, to
+answer two things the core corpus cannot: are the false-alarm and latency numbers inflated
+by pyronear having trained on FIgLib, and does doubling the negatives resolve the rates that
+matter?
+
+### Provenance first
+
+- `FIGLIB_CORPUS=core|extra|all` gives each corpus its own metadata and result directories;
+  unset means core and the original paths. Re-running every core stage through the new code
+  reproduced sequences, fires, truth, resolved, geolocation and falsealarm JSON **byte for
+  byte**, and the 26 core scoring fires come out identical inside the all corpus.
+- `data/meta/manifests/` hashes all 456 archives (32.8 GB); every local size matches the
+  CDN's `Content-Length`. `data/meta/**/runs.jsonl` records commit, model pin, input manifest
+  hashes, parameters and output hashes for every stage run.
+- Contamination tier comes from the fire date (`corpus.contamination`): `possibly_seen` on or
+  before pyronear's 2025-04-14 FIgLib snapshot, `likely_unseen` up to the model's 2026-05-25
+  release, `unseen` after it.
+
+### What the rest of FIgLib contained
+
+- **Three unusable archives**, kept in the manifest with the reason: two empty placeholders
+  (`20250123_GilmanFire_tdllns-mobo-c`, 150 B; `20260909_GettyFire_wilson-ws-mobo-c`, 258 B)
+  and `20200831_FIRE_wc-n-mobo-c`, 180 frames named by epoch alone -- no plume clock.
+- **Two names joined with a hyphen** (`20190814_FIRE-pi-s-mobo-c`,
+  `20190825_FIRE-smer-tcs8-mobo-c`) that ingest had skipped as unsplittable.
+- **A URL-encoded, wrong sign.** `20250801_BernardoFire_bl-n-mobo-c` and
+  `20250804_CoolFire_bi-w-mobo-c` name pre-ignition frames `%%2B` -- epoch is t0 *minus* the
+  offset. Detection crashed on both and ingest dropped the frames. Bernardo's are copies of
+  its plainly named negatives; Cool's are its only 40 negatives. One shared parser
+  (`ingest.resolve_frame_names`) now repairs the sign against t0 and drops exact repeats; on
+  the other 454 archives it yields exactly the frames of both parsers it replaced.
+
+Result: 456 sequences, 35,914 frames, 17,771 pre-ignition; 296 fires, 60 triangulable, 160
+with confirmed or probable truth, **37 scoring** (26 core + 11 new).
+
+### Seconds-to-alert by tier (single-frame rule)
+
+| selection | sequences | negatives, camera-days | τ=0.4 FA/day (hi95) | recall | median s | τ=0.7 FA/day (hi95) | recall |
+|---|---|---|---|---|---|---|---|
+| core, published | 191 | 4.99 | 8.0 (10.9) | 94% | 240 | 0.40 (1.45) | 59% |
+| all | 456 | 11.99 | 8.3 (10.1) | 92% | 250 | 0.75 (1.43) | 51% |
+| possibly_seen | 391 | 10.18 | 8.5 (10.5) | 92% | 240 | 0.88 (1.68) | 51% |
+| likely_unseen + unseen | 65 | 1.81 | 7.2 (12.3) | 95% | 276 | 0 (2.04) | 52% |
+| unseen | 20 | 0.53 | 3.8 (13.7) | 95% | 421 | 0 (7.02) | 45% |
+
+- **No sign that memorization inflated false alarms or recall.** The clean tiers sit inside
+  the possibly-seen intervals at every threshold. That is a weak statement -- 1.81
+  camera-days bounds τ=0.4 only to ≤12 per day -- but it is the first measurement on data the
+  model cannot have trained on, and it points the right way.
+- **Latency is about one frame slower on clean sequences** (276 s vs 240 s at τ=0.4; 239 vs
+  180 at τ=0.25). Consistent with memorization helping on the faint early frames, or with
+  these 65 simply being different fires; 65 sequences at a 60 s cadence cannot separate the
+  two.
+- **More negatives did not reach the target.** 11.99 camera-days put τ=0.7 at 0.75 per day
+  with an upper bound of 1.43. One alarm per camera-week (0.14) is still not measurable on
+  FIgLib; that needs the streaming negatives in `out/NOTES-hpwren-archive.md`.
+
+### Geolocation by tier
+
+36 of 37 scoring fires solve; confirmed median **2.00 km** (n=17; core 1.90, n=10). The eight
+fires past the snapshot, center bearings:
+
+| fire | tier | sites | error km | area95 km² |
+|---|---|---|---|---|
+| Steele | likely_unseen | 3 | 0.75 | 1.3 |
+| Scissors | likely_unseen | 3 | 0.82 | 3.4 |
+| Creelman | unseen | 3 | 1.77 | 7.2 |
+| Club | likely_unseen | 2 | 2.00 | 0.2 |
+| Posta | likely_unseen | 2 | 2.06 | 5.0 |
+| Junction | unseen | 4 | 2.21 | 1.1 |
+| Rainbow | unseen | 2 | 2.98 | 25.8 |
+| Crosley | likely_unseen | 2 | **52.39** | 134.4 |
+
+Seven of eight within 3 km, in line with the core confirmed tier -- as expected, since
+geolocation tests geometry rather than detector generalization.
+
+**Crosley is a static false positive winning best-confidence selection.** `mpo-w`'s most
+confident box sits at x=0.148, y=0.521 at 0.70-0.71 in every post-ignition frame -- and was
+detected 43 times *before* ignition. Its bearing is 78° from the official point, which lies
+2° inside the camera's right edge; `hp-w`'s bearing is 4° from truth. With two sites there is
+no third ray to outvote it. **The triangulation figure shows what it is: the white dome of
+the Palomar Observatory** (`mpo` is Mount Palomar), in frame all day. The real plume is
+probably among the nine lower-confidence boxes at x>0.85 (max 0.58). It is the Kitchen
+fire's bird made permanent, and the rejection signal is already in the data: a detection at a
+fixed pixel before ignition is scenery.
+
+**`20200806_BorderFire` does not solve because the detector missed it**: highest
+post-ignition confidence 0.17 on `om-e`, nothing on `lp-s`.
+
+**Discovery lag grows with the sample.** Official discovery minus plume appearance over the
+160 resolved fires: median **+4.5 min** (IQR +0.8 to +10.2), against +1.0 min on the core 33.
+The README's statement -- median +1.0 min, and 7 of the 10 name-confirmed fires reported
+before the plume was annotated visible -- is a core-corpus figure. Both samples include
+probable-tier matches; it should be re-derived on the 160 before it is quoted again.
+
+### Left as they were
+
+`detect_diff` and `viz_terrain` still parse frame names themselves and only read core
+archives; the mask variants (`FIGLIB_VARIANTS`) have caches for core fires only.
+
+Reproduce, after placing the extra archives:
+
+```sh
+python -m src.figlib.provenance verify extra
+FIGLIB_CORPUS=extra ./run_detect.sh               # ~100 min on 4 cores
+python -m src.figlib.corpus link
+for s in ingest fires truth resolve geolocate falsealarm; do FIGLIB_CORPUS=all python -m src.figlib.$s; done
+FIGLIB_CORPUS=all FIGLIB_TIER=likely_unseen,unseen python -m src.figlib.falsealarm
+```
+
 ## Open questions
 
 **Lens distortion and pose -- settled 2026-09-09, and not the way it first looked.**
@@ -823,6 +936,9 @@ geolocation. Kilometer errors are no longer provisional on this.
 `models/README.md`. Detection and timing numbers are a labeled reference point, never a
 generalisation claim. Geolocation is unaffected: kilometer error against official
 coordinates tests geometry, and a memorised detection still yields a valid bearing.
+*Partly measured 2026-09-12:* on the 65 sequences dated after pyronear's FIgLib snapshot,
+false-alarm rates and recall sit inside the possibly-seen intervals and latency is about one
+frame slower -- see "All of FIgLib, scored by what the detector cannot have seen".
 
 **Replace the skyline extractor -- the highest-value open item in the terrain thread.**
 `observed_skyline`'s blue-dominance heuristic is the limiting factor on everything above.

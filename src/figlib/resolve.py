@@ -68,9 +68,13 @@ def resolve_one(rec: dict, views: list[dict]) -> dict:
 
 
 def main() -> None:
-    truth = json.loads((META_DIR / "truth.json").read_text())
-    fires = {f["fire_id"]: f for f in json.loads((META_DIR / "fires.json").read_text())}
-    seqs = {s["seq"]: s for s in json.loads((META_DIR / "sequences.json").read_text())}
+    from . import corpus as C
+    from . import provenance as P
+    started = P.utc_now()
+    meta = C.current().meta
+    truth = json.loads((meta / "truth.json").read_text())
+    fires = {f["fire_id"]: f for f in json.loads((meta / "fires.json").read_text())}
+    seqs = {s["seq"]: s for s in json.loads((meta / "sequences.json").read_text())}
     cams = json.loads((META_DIR / "cams.json").read_text())
 
     out = []
@@ -81,8 +85,12 @@ def main() -> None:
         out.append(resolve_one({**rec, "triangulable": fire["triangulable"],
                                 "sites": fire["sites"]}, views))
 
-    dest = META_DIR / "resolved.json"
+    dest = meta / "resolved.json"
     dest.write_text(json.dumps(out, indent=1) + "\n")
+    P.record("resolve", [dest], started=started,
+             params={"fov_margin_deg": FOV_MARGIN_DEG, "dt_tight_s": DT_TIGHT_S},
+             extra_inputs=[meta / "truth.json", meta / "fires.json",
+                           meta / "sequences.json", META_DIR / "cams.json"])
 
     from collections import Counter
     tiers = Counter(r["tier"] for r in out)

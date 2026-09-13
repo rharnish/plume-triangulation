@@ -62,6 +62,35 @@ annotation passes and are split). The 24 that do not — 14 distinct camera IDs 
 which lists only currently active cameras while FIgLib reaches back to 2016. Expected, not a
 defect; the **42** triangulable fires were counted using resolved cameras only.
 
+## Corpora and provenance
+
+Published numbers come from the 189 archives above, the `core` corpus. The rest of FIgLib is
+not needed to reproduce anything, and `fetch.sh` deliberately does not pull it — another 19 GB
+from a research network's CDN is a cost to HPWREN as well as to you. Where the remainder has
+been scored, it was fetched separately into `out/figlib_extra/tgz/` and run as its own corpus.
+
+Every stage takes `FIGLIB_CORPUS` (`core` by default, `extra`, or `all`) and writes to its own
+metadata and results directories, so extra archives on disk cannot change a core result.
+`FIGLIB_TIER` restricts scoring by what the detector could have trained on — `possibly_seen`
+(fire on or before 2025-04-14, pyronear's FIgLib snapshot), `likely_unseen` (after the snapshot,
+up to the model's 2026-05-25 release) or `unseen` (after the release). See
+`src/figlib/corpus.py`.
+
+**`meta/manifests/core.json`, `meta/manifests/extra.json`** — one entry per archive: source URL,
+size and SHA-256 of the copy that was scored, the server's `Content-Length`, `Last-Modified` and
+`ETag` when checked, frame count per annotation pass, fire date and contamination tier. Check a
+local copy against it with `python -m src.figlib.provenance verify core`.
+
+Three archives are listed but unusable, and the manifest says why rather than dropping them:
+`20250123_GilmanFire_tdllns-mobo-c` and `20260909_GettyFire_wilson-ws-mobo-c` are served as
+empty placeholders (150 and 258 bytes), and `20200831_FIRE_wc-n-mobo-c` holds 180 frames named
+by epoch alone, with no plume-appearance offset and so no clock to score against.
+
+**`meta/runs.jsonl`, `meta/<corpus>/runs.jsonl`** — one line per pipeline run: git commit and a
+hash of any uncommitted diff, package versions, the model pin, the manifest hashes it read,
+parameters, and the SHA-256 of every file it wrote. A result whose hash is not in the log did
+not come from a recorded run.
+
 ## Attribution
 
 FIgLib is conceived, created and maintained by Hans-Werner Braun for HPWREN at UC San Diego.

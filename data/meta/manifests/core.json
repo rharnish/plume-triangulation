@@ -1,0 +1,4199 @@
+{
+ "corpus": "core",
+ "source": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar",
+ "credit": "HPWREN, https://www.hpwren.ucsd.edu/ (FIgLib)",
+ "local_dirs": [
+  "data/tgz"
+ ],
+ "started_utc": "2026-09-13T02:36:57Z",
+ "generated_utc": "2026-09-13T02:37:44Z",
+ "code": {
+  "commit": "1c25ae4fff8b66056f2da348db7195f42f33dc91",
+  "branch": "extra-data-provenance",
+  "dirty": false,
+  "diff_sha256": null,
+  "untracked_src": [
+   "src/figlib/open_vocab.py",
+   "src/figlib/open_vocab_viewer.html",
+   "src/figlib/sam2_track.py",
+   "src/figlib/sam2_track_viewer.html"
+  ]
+ },
+ "n_archives": 189,
+ "total_bytes": 13328951293,
+ "status": {
+  "ok": 189
+ },
+ "contamination": {
+  "possibly_seen": 167,
+  "likely_unseen": 13,
+  "unseen": 9
+ },
+ "contamination_cutoffs": {
+  "figlib_snapshot": "20250414",
+  "model_release": "20260525"
+ },
+ "size_mismatches": [],
+ "archives": [
+  {
+   "file": "20160619_FIRE_lp-e-iqeye.tgz",
+   "bytes": 25768299,
+   "sha256": "543483d1538db019b08e9f96e487bcbff0434319e23c34684fb8e90abfc61628",
+   "local_mtime_utc": "2026-09-08T19:30:31Z",
+   "n_frames": 41,
+   "t0_frames": {
+    "1466359453": 41
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20160619_FIRE_lp-e-iqeye.tgz",
+   "fire_date": "20160619",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 25768299,
+    "last_modified": "Sat, 07 Sep 2024 20:25:55 GMT",
+    "etag": "cb2e329bdb9dee05561e178332e47a08-4"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20160619_FIRE_om-e-mobo-c.tgz",
+   "bytes": 91668618,
+   "sha256": "45c00ba1f8b8f540b3afd0de4c20f1d57a0ef85d3c50203f5cfb1090ffd491ba",
+   "local_mtime_utc": "2026-09-08T19:30:48Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1466359357": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20160619_FIRE_om-e-mobo-c.tgz",
+   "fire_date": "20160619",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 91668618,
+    "last_modified": "Sat, 07 Sep 2024 20:25:55 GMT",
+    "etag": "3cd506db6a9ea61351d0bbe894a6f398-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20160619_FIRE_pi-s-mobo-c.tgz",
+   "bytes": 84834327,
+   "sha256": "18fb472a07a04738f9ae4aed4fca1032c99e9f12915a2659833606260242f14f",
+   "local_mtime_utc": "2026-09-08T19:31:08Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1466359567": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20160619_FIRE_pi-s-mobo-c.tgz",
+   "fire_date": "20160619",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 84834327,
+    "last_modified": "Sat, 07 Sep 2024 20:26:06 GMT",
+    "etag": "e5db1aef4bbad705f06ac28b08a06934-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20160718_FIRE_lp-n-iqeye.tgz",
+   "bytes": 24760616,
+   "sha256": "95ded76e27e3f9557667891967a0e19825af314671d2e7f0096b06e03ab34d7e",
+   "local_mtime_utc": "2026-09-08T19:31:13Z",
+   "n_frames": 41,
+   "t0_frames": {
+    "1468872972": 41
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20160718_FIRE_lp-n-iqeye.tgz",
+   "fire_date": "20160718",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 24760616,
+    "last_modified": "Sat, 07 Sep 2024 20:26:16 GMT",
+    "etag": "3d573d1d3bc8dde307e6792ff4020929-3"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20160718_FIRE_mg-s-iqeye.tgz",
+   "bytes": 19170576,
+   "sha256": "56d11f3e1cedfa1710a4bf75b7a593e6b7a0387ac1681e7188ed53a8f797ab26",
+   "local_mtime_utc": "2026-09-08T19:31:17Z",
+   "n_frames": 41,
+   "t0_frames": {
+    "1468872498": 41
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20160718_FIRE_mg-s-iqeye.tgz",
+   "fire_date": "20160718",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 19170576,
+    "last_modified": "Sat, 07 Sep 2024 20:26:17 GMT",
+    "etag": "3cd9865e57e99c0c18b57e613c73e720-3"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20160718_FIRE_mw-e-mobo-c.tgz",
+   "bytes": 128400935,
+   "sha256": "5833359a64355f4c6ba20cb95a989767a45721e1150a14994e51797639020d40",
+   "local_mtime_utc": "2026-09-08T19:31:39Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1468872421": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20160718_FIRE_mw-e-mobo-c.tgz",
+   "fire_date": "20160718",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 128400935,
+    "last_modified": "Sat, 07 Sep 2024 20:26:24 GMT",
+    "etag": "27f16c3f783e9d92c7af8e7c34e260c7-16"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20161113_FIRE_bl-n-mobo-c.tgz",
+   "bytes": 85942355,
+   "sha256": "975a77b8832d9ae0673870ff54296e65ead71aa639b8aa28ba89b9f475cf3b55",
+   "local_mtime_utc": "2026-09-08T19:31:59Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1479064369": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20161113_FIRE_bl-n-mobo-c.tgz",
+   "fire_date": "20161113",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 85942355,
+    "last_modified": "Sat, 07 Sep 2024 20:26:34 GMT",
+    "etag": "f919ff81bffbaca56217ec238b7bf83b-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20161113_FIRE_bm-n-mobo-c.tgz",
+   "bytes": 107394285,
+   "sha256": "77521a05e8804b743de763db0bef75fecd3e63b5ebb25543cdf3ab94c61181b4",
+   "local_mtime_utc": "2026-09-08T19:32:24Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1479066933": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20161113_FIRE_bm-n-mobo-c.tgz",
+   "fire_date": "20161113",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 107394285,
+    "last_modified": "Sat, 07 Sep 2024 20:26:35 GMT",
+    "etag": "ab783302ca5ad92d1621620bfb83135e-13"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20161113_FIRE_bm-w-mobo-c.tgz",
+   "bytes": 95590866,
+   "sha256": "48d91cc11485c097d6992097d333057796d9e78a3bb028c6452182a9c72ce769",
+   "local_mtime_utc": "2026-09-08T19:32:45Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1479064419": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20161113_FIRE_bm-w-mobo-c.tgz",
+   "fire_date": "20161113",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 95590866,
+    "last_modified": "Sat, 07 Sep 2024 20:26:55 GMT",
+    "etag": "aca9a8ab7ac2b0f88031246efb30237f-12"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20170520_FIRE_lp-s-iqeye.tgz",
+   "bytes": 56310048,
+   "sha256": "0cf86be2113eb6caf620950f6fecce0ed7fafddfc9439f77afcc686bc79a875f",
+   "local_mtime_utc": "2026-09-08T19:32:55Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1495304354": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170520_FIRE_lp-s-iqeye.tgz",
+   "fire_date": "20170520",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 56310048,
+    "last_modified": "Sat, 07 Sep 2024 20:26:57 GMT",
+    "etag": "d1cd12e38b87aa72e02f58e8bbbbc1ff-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20170520_FIRE_om-s-mobo-c.tgz",
+   "bytes": 60314961,
+   "sha256": "da11ce7b4f6cdac7e74a28bf5e570176d0641a2aa1301b6a17f3b442947825bb",
+   "local_mtime_utc": "2026-09-08T19:33:09Z",
+   "n_frames": 55,
+   "t0_frames": {
+    "1495296879": 55
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170520_FIRE_om-s-mobo-c.tgz",
+   "fire_date": "20170520",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 60314961,
+    "last_modified": "Sat, 07 Sep 2024 20:27:01 GMT",
+    "etag": "e1345d2dad3d91f2910322b0a4fdba16-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20170520_FIRE_pi-s-mobo-c.tgz",
+   "bytes": 90515810,
+   "sha256": "b9bd6fa44ac45f9c8223b51e61e2533b98566975c209357c6948d05f39436430",
+   "local_mtime_utc": "2026-09-08T19:33:28Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1495301827": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170520_FIRE_pi-s-mobo-c.tgz",
+   "fire_date": "20170520",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 90515810,
+    "last_modified": "Sat, 07 Sep 2024 20:27:12 GMT",
+    "etag": "fdc0f29a85f0e43f6b7bd24a4c693860-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20170520_FIRE_pi-w-mobo-c.tgz",
+   "bytes": 94334563,
+   "sha256": "cac08a5c2e85378b51a62cff0304348c396a983589322f345341f492ea12c259",
+   "local_mtime_utc": "2026-09-08T19:33:46Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1495304469": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170520_FIRE_pi-w-mobo-c.tgz",
+   "fire_date": "20170520",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 94334563,
+    "last_modified": "Sat, 07 Sep 2024 20:27:17 GMT",
+    "etag": "96124643962646ed8ce1c82e8067e438-12"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20170711_FIRE_bl-e-mobo-c.tgz",
+   "bytes": 88442000,
+   "sha256": "2a6eff4a57d3cc84c050febf14a5df99ad563bd82f83aa28ecfd124617f2990f",
+   "local_mtime_utc": "2026-09-08T19:34:03Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1499806131": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170711_FIRE_bl-e-mobo-c.tgz",
+   "fire_date": "20170711",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 88442000,
+    "last_modified": "Sat, 07 Sep 2024 20:28:06 GMT",
+    "etag": "0fbdcaffd32a1f1791cb48eedd194843-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20170711_FIRE_bl-s-mobo-c.tgz",
+   "bytes": 84434058,
+   "sha256": "c5f5c4722374812b44f5941bc50e6ffe07aa5efe0e8f344ca02d1d7f7d3890a2",
+   "local_mtime_utc": "2026-09-08T19:34:14Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1499806193": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170711_FIRE_bl-s-mobo-c.tgz",
+   "fire_date": "20170711",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 84434058,
+    "last_modified": "Sat, 07 Sep 2024 20:28:11 GMT",
+    "etag": "3945dd7fe5065f9cf83ff83115d7999b-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20170711_FIRE_bm-s-mobo-c.tgz",
+   "bytes": 59504181,
+   "sha256": "d6e5853d6b0e8c56372621f5ac96427e3cc194dd1fe84bd94d9bec35866e6004",
+   "local_mtime_utc": "2026-09-08T19:34:24Z",
+   "n_frames": 64,
+   "t0_frames": {
+    "1499787397": 64
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170711_FIRE_bm-s-mobo-c.tgz",
+   "fire_date": "20170711",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 59504181,
+    "last_modified": "Sat, 07 Sep 2024 20:28:15 GMT",
+    "etag": "646f1fdd81a9faed012b48824428b6c5-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20170711_FIRE_sdsc-e-mobo-c.tgz",
+   "bytes": 110950253,
+   "sha256": "ae786e116790c88a49dd202854f037913b20a69f33304d5017951a57bf17c7eb",
+   "local_mtime_utc": "2026-09-08T19:34:36Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1499806611": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170711_FIRE_sdsc-e-mobo-c.tgz",
+   "fire_date": "20170711",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 110950253,
+    "last_modified": "Sat, 07 Sep 2024 20:28:16 GMT",
+    "etag": "3622b2455fa717ee700bef14deccd877-14"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20170711_FIRE_sm-n-mobo-c.tgz",
+   "bytes": 75616072,
+   "sha256": "e742b9d46b032f62fca9d17420dedecf3ee2318e14599327340d894324ac8074",
+   "local_mtime_utc": "2026-09-08T19:34:45Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1499806467": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170711_FIRE_sm-n-mobo-c.tgz",
+   "fire_date": "20170711",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 75616072,
+    "last_modified": "Sat, 07 Sep 2024 20:28:27 GMT",
+    "etag": "3bde0b11a857f6d32d8ea41c3be5aebb-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20170722_FIRE_bm-n-mobo-c.tgz",
+   "bytes": 90089163,
+   "sha256": "32b65a7d0aac94bd5e27612face624af7d36c2ce0f1c8aeb4a063adc73586dd1",
+   "local_mtime_utc": "2026-09-08T19:34:56Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1500761313": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170722_FIRE_bm-n-mobo-c.tgz",
+   "fire_date": "20170722",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 90089163,
+    "last_modified": "Sat, 07 Sep 2024 20:28:32 GMT",
+    "etag": "f2a5717cb31cb7d5b3ed7dcd4241a6ca-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20170722_FIRE_hp-e-mobo-c.tgz",
+   "bytes": 108013855,
+   "sha256": "44a62b9eab921205f4363631332d231e7273fb4d8a9ad84ecd10f8ff1d79393d",
+   "local_mtime_utc": "2026-09-08T19:35:08Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1500761247": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170722_FIRE_hp-e-mobo-c.tgz",
+   "fire_date": "20170722",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 108013855,
+    "last_modified": "Sat, 07 Sep 2024 20:28:44 GMT",
+    "etag": "10692fc6c3a5040bb42e9984e2813631-13"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20170722_FIRE_mg-n-iqeye.tgz",
+   "bytes": 110705489,
+   "sha256": "94152fcb34f48ea27826986f7310d38a4bf15af7a1114a132e928ac646e98816",
+   "local_mtime_utc": "2026-09-08T19:35:19Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1500761360": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170722_FIRE_mg-n-iqeye.tgz",
+   "fire_date": "20170722",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 110705489,
+    "last_modified": "Sat, 07 Sep 2024 20:28:47 GMT",
+    "etag": "22fc7b74d8c58fc88daba29d347700c4-14"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20170722_FIRE_so-s-mobo-c.tgz",
+   "bytes": 89239874,
+   "sha256": "9e21a3776724731e3bf5088d33a12390efa4d4300e81e15b1d530a8e8bbc4eb3",
+   "local_mtime_utc": "2026-09-08T19:35:32Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1500761241": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170722_FIRE_so-s-mobo-c.tgz",
+   "fire_date": "20170722",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 89239874,
+    "last_modified": "Sat, 07 Sep 2024 20:28:54 GMT",
+    "etag": "66d4c6c3916c53677365af30fbe9f68a-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20171010_FIRE_hp-n-mobo-c.tgz",
+   "bytes": 63298367,
+   "sha256": "abc58ec715c8e24b42b46c9861ba0caea7a9cd85db050e434e5a2ca8345501da",
+   "local_mtime_utc": "2026-09-08T19:35:41Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1507672825": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20171010_FIRE_hp-n-mobo-c.tgz",
+   "fire_date": "20171010",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 63298367,
+    "last_modified": "Sat, 07 Sep 2024 20:29:26 GMT",
+    "etag": "281b277126c77fc72212f79f05bab5ad-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20171010_FIRE_hp-w-mobo-c.tgz",
+   "bytes": 52246445,
+   "sha256": "9d957536552429a12eba596ba1fc2835712038105e4352d839d4b2e6c8bc949a",
+   "local_mtime_utc": "2026-09-08T19:35:49Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1507672471": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20171010_FIRE_hp-w-mobo-c.tgz",
+   "fire_date": "20171010",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 52246445,
+    "last_modified": "Sat, 07 Sep 2024 20:29:33 GMT",
+    "etag": "8ef335cc47401a84093996bebe366f8f-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20171010_FIRE_rm-e-mobo-c.tgz",
+   "bytes": 54639024,
+   "sha256": "07e2b6ba314ee81d7c1848c68f50aacc744172db67aa6805b5e77cd3f838203c",
+   "local_mtime_utc": "2026-09-08T19:35:59Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1507672622": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20171010_FIRE_rm-e-mobo-c.tgz",
+   "fire_date": "20171010",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 54639024,
+    "last_modified": "Sat, 07 Sep 2024 20:29:33 GMT",
+    "etag": "5d0fe7fde428eb40f2496f606cb94ee0-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20171207_FIRE_bh-n-mobo-c.tgz",
+   "bytes": 58183964,
+   "sha256": "2157c9234734298ff71c89d24d38a3caffa15f6284809efdf779d7615d49f100",
+   "local_mtime_utc": "2026-09-08T19:36:06Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1512681610": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20171207_FIRE_bh-n-mobo-c.tgz",
+   "fire_date": "20171207",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 58183964,
+    "last_modified": "Sat, 07 Sep 2024 20:30:01 GMT",
+    "etag": "1a069382f6f3e3ace2abde9b6dcd5cdc-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20171207_FIRE_bh-w-mobo-c.tgz",
+   "bytes": 51894788,
+   "sha256": "fe32e27b49df806c59b00840188b20d9d7ce510fe1aab6b26514adf4453c737b",
+   "local_mtime_utc": "2026-09-08T19:36:13Z",
+   "n_frames": 77,
+   "t0_frames": {
+    "1512674596": 77
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20171207_FIRE_bh-w-mobo-c.tgz",
+   "fire_date": "20171207",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 51894788,
+    "last_modified": "Sat, 07 Sep 2024 20:30:01 GMT",
+    "etag": "e766bd95fb455273e6abe178bbfb7ef9-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20171207_FIRE_smer-tcs8-mobo-c.tgz",
+   "bytes": 132186358,
+   "sha256": "744a32035d95bc34e805c16b4ee4b9aadc9a4b79d8344790643d84a78c92a68c",
+   "local_mtime_utc": "2026-09-08T19:36:30Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1512681175": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20171207_FIRE_smer-tcs8-mobo-c.tgz",
+   "fire_date": "20171207",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 132186358,
+    "last_modified": "Sat, 07 Sep 2024 20:30:16 GMT",
+    "etag": "b709d7ad2076ce49b588d10ad3c6a105-16"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180504_FIRE_bh-n-mobo-c.tgz",
+   "bytes": 57562105,
+   "sha256": "44215eb147f5538352015c916d0feb54c64e514a4d3dd5197a2ddd3da6f2168c",
+   "local_mtime_utc": "2026-09-08T19:36:39Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1525470430": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180504_FIRE_bh-n-mobo-c.tgz",
+   "fire_date": "20180504",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 57562105,
+    "last_modified": "Sat, 07 Sep 2024 20:30:17 GMT",
+    "etag": "56eb9148fb846fd3d0c817ad62ad5f80-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180504_FIRE_rm-n-mobo-c.tgz",
+   "bytes": 55785428,
+   "sha256": "0f08d81fcce1d8a9fc47160d91873de3f69e55f9c5c61ec025598a712844b2cd",
+   "local_mtime_utc": "2026-09-08T19:36:46Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1525470120": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180504_FIRE_rm-n-mobo-c.tgz",
+   "fire_date": "20180504",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 55785428,
+    "last_modified": "Sat, 07 Sep 2024 20:30:24 GMT",
+    "etag": "ba5f1a9d6b5cc00d2e19088e18db3780-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180504_FIRE_smer-tcs10-mobo-c.tgz",
+   "bytes": 124576687,
+   "sha256": "696849ac1fba98a0683dbb559161c10755972158dd491352f77d9252395de6e5",
+   "local_mtime_utc": "2026-09-08T19:37:00Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1525471799": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180504_FIRE_smer-tcs10-mobo-c.tgz",
+   "fire_date": "20180504",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 124576687,
+    "last_modified": "Sat, 07 Sep 2024 21:45:57 GMT",
+    "etag": "944dc6c5476c19a1b24c128d7783729e-15"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180504_FIRE_smer-tcs8-mobo-c.tgz",
+   "bytes": 123054115,
+   "sha256": "afe8f421dd5afa251f198467400e71c1e0dcfc403d8166e4d1a7e122521e38b0",
+   "local_mtime_utc": "2026-09-08T19:37:14Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1525469635": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180504_FIRE_smer-tcs8-mobo-c.tgz",
+   "fire_date": "20180504",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 123054115,
+    "last_modified": "Sat, 07 Sep 2024 21:45:57 GMT",
+    "etag": "ff4fc6be2223f3fc005986e4f47e4497-15"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180602_FIRE_rm-n-mobo-c.tgz",
+   "bytes": 55000355,
+   "sha256": "a64812099c7f98dbcdcce35fb9d33f8654af4333b6fe319c816133fd6dc1e4f6",
+   "local_mtime_utc": "2026-09-08T19:37:20Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1527978540": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180602_FIRE_rm-n-mobo-c.tgz",
+   "fire_date": "20180602",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 55000355,
+    "last_modified": "Sat, 07 Sep 2024 21:46:26 GMT",
+    "etag": "48c336c2494ba258cb54e081a07482b9-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180602_FIRE_smer-tcs8-mobo-c.tgz",
+   "bytes": 108563652,
+   "sha256": "5f03f991d049e47356b2e01f2f7b8d4e02761de4d2e711624a3cb2a759b7bf1e",
+   "local_mtime_utc": "2026-09-08T19:37:31Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1527978235": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180602_FIRE_smer-tcs8-mobo-c.tgz",
+   "fire_date": "20180602",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 108563652,
+    "last_modified": "Sat, 07 Sep 2024 21:46:27 GMT",
+    "etag": "b93d727e55cb9f05f93cff0ee3b77eeb-13"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180602_FIRE_smer-tcs9-mobo-c.tgz",
+   "bytes": 115214873,
+   "sha256": "9e969f1ab8e8abdafddf6ff8de2e016772e450786a7298b52ef92bae0267bce9",
+   "local_mtime_utc": "2026-09-08T19:37:44Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1527978237": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180602_FIRE_smer-tcs9-mobo-c.tgz",
+   "fire_date": "20180602",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 115214873,
+    "last_modified": "Sat, 07 Sep 2024 21:46:41 GMT",
+    "etag": "70b6aac88154295096491eff3d9b4a4c-14"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180603_FIRE_bl-s-mobo-c.tgz",
+   "bytes": 54617964,
+   "sha256": "4c4c2664a8a92923cc5e75427e5534f5801498f8638ad3e9da03de4246e67e10",
+   "local_mtime_utc": "2026-09-08T19:37:51Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1528067393": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180603_FIRE_bl-s-mobo-c.tgz",
+   "fire_date": "20180603",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 54617964,
+    "last_modified": "Sat, 07 Sep 2024 21:46:41 GMT",
+    "etag": "ed5f7655a6e606e035f7ddee4ed3d958-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180603_FIRE_rm-w-mobo-c.tgz",
+   "bytes": 55781234,
+   "sha256": "374ec41921efcfaa6e84eb80e1e7d85b66c53a23910a8cf5feacf2d38112a293",
+   "local_mtime_utc": "2026-09-08T19:37:58Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1528057326": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180603_FIRE_rm-w-mobo-c.tgz",
+   "fire_date": "20180603",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 55781234,
+    "last_modified": "Sat, 07 Sep 2024 21:46:44 GMT",
+    "etag": "c0d64b3f936e7a3a2aa06572244dbebe-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180603_FIRE_sm-n-mobo-c.tgz",
+   "bytes": 47516711,
+   "sha256": "2704eb65bbe79a72243331159150ccd967ffe7ff66df28d2072e21020fb56d54",
+   "local_mtime_utc": "2026-09-08T19:38:32Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1528075467": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180603_FIRE_sm-n-mobo-c.tgz",
+   "fire_date": "20180603",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 47516711,
+    "last_modified": "Sat, 07 Sep 2024 21:46:50 GMT",
+    "etag": "bc5df3cb80e227984907cbea0d89bb4c-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180603_FIRE_sm-w-mobo-c.tgz",
+   "bytes": 44682242,
+   "sha256": "c951715b37b2fc0036eb1f39f44d82b2602ed1693c1421cc5c8093759b52276f",
+   "local_mtime_utc": "2026-09-08T19:38:36Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1528067373": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180603_FIRE_sm-w-mobo-c.tgz",
+   "fire_date": "20180603",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 44682242,
+    "last_modified": "Sat, 07 Sep 2024 21:46:57 GMT",
+    "etag": "77bcc930aee5dabfa48c72743a52774e-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180603_FIRE_smer-tcs8-mobo-c.tgz",
+   "bytes": 122261980,
+   "sha256": "53399cde6ccab9cb04b0a651a53ba5624bc7411c2a17c5ce503afb5799ac10cf",
+   "local_mtime_utc": "2026-09-08T19:38:13Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1528057255": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180603_FIRE_smer-tcs8-mobo-c.tgz",
+   "fire_date": "20180603",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 122261980,
+    "last_modified": "Sat, 07 Sep 2024 21:46:57 GMT",
+    "etag": "63add9ee1c72a17750820f1e929ade3b-15"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180603_FIRE_smer-tcs9-mobo-c.tgz",
+   "bytes": 117271186,
+   "sha256": "4d91d6097e04417f1fc4ddb7ee6f79480a1d16eba19e7a4d5fc57575d266e647",
+   "local_mtime_utc": "2026-09-08T19:38:27Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1528057317": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180603_FIRE_smer-tcs9-mobo-c.tgz",
+   "fire_date": "20180603",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 117271186,
+    "last_modified": "Sat, 07 Sep 2024 21:47:03 GMT",
+    "etag": "a72410e2bc5726a158b262fe59eb32cb-14"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180606_FIRE_lo-s-mobo-c.tgz",
+   "bytes": 45946869,
+   "sha256": "063084a26816b688d3f7d4ae9bdf0fde66562bf3d393070aad88739a000e7c0d",
+   "local_mtime_utc": "2026-09-08T19:38:41Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1528304483": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180606_FIRE_lo-s-mobo-c.tgz",
+   "fire_date": "20180606",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 45946869,
+    "last_modified": "Sat, 07 Sep 2024 21:47:21 GMT",
+    "etag": "815f90c1b3f31ad69ccbcf23034752ba-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180606_FIRE_ml-s-mobo-c.tgz",
+   "bytes": 48855699,
+   "sha256": "0eadab6bdccf6d5b8c0087b8ac2f727912a2fa03b88f8d81736b909b0c3b06f1",
+   "local_mtime_utc": "2026-09-08T19:38:46Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1528307235": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180606_FIRE_ml-s-mobo-c.tgz",
+   "fire_date": "20180606",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 48855699,
+    "last_modified": "Sat, 07 Sep 2024 21:47:24 GMT",
+    "etag": "682d28cfcd86ff3a56795f87defbecea-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180606_FIRE_pi-e-mobo-c.tgz",
+   "bytes": 49788509,
+   "sha256": "1609c8e4f4653e64ff93c277ac483db8a53e0110a85bed0d34f1b5a90c050393",
+   "local_mtime_utc": "2026-09-08T19:38:51Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1528304045": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180606_FIRE_pi-e-mobo-c.tgz",
+   "fire_date": "20180606",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 49788509,
+    "last_modified": "Sat, 07 Sep 2024 21:47:30 GMT",
+    "etag": "5c14ed42cf3bf5ac0e47f389627cfd99-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180706_FIRE_sm-e-mobo-c.tgz",
+   "bytes": 47342127,
+   "sha256": "9d8d626ed283372480c148b8d15aaf046f7d5bf24a1866a7b845095b35b2853c",
+   "local_mtime_utc": "2026-09-08T19:38:55Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1530896909": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180706_FIRE_sm-e-mobo-c.tgz",
+   "fire_date": "20180706",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 47342127,
+    "last_modified": "Sat, 07 Sep 2024 21:48:02 GMT",
+    "etag": "0ad6840a6c85140098b8547b361014db-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180706_FIRE_sm-n-mobo-c.tgz",
+   "bytes": 34217771,
+   "sha256": "f47713ab5783383b66eed782318859507708a4c3cdf18b45eacdd45f8e10cbc7",
+   "local_mtime_utc": "2026-09-08T19:38:59Z",
+   "n_frames": 70,
+   "t0_frames": {
+    "1530901827": 70
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180706_FIRE_sm-n-mobo-c.tgz",
+   "fire_date": "20180706",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 34217771,
+    "last_modified": "Sat, 07 Sep 2024 21:48:07 GMT",
+    "etag": "02f1613210b2839c1c7dc5b9d7ab2feb-5"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180706_FIRE_wc-e-mobo-c.tgz",
+   "bytes": 75601634,
+   "sha256": "ebdb0907d4bb37bf0236a8cc85a6bd4afed2fa5db8de5fb252d24a6cc623f52e",
+   "local_mtime_utc": "2026-09-08T19:39:08Z",
+   "n_frames": 69,
+   "t0_frames": {
+    "1530901880": 69
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180706_FIRE_wc-e-mobo-c.tgz",
+   "fire_date": "20180706",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 75601634,
+    "last_modified": "Sat, 07 Sep 2024 21:48:15 GMT",
+    "etag": "8c1152f161021a6612230efc80a76c81-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180727_FIRE_bh-n-mobo-c.tgz",
+   "bytes": 45417097,
+   "sha256": "d7fe12142d5601e275a46c80b0f52ebc2d30b23ae317bbf0ca3b0760eeae4f31",
+   "local_mtime_utc": "2026-09-08T19:39:13Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1532710690": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180727_FIRE_bh-n-mobo-c.tgz",
+   "fire_date": "20180727",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 45417097,
+    "last_modified": "Sat, 07 Sep 2024 21:49:19 GMT",
+    "etag": "13751aae723add6bb5b6d73419ff89de-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180727_FIRE_bh-s-mobo-c.tgz",
+   "bytes": 52133739,
+   "sha256": "222944989555b175269032c1f4cd2c8bfa4bb1372174f3dac6ca56be5d4792bd",
+   "local_mtime_utc": "2026-09-08T19:39:24Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1532723654": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180727_FIRE_bh-s-mobo-c.tgz",
+   "fire_date": "20180727",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 52133739,
+    "last_modified": "Sat, 07 Sep 2024 21:49:26 GMT",
+    "etag": "8b6988abcd208e493040d89214ab685d-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180727_FIRE_bl-e-mobo-c.tgz",
+   "bytes": 51737978,
+   "sha256": "e755f48f6ccd91d9e39c9255c139158f98ae647a0c6e3d3ee196e8c66ea7924b",
+   "local_mtime_utc": "2026-09-08T19:39:30Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1532724111": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180727_FIRE_bl-e-mobo-c.tgz",
+   "fire_date": "20180727",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 51737978,
+    "last_modified": "Sat, 07 Sep 2024 21:49:28 GMT",
+    "etag": "67e215e6809276711714ba5c590eb3ef-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180727_FIRE_mg-w-mobo-c.tgz",
+   "bytes": 71096323,
+   "sha256": "4e4f278fd9a76673f0711a2905b14de2e4d3f614e93213d4df456e23e2466b69",
+   "local_mtime_utc": "2026-09-08T19:39:37Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1532724160": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180727_FIRE_mg-w-mobo-c.tgz",
+   "fire_date": "20180727",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 71096323,
+    "last_modified": "Sat, 07 Sep 2024 21:49:28 GMT",
+    "etag": "fc71b60aa6651b16b35677bf5ee31678-9"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180727_FIRE_wc-n-mobo-c.tgz",
+   "bytes": 100017122,
+   "sha256": "2519afcd4f2702eddc7528480c93653abc089eea1a9fa3f25663f50750a1212b",
+   "local_mtime_utc": "2026-09-08T19:39:47Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1532723478": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180727_FIRE_wc-n-mobo-c.tgz",
+   "fire_date": "20180727",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 100017122,
+    "last_modified": "Sat, 07 Sep 2024 21:49:32 GMT",
+    "etag": "96dbd2cae7d3949b935d62a63c6c0f9f-12"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180809_FIRE_bh-s-mobo-c.tgz",
+   "bytes": 39203305,
+   "sha256": "c57dd06cfaff144fa7301194ffea7318f476841288ec8eccd6c1d27c0103d0a5",
+   "local_mtime_utc": "2026-09-08T19:39:52Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1533845440": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180809_FIRE_bh-s-mobo-c.tgz",
+   "fire_date": "20180809",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 39203305,
+    "last_modified": "Sat, 07 Sep 2024 21:50:08 GMT",
+    "etag": "a32f26b561ad221944b22bea973f29e7-5"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180809_FIRE_bl-e-mobo-c.tgz",
+   "bytes": 57898966,
+   "sha256": "4a63425905e7765975f83b9631cb532b75693ac3b848ef3e0f7b1c94105209e6",
+   "local_mtime_utc": "2026-09-08T19:40:00Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1533845571": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180809_FIRE_bl-e-mobo-c.tgz",
+   "fire_date": "20180809",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 57898966,
+    "last_modified": "Sat, 07 Sep 2024 21:50:16 GMT",
+    "etag": "1bb3bc7d34f9093602fec8170cc7fbf9-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180809_FIRE_mg-w-mobo-c.tgz",
+   "bytes": 78065857,
+   "sha256": "ac79d83e7ae54cfb0cf3ccf687377c9d21ecda0c6fbbbde69a6dcb604139ab52",
+   "local_mtime_utc": "2026-09-08T19:40:12Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1533845440": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180809_FIRE_mg-w-mobo-c.tgz",
+   "fire_date": "20180809",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 78065857,
+    "last_modified": "Sat, 07 Sep 2024 21:50:17 GMT",
+    "etag": "37f785b80a8f87cf07f0f756e1cf0f71-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180813_FIRE_bh-s-mobo-c.tgz",
+   "bytes": 40375592,
+   "sha256": "c1c4273925b53cef486f761d3a60c1b7c511484d2baa2081b1bc7047511a8a67",
+   "local_mtime_utc": "2026-09-08T19:40:16Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1534197254": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180813_FIRE_bh-s-mobo-c.tgz",
+   "fire_date": "20180813",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 40375592,
+    "last_modified": "Sat, 07 Sep 2024 21:50:19 GMT",
+    "etag": "09e9cfa2fe0f5fb489b82e4d8b11fc82-5"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180813_FIRE_bl-n-mobo-c.tgz",
+   "bytes": 52538381,
+   "sha256": "d218dd592c5fdc567a79c317865049e427429c925fb25e39b72e546562bf8aef",
+   "local_mtime_utc": "2026-09-08T19:40:22Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1534197229": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180813_FIRE_bl-n-mobo-c.tgz",
+   "fire_date": "20180813",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 52538381,
+    "last_modified": "Sat, 07 Sep 2024 21:50:23 GMT",
+    "etag": "91bd1d0a89b55f46a29f064436a29afd-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20180813_FIRE_mg-w-mobo-c.tgz",
+   "bytes": 60574432,
+   "sha256": "a13d58ce2f8b0d17d3d9ee421a50d23f0dabc47c13a552ae9e1dcaea9efeaab7",
+   "local_mtime_utc": "2026-09-08T19:40:28Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1534197400": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180813_FIRE_mg-w-mobo-c.tgz",
+   "fire_date": "20180813",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 60574432,
+    "last_modified": "Sat, 07 Sep 2024 21:50:31 GMT",
+    "etag": "301384a629cc2517bb0ee24956379497-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190716_FIRE_bl-s-mobo-c.tgz",
+   "bytes": 44091362,
+   "sha256": "ffb32253aa3c8b76bc4d9895b246e391af4a9c2f422c747274606f8cd9c55fa6",
+   "local_mtime_utc": "2026-09-08T19:40:33Z",
+   "n_frames": 70,
+   "t0_frames": {
+    "1563306113": 70
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190716_FIRE_bl-s-mobo-c.tgz",
+   "fire_date": "20190716",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 44091362,
+    "last_modified": "Sat, 07 Sep 2024 21:52:01 GMT",
+    "etag": "18d16ee91bfd0b82ecfd95312ffb38de-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190716_FIRE_mg-n-mobo-c.tgz",
+   "bytes": 108877424,
+   "sha256": "866d106047920b20dc7a5ce76259960a1afb4bba9532917acf2b78ff016b2212",
+   "local_mtime_utc": "2026-09-08T19:40:45Z",
+   "n_frames": 68,
+   "t0_frames": {
+    "1563307414": 68
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190716_FIRE_mg-n-mobo-c.tgz",
+   "fire_date": "20190716",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 108877424,
+    "last_modified": "Sat, 07 Sep 2024 21:52:07 GMT",
+    "etag": "28f410c3a6ba99cc973be9534a05032f-13"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190716_FIRE_so-w-mobo-c.tgz",
+   "bytes": 76994006,
+   "sha256": "b46cf326ea53fe1f93ab5515c41ce17d2c15fa62797d3538ee748b47eb63c953",
+   "local_mtime_utc": "2026-09-08T19:40:54Z",
+   "n_frames": 72,
+   "t0_frames": {
+    "1563308543": 72
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190716_FIRE_so-w-mobo-c.tgz",
+   "fire_date": "20190716",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 76994006,
+    "last_modified": "Sat, 07 Sep 2024 21:52:08 GMT",
+    "etag": "68817fa0624cafc31ebb1ef3a3b90b58-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190826_FIRE_pi-s-mobo-c.tgz",
+   "bytes": 51840066,
+   "sha256": "865bea2ff0895fb7ac58049e8ee72e942c7c6de62070aa53b7b2093c90b91467",
+   "local_mtime_utc": "2026-09-08T19:40:59Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1566839767": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190826_FIRE_pi-s-mobo-c.tgz",
+   "fire_date": "20190826",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 51840066,
+    "last_modified": "Sat, 07 Sep 2024 21:53:44 GMT",
+    "etag": "70844dd163abf38fc7c1e54b1c01d63c-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190826_FIRE_rm-w-mobo-c.tgz",
+   "bytes": 60794358,
+   "sha256": "0df6ea05a5310209b4453c469333412af2ca51ff6a1071b87248256ce6ec78d9",
+   "local_mtime_utc": "2026-09-08T19:41:05Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1566848889": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190826_FIRE_rm-w-mobo-c.tgz",
+   "fire_date": "20190826",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 60794358,
+    "last_modified": "Sat, 07 Sep 2024 21:53:46 GMT",
+    "etag": "2b54e0245ecb3218f955f33cb84a0c54-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190826_FIRE_smer-tcs9-mobo-c.tgz",
+   "bytes": 96443151,
+   "sha256": "cf2dca699c219be464937821cb28f3437c694fb38ef2b8fb1d783e1a56f9ab4c",
+   "local_mtime_utc": "2026-09-08T19:41:15Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1566849117": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190826_FIRE_smer-tcs9-mobo-c.tgz",
+   "fire_date": "20190826",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 96443151,
+    "last_modified": "Sat, 07 Sep 2024 21:53:57 GMT",
+    "etag": "20566fa7f4cde5e8fefc5dbd2cc0dba9-12"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190829_FIRE_bl-n-mobo-c.tgz",
+   "bytes": 50697377,
+   "sha256": "2fe52fac59336d37c3cc44ba1b5de9fc7f82f56ae44997f29fe59692f5ea6ef9",
+   "local_mtime_utc": "2026-09-08T19:41:32Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1567120309": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190829_FIRE_bl-n-mobo-c.tgz",
+   "fire_date": "20190829",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 50697377,
+    "last_modified": "Sat, 07 Sep 2024 21:54:00 GMT",
+    "etag": "464250fb4850ced2b6416cff0e4fdc00-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190829_FIRE_pi-e-mobo-c.tgz",
+   "bytes": 59516737,
+   "sha256": "cb5bda18496dc5d6d2dda588c7c654c15687cd0044d11c1bca46211c3973fd24",
+   "local_mtime_utc": "2026-09-08T19:41:44Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1567117985": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190829_FIRE_pi-e-mobo-c.tgz",
+   "fire_date": "20190829",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 59516737,
+    "last_modified": "Sat, 07 Sep 2024 21:54:00 GMT",
+    "etag": "b603d04909b70f3f0ac5a32c0e21ad72-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190829_FIRE_rm-w-mobo-c.tgz",
+   "bytes": 56159512,
+   "sha256": "a7a5f37322a0d2dd63b9de81955923e959f19e5615e8665a4f8284ffe4fa05d9",
+   "local_mtime_utc": "2026-09-08T19:41:56Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1567101006": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190829_FIRE_rm-w-mobo-c.tgz",
+   "fire_date": "20190829",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 56159512,
+    "last_modified": "Sat, 07 Sep 2024 21:54:14 GMT",
+    "etag": "03990753991452fd8b212a032af9a472-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190829_FIRE_smer-tcs8-mobo-c.tgz",
+   "bytes": 117300868,
+   "sha256": "c80f5cffe16f0d07ede38910a011f7a0af4954768948434bb93e1ff7b481862a",
+   "local_mtime_utc": "2026-09-08T19:42:21Z",
+   "n_frames": 76,
+   "t0_frames": {
+    "1567098537": 76
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190829_FIRE_smer-tcs8-mobo-c.tgz",
+   "fire_date": "20190829",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 117300868,
+    "last_modified": "Sat, 07 Sep 2024 21:54:14 GMT",
+    "etag": "c2de740182716e9a3905dae161e46f52-14"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190924_FIRE_bl-s-mobo-c.tgz",
+   "bytes": 53060657,
+   "sha256": "9dc7c47c42f7c02a9f94168399c9ce40ba15dfc3a778cd7c5e4a96d3c82f4acc",
+   "local_mtime_utc": "2026-09-08T19:42:31Z",
+   "n_frames": 79,
+   "t0_frames": {
+    "1569362093": 79
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190924_FIRE_bl-s-mobo-c.tgz",
+   "fire_date": "20190924",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 53060657,
+    "last_modified": "Sat, 07 Sep 2024 21:54:32 GMT",
+    "etag": "231c51f6d06c2666b3b53da1fc50b724-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190924_FIRE_hp-s-mobo-c.tgz",
+   "bytes": 51936957,
+   "sha256": "7ca304bc420d46ebd91f9fa00c447552190c3f93886c5edfeec30b159a2eb456",
+   "local_mtime_utc": "2026-09-08T19:42:41Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1569362789": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190924_FIRE_hp-s-mobo-c.tgz",
+   "fire_date": "20190924",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 51936957,
+    "last_modified": "Sat, 07 Sep 2024 21:54:38 GMT",
+    "etag": "c2c6e24f458a3f07edca94432b8c7ee9-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190924_FIRE_lo-w-mobo-c.tgz",
+   "bytes": 51504181,
+   "sha256": "a74eb62b4211cdb9788cc15ae612cbce89ce6c98dc3471b1260b66f039d0af19",
+   "local_mtime_utc": "2026-09-08T19:42:49Z",
+   "n_frames": 79,
+   "t0_frames": {
+    "1569362188": 79
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190924_FIRE_lo-w-mobo-c.tgz",
+   "fire_date": "20190924",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 51504181,
+    "last_modified": "Sat, 07 Sep 2024 21:54:40 GMT",
+    "etag": "433a5f5d8654b3970274aaca323aed2e-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190924_FIRE_lp-n-mobo-c.tgz",
+   "bytes": 103987205,
+   "sha256": "9c417fc207f55b313e2c665ccbbb10303ac0d11896be64ed7d37d1f057fbccd6",
+   "local_mtime_utc": "2026-09-08T19:43:04Z",
+   "n_frames": 72,
+   "t0_frames": {
+    "1569362161": 72
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190924_FIRE_lp-n-mobo-c.tgz",
+   "fire_date": "20190924",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 103987205,
+    "last_modified": "Sat, 07 Sep 2024 21:54:41 GMT",
+    "etag": "247e99ea1f3d83c801e22c7cfdc84ab3-13"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190924_FIRE_ml-w-mobo-c.tgz",
+   "bytes": 50053926,
+   "sha256": "b81965a8bb00721abb223e0d1d3dcaade64f2856e10efee5a88a7cd40cf44ab9",
+   "local_mtime_utc": "2026-09-08T19:43:10Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1569362357": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190924_FIRE_ml-w-mobo-c.tgz",
+   "fire_date": "20190924",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 50053926,
+    "last_modified": "Sat, 07 Sep 2024 21:54:45 GMT",
+    "etag": "1919b1c45db5bf1b75bf1322ca97d092-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190924_FIRE_pi-w-mobo-c.tgz",
+   "bytes": 50090113,
+   "sha256": "2d65bdcc78c381e33ef43167593202ef481e7114609203c923e004c76e71e1a0",
+   "local_mtime_utc": "2026-09-08T19:43:17Z",
+   "n_frames": 79,
+   "t0_frames": {
+    "1569362172": 79
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190924_FIRE_pi-w-mobo-c.tgz",
+   "fire_date": "20190924",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 50090113,
+    "last_modified": "Sat, 07 Sep 2024 21:54:52 GMT",
+    "etag": "1097659a1be232f22a870f718b8e030b-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190924_FIRE_sm-n-mobo-c.tgz",
+   "bytes": 40813343,
+   "sha256": "8e71214961ef876f2e4b3fd70b2c59e25d461438b1abf3f189ccf4ea5feb17f6",
+   "local_mtime_utc": "2026-09-08T19:43:21Z",
+   "n_frames": 76,
+   "t0_frames": {
+    "1569362190": 76
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190924_FIRE_sm-n-mobo-c.tgz",
+   "fire_date": "20190924",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 40813343,
+    "last_modified": "Sat, 07 Sep 2024 21:54:53 GMT",
+    "etag": "f7b4ad680decfc9de56aa782b42ee494-5"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190924_FIRE_wc-e-mobo-c.tgz",
+   "bytes": 94531602,
+   "sha256": "2a1625d77682f5819ac9f439d311ccd698fcafd10b2665438839e372b9bc601f",
+   "local_mtime_utc": "2026-09-08T19:43:33Z",
+   "n_frames": 72,
+   "t0_frames": {
+    "1569362360": 72
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190924_FIRE_wc-e-mobo-c.tgz",
+   "fire_date": "20190924",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 94531602,
+    "last_modified": "Sat, 07 Sep 2024 21:54:56 GMT",
+    "etag": "ea01235e503f65fe09b537d858700caf-12"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20190924_FIRE_wc-s-mobo-c.tgz",
+   "bytes": 89302935,
+   "sha256": "1b73e1ef0537aafa2834902c9b9cccd9d9c0a8fc5e0274b3c520a01c351ac107",
+   "local_mtime_utc": "2026-09-08T19:43:42Z",
+   "n_frames": 70,
+   "t0_frames": {
+    "1569362185": 70
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190924_FIRE_wc-s-mobo-c.tgz",
+   "fire_date": "20190924",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 89302935,
+    "last_modified": "Sat, 07 Sep 2024 21:55:02 GMT",
+    "etag": "653d3016b3c60c6bd823131e10c76ab1-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191001_FIRE_bh-w-mobo-c.tgz",
+   "bytes": 60504045,
+   "sha256": "4dc4dbdc0d2d959ba1c9547f16f360fa9526132b0a37431d64634cebd1a8d9b4",
+   "local_mtime_utc": "2026-09-08T19:43:49Z",
+   "n_frames": 79,
+   "t0_frames": {
+    "1569962356": 79
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191001_FIRE_bh-w-mobo-c.tgz",
+   "fire_date": "20191001",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 60504045,
+    "last_modified": "Sat, 07 Sep 2024 21:55:23 GMT",
+    "etag": "1f98453465874e8e4fd78c2443635e36-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191001_FIRE_lp-s-mobo-c.tgz",
+   "bytes": 89768869,
+   "sha256": "c4c82e5831bc7c78860da880e68c047bf6936a6f1ec45ca81c484efc3efc81a4",
+   "local_mtime_utc": "2026-09-08T19:44:12Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1569952746": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191001_FIRE_lp-s-mobo-c.tgz",
+   "fire_date": "20191001",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 89768869,
+    "last_modified": "Sat, 07 Sep 2024 21:55:26 GMT",
+    "etag": "7d189bf9f0d64a708f664382bf11abb6-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191001_FIRE_om-e-mobo-c.tgz",
+   "bytes": 43590851,
+   "sha256": "70beadb8982432e8d793088e5c67ad40aebc8afc0a5253396c90f0ecde75eb6e",
+   "local_mtime_utc": "2026-09-08T19:44:25Z",
+   "n_frames": 79,
+   "t0_frames": {
+    "1569952718": 79
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191001_FIRE_om-e-mobo-c.tgz",
+   "fire_date": "20191001",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 43590851,
+    "last_modified": "Sat, 07 Sep 2024 21:55:27 GMT",
+    "etag": "85e3bf0588f70fdc891467c1fded3b47-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191001_FIRE_om-s-mobo-c.tgz",
+   "bytes": 33282934,
+   "sha256": "d3e9a35394e0670318d139ecbfd6199d31b9661d7cee90884975e72b4487af54",
+   "local_mtime_utc": "2026-09-08T19:44:29Z",
+   "n_frames": 60,
+   "t0_frames": {
+    "1569946779": 60
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191001_FIRE_om-s-mobo-c.tgz",
+   "fire_date": "20191001",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 33282934,
+    "last_modified": "Sat, 07 Sep 2024 21:55:28 GMT",
+    "etag": "62af061b6d427558f27463db6131b00a-4"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191001_FIRE_rm-w-mobo-c.tgz",
+   "bytes": 58871763,
+   "sha256": "a0fdcb9032e523533e25b56b1ed4c3d68079349dc014faea1dba349c0293f6bb",
+   "local_mtime_utc": "2026-09-08T19:44:35Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1569955746": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191001_FIRE_rm-w-mobo-c.tgz",
+   "fire_date": "20191001",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 58871763,
+    "last_modified": "Sat, 07 Sep 2024 21:55:37 GMT",
+    "etag": "8cf1e20e24b868f51f3b44b5f98d3e1e-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191001_FIRE_smer-tcs9-mobo-c.tgz",
+   "bytes": 121611631,
+   "sha256": "06a6bf6816de78556a65a571620d8f7aac98bbd6f9a904c37e9257f5468b4c7d",
+   "local_mtime_utc": "2026-09-08T19:44:52Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1569952917": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191001_FIRE_smer-tcs9-mobo-c.tgz",
+   "fire_date": "20191001",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 121611631,
+    "last_modified": "Sat, 07 Sep 2024 21:55:39 GMT",
+    "etag": "916273ca0aa696f371ab9fa257e0d022-15"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191003_FIRE_om-s-mobo-c.tgz",
+   "bytes": 49302236,
+   "sha256": "526cada833939c9af21ab75e7e10a509467727645c204c7040ebc245ec8c78e1",
+   "local_mtime_utc": "2026-09-08T19:44:58Z",
+   "n_frames": 77,
+   "t0_frames": {
+    "1570142441": 77
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191003_FIRE_om-s-mobo-c.tgz",
+   "fire_date": "20191003",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 49302236,
+    "last_modified": "Sat, 07 Sep 2024 21:55:39 GMT",
+    "etag": "d587fe5d4f6c7edab2ef787cbb0cd9e0-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191003_FIRE_rm-w-mobo-c.tgz",
+   "bytes": 57985389,
+   "sha256": "c44d84255a22a81eec7eb8c5218a9be04ca86d6ab2d25eedcf235b996ded8474",
+   "local_mtime_utc": "2026-09-08T19:45:08Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1570126026": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191003_FIRE_rm-w-mobo-c.tgz",
+   "fire_date": "20191003",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 57985389,
+    "last_modified": "Sat, 07 Sep 2024 21:55:46 GMT",
+    "etag": "d9580e83013e6d678187ba647c9a8e29-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191003_FIRE_smer-tcs9-mobo-c.tgz",
+   "bytes": 117499137,
+   "sha256": "f6f6d1b4a65d67e596a8ce7e45978b51813faf68601ff89f052ba128a35cc5a2",
+   "local_mtime_utc": "2026-09-08T19:45:21Z",
+   "n_frames": 77,
+   "t0_frames": {
+    "1570126017": 77
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191003_FIRE_smer-tcs9-mobo-c.tgz",
+   "fire_date": "20191003",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 117499137,
+    "last_modified": "Sat, 07 Sep 2024 21:55:51 GMT",
+    "etag": "cdaa8224b7d87e90efe6968ded3c22fb-15"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191005_FIRE_bm-e-mobo-c.tgz",
+   "bytes": 84532847,
+   "sha256": "35128480bdfdbfbfc7aceaf79e0047993edc534e8bfec9b64fefa8aedfab1458",
+   "local_mtime_utc": "2026-09-08T19:45:30Z",
+   "n_frames": 79,
+   "t0_frames": {
+    "1570310255": 79
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191005_FIRE_bm-e-mobo-c.tgz",
+   "fire_date": "20191005",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 84532847,
+    "last_modified": "Sat, 07 Sep 2024 21:55:53 GMT",
+    "etag": "e06463525c366e7dbf68847f139d0910-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191005_FIRE_hp-s-mobo-c.tgz",
+   "bytes": 50144213,
+   "sha256": "37f38ec843b254c664c22f10d24e83ec3d3a33c9aae15dafd9bc73093c748bab",
+   "local_mtime_utc": "2026-09-08T19:45:37Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1570309289": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191005_FIRE_hp-s-mobo-c.tgz",
+   "fire_date": "20191005",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 50144213,
+    "last_modified": "Sat, 07 Sep 2024 21:56:01 GMT",
+    "etag": "6e595c07e8e8442b3e44103f77c90c51-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191005_FIRE_vo-n-mobo-c.tgz",
+   "bytes": 61008260,
+   "sha256": "d1dc6796499cac82443bac272d249a821a9a1e0470b37fcc9ba7a7460f0553db",
+   "local_mtime_utc": "2026-09-08T19:45:44Z",
+   "n_frames": 77,
+   "t0_frames": {
+    "1570309901": 77
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191005_FIRE_vo-n-mobo-c.tgz",
+   "fire_date": "20191005",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 61008260,
+    "last_modified": "Sat, 07 Sep 2024 21:56:06 GMT",
+    "etag": "91c00d02f8ea54b048e9d98db6d978b6-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191005_FIRE_wc-e-mobo-c.tgz",
+   "bytes": 94403051,
+   "sha256": "d29aaf0dc55b3bfedcef58ee805176483f2501319bf8d7305ba033a6913e85ed",
+   "local_mtime_utc": "2026-09-08T19:45:58Z",
+   "n_frames": 79,
+   "t0_frames": {
+    "1570310301": 79
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191005_FIRE_wc-e-mobo-c.tgz",
+   "fire_date": "20191005",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 94403051,
+    "last_modified": "Sat, 07 Sep 2024 21:56:14 GMT",
+    "etag": "9c75710d2996546116856a504bcc6c74-12"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191005_FIRE_wc-n-mobo-c.tgz",
+   "bytes": 105816863,
+   "sha256": "9044cdac52c7b8f67d8da2f3c3ee82f4f82ebe4a541c6a21405121c44e1d628c",
+   "local_mtime_utc": "2026-09-08T19:46:10Z",
+   "n_frames": 78,
+   "t0_frames": {
+    "1570310238": 78
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191005_FIRE_wc-n-mobo-c.tgz",
+   "fire_date": "20191005",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 105816863,
+    "last_modified": "Sat, 07 Sep 2024 21:56:15 GMT",
+    "etag": "e46cdc3edcd33a2bd1b2e61151420d3b-13"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191006_FIRE_lo-s-mobo-c.tgz",
+   "bytes": 42595819,
+   "sha256": "dc150b55f8636b06f80fb62ce8e18e2fae4c2c4ff45d5b83b6fde7dd18854ff5",
+   "local_mtime_utc": "2026-09-08T19:46:14Z",
+   "n_frames": 79,
+   "t0_frames": {
+    "1570385723": 79
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191006_FIRE_lo-s-mobo-c.tgz",
+   "fire_date": "20191006",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 42595819,
+    "last_modified": "Sat, 07 Sep 2024 21:56:19 GMT",
+    "etag": "b467b85a9f6a4e5b7757f79422e903c9-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191006_FIRE_lo-w-mobo-c.tgz",
+   "bytes": 54497733,
+   "sha256": "edd55ad2f7a92d66cc7019455cee0f655b393765dfe98bc90b8d1cbf5f82a324",
+   "local_mtime_utc": "2026-09-08T19:46:19Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1570384285": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191006_FIRE_lo-w-mobo-c.tgz",
+   "fire_date": "20191006",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 54497733,
+    "last_modified": "Sat, 07 Sep 2024 21:56:21 GMT",
+    "etag": "a2a2adac23783ad008dd8e8e108cab9b-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191006_FIRE_lp-e-mobo-c.tgz",
+   "bytes": 67307405,
+   "sha256": "b206f4483f47fa23bb6a4d06f6fdbe25df97fc706e38982328e6cd48bede8956",
+   "local_mtime_utc": "2026-09-08T19:46:29Z",
+   "n_frames": 72,
+   "t0_frames": {
+    "1570385704": 72
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191006_FIRE_lp-e-mobo-c.tgz",
+   "fire_date": "20191006",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 67307405,
+    "last_modified": "Sat, 07 Sep 2024 21:56:31 GMT",
+    "etag": "e89971ee866c5cf548e64bf961c5e400-9"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191006_FIRE_lp-n-mobo-c.tgz",
+   "bytes": 103576450,
+   "sha256": "28c5235bca689708e7b5cafdd5dd9b23af65f34600350486be8f5009965cad5a",
+   "local_mtime_utc": "2026-09-08T19:46:43Z",
+   "n_frames": 73,
+   "t0_frames": {
+    "1570384081": 73
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191006_FIRE_lp-n-mobo-c.tgz",
+   "fire_date": "20191006",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 103576450,
+    "last_modified": "Sat, 07 Sep 2024 21:56:36 GMT",
+    "etag": "6b5cca1836a02a0742d39a7d8e096bda-13"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191006_FIRE_lp-s-mobo-c.tgz",
+   "bytes": 84059801,
+   "sha256": "2e61b598846cad359fe747b16bae51cb13482dfbaab5b60be565525f3bb31ef3",
+   "local_mtime_utc": "2026-09-08T19:46:53Z",
+   "n_frames": 73,
+   "t0_frames": {
+    "1570386065": 73
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191006_FIRE_lp-s-mobo-c.tgz",
+   "fire_date": "20191006",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 84059801,
+    "last_modified": "Sat, 07 Sep 2024 21:56:36 GMT",
+    "etag": "447270d2b12e323e906cffc1e32295bd-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191006_FIRE_ml-w-mobo-c.tgz",
+   "bytes": 51959272,
+   "sha256": "49f62bd93abb548d5e4189c94bdff963d99e2d4da125b430f06894925da076cd",
+   "local_mtime_utc": "2026-09-08T19:46:59Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1570384037": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191006_FIRE_ml-w-mobo-c.tgz",
+   "fire_date": "20191006",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 51959272,
+    "last_modified": "Sat, 07 Sep 2024 21:56:36 GMT",
+    "etag": "0c75a1cda32ba98d335417ae92f5fdc1-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191006_FIRE_om-n-mobo-c.tgz",
+   "bytes": 72126515,
+   "sha256": "a39a31b9acd25d8c0707383ec12e51c1492f8000ea6dac696ad94718394e8640",
+   "local_mtime_utc": "2026-09-08T19:47:09Z",
+   "n_frames": 78,
+   "t0_frames": {
+    "1570384175": 78
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191006_FIRE_om-n-mobo-c.tgz",
+   "fire_date": "20191006",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 72126515,
+    "last_modified": "Sat, 07 Sep 2024 21:56:49 GMT",
+    "etag": "4d03332376f714a7744a4be550d8b227-9"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191006_FIRE_om-s-mobo-c.tgz",
+   "bytes": 45554429,
+   "sha256": "cb41d89622984aa31f2dabf3bf4132051c640ea7d88fb8dea980c25bfa35c930",
+   "local_mtime_utc": "2026-09-08T19:47:16Z",
+   "n_frames": 77,
+   "t0_frames": {
+    "1570383885": 77
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191006_FIRE_om-s-mobo-c.tgz",
+   "fire_date": "20191006",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 45554429,
+    "last_modified": "Sat, 07 Sep 2024 21:56:50 GMT",
+    "etag": "655bd106eb68687da1862224b7b2d30c-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191006_FIRE_pi-s-mobo-c.tgz",
+   "bytes": 46296762,
+   "sha256": "6152896dad176fa7e5fe4ada87bbcd68948c2aae2d80d574973f0a48b02c4f82",
+   "local_mtime_utc": "2026-09-08T19:47:21Z",
+   "n_frames": 78,
+   "t0_frames": {
+    "1570385769": 78
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191006_FIRE_pi-s-mobo-c.tgz",
+   "fire_date": "20191006",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 46296762,
+    "last_modified": "Sat, 07 Sep 2024 21:56:57 GMT",
+    "etag": "7ee4a083c230786d60abe7b3b87322ae-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191007_FIRE_lp-s-mobo-c.tgz",
+   "bytes": 81131547,
+   "sha256": "ee002345929d5f5e34a1fcdd0bde2285385fef86a4adc19e7662854e6c6bf23c",
+   "local_mtime_utc": "2026-09-08T19:47:32Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1570480385": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191007_FIRE_lp-s-mobo-c.tgz",
+   "fire_date": "20191007",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 81131547,
+    "last_modified": "Sat, 07 Sep 2024 21:56:58 GMT",
+    "etag": "76922fa48b68156326078d77a262aeab-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191007_FIRE_om-s-mobo-c.tgz",
+   "bytes": 46295777,
+   "sha256": "55a31635c923574522cc56023d8a7919c9fbe858e16176727e2dabf4c02c8cdd",
+   "local_mtime_utc": "2026-09-08T19:47:38Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1570480419": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191007_FIRE_om-s-mobo-c.tgz",
+   "fire_date": "20191007",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 46295777,
+    "last_modified": "Sat, 07 Sep 2024 21:57:02 GMT",
+    "etag": "90af82f35016315a1730d70b83d95c14-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20191007_FIRE_sm-s-mobo-c.tgz",
+   "bytes": 49607970,
+   "sha256": "ec097c112dcf3eb4b4f777dd55c402b5ebdcd5dd1cb6cf4fe8f458e4a111c7f3",
+   "local_mtime_utc": "2026-09-08T19:47:47Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1570476211": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191007_FIRE_sm-s-mobo-c.tgz",
+   "fire_date": "20191007",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 49607970,
+    "last_modified": "Sat, 07 Sep 2024 21:57:05 GMT",
+    "etag": "b076c5ad50c7a1a7ee3ae7cfd41c5aff-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200306_FIRE_ml-s-mobo-c.tgz",
+   "bytes": 55963862,
+   "sha256": "3b8ad6310c80cea8022963059221359abccba7f58f2aee8ce1c6215ee1409c27",
+   "local_mtime_utc": "2026-09-08T19:48:09Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1583515875": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200306_FIRE_ml-s-mobo-c.tgz",
+   "fire_date": "20200306",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 55963862,
+    "last_modified": "Sat, 07 Sep 2024 21:57:34 GMT",
+    "etag": "f9ff154fff7e9519683094e5b75384b8-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200306_FIRE_mlo-n-mobo-c.tgz",
+   "bytes": 108889827,
+   "sha256": "d9dda70d68256d9900e72b1acdc0274c8de557b235caab3729c710c566d7d4c0",
+   "local_mtime_utc": "2026-09-08T19:48:02Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1583515879": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200306_FIRE_mlo-n-mobo-c.tgz",
+   "fire_date": "20200306",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 108889827,
+    "last_modified": "Sat, 07 Sep 2024 21:57:36 GMT",
+    "etag": "705f82682d10e140b98b667083f30ceb-13"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200306_FIRE_pi-n-mobo-c.tgz",
+   "bytes": 71329369,
+   "sha256": "e5d669c1785fd6ac8dbd78b4206ebf8af1dae85d9aa89f998c5edce9da588174",
+   "local_mtime_utc": "2026-09-08T19:48:17Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1583516523": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200306_FIRE_pi-n-mobo-c.tgz",
+   "fire_date": "20200306",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 71329369,
+    "last_modified": "Sat, 07 Sep 2024 21:57:48 GMT",
+    "etag": "a0f0e6201b40163650b8274ac7e96185-9"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200521_FIRE_om-n-mobo-c.tgz",
+   "bytes": 82813440,
+   "sha256": "e6f6d0e0815638f9dcf623b240544c8ba30ab1e8b4c4b2cf9138c6f7f3dad52e",
+   "local_mtime_utc": "2026-09-08T19:48:28Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1590099275": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200521_FIRE_om-n-mobo-c.tgz",
+   "fire_date": "20200521",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 82813440,
+    "last_modified": "Sat, 07 Sep 2024 21:57:51 GMT",
+    "etag": "5a296025705995715402ec2a74985ba5-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200521_FIRE_om-s-mobo-c.tgz",
+   "bytes": 69309678,
+   "sha256": "43084937e6d7de2d7d9ecb8b34530599ec5db6729dfd0c368e678bab6ab2ba99",
+   "local_mtime_utc": "2026-09-08T19:48:37Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1590079239": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200521_FIRE_om-s-mobo-c.tgz",
+   "fire_date": "20200521",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 69309678,
+    "last_modified": "Sat, 07 Sep 2024 21:57:52 GMT",
+    "etag": "78966edb9d5d736565d052cfdc3dcf66-9"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200521_FIRE_om-w-mobo-c.tgz",
+   "bytes": 50672915,
+   "sha256": "3aa56ba48cd3d707f4ceadc1a6ac848f383b6e43b3f071f43c68a01e6630a89f",
+   "local_mtime_utc": "2026-09-08T19:48:43Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1590099281": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200521_FIRE_om-w-mobo-c.tgz",
+   "fire_date": "20200521",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 50672915,
+    "last_modified": "Sat, 07 Sep 2024 21:58:03 GMT",
+    "etag": "44809e2d131e48c6ce022380be950bf8-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200521_VEGMGMT_bm-s-mobo-c.tgz",
+   "bytes": 100947682,
+   "sha256": "74aa8efc54b8b9c66e36fc96640d3d5f608f4f34e2753f2090bd9abd84c4f063",
+   "local_mtime_utc": "2026-09-08T19:48:55Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1590080977": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200521_VEGMGMT_bm-s-mobo-c.tgz",
+   "fire_date": "20200521",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 100947682,
+    "last_modified": "Sat, 07 Sep 2024 21:58:07 GMT",
+    "etag": "359d416a02d8ffc258c95bcea83fbcb6-13"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200521_VEGMGMT_ml-w-mobo-c.tgz",
+   "bytes": 60791107,
+   "sha256": "aa914be87cd87ec4195d47dbf522e8949fa3548cc26273ed264292896bdc8682",
+   "local_mtime_utc": "2026-09-08T19:49:03Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1590080657": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200521_VEGMGMT_ml-w-mobo-c.tgz",
+   "fire_date": "20200521",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 60791107,
+    "last_modified": "Sat, 07 Sep 2024 21:58:11 GMT",
+    "etag": "5517e966bc8c87f9a50e36ad9b815fb3-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200521_VEGMGMT_wc-e-mobo-c.tgz",
+   "bytes": 101017586,
+   "sha256": "ced6759428f70f0cb6312f44c9aec2979329402273bb78eec056ee8079eb7108",
+   "local_mtime_utc": "2026-09-08T19:49:14Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1590080960": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200521_VEGMGMT_wc-e-mobo-c.tgz",
+   "fire_date": "20200521",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 101017586,
+    "last_modified": "Sat, 07 Sep 2024 21:58:12 GMT",
+    "etag": "a202c417c6cbe4728371886916f4631f-13"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200601_WILDLAND-DRILLS_ml-s-mobo-c.tgz",
+   "bytes": 58684710,
+   "sha256": "30146d0c26edeca6fee84353fc2cba9f518aaf9ddf72ff35bc65ed7f85e4ab23",
+   "local_mtime_utc": "2026-09-08T19:49:44Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1591044795": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200601_WILDLAND-DRILLS_ml-s-mobo-c.tgz",
+   "fire_date": "20200601",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 58684710,
+    "last_modified": "Sat, 07 Sep 2024 21:58:26 GMT",
+    "etag": "580362c9a87b5b011244c1083a343ce2-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200601_WILDLAND-DRILLS_mlo-e-mobo-c.tgz",
+   "bytes": 91697101,
+   "sha256": "514086681a11331162a865c447199627640cb6177abfdd6df2a13fa838e57486",
+   "local_mtime_utc": "2026-09-08T19:49:29Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1591044741": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200601_WILDLAND-DRILLS_mlo-e-mobo-c.tgz",
+   "fire_date": "20200601",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 91697101,
+    "last_modified": "Sat, 07 Sep 2024 21:58:30 GMT",
+    "etag": "2c5af53d46d1e3cc96ae718da604ca96-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200601_WILDLAND-DRILLS_mlo-s-mobo-c.tgz",
+   "bytes": 77466704,
+   "sha256": "4e8ed531bc5d8c26fb2a45ce9b61210481dd51085612f8457aae1f71b906b7c7",
+   "local_mtime_utc": "2026-09-08T19:49:37Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1591044743": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200601_WILDLAND-DRILLS_mlo-s-mobo-c.tgz",
+   "fire_date": "20200601",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 77466704,
+    "last_modified": "Sat, 07 Sep 2024 21:58:35 GMT",
+    "etag": "15facda6f7129cb9f248883bdf1492c8-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200601_WILDLAND-DRILLS_om-e-mobo-c.tgz",
+   "bytes": 75749911,
+   "sha256": "f13e393c0cd9061a2756896bbbec691503c386339c4d7013287222fb1ccf8afe",
+   "local_mtime_utc": "2026-09-08T19:49:53Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1591044757": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200601_WILDLAND-DRILLS_om-e-mobo-c.tgz",
+   "fire_date": "20200601",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 75749911,
+    "last_modified": "Sat, 07 Sep 2024 21:58:41 GMT",
+    "etag": "4876ab673497931d489ce63a8e2b455b-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200601_WILDLAND-DRILLS_pi-e-mobo-c.tgz",
+   "bytes": 64813804,
+   "sha256": "52209c86683b72f8c333e8f8330b0b681d8d433073b87afbc818e596d05d11ab",
+   "local_mtime_utc": "2026-09-08T19:50:00Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1591044245": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200601_WILDLAND-DRILLS_pi-e-mobo-c.tgz",
+   "fire_date": "20200601",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 64813804,
+    "last_modified": "Sat, 07 Sep 2024 21:58:41 GMT",
+    "etag": "c67cdcc2c1da1175a409c18b8efbba65-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200727_Border11Fire_lp-s-mobo-c.tgz",
+   "bytes": 58699426,
+   "sha256": "de996512672b2584595cbb661e4eabc4603b916201b2be1a2e17b1e6ba983f43",
+   "local_mtime_utc": "2026-09-08T19:50:06Z",
+   "n_frames": 75,
+   "t0_frames": {
+    "1595906705": 75
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200727_Border11Fire_lp-s-mobo-c.tgz",
+   "fire_date": "20200727",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 58699426,
+    "last_modified": "Sat, 07 Sep 2024 21:59:38 GMT",
+    "etag": "874447b382eea44fb30530fd3c7c646e-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200727_Border11Fire_lp-s-mobo-m.tgz",
+   "bytes": 65204575,
+   "sha256": "95b73a79f52d42bcc46f8fed131f2d02740c70f67d202f79ef5ad363917e56a8",
+   "local_mtime_utc": "2026-09-08T19:50:12Z",
+   "n_frames": 75,
+   "t0_frames": {
+    "1595906706": 75
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200727_Border11Fire_lp-s-mobo-m.tgz",
+   "fire_date": "20200727",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 65204575,
+    "last_modified": "Sat, 07 Sep 2024 21:59:40 GMT",
+    "etag": "67349f4f2ab9d5870ea0056df406edfb-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200727_Border11Fire_om-e-mobo-c.tgz",
+   "bytes": 48144283,
+   "sha256": "1b4344fb986877a84f03d7c7d57cf4cd4f9eb34a6980ab8e7a96c97dbb5db7e2",
+   "local_mtime_utc": "2026-09-08T19:50:17Z",
+   "n_frames": 75,
+   "t0_frames": {
+    "1595906737": 75
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200727_Border11Fire_om-e-mobo-c.tgz",
+   "fire_date": "20200727",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 48144283,
+    "last_modified": "Sat, 07 Sep 2024 21:59:46 GMT",
+    "etag": "f5a7d96140bd254d61c27888f790d2a3-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200727_Border11Fire_om-e-mobo-m.tgz",
+   "bytes": 61310828,
+   "sha256": "e9f0b316b30b23415532657c8cb6eafb90c8fffc51b3188528ebfae7e40b3261",
+   "local_mtime_utc": "2026-09-08T19:50:24Z",
+   "n_frames": 75,
+   "t0_frames": {
+    "1595906738": 75
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200727_Border11Fire_om-e-mobo-m.tgz",
+   "fire_date": "20200727",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 61310828,
+    "last_modified": "Sat, 07 Sep 2024 21:59:49 GMT",
+    "etag": "9421b8d8784aed39379f72e05abc474f-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200806_SpringsFire_lp-w-mobo-c.tgz",
+   "bytes": 35376890,
+   "sha256": "d22b4d267a8ab5047d74295492beaf17b69fd9e779d7f968f35a2021de9bc3c0",
+   "local_mtime_utc": "2026-09-08T19:50:27Z",
+   "n_frames": 62,
+   "t0_frames": {
+    "1596763987": 62
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200806_SpringsFire_lp-w-mobo-c.tgz",
+   "fire_date": "20200806",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 35376890,
+    "last_modified": "Sat, 07 Sep 2024 21:59:57 GMT",
+    "etag": "1584770c2e52af2a6e51eec4bc1a6e86-5"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200806_SpringsFire_lp-w-mobo-m.tgz",
+   "bytes": 33140988,
+   "sha256": "4f72cde3d7ff511e69f41b9e266d74d832ee3dbdb849981bef92e1659c2f257d",
+   "local_mtime_utc": "2026-09-08T19:50:31Z",
+   "n_frames": 62,
+   "t0_frames": {
+    "1596763988": 62
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200806_SpringsFire_lp-w-mobo-m.tgz",
+   "fire_date": "20200806",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 33140988,
+    "last_modified": "Sat, 07 Sep 2024 22:00:04 GMT",
+    "etag": "c5cd88fc3b8b85809244e9acaead830c-4"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200806_SpringsFire_om-n-mobo-c.tgz",
+   "bytes": 64149967,
+   "sha256": "4cd6aae5a0aa0bbb66f3639e2317956de1ae91676501f13ad48508a566e50cba",
+   "local_mtime_utc": "2026-09-08T19:50:37Z",
+   "n_frames": 65,
+   "t0_frames": {
+    "1596764075": 65
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200806_SpringsFire_om-n-mobo-c.tgz",
+   "fire_date": "20200806",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 64149967,
+    "last_modified": "Sat, 07 Sep 2024 22:00:07 GMT",
+    "etag": "4c2e8e4655a1243b4a95bc3fd6e7e932-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200806_SpringsFire_om-n-mobo-m.tgz",
+   "bytes": 51223106,
+   "sha256": "ffe7fddf330e83e671de513fd364c323e62fad014a6590f027eac69b4c68df2d",
+   "local_mtime_utc": "2026-09-08T19:50:42Z",
+   "n_frames": 62,
+   "t0_frames": {
+    "1596764076": 62
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200806_SpringsFire_om-n-mobo-m.tgz",
+   "fire_date": "20200806",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 51223106,
+    "last_modified": "Sat, 07 Sep 2024 22:00:08 GMT",
+    "etag": "d7b7164d2b70fff0bd682eef1ea6551a-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200806_SpringsFire_sm-e-mobo-c.tgz",
+   "bytes": 62309604,
+   "sha256": "5c678a539f84cbfd9582c7602838870f0e8701122a024e636e3ce69f7fdc6cc8",
+   "local_mtime_utc": "2026-09-08T19:50:48Z",
+   "n_frames": 65,
+   "t0_frames": {
+    "1596764131": 65
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200806_SpringsFire_sm-e-mobo-c.tgz",
+   "fire_date": "20200806",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 62309604,
+    "last_modified": "Sat, 07 Sep 2024 22:00:09 GMT",
+    "etag": "a4a9230a5db8882dbb59b7639fc5a3f8-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200806_SpringsFire_sm-e-mobo-m.tgz",
+   "bytes": 33153482,
+   "sha256": "039eaa15663e0703dafe8b292fbaba57bf0f39edce7d3f2518accc2746ea81ab",
+   "local_mtime_utc": "2026-09-08T19:50:52Z",
+   "n_frames": 63,
+   "t0_frames": {
+    "1596764132": 63
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200806_SpringsFire_sm-e-mobo-m.tgz",
+   "fire_date": "20200806",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 33153482,
+    "last_modified": "Sat, 07 Sep 2024 22:00:12 GMT",
+    "etag": "e9d8f00ddf690130b33d40e3e52eb90d-4"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200813_Ranch2Fire_marconi-n-mobo-c.tgz",
+   "bytes": 117132073,
+   "sha256": "089177ff26c20494e9948fff200987477cc0052faa41d9c0179090b8b556c723",
+   "local_mtime_utc": "2026-09-08T19:51:03Z",
+   "n_frames": 73,
+   "t0_frames": {
+    "1597357882": 73
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200813_Ranch2Fire_marconi-n-mobo-c.tgz",
+   "fire_date": "20200813",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 117132073,
+    "last_modified": "Sat, 07 Sep 2024 22:00:23 GMT",
+    "etag": "0010c2c5b5f145f567f2f5ff01027e97-14"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200813_Ranch2Fire_sjh-n-mobo-c.tgz",
+   "bytes": 67434728,
+   "sha256": "fd42962b1bc760436321b7fd173e331885caf8d7c0cf519c3bca8d3cf0643132",
+   "local_mtime_utc": "2026-09-08T19:51:10Z",
+   "n_frames": 78,
+   "t0_frames": {
+    "1597356218": 78
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200813_Ranch2Fire_sjh-n-mobo-c.tgz",
+   "fire_date": "20200813",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 67434728,
+    "last_modified": "Sat, 07 Sep 2024 22:00:32 GMT",
+    "etag": "5ef9082dfe853a829fc4a401f21346a8-9"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200813_Ranch2Fire_wilson-e-mobo-c.tgz",
+   "bytes": 91915841,
+   "sha256": "a31eb2a50a119d49fe22d6fcf03cc4a57a7f062a513ec46ef40b45a6feaed6b4",
+   "local_mtime_utc": "2026-09-08T19:51:19Z",
+   "n_frames": 77,
+   "t0_frames": {
+    "1597355993": 77
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200813_Ranch2Fire_wilson-e-mobo-c.tgz",
+   "fire_date": "20200813",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 91915841,
+    "last_modified": "Sat, 07 Sep 2024 22:00:41 GMT",
+    "etag": "86a34a724079ddb588a39f46724bb527-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200829_inside-Mexico_cp-s-mobo-c.tgz",
+   "bytes": 70548620,
+   "sha256": "78632b2d1deda04b1398c1a3da398ac8c687e81c3caa179bbaeabb7342ae5ae6",
+   "local_mtime_utc": "2026-09-08T19:51:26Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1598723816": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200829_inside-Mexico_cp-s-mobo-c.tgz",
+   "fire_date": "20200829",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 70548620,
+    "last_modified": "Sat, 07 Sep 2024 22:01:19 GMT",
+    "etag": "103dadf2140bd97537bb5682b52f5eda-9"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200829_inside-Mexico_mlo-s-mobo-c.tgz",
+   "bytes": 75071837,
+   "sha256": "3df8702a39265f34a84e7772223569793de57201e563eaee05ea71e99a457acc",
+   "local_mtime_utc": "2026-09-08T19:51:34Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1598723483": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200829_inside-Mexico_mlo-s-mobo-c.tgz",
+   "fire_date": "20200829",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 75071837,
+    "last_modified": "Sat, 07 Sep 2024 22:01:22 GMT",
+    "etag": "f5d8ddb3e5491a2d34ec2f12c2fcd07e-9"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200829_inside-Mexico_om-e-mobo-c.tgz",
+   "bytes": 62060146,
+   "sha256": "b7ed437b18c2b4eeb6086464c2f6abb50dbc988e7003383868eaf4774bc7d485",
+   "local_mtime_utc": "2026-09-08T19:51:40Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1598723437": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200829_inside-Mexico_om-e-mobo-c.tgz",
+   "fire_date": "20200829",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 62060146,
+    "last_modified": "Sat, 07 Sep 2024 22:01:29 GMT",
+    "etag": "3f5d709f62d71ab6503fd1d6978e2f98-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200829_inside-Mexico_pi-s-mobo-c.tgz",
+   "bytes": 56765330,
+   "sha256": "832099625400278b10a5219e034424109eeaf25798ee251a8cc2fcb451ce80f5",
+   "local_mtime_utc": "2026-09-08T19:51:45Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1598722807": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200829_inside-Mexico_pi-s-mobo-c.tgz",
+   "fire_date": "20200829",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 56765330,
+    "last_modified": "Sat, 07 Sep 2024 22:01:36 GMT",
+    "etag": "3cc04056997042be2a2018c3ac2136e5-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200905_ValleyFire_lp-n-mobo-c.tgz",
+   "bytes": 98472770,
+   "sha256": "edee07234ee1955855d89d9807edfd56607db5d1e1c7847e246d31982de4270b",
+   "local_mtime_utc": "2026-09-08T19:51:57Z",
+   "n_frames": 73,
+   "t0_frames": {
+    "1599341221": 73
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200905_ValleyFire_lp-n-mobo-c.tgz",
+   "fire_date": "20200905",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 98472770,
+    "last_modified": "Sat, 07 Sep 2024 22:01:39 GMT",
+    "etag": "36caa73aacaf7958304624e873f47294-12"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200905_ValleyFire_pi-w-mobo-c.tgz",
+   "bytes": 53462912,
+   "sha256": "c3269af4149cafd41d7391022bab440597afba650f4a7d410c0fcc077d2263e1",
+   "local_mtime_utc": "2026-09-08T19:52:03Z",
+   "n_frames": 75,
+   "t0_frames": {
+    "1599341109": 75
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200905_ValleyFire_pi-w-mobo-c.tgz",
+   "fire_date": "20200905",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 53462912,
+    "last_modified": "Sat, 07 Sep 2024 22:01:42 GMT",
+    "etag": "50bfff1e26f5a52c955f9bfca65d90ab-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200905_ValleyFire_sm-e-mobo-c.tgz",
+   "bytes": 82981060,
+   "sha256": "8c38239bf8895c49f2a8e24f6d0f41f941e9c42d4b578637860fd53fec20be3d",
+   "local_mtime_utc": "2026-09-08T19:52:11Z",
+   "n_frames": 71,
+   "t0_frames": {
+    "1599341369": 71
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200905_ValleyFire_sm-e-mobo-c.tgz",
+   "fire_date": "20200905",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 82981060,
+    "last_modified": "Sat, 07 Sep 2024 22:01:49 GMT",
+    "etag": "ba7d91816f397b1f6519a0f773e3af58-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200911_FIRE_lp-e-mobo-c.tgz",
+   "bytes": 65354467,
+   "sha256": "a9095369348b63324cb9938f0b6bd19f35d247f951c4b0b8036c7d664e40ee59",
+   "local_mtime_utc": "2026-09-08T19:52:19Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1599854043": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200911_FIRE_lp-e-mobo-c.tgz",
+   "fire_date": "20200911",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 65354467,
+    "last_modified": "Sat, 07 Sep 2024 22:01:59 GMT",
+    "etag": "f32af4156504f48efde47f5c2107a2a5-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200911_FIRE_mlo-s-mobo-c.tgz",
+   "bytes": 51637811,
+   "sha256": "dafce8b994fc24eab4d8b7dfef631c6dbf3086b2455aa49435308a97688c6d87",
+   "local_mtime_utc": "2026-09-08T19:52:26Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1599853943": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200911_FIRE_mlo-s-mobo-c.tgz",
+   "fire_date": "20200911",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 51637811,
+    "last_modified": "Sat, 07 Sep 2024 22:02:06 GMT",
+    "etag": "153fe12084e98ed548e54c2796e2a3ff-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20200911_FIRE_pi-s-mobo-c.tgz",
+   "bytes": 50540536,
+   "sha256": "31883144ecc605176d36db8381d1b8e7c877e8cd9953cf2a92d2ab5bef20e141",
+   "local_mtime_utc": "2026-09-08T19:52:32Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1599853747": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200911_FIRE_pi-s-mobo-c.tgz",
+   "fire_date": "20200911",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 50540536,
+    "last_modified": "Sat, 07 Sep 2024 22:02:10 GMT",
+    "etag": "f5a1d4543c0aa54bce3ec541eeb5a3a8-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20201105_Roundfire_lp-s-mobo-c.tgz",
+   "bytes": 77620632,
+   "sha256": "58b462516560ef6123d516001aca90f95ec18936c72caac6b1dbbee482f06024",
+   "local_mtime_utc": "2026-09-08T19:52:40Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1604614805": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201105_Roundfire_lp-s-mobo-c.tgz",
+   "fire_date": "20201105",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 77620632,
+    "last_modified": "Sat, 07 Sep 2024 22:02:38 GMT",
+    "etag": "31ca0f340f100538853c3bb98418208c-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20201105_Roundfire_om-e-mobo-c.tgz",
+   "bytes": 69430097,
+   "sha256": "325df5d4c80e5123bcb766fd749c4ea6dd10a64cd440730721c6f5372b97effd",
+   "local_mtime_utc": "2026-09-08T19:52:47Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1604614597": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201105_Roundfire_om-e-mobo-c.tgz",
+   "fire_date": "20201105",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 69430097,
+    "last_modified": "Sat, 07 Sep 2024 22:02:38 GMT",
+    "etag": "28fa1203d2deba04e8083381ba9f4e6d-9"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20201105_Roundfire_pi-s-mobo-c.tgz",
+   "bytes": 63971689,
+   "sha256": "109fb8cb0be80864a6801a330547b46e12e96ee7bf8ce00dbd3ddfc8c2e07425",
+   "local_mtime_utc": "2026-09-08T19:52:53Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1604614627": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201105_Roundfire_pi-s-mobo-c.tgz",
+   "fire_date": "20201105",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 63971689,
+    "last_modified": "Sat, 07 Sep 2024 22:02:44 GMT",
+    "etag": "094029c17e2c8fdedd4979714e3b3170-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20201202_WillowFire-nightime-near-CDF-HQ_lp-w-mobo-c.tgz",
+   "bytes": 61461749,
+   "sha256": "ff9e5a8296f0a4b88fbe9b0f79d283d4698a7a572c0239778ea4ceaa212b5c31",
+   "local_mtime_utc": "2026-09-08T19:53:00Z",
+   "n_frames": 73,
+   "t0_frames": {
+    "1606975631": 73
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201202_WillowFire-nightime-near-CDF-HQ_lp-w-mobo-c.tgz",
+   "fire_date": "20201202",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 61461749,
+    "last_modified": "Sat, 07 Sep 2024 22:02:56 GMT",
+    "etag": "4ca7b31559554e86250ac310e8fd3990-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20201202_WillowFire-nightime-near-CDF-HQ_om-n-mobo-c.tgz",
+   "bytes": 60869833,
+   "sha256": "7feecdedf2b34cfc075a59bf546b24bb2ba8970fc4270ba8ea894d97df415cef",
+   "local_mtime_utc": "2026-09-08T19:53:07Z",
+   "n_frames": 77,
+   "t0_frames": {
+    "1606975835": 77
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201202_WillowFire-nightime-near-CDF-HQ_om-n-mobo-c.tgz",
+   "fire_date": "20201202",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 60869833,
+    "last_modified": "Sat, 07 Sep 2024 22:02:57 GMT",
+    "etag": "fb0fdae4d1ac3d2706553fd683e00b69-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20201202_WillowFire-nightime-near-CDF-HQ_sm-n-mobo-c.tgz",
+   "bytes": 83582007,
+   "sha256": "c44fed90938dd37377ff4c0d1c651dbcf2e6c75309f0b93a136171425816b83a",
+   "local_mtime_utc": "2026-09-08T19:53:15Z",
+   "n_frames": 77,
+   "t0_frames": {
+    "1606975107": 77
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201202_WillowFire-nightime-near-CDF-HQ_sm-n-mobo-c.tgz",
+   "fire_date": "20201202",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 83582007,
+    "last_modified": "Sat, 07 Sep 2024 22:03:07 GMT",
+    "etag": "8a652b58615eea479d9b6da90246a60d-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20201216_ChaparralFire_lp-w-mobo-c.tgz",
+   "bytes": 77726934,
+   "sha256": "e9a411385128587e1eb80d2212bd22ab830a57dffa2cd3b49a475b37991bc288",
+   "local_mtime_utc": "2026-09-08T19:53:24Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1608154447": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201216_ChaparralFire_lp-w-mobo-c.tgz",
+   "fire_date": "20201216",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 77726934,
+    "last_modified": "Sat, 07 Sep 2024 22:03:24 GMT",
+    "etag": "4d7a9d36f129e12ba738957c0ef69507-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20201216_ChaparralFire_om-n-mobo-c.tgz",
+   "bytes": 92734781,
+   "sha256": "11ac9f902a4dbbc5712496e73e37826c646bd03b9d0ed82d9740484dbf6cd402",
+   "local_mtime_utc": "2026-09-08T19:53:34Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1608154475": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201216_ChaparralFire_om-n-mobo-c.tgz",
+   "fire_date": "20201216",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 92734781,
+    "last_modified": "Sat, 07 Sep 2024 22:03:25 GMT",
+    "etag": "097fcb5eee6e9e4bacff53e306a25420-12"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20201216_ChaparralFire_pi-w-mobo-c.tgz",
+   "bytes": 80468280,
+   "sha256": "5cd9bcbb90bb12d9b64bff06f6f352fdd0bd55fd0fb60b95223d9f5f330b5ae7",
+   "local_mtime_utc": "2026-09-08T19:53:41Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1608154449": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201216_ChaparralFire_pi-w-mobo-c.tgz",
+   "fire_date": "20201216",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 80468280,
+    "last_modified": "Sat, 07 Sep 2024 22:03:25 GMT",
+    "etag": "469d5000af287c191c84fd4b0fba72b7-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20201216_ChaparralFire_sm-n-mobo-c.tgz",
+   "bytes": 84332305,
+   "sha256": "a589f14080dc9846ad25f411f0b842e6bee9574c707c6127be591d8f7ae03dc8",
+   "local_mtime_utc": "2026-09-08T19:53:51Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1608154407": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201216_ChaparralFire_sm-n-mobo-c.tgz",
+   "fire_date": "20201216",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 84332305,
+    "last_modified": "Sat, 07 Sep 2024 22:03:25 GMT",
+    "etag": "959197ccca1a3155ab2537cc979f439b-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20240701_Kitchenfire_lp-e-mobo-c.tgz",
+   "bytes": 48460615,
+   "sha256": "373aa0b7c703c1c4d2b5017c8eb397889fa35b630b46b3452c4fcfc33d38ad27",
+   "local_mtime_utc": "2026-09-08T19:53:59Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1719855218": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240701_Kitchenfire_lp-e-mobo-c.tgz",
+   "fire_date": "20240701",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 48460615,
+    "last_modified": "Sat, 07 Sep 2024 22:07:58 GMT",
+    "etag": "70467d571529e339b9ae3deee4dca502-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20240701_Kitchenfire_mlo-s-mobo-c.tgz",
+   "bytes": 66237388,
+   "sha256": "4048299bc871cbf75bb8c867de772b6b4d782df306b2445a487c096f8873a2b9",
+   "local_mtime_utc": "2026-09-08T19:54:06Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1719855050": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240701_Kitchenfire_mlo-s-mobo-c.tgz",
+   "fire_date": "20240701",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 66237388,
+    "last_modified": "Sat, 07 Sep 2024 22:07:58 GMT",
+    "etag": "8a65b06dd81fa1c3441c667fa8f4bc74-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20240701_Kitchenfire_pi-e-mobo-c.tgz",
+   "bytes": 42407583,
+   "sha256": "f89e52ba25386fcce068e61998c54d9733a9bdbc8b9d2426f495a3310b9b2f6b",
+   "local_mtime_utc": "2026-09-08T19:54:10Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1719855058": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240701_Kitchenfire_pi-e-mobo-c.tgz",
+   "fire_date": "20240701",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 42407583,
+    "last_modified": "Sat, 07 Sep 2024 22:07:59 GMT",
+    "etag": "3edbae2169ae5c1b565d852e8590481d-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20240701_Kitchenfire_ws-w-mobo-c.tgz",
+   "bytes": 72324599,
+   "sha256": "a44aeafac8be60c61071ec80b23c0f335361ee2e19bcb11ce61b4b80f9fe742b",
+   "local_mtime_utc": "2026-09-08T19:54:20Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1719855181": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240701_Kitchenfire_ws-w-mobo-c.tgz",
+   "fire_date": "20240701",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 72324599,
+    "last_modified": "Sat, 07 Sep 2024 22:08:09 GMT",
+    "etag": "4603b946c6bf133589ae04d7696ab2ba-9"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20240728_Border65Fire_lp-s-mobo-c.tgz",
+   "bytes": 58352107,
+   "sha256": "4958373307e3e2e23b740c17a53ac52719d342359e7ea981054aa23253f07765",
+   "local_mtime_utc": "2026-09-08T19:54:27Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1722196479": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240728_Border65Fire_lp-s-mobo-c.tgz",
+   "fire_date": "20240728",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 58352107,
+    "last_modified": "Sat, 07 Sep 2024 22:08:36 GMT",
+    "etag": "b50881c30e2cb3dbd513ab49edf2ecbf-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20240728_Border65Fire_om-e-mobo-c.tgz",
+   "bytes": 49649278,
+   "sha256": "69b6bc441d7a17ce9443e3868ee117b1e1c9ec287b9262d63fbe202186ac6a6e",
+   "local_mtime_utc": "2026-09-08T19:54:32Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1722196496": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240728_Border65Fire_om-e-mobo-c.tgz",
+   "fire_date": "20240728",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 49649278,
+    "last_modified": "Sat, 07 Sep 2024 22:08:36 GMT",
+    "etag": "e5e80b06a2208a4b334c7dbbab4669ab-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20240728_Border65Fire_pi-s-mobo-c.tgz",
+   "bytes": 48791246,
+   "sha256": "de506d421af8bbafa8f1b6e14324a36d8f1d41ac131897858b94eb4bece8febb",
+   "local_mtime_utc": "2026-09-08T19:54:37Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1722196441": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240728_Border65Fire_pi-s-mobo-c.tgz",
+   "fire_date": "20240728",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 48791246,
+    "last_modified": "Sat, 07 Sep 2024 22:08:42 GMT",
+    "etag": "cd3abcc938e4bb36e0bce7c397e8583f-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20240909_BridgeFire_marconi-n-mobo-c.tgz",
+   "bytes": 90125139,
+   "sha256": "5ce349921de46b21122b7e3f51978be0f1ca8370b84109a3124f559ec79277ee",
+   "local_mtime_utc": "2026-09-08T19:54:49Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1725913358": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240909_BridgeFire_marconi-n-mobo-c.tgz",
+   "fire_date": "20240909",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 90125139,
+    "last_modified": "Mon, 09 Sep 2024 23:18:47 GMT",
+    "etag": "8a71e51a161d3fc052d6eb5b04e97d40-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20240909_BridgeFire_starr-n-mobo-c.tgz",
+   "bytes": 92529115,
+   "sha256": "9a1d03d07dc3fd554f866ef8a8aa3469b081f5b84fa94ed412e191b245910270",
+   "local_mtime_utc": "2026-09-08T19:55:03Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1725912212": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240909_BridgeFire_starr-n-mobo-c.tgz",
+   "fire_date": "20240909",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 92529115,
+    "last_modified": "Mon, 09 Sep 2024 23:14:56 GMT",
+    "etag": "1d453448007b2aaaced6dcdf2277d75b-12"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20240909_BridgeFire_stgo-e-mobo-c.tgz",
+   "bytes": 67693637,
+   "sha256": "d1b2da1c775f4acaf7be21185b3f8f38b95f50429da08fdeceb5bbab044b9a39",
+   "local_mtime_utc": "2026-09-08T19:55:11Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1725912514": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240909_BridgeFire_stgo-e-mobo-c.tgz",
+   "fire_date": "20240909",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 67693637,
+    "last_modified": "Mon, 09 Sep 2024 23:21:49 GMT",
+    "etag": "aa1229cb659ad1ffd58c1e2a4c72a89f-9"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20241007_Posta3Fire_pi-e-mobo-c.tgz",
+   "bytes": 49874699,
+   "sha256": "bf0e1e754a66c47d655d40094051d73211ff2975011f172dcefcc944a8b199fc",
+   "local_mtime_utc": "2026-09-08T19:55:18Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1728336657": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241007_Posta3Fire_pi-e-mobo-c.tgz",
+   "fire_date": "20241007",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 49874699,
+    "last_modified": "Mon, 07 Oct 2024 23:09:05 GMT",
+    "etag": "4526ae475d143c6f6a4d48b9f6d5f887-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20241007_Posta3Fire_ws-n-mobo-c.tgz",
+   "bytes": 71771100,
+   "sha256": "b14a010c3871f5ba4c22fa8b6b522c8c643b9a05cc46e8d0dc7dbc1c8a8b2f6d",
+   "local_mtime_utc": "2026-09-08T19:55:28Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1728336720": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241007_Posta3Fire_ws-n-mobo-c.tgz",
+   "fire_date": "20241007",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 71771100,
+    "last_modified": "Mon, 07 Oct 2024 23:01:53 GMT",
+    "etag": "115c3f46c5b018d63f68b9d3452461c4-9"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20241007_Posta3Fire_ws-w-mobo-c.tgz",
+   "bytes": 61552747,
+   "sha256": "f59fe688348bddc3fa077855047a48e0f45dca95f241e21360d6f9a3d2f08ea2",
+   "local_mtime_utc": "2026-09-08T19:55:35Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1728336661": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241007_Posta3Fire_ws-w-mobo-c.tgz",
+   "fire_date": "20241007",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 61552747,
+    "last_modified": "Mon, 07 Oct 2024 23:04:47 GMT",
+    "etag": "e02a3db6f6259180b810fdc435731a8a-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20241108_ResortFire_bm-n-mobo-c.tgz",
+   "bytes": 51501852,
+   "sha256": "dd384df0b607fa57123c409f79cbb08e4da4ada9381bc7a99ac5d7ba409b6c38",
+   "local_mtime_utc": "2026-09-08T19:55:40Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1731109759": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241108_ResortFire_bm-n-mobo-c.tgz",
+   "fire_date": "20241108",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 51501852,
+    "last_modified": "Wed, 27 Nov 2024 00:16:42 GMT",
+    "etag": "b9acf963a96d702dedd01c30be588aa3-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20241108_ResortFire_hp-e-mobo-c.tgz",
+   "bytes": 37351793,
+   "sha256": "9c49fe08e79bcad1faba3772f5b63b4be77a3fb9a3332eb9d52f979c0efcc8ad",
+   "local_mtime_utc": "2026-09-08T19:55:44Z",
+   "n_frames": 43,
+   "t0_frames": {
+    "1731109243": 43
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241108_ResortFire_hp-e-mobo-c.tgz",
+   "fire_date": "20241108",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 37351793,
+    "last_modified": "Wed, 27 Nov 2024 00:36:57 GMT",
+    "etag": "9ac8b40069c45759bf1847843c9f3a36-5"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20241108_ResortFire_mg-n-mobo-c.tgz",
+   "bytes": 72654472,
+   "sha256": "ccd4c8b83d8fdfcddb7a4336f32971ccbbab7152d2d61b16e5a22ef59be6bc35",
+   "local_mtime_utc": "2026-09-08T19:55:53Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1731109246": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241108_ResortFire_mg-n-mobo-c.tgz",
+   "fire_date": "20241108",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 72654472,
+    "last_modified": "Wed, 27 Nov 2024 00:35:09 GMT",
+    "etag": "7f73c2cf63ae5ece0526049a4b7df58d-9"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20241108_ResortFire_rm-s-mobo-c.tgz",
+   "bytes": 59026255,
+   "sha256": "74cbc372e0e2d591e65a7f0725849bc82edfa6c4f2e9259514798dac0ea49e51",
+   "local_mtime_utc": "2026-09-08T19:56:04Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1731098589": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241108_ResortFire_rm-s-mobo-c.tgz",
+   "fire_date": "20241108",
+   "contamination": "possibly_seen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 59026255,
+    "last_modified": "Wed, 20 Nov 2024 23:23:45 GMT",
+    "etag": "925ad0bfd3a9767a8a726098b493acf1-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20250709_SteeleFire_lp-w-mobo-c.tgz",
+   "bytes": 58858231,
+   "sha256": "cd1f97aa3f61d289fcfe9ebd4a68694211ebe2e3a8da7139839d82bf8f12dfcc",
+   "local_mtime_utc": "2026-09-08T19:56:12Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1752095377": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250709_SteeleFire_lp-w-mobo-c.tgz",
+   "fire_date": "20250709",
+   "contamination": "likely_unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 58858231,
+    "last_modified": "Wed, 09 Jul 2025 22:13:47 GMT",
+    "etag": "302918384b0007443cc47fb1d43710b3-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20250709_SteeleFire_om-n-mobo-c.tgz",
+   "bytes": 62065637,
+   "sha256": "b81ba5e48ae22f6149b73739626d654e1e0e8d921f3e07b64589a41ff4b4d6c8",
+   "local_mtime_utc": "2026-09-08T19:56:21Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1752095395": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250709_SteeleFire_om-n-mobo-c.tgz",
+   "fire_date": "20250709",
+   "contamination": "likely_unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 62065637,
+    "last_modified": "Wed, 09 Jul 2025 22:11:30 GMT",
+    "etag": "b3fb71f11de69ff39619b6f2d0f61943-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20250709_SteeleFire_sm-n-mobo-c.tgz",
+   "bytes": 51939931,
+   "sha256": "3c7fbd1dcadaf9958aae6ab19d0584772d57767603e34d7c05c59ed28e647f20",
+   "local_mtime_utc": "2026-09-08T19:56:27Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1752094402": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250709_SteeleFire_sm-n-mobo-c.tgz",
+   "fire_date": "20250709",
+   "contamination": "likely_unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 51939931,
+    "last_modified": "Wed, 09 Jul 2025 22:09:01 GMT",
+    "etag": "17f477cb7a068dcd1b52ce2d91303564-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20250823_Clubfire_starr-n-mobo-c.tgz",
+   "bytes": 160137438,
+   "sha256": "60349dec8e44c83b2e5d59cf0b72ec87eedf7b972473970fe5e274e916d665ba",
+   "local_mtime_utc": "2026-09-08T19:56:46Z",
+   "n_frames": 162,
+   "t0_frames": {
+    "1755964475": 81,
+    "1755964835": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250823_Clubfire_starr-n-mobo-c.tgz",
+   "fire_date": "20250823",
+   "contamination": "likely_unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 160137438,
+    "last_modified": "Sun, 24 Aug 2025 17:29:59 GMT",
+    "etag": "49c0e7df698ff851c9b62954c22b4654-20"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20250823_Clubfire_starr-n-mobo-m.tgz",
+   "bytes": 162683323,
+   "sha256": "a7eb5f06d0a313ab46980dad7c61dcec9da92ec2387e1d2fa462cf31c0567d3b",
+   "local_mtime_utc": "2026-09-08T19:57:07Z",
+   "n_frames": 160,
+   "t0_frames": {
+    "1755964475": 80,
+    "1755964835": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250823_Clubfire_starr-n-mobo-m.tgz",
+   "fire_date": "20250823",
+   "contamination": "likely_unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 162683323,
+    "last_modified": "Sun, 24 Aug 2025 17:28:14 GMT",
+    "etag": "be5d8bcb8a8a70d1514e17ad76098885-20"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20250823_Clubfire_stgo-s-mobo-c.tgz",
+   "bytes": 47585985,
+   "sha256": "215c8739f9625e7da397d3cef976046ea84f5ca96dccdb11d0f2c6bcf962399a",
+   "local_mtime_utc": "2026-09-08T19:57:13Z",
+   "n_frames": 68,
+   "t0_frames": {
+    "1755964835": 68
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250823_Clubfire_stgo-s-mobo-c.tgz",
+   "fire_date": "20250823",
+   "contamination": "likely_unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 47585985,
+    "last_modified": "Sun, 24 Aug 2025 17:24:17 GMT",
+    "etag": "704bb7e16dab19f843f603ac5857e587-6"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20250823_Clubfire_stgo-s-mobo-m.tgz",
+   "bytes": 51862180,
+   "sha256": "cdc16c61c2d6a896ef26966c26c1ca66d64b0ed12180b6a3f250229a3051b83d",
+   "local_mtime_utc": "2026-09-08T19:57:21Z",
+   "n_frames": 69,
+   "t0_frames": {
+    "1755964835": 69
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250823_Clubfire_stgo-s-mobo-m.tgz",
+   "fire_date": "20250823",
+   "contamination": "likely_unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 51862180,
+    "last_modified": "Sun, 24 Aug 2025 17:24:17 GMT",
+    "etag": "9bde2e90c826f90d97a25619b1f528d8-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20251102_ScissorsFire_mp-n-mobo-c.tgz",
+   "bytes": 65130563,
+   "sha256": "be64ecf7216c82d0a1e9b248c3d017e1bdfd605ac1a2fc9a36222733dc151094",
+   "local_mtime_utc": "2026-09-08T19:57:28Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1762122532": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20251102_ScissorsFire_mp-n-mobo-c.tgz",
+   "fire_date": "20251102",
+   "contamination": "likely_unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 65130563,
+    "last_modified": "Mon, 03 Nov 2025 18:23:22 GMT",
+    "etag": "99a8a6169278cf32b778fa6b1a491eb6-8"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20251102_ScissorsFire_mp-n-mobo-m.tgz",
+   "bytes": 41552796,
+   "sha256": "e6463a27cd0077212acff6d9162c8743b109e19b9221d6540dcde88ab01b6a4d",
+   "local_mtime_utc": "2026-09-08T19:57:34Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1762122532": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20251102_ScissorsFire_mp-n-mobo-m.tgz",
+   "fire_date": "20251102",
+   "contamination": "likely_unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 41552796,
+    "last_modified": "Mon, 03 Nov 2025 18:03:59 GMT",
+    "etag": "730f1df8c24daf158fccc398fc43d1bf-5"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20251102_ScissorsFire_tp-s-mobo-c.tgz",
+   "bytes": 82489669,
+   "sha256": "a65293945b0e91dff62ab37d6a8f3f13706eac426d1a435af78738a16e6033b6",
+   "local_mtime_utc": "2026-09-08T19:57:43Z",
+   "n_frames": 77,
+   "t0_frames": {
+    "1762122290": 77
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20251102_ScissorsFire_tp-s-mobo-c.tgz",
+   "fire_date": "20251102",
+   "contamination": "likely_unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 82489669,
+    "last_modified": "Mon, 03 Nov 2025 18:26:07 GMT",
+    "etag": "cd7a5afcc45a4cb27f1bba63aeb294a8-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20251102_ScissorsFire_tp-s-mobo-m.tgz",
+   "bytes": 75551442,
+   "sha256": "3f6b7dd1672ff2dccc259900d3647cc2db24f737a2cf3de66b62886b63d77b6f",
+   "local_mtime_utc": "2026-09-08T19:57:53Z",
+   "n_frames": 73,
+   "t0_frames": {
+    "1762122290": 73
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20251102_ScissorsFire_tp-s-mobo-m.tgz",
+   "fire_date": "20251102",
+   "contamination": "likely_unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 75551442,
+    "last_modified": "Mon, 03 Nov 2025 18:12:53 GMT",
+    "etag": "2900ca80039aa3147469077e069d0317-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20251102_ScissorsFire_vo-e-mobo-c.tgz",
+   "bytes": 93227833,
+   "sha256": "26a5f213091df4df86291503530d334e9df37eb6614a05394752ed64ee68eef2",
+   "local_mtime_utc": "2026-09-08T19:58:04Z",
+   "n_frames": 79,
+   "t0_frames": {
+    "1762122290": 79
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20251102_ScissorsFire_vo-e-mobo-c.tgz",
+   "fire_date": "20251102",
+   "contamination": "likely_unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 93227833,
+    "last_modified": "Mon, 03 Nov 2025 18:20:44 GMT",
+    "etag": "efa19e59c13474fd294c73833d0e14b0-12"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20251102_ScissorsFire_vo-e-mobo-m.tgz",
+   "bytes": 91302049,
+   "sha256": "3063765b0804f5c115117a1bca3870bb5c7d37c26fa0341310abd2825000199a",
+   "local_mtime_utc": "2026-09-08T19:58:14Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1762122290": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20251102_ScissorsFire_vo-e-mobo-m.tgz",
+   "fire_date": "20251102",
+   "contamination": "likely_unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 91302049,
+    "last_modified": "Mon, 03 Nov 2025 18:01:40 GMT",
+    "etag": "9b0937f3a6060c043ba9885ba1cef319-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20260629_JunctionFire_bm-e-mobo-c.tgz",
+   "bytes": 70000086,
+   "sha256": "bbcc63ef5fc3f61b56676503287ea0766b9913897aab11a72848a1711f9bd66f",
+   "local_mtime_utc": "2026-09-08T19:58:21Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1782778214": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260629_JunctionFire_bm-e-mobo-c.tgz",
+   "fire_date": "20260629",
+   "contamination": "unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 70000086,
+    "last_modified": "Tue, 30 Jun 2026 01:05:28 GMT",
+    "etag": "2f2da181ab5bf44ee2bad59ddbf6505d-9"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20260629_JunctionFire_hp-e-mobo-c.tgz",
+   "bytes": 76807473,
+   "sha256": "9ace016880e9a0b95d710807dd57ba09d91e02e9891777525b187b796b142a74",
+   "local_mtime_utc": "2026-09-08T19:58:29Z",
+   "n_frames": 77,
+   "t0_frames": {
+    "1782778292": 77
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260629_JunctionFire_hp-e-mobo-c.tgz",
+   "fire_date": "20260629",
+   "contamination": "unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 76807473,
+    "last_modified": "Tue, 30 Jun 2026 01:07:37 GMT",
+    "etag": "91a5f5ccd54c3220f35e486043edb983-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20260629_JunctionFire_hp-s-mobo-c.tgz",
+   "bytes": 85956615,
+   "sha256": "f1241223e93aeebc53bdec6ac0f9cb4cd9459df0ecd4501b38c12c402e46ce04",
+   "local_mtime_utc": "2026-09-08T19:58:38Z",
+   "n_frames": 77,
+   "t0_frames": {
+    "1782778292": 77
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260629_JunctionFire_hp-s-mobo-c.tgz",
+   "fire_date": "20260629",
+   "contamination": "unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 85956615,
+    "last_modified": "Tue, 30 Jun 2026 01:29:53 GMT",
+    "etag": "4779062d72a7eda21afc24356adc38f0-11"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20260629_JunctionFire_mg-e-mobo-c.tgz",
+   "bytes": 82098052,
+   "sha256": "64db1d3c7d3d5a2c9ed0464d39ebb80a470e6aaf200d630e53a47bf214a807f2",
+   "local_mtime_utc": "2026-09-08T19:58:47Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1782778584": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260629_JunctionFire_mg-e-mobo-c.tgz",
+   "fire_date": "20260629",
+   "contamination": "unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 82098052,
+    "last_modified": "Tue, 30 Jun 2026 01:11:31 GMT",
+    "etag": "207fed71016260a2134b4e3b9c96caa8-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20260629_JunctionFire_vo-n-mobo-c.tgz",
+   "bytes": 83621332,
+   "sha256": "b3b4231b579cb4a9d123f04868705b721e4d8499ffdac8a32f3834a225e28cf0",
+   "local_mtime_utc": "2026-09-08T19:58:57Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1782778070": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260629_JunctionFire_vo-n-mobo-c.tgz",
+   "fire_date": "20260629",
+   "contamination": "unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 83621332,
+    "last_modified": "Tue, 30 Jun 2026 01:09:32 GMT",
+    "etag": "e4265ab7f91afb03b2cbf95039b038de-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20260629_JunctionFire_vo-w-mobo-c.tgz",
+   "bytes": 51795778,
+   "sha256": "7051e47c0ffe7ee58d4475801b59929bba774e9d100c30bb7d7bf4575bd5cbae",
+   "local_mtime_utc": "2026-09-08T19:59:04Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1782778070": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260629_JunctionFire_vo-w-mobo-c.tgz",
+   "fire_date": "20260629",
+   "contamination": "unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 51795778,
+    "last_modified": "Tue, 30 Jun 2026 02:04:52 GMT",
+    "etag": "22581a2a5e3e4167f5c78ffc5b3be8b3-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20260722_CreelmanFire_bm-s-mobo-c.tgz",
+   "bytes": 83001847,
+   "sha256": "97fc388fc5b430babd6f52dc454083052c47ba238e7ce192e15edd36a105abf8",
+   "local_mtime_utc": "2026-09-08T19:59:14Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1784756836": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260722_CreelmanFire_bm-s-mobo-c.tgz",
+   "fire_date": "20260722",
+   "contamination": "unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 83001847,
+    "last_modified": "Wed, 22 Jul 2026 22:40:56 GMT",
+    "etag": "e0c08edf8496fa88321f1db12bdf9509-10"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20260722_CreelmanFire_cp-w-mobo-c.tgz",
+   "bytes": 55965041,
+   "sha256": "7abf1a02c336e25ba6f8ddee0dc5d3100f2e3777fb854c70fd638108cbe4851d",
+   "local_mtime_utc": "2026-09-08T19:59:24Z",
+   "n_frames": 80,
+   "t0_frames": {
+    "1784757026": 80
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260722_CreelmanFire_cp-w-mobo-c.tgz",
+   "fire_date": "20260722",
+   "contamination": "unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 55965041,
+    "last_modified": "Wed, 22 Jul 2026 22:43:29 GMT",
+    "etag": "b12528a658eee9d2a0e202e85f72e027-7"
+   },
+   "matches_remote_size": true
+  },
+  {
+   "file": "20260722_CreelmanFire_mg-s-mobo-c.tgz",
+   "bytes": 68099652,
+   "sha256": "9662f6a7ca991bdb8168cb56d8f377ab640ce4010a782ab416b24a1935e43cc2",
+   "local_mtime_utc": "2026-09-08T19:59:32Z",
+   "n_frames": 81,
+   "t0_frames": {
+    "1784756924": 81
+   },
+   "frame_name_repairs": {},
+   "status": "ok",
+   "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260722_CreelmanFire_mg-s-mobo-c.tgz",
+   "fire_date": "20260722",
+   "contamination": "unseen",
+   "remote": {
+    "http_status": 200,
+    "content_length": 68099652,
+    "last_modified": "Wed, 22 Jul 2026 22:37:30 GMT",
+    "etag": "4bd548381c940726a10ed7614b739c17-9"
+   },
+   "matches_remote_size": true
+  }
+ ]
+}
