@@ -66,6 +66,55 @@ audit of the weaker resolution tier.
 assigned incident 24 km away and no ray passing near it. The geometry is not the thing that
 is wrong here.*
 
+### Camera calibration from the night sky
+
+The published camera table is a nameplate: azimuths rounded to a compass quadrant, a nominal
+field of view, no lens model (see *Caveats*). Stars fix that without a site visit. A point
+that drifts at the sidereal rate is a star, and matching a night of such tracks to a star
+catalog under one shared pose measures a camera's azimuth, pitch, roll and lens together. No
+constellation is guessed first: the pose search scores how many catalog stars land on *any*
+track, then assigns stars to whole tracks and refits.
+
+![Star tracks against catalog stars under the published and the star-solved pose](docs/figures/star_pose_correction.jpg)
+
+*Green: a star's track over the night. Magenta: that catalog star under the solved pose,
+running inside the track. Orange: the same star under the published pose; the yellow arrows
+run from one to the other.*
+
+- **74 solves on 52 cameras**, from FIgLib's night sequences and two moonless nights pulled from
+  HPWREN's public CDN, at a median residual of 1.4 px and ~21 stars per solve.
+- **32 of the 52 cameras point more than 1° from their published azimuth**, mlo-s-mobo-c by
+  23°. Nights two months apart agree to 0.15°, and cameras do get re-aimed: Otay Mountain's
+  south cameras solve 10.5° off in 2019 and 0.4° in 2024. So corrections are kept per camera
+  *and* date, in a [ledger](data/meta/pose_ledger.json) that refuses to bridge a re-aim or a
+  sensor change. [Every solve, with its lens scale](docs/figures/star_ledger.png).
+- **One lens design, and not the one the pipeline assumed.** Every solve puts the focal scale at
+  0.877–0.893 of nameplate: an equidistant fisheye spanning about ±55°, not a rectilinear ±45°.
+  Near the frame edge that was worth up to 8° of bearing.
+- **An independent check agrees.** A sea horizon's dip below level depends only on camera
+  height, and on om-w-mobo-c it lies along the star-solved tilt, not the published level one.
+
+![Sea horizon under the star-solved and the published pose](docs/figures/sea_horizon_check.jpg)
+
+Priced in kilometers, with the same detections and solver, on the name-confirmed fires:
+
+| camera model | median error | ≤2 km |
+|---|---|---|
+| published azimuth, rectilinear lens | 1.90 km | 7 of 10 |
+| star-measured fisheye lens | **1.70 km** | **8 of 10** |
+| + per-camera star azimuth from the ledger | 1.70 km | 6 of 10 |
+
+![Bearing rays and estimates before and after calibration](docs/figures/calibration_maps.png)
+
+The lens is the clear gain: detections in the outer half of the frame go from a median bearing
+miss of 4.4° to 3.5° ([every bearing](docs/figures/calibration_bearings.png)). The azimuth
+ledger lands where detections are right: ScissorsFire goes from 0.58 km to **0.02 km**. It
+also makes JunctionFire worse, and that is informative. Correcting vo-n-mobo-c by 11.6° puts
+the ignition point outside that camera's field of view, and its low-confidence detection turns
+out to be a cumulus cloud at the frame edge. With the cameras calibrated, **detection
+selection** (edge-clipped boxes, best-confidence picking the wrong object) is what limits
+kilometers now. The full account is in NOTES.md.
+
 ### Seconds-to-alert vs false alarms per camera-day
 
 ![false alarm sweep](docs/figures/falsealarm.png)
@@ -151,6 +200,15 @@ python -m src.figlib.geolocate     # kilometers against official coordinates
 python -m src.figlib.falsealarm    # the seconds-to-alert sweep
 ```
 
+Star calibration, optionally:
+
+```sh
+python -m src.figlib.stars.nights 20260911 @cams.json   # moonless-night frames from HPWREN's public CDN
+python -m src.figlib.stars.run_nights                   # track, star-solve, rebuild data/meta/pose_ledger.json
+FIGLIB_LENS=fisheye FIGLIB_POSE_LEDGER=1 python -m src.figlib.geolocate
+python -m src.figlib.compare_geolocation                # baseline vs calibrated, fire by fire
+```
+
 The Core ML work is macOS-only and installs separately (`requirements-edge.txt`); see
 [docs/edge-m3.md](docs/edge-m3.md).
 
@@ -173,7 +231,7 @@ rather than capturing it.
 
 ## Map of the code
 
-All modules live flat in [src/figlib/](src/figlib/) and run as `python -m src.figlib.<name>`.
+Modules live in [src/figlib/](src/figlib/), with star calibration in [src/figlib/stars/](src/figlib/stars/), and run as `python -m src.figlib.<name>`.
 
 | stage | modules |
 |---|---|
@@ -182,6 +240,7 @@ All modules live flat in [src/figlib/](src/figlib/) and run as `python -m src.fi
 | **Geometry** | `geom` `geolocate` `accumulate` |
 | **Plume masks** *(tested, lost)* | `masks` `plumefit` — segmentation-based bearings, see `NOTES.md` |
 | **Terrain** *(pose audit)* | `terrain` `calibrate` `pose_validate` — see `NOTES.md` |
+| **Star calibration** | `stars.tracks` `stars.solve` `stars.nights` `stars.fisheye` `stars.catalog` · `pose_ledger` `frame_sizes` `compare_geolocation` |
 | **Evaluation** | `falsealarm` `quantization` `evolve` |
 | **Edge** | `bench_edge` `power` |
 | **Figures** | `viz` `viz_map` `viz_terrain` `animate` `fig_peaks` `fig_pose` `fig_triangulate` |
@@ -189,6 +248,8 @@ All modules live flat in [src/figlib/](src/figlib/) and run as `python -m src.fi
 Two environment variables let a whole pipeline be re-scored against different inputs without
 editing anything: `FIGLIB_DETS` points at an alternative detection directory (this is how
 quantized variants are priced in kilometers) and `FIGLIB_CAMS` at an alternative camera table.
+`FIGLIB_LENS=fisheye` and `FIGLIB_POSE_LEDGER=1` switch on the star-measured lens and the per-camera
+azimuth corrections; `geolocate` writes those variants beside the baseline, never over it.
 Two more select the data: `FIGLIB_CORPUS` scores separately fetched FIgLib archives in their
 own directories, and `FIGLIB_TIER` restricts scoring to sequences the detector cannot have
 trained on. Archive hashes and a per-run log live in `data/meta/` — see
@@ -215,7 +276,8 @@ corrected. It is the honest record, not a summary.
   everywhere else. There is no focal length, principal point or distortion coefficient
   anywhere. Bearings are therefore only as good as a compass heading rounded to a quadrant,
   which is worth knowing before reading a kilometer figure. `NOTES.md` records the attempt to
-  refine it against terrain, and why that failed.
+  refine it against terrain, and why that failed. Star tracks succeed where terrain did not; see
+  *Camera calibration from the night sky*.
 - **"Minutes of warning gained" is not a claim this data supports.** Official
   `FireDiscoveryDateTime` minus annotated plume appearance has a median of **+1.0 min** — humans
   reported 7 of the 10 name-confirmed fires *before* the plume was annotated visible. What the
@@ -228,8 +290,11 @@ corrected. It is the honest record, not a summary.
 - **pyronear** — `yolo11s_rapid-raccoon_v8.1.0`, Apache 2.0.
 - **WFIGS / IRWIN** — interagency wildland fire incident locations, NIFC open data.
 - **Copernicus DEM GLO-30** — ESA, via the AWS Open Data registry.
+- **HYG Database** — star catalog, [astronexus/HYG-Database](https://github.com/astronexus/HYG-Database),
+  CC BY-SA 4.0. `data/meta/bright_stars.json` is a filtered derivative (mag ≤ 4) under the same license.
 
 ## License
 
 Code is MIT ([LICENSE](LICENSE)). The data and model weights above are used under
-their own terms and are not redistributed here.
+their own terms and are not redistributed here, except `data/meta/bright_stars.json`,
+which is CC BY-SA 4.0 as derived from HYG.

@@ -110,3 +110,36 @@ def test_loglik_field_single_camera_is_a_ridge_not_a_point():
     # Many cells sit within a hair of the peak -- the bearing constrains one axis only.
     near = sum(v > peak - 0.5 for row in field for v in row)
     assert near > 20
+
+
+def test_fisheye_lens_round_trip_and_wider_field(monkeypatch):
+    """FIGLIB_LENS=fisheye: inverse and forward agree, and the frame reaches past +-45 deg."""
+    monkeypatch.setenv("FIGLIB_LENS", "fisheye")
+    cam = {"lat": 32.73, "lon": -116.58, "az": 90.0, "fov": 90.0, "frame_w": 3072}
+    lat, lon = 32.70, -116.40
+    x = bearing_x_frac(cam, lat, lon)
+    assert x is not None and 0.0 < x < 1.0
+    b_direct = bearing_deg(cam["lat"], cam["lon"], lat, lon)
+    assert offset_bearing_deg(cam, x) == pytest.approx(b_direct, abs=1e-6)
+    # The star-measured lens puts the frame edge ~55 deg off axis, not the nameplate 45.
+    assert 53.0 < angdiff_deg(offset_bearing_deg(cam, 1.0), cam["az"]) < 56.0
+    assert offset_bearing_deg(cam, 0.5) == pytest.approx(cam["az"])
+
+
+def test_fisheye_lens_leaves_other_fovs_rectilinear(monkeypatch):
+    cam = {"az": 0.0, "fov": 60.0}
+    before = offset_bearing_deg(cam, 0.9)
+    monkeypatch.setenv("FIGLIB_LENS", "fisheye")
+    assert offset_bearing_deg(cam, 0.9) == before
+
+
+def test_fisheye_lens_only_on_the_frame_format_it_was_measured_on(monkeypatch):
+    monkeypatch.setenv("FIGLIB_LENS", "fisheye")
+    old_unit = {"az": 0.0, "fov": 90.0, "frame_w": 2048}
+    unknown = {"az": 0.0, "fov": 90.0}
+    monkeypatch.delenv("FIGLIB_LENS")
+    rect = offset_bearing_deg(old_unit, 0.9)
+    monkeypatch.setenv("FIGLIB_LENS", "fisheye")
+    assert offset_bearing_deg(old_unit, 0.9) == rect
+    assert offset_bearing_deg(unknown, 0.9) == rect
+    assert offset_bearing_deg({**old_unit, "frame_w": 3072}, 0.9) != rect

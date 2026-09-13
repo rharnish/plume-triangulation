@@ -86,14 +86,45 @@ def undistort_x(cam: dict, x_frac: float, y_frac: float = 0.5) -> float:
     return 0.5 + dx
 
 
+# Equidistant fisheye lens for the 90 deg Mobotix units, measured from star tracks on 26
+# night sequences across 12 cameras (src/figlib/stars/solve.py; NOTES.md, 2026-09-13):
+# pixel radius r = k * theta * (1 + k1 * theta^2) off axis, with k 0.886 of the nameplate
+# scale that would put fov/2 at the frame edge. The frame really spans about +-55 deg, not
+# +-45. Measured on 3072x2048 frames only, so only those frames get it. Opt in with
+# FIGLIB_LENS=fisheye; the default stays rectilinear so every recorded result reproduces.
+FISHEYE_K_RATIO = 0.886
+FISHEYE_K1 = -0.078
+
+
+def _fisheye(cam: dict) -> bool:
+    """Only where the lens was measured: 90 deg units recording 3072 px wide frames.
+
+    The older 2048x1536 units put a different sensor behind the lens and have no star
+    solve (FIgLib holds no night sequence from one, and their dates are past the CDN's
+    public window), so they stay rectilinear rather than inherit a scale nobody measured.
+    Callers that know the frame width pass it as cam["frame_w"] (see frame_sizes.py);
+    without it the lens is not applied.
+    """
+    import os
+    return (os.environ.get("FIGLIB_LENS") == "fisheye" and cam.get("fov") == 90
+            and cam.get("frame_w") == 3072)
+
+
 def offset_bearing_deg(cam: dict, x_frac: float, y_frac: float = 0.5) -> float:
     """Bearing to a feature at horizontal position `x_frac` across the image.
 
     `x_frac` runs 0 (left edge) to 1 (right edge); 0.5 is the optical axis. Uses the
     rectilinear projection rather than assuming degrees scale linearly with pixels --
     at 90 deg FoV the linear approximation is off by several degrees at the edges,
-    which at 20 km is a kilometer of error.
+    which at 20 km is a kilometer of error. With FIGLIB_LENS=fisheye, 90 deg cameras use
+    the star-measured equidistant lens instead, read along the horizon row.
     """
+    if _fisheye(cam):
+        r = (x_frac - 0.5) * math.radians(cam["fov"]) / FISHEYE_K_RATIO
+        t = r
+        for _ in range(20):           # Newton on t * (1 + k1 t^2) = r
+            t -= (t * (1 + FISHEYE_K1 * t * t) - r) / (1 + 3 * FISHEYE_K1 * t * t)
+        return (cam["az"] + cam.get("yaw", 0.0) + math.degrees(t)) % 360.0
     half = math.radians(cam["fov"] / 2.0)
     x_frac = undistort_x(cam, x_frac, y_frac)
     # Image plane at unit focal length spans [-tan(half), +tan(half)]
@@ -108,6 +139,9 @@ def bearing_x_frac(cam: dict, lat: float, lon: float) -> float | None:
     """
     b = bearing_deg(cam["lat"], cam["lon"], lat, lon)
     d = math.radians(angdiff_deg(b, cam["az"] + cam.get("yaw", 0.0)))
+    if _fisheye(cam):
+        x = 0.5 + d * (1 + FISHEYE_K1 * d * d) * FISHEYE_K_RATIO / math.radians(cam["fov"])
+        return x if 0.0 < x < 1.0 else None
     half = math.radians(cam["fov"] / 2.0)
     if abs(d) >= half:
         return None
