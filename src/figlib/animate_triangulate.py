@@ -20,8 +20,8 @@ from pathlib import Path
 import numpy as np
 
 from .detect_yolo import read_frames
-from .fig_triangulate import (META, PALETTE, TGZ, _crop_image, _crop_window, _det_for,
-                              _draw, _hillshade, _inset_spec, _title, _view)
+from .fig_triangulate import (META, PALETTE, _crop_image, _crop_window, _det_for, _draw,
+                              _hillshade, _inset_spec, _tgz_for, _title, _view)
 from .geolocate import bearings_for_fire, credible_area_km2, solve
 from .geom import haversine_km, load_cams
 
@@ -65,8 +65,7 @@ def animate(fire_id: str, t_start: int = -120, t_end: int = 2400, step: int = 60
     blobs, windows = {}, {}
     for b in final:
         seq_name, det = _det_for(b, fire, seqs)
-        blobs[b.camera] = {e: blob for e, _, blob in
-                           read_frames(TGZ / f"{seq_name.split('#')[0]}.tgz")}
+        blobs[b.camera] = {e: blob for e, _, blob in read_frames(_tgz_for(seq_name))}
         img = cv2.imdecode(np.frombuffer(blobs[b.camera][b.epoch], np.uint8),
                            cv2.IMREAD_COLOR)
         windows[b.camera] = _crop_window(det, *img.shape[1::-1])

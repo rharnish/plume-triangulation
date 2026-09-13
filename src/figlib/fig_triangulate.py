@@ -19,13 +19,24 @@ from pathlib import Path
 
 import numpy as np
 
+from . import corpus as C
 from .geolocate import (META, YOLO_DIR, Bearing, bearings_for_fire,
                         credible_area_km2, solve)
 from .geom import haversine_km, load_cams
 
 ROOT = Path(__file__).resolve().parents[2]
 TGZ = ROOT / "data" / "tgz"
-OUT = ROOT / "out" / "triangulate"
+OUT = C.current().out / "triangulate"      # out/triangulate for core, as before
+
+
+def _tgz_for(seq_name: str) -> Path | None:
+    """The archive holding a sequence, from whichever of the corpus's directories has it."""
+    stem = seq_name.split("#")[0]
+    for d in C.current().tgz_dirs:
+        p = d / f"{stem}.tgz"
+        if p.exists():
+            return p
+    return None
 
 # Ray colors, chosen to stay distinguishable against hillshade and against each other.
 PALETTE = ["#ff5d5d", "#ffd166", "#4dd2a0", "#5fa8ff", "#c792ea", "#ff9f45",
@@ -65,8 +76,8 @@ def _plume_crop(seq_name: str, camera: str, epoch: int, det: dict):
     """The frame that produced this bearing, cropped around the box it was drawn from."""
     import cv2
     from .detect_yolo import read_frames
-    tgz = TGZ / f"{seq_name.split('#')[0]}.tgz"
-    if not tgz.exists():
+    tgz = _tgz_for(seq_name)
+    if tgz is None:
         return None
     frames = [(e, o, b) for e, o, b in read_frames(tgz) if e == epoch]
     if not frames:
@@ -402,6 +413,8 @@ def render(fire_id: str, fire: dict, truth: dict, tier: str, seqs: dict, cams: d
 
 
 def main(argv: list[str]) -> None:
+    from . import provenance as P
+    started = P.utc_now()
     cams = load_cams()
     seqs = {s["seq"]: s for s in json.loads((META / "sequences.json").read_text())}
     fires = {f["fire_id"]: f for f in json.loads((META / "fires.json").read_text())}
@@ -439,8 +452,14 @@ def main(argv: list[str]) -> None:
         print(f"[{k}/{len(todo)}] {fid:26s} {r['tier']:9s} "
               f"{index[-1]['n_sites']} sites  {err:6.2f} km", flush=True)
 
+    OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "index.json").write_text(json.dumps(index, indent=1) + "\n")
     print(f"\n{len(index)} figures -> {OUT}")
+    P.record("fig_triangulate",
+             [OUT / "index.json"] + [OUT / f"{r['fire_id']}.png" for r in index],
+             started=started, params={"fires": argv or "all scoring fires"},
+             extra_inputs=[META / "sequences.json", META / "fires.json",
+                           META / "resolved.json", YOLO_DIR])
 
 
 def sheet(tile_w: int = 560, cols: int = 4) -> Path:
