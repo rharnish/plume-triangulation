@@ -32,6 +32,7 @@ import numpy as np
 from .geom import (angdiff_deg, bearing_deg, haversine_km, load_cams,
                     offset_bearing_deg)
 from . import corpus as C
+from . import pose_ledger
 from .wind import upwind_x, wind_at
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -40,6 +41,12 @@ META = C.current().meta
 # exact pipeline rather than a parallel one -- the point of the quantization study is a
 # paired comparison, and a second implementation would be a second source of difference.
 YOLO_DIR = Path(os.environ.get("FIGLIB_DETS", C.current().dets))
+
+# Frame width per archive (frame_sizes.py). The star-measured fisheye lens and the pose
+# ledger apply only to the frame format they were measured on, and the same camera name
+# has recorded both 2048x1536 and 3072x2048.
+_FRAME_SIZES = ROOT / "data" / "meta" / "frame_sizes.json"
+FRAME_SIZES = json.loads(_FRAME_SIZES.read_text()) if _FRAME_SIZES.exists() else {}
 
 # Angular budget per bearing. Pose is published to a degree, the plume is a meters-wide
 # object seen as a box several degrees across, and its centroid sits downwind of the
@@ -78,6 +85,8 @@ class Bearing:
     # (bearings_deg, loglik) for the `field` mode: the whole curve a mask implies over
     # direction, kept instead of being collapsed to a mean and a sigma first.
     ll_curve: tuple | None = None
+    # The pose_ledger lookup that corrected this camera's azimuth, when one applied.
+    pose: dict | None = None
 
 
 def bearings_for_fire(fire: dict, seqs: dict, cams: dict,
@@ -107,7 +116,8 @@ def bearings_for_fire(fire: dict, seqs: dict, cams: dict,
         path = YOLO_DIR / f"{seq_name.split('#')[0]}.json"
         if not path.exists():
             continue
-        cam = cams[s["camera"]]
+        cam = {**cams[s["camera"]],
+               "frame_w": (FRAME_SIZES.get(seq_name.split("#")[0]) or [None])[0]}
         best = None
         for rec in sorted(json.loads(path.read_text()), key=lambda r: r["offset"]):
             if not (window_s[0] <= rec["offset"] <= window_s[1]):
@@ -127,12 +137,15 @@ def bearings_for_fire(fire: dict, seqs: dict, cams: dict,
         if best is None:
             continue
         d, rec = best
+        # A star-solved azimuth correction for this camera on this date, when the ledger is
+        # on and one applies; pose_ledger decides whether a solve from another date carries.
+        cam_b, pose = pose_ledger.corrected_cam(s["camera"], cam, rec["epoch"])
 
         wfrom = None
         if use_wind:
             w = wind_at(cam["lat"], cam["lon"], rec["epoch"], wind_cache)
             wfrom = w and w["from_deg_100m"]
-        x = (upwind_x(d["x0"], d["x1"], cam["az"], wfrom) if use_wind
+        x = (upwind_x(d["x0"], d["x1"], cam_b["az"], wfrom) if use_wind
              else (d["x0"] + d["x1"]) / 2)
         source = "upwind" if use_wind else "center"
 
@@ -140,7 +153,7 @@ def bearings_for_fire(fire: dict, seqs: dict, cams: dict,
         if x_mode != "box":
             kind, _, method = x_mode.partition("_")
             f, ll_curve = _fit_x(kind, method, seq_name, rec["offset"], d,
-                                 cam, wfrom)
+                                 cam_b, wfrom)
             if f is not None:
                 x, source = f, x_mode
             if ll_curve is not None:
@@ -150,10 +163,10 @@ def bearings_for_fire(fire: dict, seqs: dict, cams: dict,
                 source = x_mode
 
         out.append(Bearing(camera=s["camera"], lat=cam["lat"], lon=cam["lon"],
-                           bearing_deg=offset_bearing_deg(cam, x),
+                           bearing_deg=offset_bearing_deg(cam_b, x),
                            conf=d["conf"], epoch=rec["epoch"], x_frac=round(x, 4),
                            wind_from_deg=wfrom, x_source=source,
-                           ll_curve=ll_curve))
+                           ll_curve=ll_curve, pose=pose))
     return out
 
 
@@ -308,19 +321,24 @@ def main() -> None:
                 "bearings": [{"camera": b.camera, "deg": round(b.bearing_deg, 2),
                               "conf": b.conf, "x": b.x_frac,
                               "wind_from": b.wind_from_deg,
-                              "x_source": b.x_source} for b in bs]}
+                              "x_source": b.x_source, "pose": b.pose} for b in bs]}
         row["status"] = row["center"]["status"]
         rows.append(row)
     _save_wind(wind_cache)
 
-    dest = C.current().out / f"geolocation{C.tier_suffix(tiers)}.json"
+    # Calibration variants write beside the baseline, never over it.
+    variant = (("_fisheye" if os.environ.get("FIGLIB_LENS") == "fisheye" else "")
+               + ("_ledger" if pose_ledger.enabled() else ""))
+    dest = C.current().out / f"geolocation{C.tier_suffix(tiers)}{variant}.json"
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps(rows, indent=1) + "\n")
     from .wind import CACHE as WIND_CACHE
     P.record("geolocate", [dest, WIND_CACHE], started=started,
-             params={"variants": list(VARIANTS), "sigma_deg": SIGMA_DEG},
+             params={"variants": list(VARIANTS), "sigma_deg": SIGMA_DEG,
+                     "lens": os.environ.get("FIGLIB_LENS", "rectilinear"),
+                     "pose_ledger": str(pose_ledger.path()) if pose_ledger.enabled() else None},
              extra_inputs=[META / "sequences.json", META / "fires.json",
-                           META / "resolved.json", YOLO_DIR])
+                           META / "resolved.json", YOLO_DIR] + ([pose_ledger.path()] if pose_ledger.enabled() else []))
 
     solved = [r for r in rows if r["center"].get("status") == "solved"]
     print(f"{len(rows)} scoring fires, {len(solved)} solved")

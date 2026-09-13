@@ -932,6 +932,404 @@ is the only part of the pose that reaches a bearing; the published pitch does no
 does not matter; and no distortion coefficient recoverable from terrain improves
 geolocation. Kilometer errors are no longer provisional on this.
 
+**Sun/tower calibration reopens the azimuth question (2026-09-12).** The 2026-09-09
+verdict above was "azimuth held up" -- but that meant *terrain couldn't move it*, not that
+it was measured correct. Sun geometry is a much better-conditioned target (a point, not a
+nearly-flat ridge): scanning every frame with the sun plausibly in view and matching a
+saturated disk to its ephemeris position (`out/sky/sun_calibrate.py`) gets a clean fit on
+10 of 24 cameras checked, several needing several degrees of azimuth correction. One
+complication surfaced immediately -- azimuth and the model's single radial-distortion term
+(k1) are entangled in a sun-only fit: on `rm-s-mobo-c`, d_az swings from -0.35 deg to
+-4.10 deg depending on how far k1 is allowed to float, same data, same camera. A rigid
+tower leg near the frame edge, treated as a plumb line (`out/sky/tower_distortion.py`),
+measures k1 independent of any assumed pose -- straight-line residual drops from 2.0px to
+0.9px at k1=-0.54 -- and fixing k1 there before fitting the sun gives d_az=-1.87 deg, the
+principled middle ground. Only one camera has a tower this clean; most of the mountaintop
+sites have nothing rigid in frame to check against, and a building-roofline edge tried at
+`tdlln-s-mobo-c` sits at too large a radius for the one-term model to fit at all (best-fit
+k1 ran to the search boundary and made things worse). None of this has been run through
+`geolocate.py` yet, and it stays out of `cams.json` regardless -- see the pose-candidates
+sketch below.
+
+**Star-based calibration: a real fisheye model, a working matcher, and a still-open
+correspondence problem (2026-09-13).** Follow-on from the sun/tower work above, prompted by
+night-sky frames already sitting in `out/sky/` (star or moon imagery, `night_*.jpg`). Plan and
+status, so this survives a compaction:
+
+*Why stars, and why they broke the existing projection model.* A star field gives many known
+points spanning a wide angle in one exposure (vs. the sun's one point per frame), with trivial
+ephemeris (sidereal time, no solar approximation). But projecting a confirmed-visible star
+(Orion, alt 52-62 deg, well inside a camera's nominal 90 deg horizontal FOV) through
+`terrain.project()` put it 1000+ px above the top of a 2048px frame. Not a bug: `project()` is
+rectilinear (tan-based), and these lenses are not -- confirmed independently by the Mobotix
+lens-table cross-reference below. `out/sky/fisheye.py` replaces it with an equidistant model
+(`r = k*theta` from boresight, not `tan(theta)`) for this work; `project_fisheye()` mirrors
+`project()`'s signature so the two are interchangeable. Ruled out directly: forcing the
+*existing* rectilinear model to explain Orion via free pitch alone gives 293px RMSE on a fit
+that the equidistant model gets to 61px on the same points -- these lenses are genuinely not
+rectilinear at these angles, it is not just uncorrected tilt.
+
+*Mobotix lens identification (independent confirmation, no distortion curve available).*
+Cross-referencing every camera's published `cams.json` fov against Mobotix's real lens table
+(B016/B036/B041/B061/B079/B119/B237/B500) matches 498/505 cameras (98.6%) to an exact nameplate
+horizontal FOV -- strong evidence `fov` is real hardware data, not a placeholder, and that 7
+cameras are a literal B016 fisheye (upgrading the earlier "fisheye" claim from vignette-shape
+inference to a spec-sheet fact). But Mobotix publishes no distortion curve or angle-vs-height
+grid publicly (checked: their planning-tool page is a coverage-distance calculator per DIN EN
+50132-7, not an optics spec sheet), and even their own headline H x V numbers disagree between
+document revisions (90x67 vs. 95x50 for the B041, depending on which lens-table PDF and which
+sensor aspect ratio) -- so there is no vendor ground truth to drop in; the k_scale/k1 degeneracy
+has to be resolved algorithmically, not from a datasheet.
+
+*Single-frame identification works for "which constellation," not for "which star is which
+pixel."* `out/sky/star_geometry.py` holds a real catalog now (HYG database via
+github.com/kiloquad/__HYG-Database, mag <= 4.0, 523 stars, replacing an earlier hardcoded
+13-star list) and `visible_stars()` computes what should be in frame for any camera/time.
+`out/sky/star_match.py` identifies asterisms with no constellation named in advance, via
+triangle geometric hashing (scale-invariant side-length ratios, standard "lost in space"
+star-tracker technique): correctly found Orion's members for `hp-s-mobo-c`/`rm-s-mobo-c` and,
+unprompted, the Scorpius/Sagittarius region for `bh-s-mobo-c` -- the same region found by eye
+earlier, recovered with no hint. Two real bugs surfaced and are fixed (documented in the code):
+the shape descriptor is reflection-invariant, so it initially returned a mirrored labeling; and
+Orion's own outer quadrilateral is symmetric enough under swapping Betelgeuse<->Bellatrix (with
+Rigel<->Saiph) that shape plus winding-order still couldn't break the tie, needing a real
+magnitude-vs-detected-amplitude check (only trusted when the catalog gap exceeds 0.5 mag, since
+finer gaps don't survive detection noise). Even with both fixes, exact per-star pixel labeling
+in a crowded field (several genuine similarly-bright neighbors -- Sirius, Adhara, Wezen, Alhena,
+Mirzam all legitimately near Orion) is not reliable: single-frame fits after matching come back
+at 170-400px RMSE, worse than the hand-guided belt approach's 60-240px.
+
+*Sequences change what's checkable, not just what's visible.* Real stars all drift together at
+the sidereal rate; artifacts and sensor noise don't move. `out/sky/star_tracks.py` decodes every
+dark-enough frame of a sequence (sun el <= -8 deg), detects point sources per frame, links them
+into tracks by nearest-neighbor, and keeps only tracks that persist (>=8 frames) and actually
+move (>=50px end to end over ~80 min) -- this alone throws out static artifacts for free and
+turned one noisy 18-point single-frame candidate pool into 56-79 confirmed-moving tracks per
+sequence, all visibly consistent smooth arcs (same curvature direction, magnitude scaling with
+distance from the pole) -- see `star_tracks_*.jpg`. The key finding from trying to use this,
+in `out/sky/star_track_match.py`: a *single* track's full trajectory (50+ points) is not
+actually a strong per-star validator on its own -- several wrong single-star hypotheses each
+fit their own track to under 2px RMSE, because 4-5 free pose parameters can trace almost any
+one smooth arc. The real test is forcing multiple tracks to share *one* pose: an initial
+7-star coarse match (from `star_match.identify_stars` on one reference frame's track
+positions) came back at 211px RMSE under a shared pose; iteratively dropping whichever track
+fit the shared pose worst and refitting converged to 3 mutually-consistent tracks
+(Wezen/Betelgeuse/Alnitak) at 44px -- real progress (from 211 to 44) but not yet resolved
+(44px, not the ~1-2px a correct triple should give under one honest pose) and the 3 survivors'
+names have not been checked against relabeling (cheap now, only 3! -> 6 permutations).
+See `star_track_match_*.jpg` for the current best fit's published/fitted/observed arcs.
+
+*Concrete next steps, in likely order:*
+1. Brute-force the 6 name permutations of the 3 survivors (Wezen/Betelgeuse/Alnitak) against
+   the shared-pose joint fit; keep whichever gives the lowest RMSE. Cheap, not yet done.
+2. Re-run `star_track_match.py` on `rm-s-mobo-c` and `bh-s-mobo-c` sequences (tracks already
+   extracted, `star_tracks_*.jpg` exists for both) and cross-check against the belt-based
+   single-frame results already on record for those cameras.
+3. If the joint-pose approach converges cleanly on >=2 cameras, that is the first real,
+   independently-validated star-based pose correction -- worth a `geolocate.py` km-error check,
+   same bar the terrain and sun/tower work is held to (see the ledger idea above and NOTES entry
+   below), before it goes anywhere near `cams_refined.json`.
+4. Longer-shot ideas not started: use real-frame color (Betelgeuse is visibly red) as a third
+   disambiguator alongside shape and magnitude; extend the HYG catalog's mag limit or the
+   triangle search radius if a camera's local star field is too sparse to bootstrap from.
+
+None of this has touched `cams.json`, `geolocate.py`, or any file outside `out/sky/` --
+still documented exploration, same as the sun/tower work above.
+
+**Star tracks, label-free: the correspondence problem is solved, and the lens is not what
+`geom.py` assumes (2026-09-13, same day).** Step 1 above (permute the 3 survivors) was run
+and it killed the survivors rather than confirming them: the best labeling's 44px came with a
+physically impossible pose (d_az -100 deg, d_pitch -64, d_roll -84, k a third of nameplate),
+and bounding the pose to plausible values (|d_az|,|d_pitch| <= 20, |d_roll| <= 15, k within
+30%) pushed every permutation to 84-162px with parameters pinned at the bounds. **Orion was
+never in frame** for `hp-s-mobo-c`: at pitch ~0 the detector's top-35% sky band holds Canis
+Major / Puppis / Lepus / Columba. The earlier belt-based fits (d_pitch +30-36 deg) were
+fitting the wrong constellation too.
+
+*What works: don't name anything first.* `out/sky/star_track_calibrate.py` (track caches and
+results in `out/sky/data/star_tracks/`) grids the pose, scores it by how many catalog stars
+(mag <= 3.5) land within 30px of *some* moving track at a reference epoch, then iterates from
+each of the top 3 coarse poses: cost matrix = median distance between every catalog star's
+predicted arc and every track's full trajectory, Hungarian assignment, robust (soft-L1) joint
+refit of d_az/d_pitch/d_roll/k/k1, tightening the gate 30 -> 6px. Timestamps checked first:
+frame epochs equal `t0 + offset` exactly.
+
+| sequence | stars | points | median resid | d_az | d_pitch | d_roll | k / nameplate | k1 |
+|---|---|---|---|---|---|---|---|---|
+| 20241021_PalomarRidge_hp-s-mobo-c | 32 | 1256 | 1.41 px | +0.87 | -0.07 | -0.70 | 0.886 | -0.074 |
+| 20240727_Fire_bh-s-mobo-c | 36 | 1849 | 1.00 px | +2.82 | -0.66 | -1.11 | 0.882 | -0.075 |
+
+Two runs from different coarse starts converge to the identical star set and pose on each
+camera. The rmse (13-18px) is linker jumps on a few tracks; the median is the honest figure.
+The two cameras are different sites, seasons and constellations (Canis Major in October vs
+Scorpius/Sagittarius in July) and **agree on the lens to three decimal places**. That makes the
+lens a property of the Mobotix 90 deg unit, not a per-camera nuisance term. Pitch and roll
+come out near zero and d_az is small, so the published poses are roughly right. The lens model
+is what's wrong: the true in-frame azimuth span is about -53 to +55 deg, not +-45.
+
+*`rm-s-mobo-c` (LiliacFire) does not converge*, even with a +-90 deg azimuth grid and a +-12 h
+time-shift search under the lens above. Its tracks look like clean star arcs, but its brightest
+track sits ~1000px from where Sirius should be. Open: a mislabeled camera, a re-aimed unit, or
+a different lens.
+
+*Why this matters for bearings.* `geom.offset_bearing_deg` is rectilinear with the nameplate
+fov. Against the fitted lens alone, with no pose correction, that is -3.7 deg of bearing error
+at x=0.1 and 8.1 deg at x=0.02 (mirrored on the right), and about +-1.2 deg across the middle
+third. Paired check, same detections and solver, one shared lens (k 0.884x, k1 -0.0745) for
+every fov-90 camera, no per-camera correction, nothing written to disk:
+
+| variant | tier | n | median km (rect -> fisheye) | within 2 km | better / worse |
+|---|---|---|---|---|---|
+| center | confirmed | 10 | 1.83 -> 1.57 | 6 -> 8 | 6 / 3 |
+| center | probable | 16 | 4.03 -> 4.66 | 5 -> 4 | 6 / 7 |
+| early | confirmed | 10 | 2.41 -> 1.64 | 4 -> 6 | 4 / 2 |
+| early | probable | 15 | 5.48 -> 5.48 | 3 -> 4 | 6 / 6 |
+
+On the confirmed tier the gain is consistent: ResortFire.2 1.70 -> 0.55 km, Roundfire 3.59 ->
+2.15, Clubfire 2.00 -> 1.44. The probable tier, which carries the ground-truth uncertainty,
+is a wash. n=10, so this is suggestive, not settled. It is still the first calibration result
+in this project that moved confirmed-tier km error in the right direction, where the terrain
+k1 never did. Not applied to `geom.py` or `cams.json`.
+
+*Sea horizons as the next independent check.* A DEM survey (last 30 km of the ray exactly
+at sea level, west of the coast, inside tile coverage, nothing along the ray above the
+geometric dip) finds corpus cameras with long unobstructed ocean horizons: `om-w-mobo-c` 85.5
+deg of its 90 deg field, `wc-w-mobo-c/m` 77, `stgo-s-mobo-c/m` 54.5, `lp-w-mobo-c/m` 45,
+`stgo-w` 44.5, `bh-w-mobo-c/m` 37.5, `rm-s-mobo-c` 37 (useful for the unexplained camera
+above), `sm-s` 34. The dip is known from height alone (-0.6 to -1.2 deg), so a daytime sea
+horizon measures pitch and roll with no ephemeris. Its curvature in the image tests k1 against
+the star value directly, over a wider span than any tower leg. Not yet fitted.
+
+*Batch over the other 31 night/twilight sequences: the lens holds.* 7 more sequences converged
+(9 of 34 in total), every one a color unit:
+
+| sequence | stars | median resid | d_az | d_pitch | d_roll | k / nameplate | k1 |
+|---|---|---|---|---|---|---|---|
+| 20191030_CopperCanyon_om-s-mobo-c | 7 | 0.79 px | **-10.74** | -2.32 | -2.01 | 0.885 | -0.079 |
+| 20200727_Border11Fire_lp-s-mobo-c | 38 | 0.90 px | +0.20 | +0.92 | +0.15 | 0.885 | -0.078 |
+| 20201202_WillowFire..._om-n-mobo-c | 23 | 1.37 px | -2.08 | +0.04 | +1.55 | 0.890 | -0.084 |
+| 20210302_FIRE_lp-e-mobo-c | 35 | 1.09 px | +0.68 | +0.60 | -0.03 | 0.885 | -0.076 |
+| 20240625_OtayFire_om-s-mobo-c | 31 | 0.97 px | -0.37 | -0.05 | -0.17 | 0.889 | -0.081 |
+| 20240806_Border68Fire_om-w-mobo-c | 15 | 1.29 px | +0.22 | -2.09 | -1.69 | 0.883 | -0.074 |
+| 20250101_Border1Fire_om-e-mobo-c | 27 | 1.00 px | +0.01 | +1.72 | -1.00 | 0.888 | -0.084 |
+
+Across all 9 fits, k/nameplate is **0.882-0.890** and k1 is -0.074 to -0.084, on seven
+cameras at four sites from 2019 to 2025. Treat the shared lens as established for the
+color 90 deg units. Most azimuths are within about 1 deg of published. Two are not. `om-n`
+is -2.1. `om-s` is -10.7 in 2019 but -0.4 on the same camera in 2024; the 2019 fit rests on
+only 7 stars, so the likelier reading is re-aiming between the two dates, not a bad fit.
+Either way, that is the per-camera and per-date azimuth drift the ledger idea below exists
+for.
+
+Failures, by cause: **all 6 monochrome sequences** (the detector finds 800-3700 "moving"
+tracks, so its threshold is noise-level on the mono sensor and needs its own tuning);
+**`rm-s-mobo-c` PalaFire also collapses**, making both rm-s sequences fail and pointing at
+that camera, not one sequence; 2 sequences had zero moving tracks and crashed on an empty list
+(bh-s La, bh-w Creekfire; guard needed); 3 had fewer than 15 tracks (rm-e, 69bravo-e,
+dwpgm-s); sdsc-e (twilight) printed nothing. About 11 color sequences with 20-50 good-looking
+tracks still collapsed. Likely causes are the fixed top-35% sky band or a coarse-grid start
+the iteration can't escape; seeding the grid with the now-known lens (k 0.886x, k1 -0.078) and
+searching only d_az/d_pitch/d_roll should recover many of them.
+
+*Re-run with the lens fixed: 20 of 32 solved, every color sequence with >= 15 tracks.*
+`out/sky/star_track_solve.py` holds the lens at k 0.886x, k1 -0.078 and grids only
+d_az/d_pitch/d_roll (1 deg steps). The last two refinement stages free the lens as a check.
+It scores coincidence inside the band the tracks occupy, and takes the reference epoch as the
+frame most tracks were seen in. That last change recovered `tp-w-mobo-c`: its steep, fast arcs
+break into fragments, and a fragment read at the wrong epoch sits displaced along its own
+motion. It also caps monochrome track pools at the 150 longest and brightest, and reports
+empty sequences instead of crashing. Results in `out/sky/data/star_tracks/solve_*.json` and
+`solve_summary.json`. Figures: `out/sky/fig_star_track_solve.py` ->
+`out/sky/star_solve_<seq>.jpg` (solved: green track under magenta predicted arc; failed:
+tracks in cyan, bright stars at the published pose in orange).
+
+Newly solved beyond the 9 above: `rm-s-mobo-c` (**both** sequences, d_az -0.36/-0.37, roll
+-2.25/-2.26: the earlier failure was the search, not the camera), `om-e` Border11,
+`bh-w`, `lp-w`, `sm-n`, `om-w` JEEP, `om-n` 2021, `stgo-n`, `tp-w`, `dwpgm-s`, `wilson-s`.
+Lens across all 20: k 0.877-0.890x, k1 -0.068 to -0.089. Same camera on different dates
+agrees closely where tested: om-n -2.08 (2020) / -2.05 (2021); om-e +0.08 / +0.01; om-w
++0.04 / +0.22; rm-s as above. **Azimuth corrections that matter for bearings:**
+`stgo-n` -9.26, `tp-w` -6.24, `dwpgm-s` +6.04, `sm-n` -2.94, `bh-s` +2.82, `om-n` -2.1,
+`wilson-s` +1.53. The figures for stgo-n (Big Dipper, Draco) and tp-w (Orion, Taurus,
+Perseus) show the tracks running inside the predicted arcs, so these are real offsets. The
+rest are within 1 deg.
+
+Still failing, by cause: all 5 monochrome sequences with cached tracks (tracks are jagged: the
+linker hops between noise detections; `lp-s-mobo-m` came closest, 15 stars at 3.4px); overcast
+or no stars (`bh-s` La is solid cloud, `bh-w` Creekfire likewise 0 tracks); too few tracks
+(`rm-e` 1, `69bravo-e` 3, `bm-w` 13, `69bravo-w` 13); `om-s` 2019 matched 7 stars under haze,
+one short of the cutoff. `sdsc-e` and `om-w-mobo-m` Border68 never produced a track cache.
+
+*Monochrome detector tuned: all 6 mono sequences solve (26 of 33 overall).* The mono
+(NIR) units have sky noise sigma 1.7-3.1 gray levels; the color units are near zero. So the
+fixed `thresh=25` was only 8-15 sigma of grain there. The nearest-within-20px linker then hopped
+between noise hits, giving 800-3700 jagged "moving" tracks. `out/sky/star_tracks.py` now
+takes a separate path when `imager == "monochrome"`. Color is unchanged, so its 20 solves are
+untouched.
+  * `detect_points_adaptive`: Gaussian sigma 1px smoothing, the same median-21 background, and
+    a threshold of 7x a noise sigma from the 16th-84th percentile spread (the MAD is 0 on
+    integer-quantized sky), area 2-40px;
+  * `link_tracks_predictive`: constant-velocity prediction, 3px (+0.02 px/s of gap) gate
+    once a track has a velocity, 4px + 0.2 px/s for the first link, one-to-one assignment
+    closest first, a 240 s gap allowed.
+Sweep over k = 5/7/9 on cached dark-frame sky bands: all 6 solve at every k, and pose changes
+by <= 0.02 deg d_az across k, so the solutions don't depend on the threshold. k=7 had the best
+run agreement. A quadratic-smoothness filter (rms <= 2.5px) was also tried; it removed 1 track
+in 18 runs, so the predictive linker alone does the cleanup and the filter was dropped. End-to-end
+`collect()` on lp-s-m reproduces the sweep exactly (239 tracks, 40 stars, same pose). Old mono
+caches kept in `out/sky/data/star_tracks/mono_v1_fixed_thresh/`.
+
+| mono sequence | stars | median | d_az | d_pitch | d_roll | color sibling d_az |
+|---|---|---|---|---|---|---|
+| 20191030_CopperCanyon_om-s-mobo-m | 12 | 0.98px | -10.50 | -2.34 | -1.49 | -10.74 (7 stars, below cutoff) |
+| 20200727_Border11Fire_lp-s-mobo-m | 40 | 0.81px | +0.33 | +0.86 | +0.56 | +0.20 |
+| 20200727_Border11Fire_om-e-mobo-m | 22 | 1.55px | -0.26 | +0.44 | -0.70 | +0.08 |
+| 20210302_FIRE_lp-e-mobo-m | 32 | 1.42px | +1.35 | +0.58 | +0.04 | +0.68 |
+| 20240806_Border68Fire_om-w-mobo-m | 23 | 0.98px | -0.87 | -0.98 | -1.32 | +0.22 |
+| 20250123_Border2Fire_om-w-mobo-m | 41 | 0.85px | -0.95 | -1.11 | -1.50 | -- |
+
+The mono unit is a separate camera beside the color one, so its pose differs by up to ~1 deg
+(lp-e +0.7, om-w -1.1). It has to be calibrated in its own right, not copied from the color
+unit. Three checks: `om-w-mobo-m` agrees with itself across dates (-0.87 in 2024, -0.95 in
+2025); the lens matches the color units (k 0.884-0.890x); and **the 2019 om-s -10.5 deg
+azimuth offset is now confirmed by two independent cameras**, against -0.37 for om-s-c in 2024.
+That points to om-s being re-aimed between 2019 and 2024, so pose corrections have to be keyed
+by date, not just camera.
+
+*Geolocation before/after (2026-09-13).* `src/figlib/geom.py` now has the star-measured lens
+behind `FIGLIB_LENS=fisheye` (fov-90 cameras only; `offset_bearing_deg` and `bearing_x_frac`,
+Newton inverse of r = k*theta*(1 + k1*theta^2), k 0.886x nameplate, k1 -0.078). The default
+stays rectilinear, so recorded results reproduce. Two tests were added to `tests/test_geom.py`
+(fisheye round-trip, frame edge ~55 deg off axis, other fovs untouched); all 13 pass. The
+comparison ran in memory with the same detections and solver and wrote nothing under `out/`
+(script in the session scratchpad; figures `out/sky/fig_before_after.py` ->
+`before_after_maps.png`, `before_after_bearing_miss.png`). Star d_az comes from the
+nearest-in-time solve for that exact camera. om-s-mobo-c in 2019 uses its own 7-star -10.74 fit,
+which the co-located mono unit corroborates.
+
+| center bearing | n | rect (today) | rect + star d_az | fisheye | fisheye + star d_az |
+|---|---|---|---|---|---|
+| confirmed | 10 | 1.83 km (6 <= 2 km) | 1.83 (6) | 1.57 (8) | 1.57 (8) |
+| probable | 16 | 4.03 (5) | 4.03 (5) | 4.66 (4) | 4.66 (4) |
+| confirmed, star-corrected camera present | 4 | 1.48 (2) | 1.29 (2) | 1.36 (3) | **1.17 (3)** |
+
+Per bearing on confirmed fires (40 bearings): median |miss| vs ground truth drops **4.4 ->
+3.5 deg in the outer half of the frame and 2.6 -> 1.9 deg in the central half**. The lens term
+dominates at the edges, e.g. ResortFire.2: mg-n at x=0.94 misses -4.6 deg before and +1.1 after,
+bm-n at x=0.92 -7.8 -> -2.9, fire 1.70 -> 0.55 km. The d_az term matters where it's large:
+SteeleFire sm-n -2.94 deg fixes a +5.6 deg miss to +2.5, fire 0.75 -> 0.38 km. Border11Fire
+0.42 -> 0.07 km.
+
+What it does **not** fix, and why:
+  * The big probable-tier outliers are not calibration. `20191006_FIRE` (27.9 km) solves on
+    bearings from lp-e, pi-s and lp-s that miss truth by 82, 148 and 153 deg: detections of
+    something that is not this fire, from cameras facing away from it. om-s never
+    contributes a bearing there, so its -10.7 deg correction can't help.
+  * `20200829_inside-Mexico` gets worse (1.96 -> 3.31 km). pi-s-mobo-c detects at x=0.054,
+    and the fisheye moves that bearing from -6.4 to -12.6 deg off. pi-s has no star solve, so
+    its pose is unknown; a large d_az or a different lens there would produce exactly this.
+    It's the argument for star-solving each camera, not applying the lens blind.
+  * SpringsFire gets worse (2.58 -> 3.14 km). Its bearings already miss by 7-28 deg, which is
+    detection or truth error well beyond any pose term.
+  * Applying a d_az years away from its solve assumes no re-aim in between; om-s shows that
+    assumption can fail by 10 deg.
+
+*Implementation pass (2026-09-13, later): ledger, frame formats, sea horizons, regressions.*
+
+**Where the code lives now.** The star-calibration code that the ledger and geolocation
+depend on moved out of the gitignored `out/sky/` into `src/figlib/stars/`, with package
+imports instead of `sys.path` edits:
+
+| module | from `out/sky/` |
+|---|---|
+| `sun` | `sun_geometry.py`'s `sun()` only, without the scan that runs on import |
+| `catalog` | `star_geometry.py`; the HYG catalog is now `data/meta/bright_stars.json` |
+| `fisheye` | `fisheye.py` |
+| `tracks` | `star_tracks.py` |
+| `solve` | `star_track_solve.py` |
+| `nights` | `hpwren_nights.py` |
+| `run_nights` | `run_hpwren_nights.py` |
+| `fig_track_solve`, `fig_loss_profiles`, `fig_sea_horizon` | the matching `fig_*.py` |
+
+`tests/test_stars.py` covers catalog alt/az, the sun gate, the fisheye projection and the
+predictive linker without archives. The package re-solves hp-s to the identical pose. The
+earlier exploratory scripts (`star_match.py`, `star_track_match.py`,
+`star_track_calibrate.py`, sun/tower) stay in `out/sky/` as the record of what was tried.
+Derived data (track caches, solve JSON, figures) stays under `out/sky/`.
+
+**Data for more star solves exists only in the CDN's public window.** Of the 60 cameras the
+26 scored fires use, 3 had a star solve within a year of their fire. FIgLib is exhausted:
+all 456 archives are local and none holds an unsolved night sequence on those cameras. CDN
+JPGs older than ~89 days need an HPWREN staff restore, so every fire before mid-June 2026 is
+out of reach. `out/sky/hpwren_nights.py` pulls 90 frames (00:00-01:30 PDT; Q blocks are local
+time, verified) from moonless nights and indexes them as pseudo-sequences that the track and
+solve code reads like FIgLib: 2026-09-11 for all needed cameras, 2026-07-14 for the nine
+behind JunctionFire and CreelmanFire. bl-s, stgo-s (c/m), tp-s (c/m) and wc-e have no Q1
+listing on any recent moonless night, so they're offline or renamed. CDN frames are
+full-resolution 3072x2048, the same format the FIgLib solves were measured on.
+
+**Pose ledger (`src/figlib/pose_ledger.py`, `data/meta/pose_ledger.json`, 7 tests).** One
+entry per star solve. Lookup for a camera on a date:
+  1. a solve within 3 days;
+  2. else the nearest solve on each side, if they agree within 1 deg (their mean) -- if they
+     disagree, the camera moved in between and nothing applies;
+  3. else the nearest single solve within 365 days.
+A solve never carries across a frame-format change. Behind `FIGLIB_POSE_LEDGER=1`;
+`geolocate.py` folds it into the camera's azimuth per bearing, records the lookup in the
+output, and writes calibration variants to `geolocation_fisheye_ledger.json` etc. instead of
+over the baseline, with lens and ledger in the provenance params.
+
+**The same camera name has recorded two sensor formats, and the lens was only measured on
+one.** `src/figlib/frame_sizes.py` -> `data/meta/frame_sizes.json`: 306 archives at
+3072x2048, 139 at 2048x1536, plus 9 odd sizes. All 26 star solves are 3072x2048, but 24 of
+the 93 scored-fire sequences are 2048x1536: every 2016-2018 fire, pi-s-mobo-c through 2020,
+and hp-s/vo-n in 2019. So the fisheye lens in `geom.py` now requires `cam["frame_w"] ==
+3072`, and the ledger matches on frame width. Those 24 sequences stay rectilinear rather
+than inherit an unmeasured scale. The earlier before/after table applied the lens to them;
+it needs re-scoring.
+
+**Sea horizon confirms the star-solved pitch and roll on om-w-mobo-c** (`out/sky/
+fig_sea_horizon.py`: dip from camera height alone, sea azimuths from the DEM). On the clear
+2021-01-07 frame, 32 days after the 2020-12-06 star solve (pitch -2.07, roll -1.90), the
+visible sea horizon rises left to right along the star-pose line. The published pose's line
+is flat and ~45px off at the right. That's an independent check sharing nothing with the
+star fit. The 2025-01-23 frame agrees, through haze. Summer frames (lp-w 2020-08-22, rm-s
+2025-06-16, om-w 2024-09-24) are too hazy to show the horizon, so the check wants clear
+winter days.
+
+**The regressions and outliers are detection selection, not pose.** Per-bearing misses far
+beyond any pose term, checked on the frames:
+  * `SpringsFire`: om-n's highest-confidence box (0.52) is a small patch of hillside at x=0.43,
+    while the visible smoke column sits at x~0.59, beside the truth bearing at 0.61. sm-e's
+    box (0.56) holds nothing smoke-like. The truth (HONEY 2) is probably right; best-confidence
+    picked the wrong object on two sites.
+  * `inside-Mexico`: pi-s (2048x1536) detects at the frame's left edge, box x0 = 0.000, with
+    the plume base at x~0.09 and the truth bearing at x=0.15.
+  * `ValleyFire` lp-n misses by -23.5 deg, `CreelmanFire` bm-s by +13.9, `20180602_FIRE`
+    smer-tcs8 by -33.7 at x=0.03. `20191006_FIRE`'s three bearings miss by 82-153 deg.
+Calibration can't fix these. The lever is which detection becomes the bearing: persistence
+across frames, rejecting boxes clipped at the frame edge, and cross-site consistency before
+best-confidence.
+
+*Next, in order:* (1) the remaining 7 failures are cloud or too few tracks: expected, low
+value; (2) if they do, put the shared fisheye lens into `geom.offset_bearing_deg` behind a flag
+and re-run `geolocate.py` properly, with provenance; (3) add per-camera d_az where a star fit
+exists; (4) sea-horizon fit on `om-w` / `wc-w` / `rm-s` as the pitch/roll/k1 cross-check;
+(5) resolve `rm-s-mobo-c`.
+
+**Camera pose corrections need one shared ledger, not three incompatible files.**
+`pose_fit.json`, `pose_fit_staged.json` (terrain) and `out/sky/sun_calibration.json`
+(sun/tower) each fit d_az/d_pitch/d_roll/k1 independently, with no record of which won or
+why. Sketched design (not built): an append-only `out/pose_candidates.json`, one row per
+(camera, method, attempt) carrying its params, n_obs, fit RMSE, and a `holdout` result
+filled in by `pose_validate.py`-style checks; a row only flips to `selected: true` after
+both the held-out-day test and an actual `geolocate.py` km-error improvement, the same two
+independent tests `pose_validate.py` already runs for the terrain fit. `cams.json` stays
+untouched either way -- it's published metadata, not a place to reconcile fits (see "There
+are no intrinsics..." above); a `FIGLIB_CAMS`-pointed `cams_refined.json` is the existing
+mechanism (`pose_validate.write_refined_cams`) for handing a selected correction to the
+rest of the pipeline without it ever touching the source file.
+
 **Contamination.** Every pyronear model, and SmokeyNet, trains on FIgLib -- see
 `models/README.md`. Detection and timing numbers are a labeled reference point, never a
 generalisation claim. Geolocation is unaffected: kilometer error against official
