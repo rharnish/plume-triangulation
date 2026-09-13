@@ -5,10 +5,10 @@
  "local_dirs": [
   "out/figlib_extra/tgz"
  ],
- "started_utc": "2026-09-13T00:48:19Z",
- "generated_utc": "2026-09-13T00:50:02Z",
+ "started_utc": "2026-09-13T02:35:29Z",
+ "generated_utc": "2026-09-13T02:36:56Z",
  "code": {
-  "commit": "c4d0703a0fc43798287228fbca3279e8592b6a96",
+  "commit": "1c25ae4fff8b66056f2da348db7195f42f33dc91",
   "branch": "extra-data-provenance",
   "dirty": false,
   "diff_sha256": null,
@@ -46,6 +46,7 @@
    "t0_frames": {
     "1465065600": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20160604_FIRE_rm-n-mobo-c.tgz",
    "fire_date": "20160604",
@@ -67,6 +68,7 @@
    "t0_frames": {
     "1465065668": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20160604_FIRE_smer-tcs3-mobo-c.tgz",
    "fire_date": "20160604",
@@ -88,6 +90,7 @@
    "t0_frames": {
     "1468266071": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20160711_FIRE_ml-n-mobo-c.tgz",
    "fire_date": "20160711",
@@ -109,6 +112,7 @@
    "t0_frames": {
     "1469226498": 41
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20160722_FIRE_mg-s-iqeye.tgz",
    "fire_date": "20160722",
@@ -130,6 +134,7 @@
    "t0_frames": {
     "1469223121": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20160722_FIRE_mw-e-mobo-c.tgz",
    "fire_date": "20160722",
@@ -151,6 +156,7 @@
    "t0_frames": {
     "1495226286": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170519_FIRE_rm-w-mobo-c.tgz",
    "fire_date": "20170519",
@@ -172,6 +178,7 @@
    "t0_frames": {
     "1497049647": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170609_FIRE_sm-n-mobo-c.tgz",
    "fire_date": "20170609",
@@ -193,6 +200,7 @@
    "t0_frames": {
     "1497385096": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170613_FIRE_bh-w-mobo-c.tgz",
    "fire_date": "20170613",
@@ -214,6 +222,7 @@
    "t0_frames": {
     "1497380245": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170613_FIRE_hp-n-mobo-c.tgz",
    "fire_date": "20170613",
@@ -235,6 +244,7 @@
    "t0_frames": {
     "1498416393": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170625_BBM_bm-n-mobo.tgz",
    "fire_date": "20170625",
@@ -256,6 +266,7 @@
    "t0_frames": {
     "1498416078": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170625_FIRE_mg-s-iqeye.tgz",
    "fire_date": "20170625",
@@ -277,6 +288,7 @@
    "t0_frames": {
     "1498581432": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170627_FIRE_lp-n-iqeye.tgz",
    "fire_date": "20170627",
@@ -298,6 +310,7 @@
    "t0_frames": {
     "1498579057": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170627_FIRE_om-e-mobo-c.tgz",
    "fire_date": "20170627",
@@ -319,6 +332,7 @@
    "t0_frames": {
     "1499546263": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170708_Whittier_syp-n-mobo-c.tgz",
    "fire_date": "20170708",
@@ -340,6 +354,7 @@
    "t0_frames": {
     "1499546263": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170708_Whittier_syp-n-mobo-m.tgz",
    "fire_date": "20170708",
@@ -361,6 +376,7 @@
    "t0_frames": {
     "1499981035": 77
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170713_FIRE_smer-tcs8-mobo-c.tgz",
    "fire_date": "20170713",
@@ -382,6 +398,7 @@
    "t0_frames": {
     "1502140930": 78
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170807_FIRE_bh-n-mobo-c.tgz",
    "fire_date": "20170807",
@@ -403,6 +420,7 @@
    "t0_frames": {
     "1503350003": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170821_FIRE_lo-s-mobo-c.tgz",
    "fire_date": "20170821",
@@ -424,6 +442,7 @@
    "t0_frames": {
     "1503772933": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170826_FIRE_tp-s-mobo-c.tgz",
    "fire_date": "20170826",
@@ -445,6 +464,7 @@
    "t0_frames": {
     "1504303239": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170901_FIRE_om-s-mobo-c.tgz",
    "fire_date": "20170901",
@@ -466,6 +486,7 @@
    "t0_frames": {
     "1506548697": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20170927_FIRE_smer-tcs9-mobo-c.tgz",
    "fire_date": "20170927",
@@ -487,6 +508,7 @@
    "t0_frames": {
     "1508161431": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20171016_FIRE_sdsc-e-mobo-c.tgz",
    "fire_date": "20171016",
@@ -508,6 +530,7 @@
    "t0_frames": {
     "1508275328": 78
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20171017_FIRE_smer-tcs3-mobo-c.tgz",
    "fire_date": "20171017",
@@ -529,6 +552,7 @@
    "t0_frames": {
     "1508616125": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20171021_FIRE_pi-e-mobo-c.tgz",
    "fire_date": "20171021",
@@ -550,6 +574,7 @@
    "t0_frames": {
     "1509046200": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20171026_FIRE_rm-n-mobo-c.tgz",
    "fire_date": "20171026",
@@ -571,6 +596,7 @@
    "t0_frames": {
     "1509046075": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20171026_FIRE_smer-tcs8-mobo-c.tgz",
    "fire_date": "20171026",
@@ -592,6 +618,7 @@
    "t0_frames": {
     "1512673984": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20171207_Lilac_rm-s-mobo.tgz",
    "fire_date": "20171207",
@@ -613,6 +640,7 @@
    "t0_frames": {
     "1526593860": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180517_FIRE_rm-n-mobo-c.tgz",
    "fire_date": "20180517",
@@ -634,6 +662,7 @@
    "t0_frames": {
     "1526593799": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180517_FIRE_smer-tcs10-mobo-c.tgz",
    "fire_date": "20180517",
@@ -655,6 +684,7 @@
    "t0_frames": {
     "1527023462": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180522_FIRE_rm-e-mobo-c.tgz",
    "fire_date": "20180522",
@@ -676,6 +706,7 @@
    "t0_frames": {
     "1527969990": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180602_Alison_sp-s-mobo-c.tgz",
    "fire_date": "20180602",
@@ -697,6 +728,7 @@
    "t0_frames": {
     "1527969992": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180602_Alison_sp-w-mobo-c.tgz",
    "fire_date": "20180602",
@@ -718,6 +750,7 @@
    "t0_frames": {
     "1528231206": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180605_FIRE_rm-w-mobo-c.tgz",
    "fire_date": "20180605",
@@ -739,6 +772,7 @@
    "t0_frames": {
     "1528231257": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180605_FIRE_smer-tcs9-mobo-c.tgz",
    "fire_date": "20180605",
@@ -760,6 +794,7 @@
    "t0_frames": {
     "1528757406": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180611_fallbrook_rm-w-mobo-c.tgz",
    "fire_date": "20180611",
@@ -781,6 +816,7 @@
    "t0_frames": {
     "1528840986": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180612_FIRE_rm-w-mobo-c.tgz",
    "fire_date": "20180612",
@@ -802,6 +838,7 @@
    "t0_frames": {
     "1528841157": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180612_FIRE_smer-tcs9-mobo-c.tgz",
    "fire_date": "20180612",
@@ -823,6 +860,7 @@
    "t0_frames": {
     "1529020705": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180614_Bridle_hp-n-mobo-c.tgz",
    "fire_date": "20180614",
@@ -844,6 +882,7 @@
    "t0_frames": {
     "1529011949": 68
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180614_FIRE_hp-s-mobo-c.tgz",
    "fire_date": "20180614",
@@ -865,6 +904,7 @@
    "t0_frames": {
     "1529000960": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180614_Hope_wc-e-mobo-c.tgz",
    "fire_date": "20180614",
@@ -886,6 +926,7 @@
    "t0_frames": {
     "1530739045": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180704_Benton_hp-n-mobo-c.tgz",
    "fire_date": "20180704",
@@ -907,6 +948,7 @@
    "t0_frames": {
     "1530901681": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180706_West_lp-n-mobo-c.tgz",
    "fire_date": "20180706",
@@ -928,6 +970,7 @@
    "t0_frames": {
     "1531861119": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180717_otay_om-s-mobo-c.tgz",
    "fire_date": "20180717",
@@ -949,6 +992,7 @@
    "t0_frames": {
     "1531940569": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180718_FIRE_syp-w-mobo-c.tgz",
    "fire_date": "20180718",
@@ -970,6 +1014,7 @@
    "t0_frames": {
     "1532039666": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180719_Skyline_sp-n-mobo-c.tgz",
    "fire_date": "20180719",
@@ -991,6 +1036,7 @@
    "t0_frames": {
     "1532117240": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180720_Cinnamon_wc-e-mobo-c.tgz",
    "fire_date": "20180720",
@@ -1012,6 +1058,7 @@
    "t0_frames": {
     "1532121589": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180720_FIRE_syp-w-mobo-c.tgz",
    "fire_date": "20180720",
@@ -1033,6 +1080,7 @@
    "t0_frames": {
     "1532383091": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180723_FIRE_tp-e-mobo-c.tgz",
    "fire_date": "20180723",
@@ -1054,6 +1102,7 @@
    "t0_frames": {
     "1532544925": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180725_Cranston_hp-n-mobo-c.tgz",
    "fire_date": "20180725",
@@ -1075,6 +1124,7 @@
    "t0_frames": {
     "1532544868": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180725_Cranston_sp-e-mobo-c.tgz",
    "fire_date": "20180725",
@@ -1096,6 +1146,7 @@
    "t0_frames": {
     "1532531879": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180725_FIRE_smer-tcs10-mobo-c.tgz",
    "fire_date": "20180725",
@@ -1117,6 +1168,7 @@
    "t0_frames": {
     "1532623397": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180726_FIRE_so-n-mobo-c.tgz",
    "fire_date": "20180726",
@@ -1138,6 +1190,7 @@
    "t0_frames": {
     "1532623403": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180726_FIRE_so-w-mobo-c.tgz",
    "fire_date": "20180726",
@@ -1159,6 +1212,7 @@
    "t0_frames": {
     "1532815626": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180728_FIRE_rm-w-mobo-c.tgz",
    "fire_date": "20180728",
@@ -1180,6 +1234,7 @@
    "t0_frames": {
     "1532816037": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180728_FIRE_smer-tcs9-mobo-c.tgz",
    "fire_date": "20180728",
@@ -1201,6 +1256,7 @@
    "t0_frames": {
     "1533576458": 78
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180806_FIRE_mg-s-mobo-c.tgz",
    "fire_date": "20180806",
@@ -1222,6 +1278,7 @@
    "t0_frames": {
     "1533576467": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180806_FIRE_vo-w-mobo-c.tgz",
    "fire_date": "20180806",
@@ -1243,6 +1300,7 @@
    "t0_frames": {
     "1533585750": 72
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180806_Holy_sp-s-mobo-c.tgz",
    "fire_date": "20180806",
@@ -1264,6 +1322,7 @@
    "t0_frames": {
     "1533585751": 73
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180806_Holy_sp-s-mobo-m.tgz",
    "fire_date": "20180806",
@@ -1285,6 +1344,7 @@
    "t0_frames": {
     "1535383468": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180827_Holyflareup_sp-e-mobo-c.tgz",
    "fire_date": "20180827",
@@ -1306,6 +1366,7 @@
    "t0_frames": {
     "1536610075": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180910_FIRE_smer-tcs8-mobo-c.tgz",
    "fire_date": "20180910",
@@ -1327,6 +1388,7 @@
    "t0_frames": {
     "1537395482": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20180919_FIRE_rm-e-mobo-c.tgz",
    "fire_date": "20180919",
@@ -1348,6 +1410,7 @@
    "t0_frames": {
     "1542056838": 71
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20181112_house_wc-n-mobo-c.tgz",
    "fire_date": "20181112",
@@ -1369,6 +1432,7 @@
    "t0_frames": {
     "1559167385": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190529_94Fire_lp-s-mobo-c.tgz",
    "fire_date": "20190529",
@@ -1390,6 +1454,7 @@
    "t0_frames": {
     "1559167355": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190529_94Fire_om-n-mobo-c.tgz",
    "fire_date": "20190529",
@@ -1411,6 +1476,7 @@
    "t0_frames": {
     "1560198136": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190610_FIRE_bh-w-mobo-c.tgz",
    "fire_date": "20190610",
@@ -1432,6 +1498,7 @@
    "t0_frames": {
     "1560198120": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190610_Pauma_bh-w-mobo-c.tgz",
    "fire_date": "20190610",
@@ -1453,6 +1520,7 @@
    "t0_frames": {
     "1560198120": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190610_Pauma_bh-w-mobo-m.tgz",
    "fire_date": "20190610",
@@ -1474,6 +1542,7 @@
    "t0_frames": {
     "1561065426": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190620_FIRE_rm-w-mobo-c.tgz",
    "fire_date": "20190620",
@@ -1495,6 +1564,7 @@
    "t0_frames": {
     "1561065597": 72
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190620_FIRE_smer-tcs9-mobo-c.tgz",
    "fire_date": "20190620",
@@ -1516,6 +1586,7 @@
    "t0_frames": {
     "1561833325": 57
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190629_FIRE_hp-n-mobo-c.tgz",
    "fire_date": "20190629",
@@ -1537,6 +1608,7 @@
    "t0_frames": {
     "1562941265": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190712_CottonwoodFire_lp-s-mobo-c.tgz",
    "fire_date": "20190712",
@@ -1558,6 +1630,7 @@
    "t0_frames": {
     "1562950897": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190712_FIRE_om-e-mobo-c.tgz",
    "fire_date": "20190712",
@@ -1579,6 +1652,7 @@
    "t0_frames": {
     "1562959341": 79
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190712_RockHouse_wc-e-mobo-c.tgz",
    "fire_date": "20190712",
@@ -1600,6 +1674,7 @@
    "t0_frames": {
     "1563135023": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190714_MLOSouth_lo-s-mobo-c.tgz",
    "fire_date": "20190714",
@@ -1621,6 +1696,7 @@
    "t0_frames": {
     "1563122587": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190714_PinosSouth_pi-s-mobo-c.tgz",
    "fire_date": "20190714",
@@ -1642,6 +1718,7 @@
    "t0_frames": {
     "1563216743": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190715_MLOSouth1_lo-s-mobo-c.tgz",
    "fire_date": "20190715",
@@ -1663,6 +1740,7 @@
    "t0_frames": {
     "1563222803": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190715_MLOSouth2_lo-s-mobo-c.tgz",
    "fire_date": "20190715",
@@ -1684,6 +1762,7 @@
    "t0_frames": {
     "1563227123": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190715_MLOSouth3_lo-s-mobo-c.tgz",
    "fire_date": "20190715",
@@ -1705,6 +1784,7 @@
    "t0_frames": {
     "1563306325": 70
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190716_Meadowfire_hp-n-mobo-c.tgz",
    "fire_date": "20190716",
@@ -1726,6 +1806,7 @@
    "t0_frames": {
     "1563296706": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190716_Riverfire_rm-w-mobo-c.tgz",
    "fire_date": "20190716",
@@ -1747,6 +1828,7 @@
    "t0_frames": {
     "1563403681": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190717_FIRE_lp-n-mobo-c.tgz",
    "fire_date": "20190717",
@@ -1768,6 +1850,7 @@
    "t0_frames": {
     "1563403749": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190717_FIRE_pi-w-mobo-c.tgz",
    "fire_date": "20190717",
@@ -1789,6 +1872,7 @@
    "t0_frames": {
     "1564361821": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190728_Dehesa_lp-n-mobo.tgz",
    "fire_date": "20190728",
@@ -1810,6 +1894,7 @@
    "t0_frames": {
     "1564362395": 79
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190728_FIRE_om-n-mobo-c.tgz",
    "fire_date": "20190728",
@@ -1831,6 +1916,7 @@
    "t0_frames": {
     "1564345106": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190728_FIRE_sp-n-mobo-c.tgz",
    "fire_date": "20190728",
@@ -1852,6 +1938,7 @@
    "t0_frames": {
     "1564685201": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190801_Caliente_om-w-mobo.tgz",
    "fire_date": "20190801",
@@ -1873,6 +1960,7 @@
    "t0_frames": {
     "1564869425": 79
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190803_OtaySouth_lp-s-mobo.tgz",
    "fire_date": "20190803",
@@ -1894,6 +1982,7 @@
    "t0_frames": {
     "1564869219": 79
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190803_OtaySouth_om-s-mobo.tgz",
    "fire_date": "20190803",
@@ -1915,6 +2004,7 @@
    "t0_frames": {
     "1564862495": 73
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190803_Sage_om-n-mobo.tgz",
    "fire_date": "20190803",
@@ -1936,6 +2026,7 @@
    "t0_frames": {
     "1565040208": 77
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190805_FIRE_sp-e-mobo-c.tgz",
    "fire_date": "20190805",
@@ -1957,6 +2048,7 @@
    "t0_frames": {
     "1565372107": 41
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190809_PinosSouth_pi-s-mobo.tgz",
    "fire_date": "20190809",
@@ -1978,6 +2070,7 @@
    "t0_frames": {
     "1565466126": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190810_SantaFire_rm-w-mobo.tgz",
    "fire_date": "20190810",
@@ -1999,6 +2092,7 @@
    "t0_frames": {
     "1565731184": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190813_FIRE_69bravo-e-mobo-c.tgz",
    "fire_date": "20190813",
@@ -2020,6 +2114,7 @@
    "t0_frames": {
     "1565731242": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190813_Topanga_69bravo-n-mobo.tgz",
    "fire_date": "20190813",
@@ -2041,6 +2136,7 @@
    "t0_frames": {
     "1565819885": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190814_Border_lp-s-mobo.tgz",
    "fire_date": "20190814",
@@ -2062,6 +2158,7 @@
    "t0_frames": {
     "1565822647": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190814_FIRE-pi-s-mobo-c.tgz",
    "fire_date": "20190814",
@@ -2083,6 +2180,7 @@
    "t0_frames": {
     "1565819677": 79
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190814_FIRE_om-e-mobo-c.tgz",
    "fire_date": "20190814",
@@ -2104,6 +2202,7 @@
    "t0_frames": {
     "1566756235": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190825_FIRE-smer-tcs8-mobo-c.tgz",
    "fire_date": "20190825",
@@ -2125,6 +2224,7 @@
    "t0_frames": {
     "1566768333": 75
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190825_FIRE_sm-w-mobo-c.tgz",
    "fire_date": "20190825",
@@ -2146,6 +2246,7 @@
    "t0_frames": {
     "1566926843": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190827_FIRE_so-w-mobo-c.tgz",
    "fire_date": "20190827",
@@ -2167,6 +2268,7 @@
    "t0_frames": {
     "1568419742": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190913_FIRE_lp-n-mobo-c.tgz",
    "fire_date": "20190913",
@@ -2188,6 +2290,7 @@
    "t0_frames": {
     "1568582520": 78
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190915_FIRE_rm-n-mobo-c.tgz",
    "fire_date": "20190915",
@@ -2209,6 +2312,7 @@
    "t0_frames": {
     "1569183857": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190922_FIRE_ml-w-mobo-c.tgz",
    "fire_date": "20190922",
@@ -2230,6 +2334,7 @@
    "t0_frames": {
     "1569442400": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190925_FIRE_wc-e-mobo-c.tgz",
    "fire_date": "20190925",
@@ -2251,6 +2356,7 @@
    "t0_frames": {
     "1569442402": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190925_FIRE_wc-s-mobo-c.tgz",
    "fire_date": "20190925",
@@ -2272,6 +2378,7 @@
    "t0_frames": {
     "1569877003": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20190930_FIRE_om-s-mobo-c.tgz",
    "fire_date": "20190930",
@@ -2293,6 +2400,7 @@
    "t0_frames": {
     "1572497859": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191030_CopperCanyon_om-s-mobo-c.tgz",
    "fire_date": "20191030",
@@ -2314,6 +2422,7 @@
    "t0_frames": {
     "1572497740": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20191030_CopperCanyon_om-s-mobo-m.tgz",
    "fire_date": "20191030",
@@ -2335,6 +2444,7 @@
    "t0_frames": {
     "1580667991": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200202_FIRE_hp-w-mobo-c.tgz",
    "fire_date": "20200202",
@@ -2356,6 +2466,7 @@
    "t0_frames": {
     "1580927071": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200205_FIRE_hp-w-mobo-c.tgz",
    "fire_date": "20200205",
@@ -2377,6 +2488,7 @@
    "t0_frames": {
     "1581011115": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200206_FIRE_ml-s-mobo-c.tgz",
    "fire_date": "20200206",
@@ -2398,6 +2510,7 @@
    "t0_frames": {
     "1582742582": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200226_FIRE_rm-e-mobo-c.tgz",
    "fire_date": "20200226",
@@ -2419,6 +2532,7 @@
    "t0_frames": {
     "1583345046": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200304_FIRE_rm-w-mobo-c.tgz",
    "fire_date": "20200304",
@@ -2440,6 +2554,7 @@
    "t0_frames": {
     "1590794900": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200529_StructFire_wc-e-mobo-c.tgz",
    "fire_date": "20200529",
@@ -2461,6 +2576,7 @@
    "t0_frames": {
     "1591636266": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200608_FIRE_rm-w-mobo-c.tgz",
    "fire_date": "20200608",
@@ -2482,6 +2598,7 @@
    "t0_frames": {
     "1591900561": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200611_skyline_lp-n-mobo-c.tgz",
    "fire_date": "20200611",
@@ -2503,6 +2620,7 @@
    "t0_frames": {
     "1592164249": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200614_DrumCanyon_syp-w-mobo-c.tgz",
    "fire_date": "20200614",
@@ -2524,6 +2642,7 @@
    "t0_frames": {
     "1592253482": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200615_Rainbow_rm-e-mobo-c.tgz",
    "fire_date": "20200615",
@@ -2545,6 +2664,7 @@
    "t0_frames": {
     "1592518961": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200618_FIRE_om-w-mobo-c.tgz",
    "fire_date": "20200618",
@@ -2566,6 +2686,7 @@
    "t0_frames": {
     "1593983259": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200705_FIRE_bm-w-mobo-c.tgz",
    "fire_date": "20200705",
@@ -2587,6 +2708,7 @@
    "t0_frames": {
     "1593983118": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200705_FIRE_wc-n-mobo-c.tgz",
    "fire_date": "20200705",
@@ -2608,6 +2730,7 @@
    "t0_frames": {
     "1594324345": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200709_Tripp_hp-n-mobo-c.tgz",
    "fire_date": "20200709",
@@ -2629,6 +2752,7 @@
    "t0_frames": {
     "1594572633": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200712_USSBonhommeRichard_sm-w-mobo-c.tgz",
    "fire_date": "20200712",
@@ -2650,6 +2774,7 @@
    "t0_frames": {
     "1596729365": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200806_BorderFire_lp-s-mobo-c.tgz",
    "fire_date": "20200806",
@@ -2671,6 +2796,7 @@
    "t0_frames": {
     "1596729277": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200806_BorderFire_om-e-mobo-c.tgz",
    "fire_date": "20200806",
@@ -2692,6 +2818,7 @@
    "t0_frames": {
     "1596818485": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200807_AppleFire-backfire-operation_hp-n-mobo-c.tgz",
    "fire_date": "20200807",
@@ -2713,6 +2840,7 @@
    "t0_frames": {
     "1596908540": 74
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200808_OliveFire_wc-e-mobo-c.tgz",
    "fire_date": "20200808",
@@ -2734,6 +2862,7 @@
    "t0_frames": {
     "1597271802": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200812_LakeFire_dwpgm-n-mobo-c.tgz",
    "fire_date": "20200812",
@@ -2755,6 +2884,7 @@
    "t0_frames": {
     "1597356086": 75
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200813_SkylineFire_sp-n-mobo-c.tgz",
    "fire_date": "20200813",
@@ -2776,6 +2906,7 @@
    "t0_frames": {
     "1597361581": 70
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200813_VictoriaFire_lp-n-mobo-c.tgz",
    "fire_date": "20200813",
@@ -2797,6 +2928,7 @@
    "t0_frames": {
     "1598126163": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200822_BrattonFire_lp-e-mobo-c.tgz",
    "fire_date": "20200822",
@@ -2818,6 +2950,7 @@
    "t0_frames": {
     "1598126165": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200822_BrattonFire_lp-s-mobo-c.tgz",
    "fire_date": "20200822",
@@ -2839,6 +2972,7 @@
    "t0_frames": {
     "1598129881": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200822_SloaneFire_lp-n-mobo-c.tgz",
    "fire_date": "20200822",
@@ -2860,6 +2994,7 @@
    "t0_frames": {
     "1598129887": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200822_SloaneFire_lp-w-mobo-c.tgz",
    "fire_date": "20200822",
@@ -2881,6 +3016,7 @@
    "t0_frames": {
     "1598216405": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200823_OakFire_pi-e-mobo-c.tgz",
    "fire_date": "20200823",
@@ -2902,6 +3038,7 @@
    "t0_frames": {
     "1598629321": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200828_BorderFire_om-w-mobo-c.tgz",
    "fire_date": "20200828",
@@ -2923,6 +3060,7 @@
    "t0_frames": {
     "1598629171": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200828_BorderFire_sm-s-mobo-c.tgz",
    "fire_date": "20200828",
@@ -2942,6 +3080,7 @@
    "local_mtime_utc": "2026-09-12T21:55:45Z",
    "n_frames": 0,
    "t0_frames": {},
+   "frame_name_repairs": {},
    "status": "unannotated: 180 frames with no offset in the name",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200831_FIRE_wc-n-mobo-c.tgz",
    "fire_date": "20200831",
@@ -2963,6 +3102,7 @@
    "t0_frames": {
     "1601488040": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200930_BoundaryFire_wc-e-mobo-c.tgz",
    "fire_date": "20200930",
@@ -2984,6 +3124,7 @@
    "t0_frames": {
     "1601493606": 61
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200930_DeLuzFire_rm-w-mobo-c.tgz",
    "fire_date": "20200930",
@@ -3005,6 +3146,7 @@
    "t0_frames": {
     "1601494205": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200930_inMexico_lp-s-mobo-c.tgz",
    "fire_date": "20200930",
@@ -3026,6 +3168,7 @@
    "t0_frames": {
     "1601493937": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20200930_inMexico_om-e-mobo-c.tgz",
    "fire_date": "20200930",
@@ -3047,6 +3190,7 @@
    "t0_frames": {
     "1601718256": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201003_structurefire_bh-w-mobo-c.tgz",
    "fire_date": "20201003",
@@ -3068,6 +3212,7 @@
    "t0_frames": {
     "1601718339": 74
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201003_structurefire_bm-w-mobo-c.tgz",
    "fire_date": "20201003",
@@ -3089,6 +3234,7 @@
    "t0_frames": {
     "1602632660": 79
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201013_FIRE_cp-s-mobo-c.tgz",
    "fire_date": "20201013",
@@ -3110,6 +3256,7 @@
    "t0_frames": {
     "1606510149": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201127_Hawkfire_pi-w-mobo-c.tgz",
    "fire_date": "20201127",
@@ -3131,6 +3278,7 @@
    "t0_frames": {
     "1606976372": 75
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201202_BondFire-nightime_sp-w-mobo-c.tgz",
    "fire_date": "20201202",
@@ -3152,6 +3300,7 @@
    "t0_frames": {
     "1607192132": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201205_typical-range-fire_sclm-e-mobo-c.tgz",
    "fire_date": "20201205",
@@ -3173,6 +3322,7 @@
    "t0_frames": {
     "1607248121": 70
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201206_JEEP-ON-FIRE_om-w-mobo-c.tgz",
    "fire_date": "20201206",
@@ -3194,6 +3344,7 @@
    "t0_frames": {
     "1607411654": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201207_La_bh-s-mobo-c.tgz",
    "fire_date": "20201207",
@@ -3215,6 +3366,7 @@
    "t0_frames": {
     "1607465319": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201208_FIRE_om-s-mobo-c.tgz",
    "fire_date": "20201208",
@@ -3236,6 +3388,7 @@
    "t0_frames": {
     "1608793336": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20201223_Creekfire_bh-w-mobo-c.tgz",
    "fire_date": "20201223",
@@ -3257,6 +3410,7 @@
    "t0_frames": {
     "1610044301": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20210107_Miguelfire_om-w-mobo-c.tgz",
    "fire_date": "20210107",
@@ -3278,6 +3432,7 @@
    "t0_frames": {
     "1610305086": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20210110_Borderfire_lp-s-mobo-c.tgz",
    "fire_date": "20210110",
@@ -3299,6 +3454,7 @@
    "t0_frames": {
     "1610572103": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20210113_Borderfire_mlo-s-mobo-c.tgz",
    "fire_date": "20210113",
@@ -3320,6 +3476,7 @@
    "t0_frames": {
     "1610572207": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20210113_Borderfire_pi-s-mobo-c.tgz",
    "fire_date": "20210113",
@@ -3341,6 +3498,7 @@
    "t0_frames": {
     "1610701636": 71
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20210115_Bonitafire_tp-w-mobo-c.tgz",
    "fire_date": "20210115",
@@ -3362,6 +3520,7 @@
    "t0_frames": {
     "1612465753": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20210204_FIRE_tp-s-mobo-c.tgz",
    "fire_date": "20210204",
@@ -3383,6 +3542,7 @@
    "t0_frames": {
     "1612892967": 78
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20210209_FIRE_hp-e-mobo-c.tgz",
    "fire_date": "20210209",
@@ -3404,6 +3564,7 @@
    "t0_frames": {
     "1612894635": 77
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20210209_FIRE_tp-w-mobo-c.tgz",
    "fire_date": "20210209",
@@ -3425,6 +3586,7 @@
    "t0_frames": {
     "1614679618": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20210302_FIRE_lp-e-mobo-c.tgz",
    "fire_date": "20210302",
@@ -3446,6 +3608,7 @@
    "t0_frames": {
     "1614679559": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20210302_FIRE_lp-e-mobo-m.tgz",
    "fire_date": "20210302",
@@ -3467,6 +3630,7 @@
    "t0_frames": {
     "1616211942": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20210319_FIRE_om-n-mobo-c.tgz",
    "fire_date": "20210319",
@@ -3488,6 +3652,7 @@
    "t0_frames": {
     "1626026154": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20210711_FIRE_wc-e-mobo-c.tgz",
    "fire_date": "20210711",
@@ -3509,6 +3674,7 @@
    "t0_frames": {
     "1717877171": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240608_AquaductFire_sdsc-e-mobo-c.tgz",
    "fire_date": "20240608",
@@ -3530,6 +3696,7 @@
    "t0_frames": {
     "1718565180": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240616_BuckmanFire_pi-s-mobo-c.tgz",
    "fire_date": "20240616",
@@ -3551,6 +3718,7 @@
    "t0_frames": {
     "1719093898": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240622_Border58Fire_om-w-mobo-c.tgz",
    "fire_date": "20240622",
@@ -3572,6 +3740,7 @@
    "t0_frames": {
     "1719349541": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240625_DelMarFire_tdlln-n-mobo-c.tgz",
    "fire_date": "20240625",
@@ -3593,6 +3762,7 @@
    "t0_frames": {
     "1719374217": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240625_OtayFire_om-s-mobo-c.tgz",
    "fire_date": "20240625",
@@ -3614,6 +3784,7 @@
    "t0_frames": {
     "1719873299": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240701_McCainfire_ws-e-mobo-c.tgz",
    "fire_date": "20240701",
@@ -3635,6 +3806,7 @@
    "t0_frames": {
     "1720305905": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240706_StewartFire_rm-e-mobo-c.tgz",
    "fire_date": "20240706",
@@ -3656,6 +3828,7 @@
    "t0_frames": {
     "1720455951": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240708_VistaFire_wilson-e-mobo-c.tgz",
    "fire_date": "20240708",
@@ -3677,6 +3850,7 @@
    "t0_frames": {
     "1721348657": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240718_EggStructureFire_bm-s-mobo-c.tgz",
    "fire_date": "20240718",
@@ -3698,6 +3872,7 @@
    "t0_frames": {
     "1721428613": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240719_ForkFire_wilson-e-mobo-c.tgz",
    "fire_date": "20240719",
@@ -3719,6 +3894,7 @@
    "t0_frames": {
     "1721547663": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240721_EagleFire_stgo-n-mobo-c.tgz",
    "fire_date": "20240721",
@@ -3740,6 +3916,7 @@
    "t0_frames": {
     "1721851145": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240724_GroveFire_hp-e-mobo-c.tgz",
    "fire_date": "20240724",
@@ -3761,6 +3938,7 @@
    "t0_frames": {
     "1721851462": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240724_GroveFire_tp-w-mobo-c.tgz",
    "fire_date": "20240724",
@@ -3782,6 +3960,7 @@
    "t0_frames": {
     "1722144310": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240727_Fire_bh-s-mobo-c.tgz",
    "fire_date": "20240727",
@@ -3803,6 +3982,7 @@
    "t0_frames": {
     "1722280956": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240729_NixonFire_hp-n-mobo-c.tgz",
    "fire_date": "20240729",
@@ -3824,6 +4004,7 @@
    "t0_frames": {
     "1722631648": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240802_WarnersFire_sojr-s-mobo-c.tgz",
    "fire_date": "20240802",
@@ -3845,6 +4026,7 @@
    "t0_frames": {
     "1722710047": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240803_RangeFire_rm-w-mobo-c.tgz",
    "fire_date": "20240803",
@@ -3866,6 +4048,7 @@
    "t0_frames": {
     "1722933777": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240806_Border68FireMayBeHardToFind_om-w-mobo-c.tgz",
    "fire_date": "20240806",
@@ -3887,6 +4070,7 @@
    "t0_frames": {
     "1722931437": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240806_Border68FireMayBeHardToFind_om-w-mobo-m.tgz",
    "fire_date": "20240806",
@@ -3908,6 +4092,7 @@
    "t0_frames": {
     "1723494198": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240812_AnitaFire_sm-n-mobo-c.tgz",
    "fire_date": "20240812",
@@ -3929,6 +4114,7 @@
    "t0_frames": {
     "1723574826": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240813_PapaFire_rm-w-mobo-c.tgz",
    "fire_date": "20240813",
@@ -3950,6 +4136,7 @@
    "t0_frames": {
     "1724458818": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240823_ProctorFire_sm-s-mobo-c.tgz",
    "fire_date": "20240823",
@@ -3971,6 +4158,7 @@
    "t0_frames": {
     "1724611401": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240825_TenajaFire_buff-n-mobo-c.tgz",
    "fire_date": "20240825",
@@ -3992,6 +4180,7 @@
    "t0_frames": {
     "1724878571": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240828_KeysFire_bh-w-mobo-c.tgz",
    "fire_date": "20240828",
@@ -4013,6 +4202,7 @@
    "t0_frames": {
     "1725317033": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240902_GabrielFire_wilson-e-mobo-c.tgz",
    "fire_date": "20240902",
@@ -4034,6 +4224,7 @@
    "t0_frames": {
     "1725409290": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240903_NavajoFire_cp-n-mobo-c.tgz",
    "fire_date": "20240903",
@@ -4055,6 +4246,7 @@
    "t0_frames": {
     "1725562288": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240905_ValleyFire_cp-s-mobo-c.tgz",
    "fire_date": "20240905",
@@ -4076,6 +4268,7 @@
    "t0_frames": {
     "1725733801": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240907_ChurchFire_ws-w-mobo-c.tgz",
    "fire_date": "20240907",
@@ -4097,6 +4290,7 @@
    "t0_frames": {
     "1725731700": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240907_FIRE_ws-s-mobo-c.tgz",
    "fire_date": "20240907",
@@ -4118,6 +4312,7 @@
    "t0_frames": {
     "1725829795": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240908_BridgeFire_wilson-e-mobo-c.tgz",
    "fire_date": "20240908",
@@ -4139,6 +4334,7 @@
    "t0_frames": {
     "1725848646": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240908_RiceFire_rm-e-mobo-c.tgz",
    "fire_date": "20240908",
@@ -4160,6 +4356,7 @@
    "t0_frames": {
     "1727218196": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240924_OtayLakesFire_om-w-mobo-c.tgz",
    "fire_date": "20240924",
@@ -4181,6 +4378,7 @@
    "t0_frames": {
     "1727483809": 79
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20240927_86Fire_tp-e-mobo-c.tgz",
    "fire_date": "20240927",
@@ -4202,6 +4400,7 @@
    "t0_frames": {
     "1728244716": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241006_SaddlebackFire_stgo-w-mobo-c.tgz",
    "fire_date": "20241006",
@@ -4223,6 +4422,7 @@
    "t0_frames": {
     "1728504099": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241009_BahrmanFire_hp-n-mobo-c.tgz",
    "fire_date": "20241009",
@@ -4244,6 +4444,7 @@
    "t0_frames": {
     "1729515935": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241021_PalomarRidge_hp-s-mobo-c.tgz",
    "fire_date": "20241021",
@@ -4265,6 +4466,7 @@
    "t0_frames": {
     "1730406864": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241031_MontezumaFire_sm-w-mobo-c.tgz",
    "fire_date": "20241031",
@@ -4286,6 +4488,7 @@
    "t0_frames": {
     "1730401704": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241031_QuarryFire_sm-w-mobo-c.tgz",
    "fire_date": "20241031",
@@ -4307,6 +4510,7 @@
    "t0_frames": {
     "1731098589": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241108_GardenFire_rm-s-mobo-c.tgz",
    "fire_date": "20241108",
@@ -4328,6 +4532,7 @@
    "t0_frames": {
     "1731098333": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241108_Pasqual4Fire_wc-n-mobo-c.tgz",
    "fire_date": "20241108",
@@ -4349,6 +4554,7 @@
    "t0_frames": {
     "1731520053": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241113_Fire_dwpgm-s-mobo-c.tgz",
    "fire_date": "20241113",
@@ -4370,6 +4576,7 @@
    "t0_frames": {
     "1731520053": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241113_Fire_dwpgm-w-mobo-c.tgz",
    "fire_date": "20241113",
@@ -4391,6 +4598,7 @@
    "t0_frames": {
     "1733151488": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241202_mulch_fire_rm-e-mobo-c.tgz",
    "fire_date": "20241202",
@@ -4412,6 +4620,7 @@
    "t0_frames": {
     "1733813344": 78
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241209_FranklinFire_69bravo-w-mobo-c.tgz",
    "fire_date": "20241209",
@@ -4434,6 +4643,7 @@
     "1734370140": 79,
     "1734370159": 79
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20241216_PrescribedFireNearWitchCreek_bm-s-mobo-c.tgz",
    "fire_date": "20241216",
@@ -4455,6 +4665,7 @@
    "t0_frames": {
     "1735784335": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250101_Border1Fire_om-e-mobo-c.tgz",
    "fire_date": "20250101",
@@ -4476,6 +4687,7 @@
    "t0_frames": {
     "1735719122": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250101_Fire_69bravo-e-mobo-c.tgz",
    "fire_date": "20250101",
@@ -4497,6 +4709,7 @@
    "t0_frames": {
     "1735719093": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250101_Fire_dwpgm-s-mobo-c.tgz",
    "fire_date": "20250101",
@@ -4518,6 +4731,7 @@
    "t0_frames": {
     "1736303279": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250107_EatonFire_wilson-s-mobo-c.tgz",
    "fire_date": "20250107",
@@ -4539,6 +4753,7 @@
    "t0_frames": {
     "1736274241": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250107_PalisadesFire_69bravo-e-mobo-c.tgz",
    "fire_date": "20250107",
@@ -4560,6 +4775,7 @@
    "t0_frames": {
     "1736274332": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250107_PalisadesFire_dwpgm-s-mobo-c.tgz",
    "fire_date": "20250107",
@@ -4581,6 +4797,7 @@
    "t0_frames": {
     "1737407816": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250120_TedWilliamsFire_wc-w-mobo-m.tgz",
    "fire_date": "20250120",
@@ -4602,6 +4819,7 @@
    "t0_frames": {
     "1737449107": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250121_LiliacFire_rm-s-mobo-c.tgz",
    "fire_date": "20250121",
@@ -4623,6 +4841,7 @@
    "t0_frames": {
     "1737447427": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250121_PalaFire_rm-s-mobo-c.tgz",
    "fire_date": "20250121",
@@ -4644,6 +4863,7 @@
    "t0_frames": {
     "1737564864": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250122_BernardoFire_ch-s-mobo-c.tgz",
    "fire_date": "20250122",
@@ -4665,6 +4885,7 @@
    "t0_frames": {
     "1737667438": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250123_Border2Fire_om-w-mobo-c.tgz",
    "fire_date": "20250123",
@@ -4686,6 +4907,7 @@
    "t0_frames": {
     "1737621958": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250123_Border2Fire_om-w-mobo-m.tgz",
    "fire_date": "20250123",
@@ -4707,6 +4929,7 @@
    "t0_frames": {
     "1737670364": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250123_GilmanFire_tdlln-s-mobo-c.tgz",
    "fire_date": "20250123",
@@ -4726,6 +4949,7 @@
    "local_mtime_utc": "2026-09-12T22:05:11Z",
    "n_frames": 0,
    "t0_frames": {},
+   "frame_name_repairs": {},
    "status": "no frames",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250123_GilmanFire_tdllns-mobo-c.tgz",
    "fire_date": "20250123",
@@ -4747,6 +4971,7 @@
    "t0_frames": {
     "1740606768": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250226_PennyFire_ml-w-mobo-c.tgz",
    "fire_date": "20250226",
@@ -4768,6 +4993,7 @@
    "t0_frames": {
     "1745954528": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250429_TrailFire_rm-w-mobo-c.tgz",
    "fire_date": "20250429",
@@ -4789,6 +5015,7 @@
    "t0_frames": {
     "1746131927": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250501_FelipeFire_ml-n-mobo-c.tgz",
    "fire_date": "20250501",
@@ -4810,6 +5037,7 @@
    "t0_frames": {
     "1747243898": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250514_PrescribedFire_hp-e-mobo-c.tgz",
    "fire_date": "20250514",
@@ -4831,6 +5059,7 @@
    "t0_frames": {
     "1747431536": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250516_AcademyFire_wc-n-mobo-c.tgz",
    "fire_date": "20250516",
@@ -4852,6 +5081,7 @@
    "t0_frames": {
     "1747773275": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250520_CrossingFire_hp-n-mobo-c.tgz",
    "fire_date": "20250520",
@@ -4873,6 +5103,7 @@
    "t0_frames": {
     "1748651830": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250530_HendersonFire_bh-w-mobo-c.tgz",
    "fire_date": "20250530",
@@ -4894,6 +5125,7 @@
    "t0_frames": {
     "1749583475": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250610_CahuillaFire_hp-n-mobo-c.tgz",
    "fire_date": "20250610",
@@ -4915,6 +5147,7 @@
    "t0_frames": {
     "1749742775": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250612_HighwayFire_hp-e-mobo-c.tgz",
    "fire_date": "20250612",
@@ -4936,6 +5169,7 @@
    "t0_frames": {
     "1750110546": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250616_MissionFire_rm-s-mobo-c.tgz",
    "fire_date": "20250616",
@@ -4957,6 +5191,7 @@
    "t0_frames": {
     "1750196615": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250617_MonteFire_cp-w-mobo-c.tgz",
    "fire_date": "20250617",
@@ -4978,6 +5213,7 @@
    "t0_frames": {
     "1752196897": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250710_SpringsFire_lp-n-mobo-c.tgz",
    "fire_date": "20250710",
@@ -4999,6 +5235,7 @@
    "t0_frames": {
     "1752694480": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250716_DaleBradfordFire_hp-n-mobo-c.tgz",
    "fire_date": "20250716",
@@ -5020,6 +5257,7 @@
    "t0_frames": {
     "1753383227": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250724_PostaFire_mlo-s-mobo-c.tgz",
    "fire_date": "20250724",
@@ -5041,6 +5279,7 @@
    "t0_frames": {
     "1753383302": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250724_PostaFire_ws-w-mobo-c.tgz",
    "fire_date": "20250724",
@@ -5062,6 +5301,9 @@
    "t0_frames": {
     "1754084174": 81
    },
+   "frame_name_repairs": {
+    "duplicates": 41
+   },
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250801_BernardoFire_bl-n-mobo-c.tgz",
    "fire_date": "20250801",
@@ -5079,9 +5321,12 @@
    "bytes": 66936728,
    "sha256": "a421544e81db678896092d748b8a3c26dfd0e859a58c18360753af69d44f1be3",
    "local_mtime_utc": "2026-09-12T22:08:39Z",
-   "n_frames": 41,
+   "n_frames": 81,
    "t0_frames": {
-    "1754331192": 41
+    "1754331192": 81
+   },
+   "frame_name_repairs": {
+    "sign_repaired": 40
    },
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250804_CoolFire_bi-w-mobo-c.tgz",
@@ -5104,6 +5349,7 @@
    "t0_frames": {
     "1755965197": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250823_VailFire_hp-w-mobo-c.tgz",
    "fire_date": "20250823",
@@ -5125,6 +5371,7 @@
    "t0_frames": {
     "1757105721": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250905_LodgeFire_sm-n-mobo-c.tgz",
    "fire_date": "20250905",
@@ -5146,6 +5393,7 @@
    "t0_frames": {
     "1757368702": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250908_CochesFire_sm-n-mobo-c.tgz",
    "fire_date": "20250908",
@@ -5167,6 +5415,7 @@
    "t0_frames": {
     "1757889224": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20250914_HenshawFire_mg-n-mobo-c.tgz",
    "fire_date": "20250914",
@@ -5188,6 +5437,7 @@
    "t0_frames": {
     "1760040378": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20251009_RanchoFire_bm-s-mobo-c.tgz",
    "fire_date": "20251009",
@@ -5209,6 +5459,7 @@
    "t0_frames": {
     "1760916355": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20251019_RanchFire_wc-w-mobo-m.tgz",
    "fire_date": "20251019",
@@ -5230,6 +5481,7 @@
    "t0_frames": {
     "1769639458": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260128_Fire_wilson-s-mobo-c.tgz",
    "fire_date": "20260128",
@@ -5251,6 +5503,7 @@
    "t0_frames": {
     "1773944918": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260319_CrosleyFire_hp-w-mobo-c.tgz",
    "fire_date": "20260319",
@@ -5272,6 +5525,7 @@
    "t0_frames": {
     "1773944933": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260319_CrosleyFire_mpo-w-mobo-c.tgz",
    "fire_date": "20260319",
@@ -5293,6 +5547,7 @@
    "t0_frames": {
     "1775673426": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260408_RainbowFir_rm-e-mobo-c.tgz",
    "fire_date": "20260408",
@@ -5314,6 +5569,7 @@
    "t0_frames": {
     "1777418048": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260428_LiveOakFire_rm-s-mobo-c.tgz",
    "fire_date": "20260428",
@@ -5335,6 +5591,7 @@
    "t0_frames": {
     "1777746906": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260502_MissionFire_rm-e-mobo-c.tgz",
    "fire_date": "20260502",
@@ -5356,6 +5613,7 @@
    "t0_frames": {
     "1777746666": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260502_MissionFire_rm-s-mobo-c.tgz",
    "fire_date": "20260502",
@@ -5377,6 +5635,7 @@
    "t0_frames": {
     "1779220488": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260519_TusilFire_mlo-s-mobo-c.tgz",
    "fire_date": "20260519",
@@ -5398,6 +5657,7 @@
    "t0_frames": {
     "1781813226": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260618_MissionFire_rm-s-mobo-c.tgz",
    "fire_date": "20260618",
@@ -5419,6 +5679,7 @@
    "t0_frames": {
     "1782166915": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260622_BernardoFire_wc-w-mobo-c.tgz",
    "fire_date": "20260622",
@@ -5440,6 +5701,7 @@
    "t0_frames": {
     "1784154902": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260715_ThornFire_ws-n-mobo-c.tgz",
    "fire_date": "20260715",
@@ -5461,6 +5723,7 @@
    "t0_frames": {
     "1784739006": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260722_RainbowFire_bh-w-mobo-c.tgz",
    "fire_date": "20260722",
@@ -5482,6 +5745,7 @@
    "t0_frames": {
     "1784739124": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260722_RainbowFire_rm-e-mobo-c.tgz",
    "fire_date": "20260722",
@@ -5503,6 +5767,7 @@
    "t0_frames": {
     "1786137577": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260807_BeaverFire_lp-w-mobo-c.tgz",
    "fire_date": "20260807",
@@ -5524,6 +5789,7 @@
    "t0_frames": {
     "1786912033": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260816_SorrentoFire_sdsc-e-mobo-c.tgz",
    "fire_date": "20260816",
@@ -5545,6 +5811,7 @@
    "t0_frames": {
     "1787000326": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260817_Church2Fire_mlo-s-mobo-c.tgz",
    "fire_date": "20260817",
@@ -5566,6 +5833,7 @@
    "t0_frames": {
     "1787252675": 80
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260820_ChiaFire_hp-n-mobo-c.tgz",
    "fire_date": "20260820",
@@ -5587,6 +5855,7 @@
    "t0_frames": {
     "1788704287": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260906_BrengleFire_rm-s-mobo-c.tgz",
    "fire_date": "20260906",
@@ -5608,6 +5877,7 @@
    "t0_frames": {
     "1788995756": 81
    },
+   "frame_name_repairs": {},
    "status": "ok",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260909_GettyFire_wilson-w-mobo-c.tgz",
    "fire_date": "20260909",
@@ -5627,6 +5897,7 @@
    "local_mtime_utc": "2026-09-12T21:43:46Z",
    "n_frames": 0,
    "t0_frames": {},
+   "frame_name_repairs": {},
    "status": "no frames",
    "url": "https://cdn.hpwren.ucsd.edu/HPWREN-FIgLib-Data/Tar/20260909_GettyFire_wilson-ws-mobo-c.tgz",
    "fire_date": "20260909",
