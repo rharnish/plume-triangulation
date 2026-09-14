@@ -1,0 +1,279 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>open_vocab viewer</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; display: flex; height: 100vh; font: 13px/1.4 system-ui, sans-serif;
+    background: #1b1c1e; color: #ddd;
+  }
+  #side {
+    width: 300px; flex: none; overflow-y: auto; padding: 10px;
+    background: #232426; border-right: 1px solid #333;
+  }
+  #side h1 { font-size: 14px; margin: 0 0 8px; }
+  #imgpick { width: 100%; margin-bottom: 6px; }
+  .navrow { display: flex; gap: 6px; margin-bottom: 10px; }
+  .navrow button { flex: 1; }
+  button, select {
+    background: #333; color: #ddd; border: 1px solid #444; border-radius: 4px;
+    padding: 4px 6px; font: inherit; cursor: pointer;
+  }
+  button:hover { background: #3d3e40; }
+  .global { display: flex; align-items: center; gap: 6px; margin: 4px 0; }
+  .global label { flex: 1; cursor: pointer; }
+  #opacity { width: 90px; }
+  hr { border: none; border-top: 1px solid #333; margin: 10px 0; }
+  .cat { margin-bottom: 10px; }
+  .cathead {
+    display: flex; align-items: center; gap: 6px; font-weight: 600;
+    cursor: pointer; user-select: none;
+  }
+  .swatch { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+  .det { display: flex; align-items: center; gap: 6px; padding: 2px 0 2px 16px; }
+  .det label { flex: 1; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .score { color: #999; font-variant-numeric: tabular-nums; }
+  #canvaswrap { flex: 1; overflow: auto; padding: 16px; }
+  #canvas { display: block; image-rendering: pixelated; cursor: default; }
+  #status { color: #888; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<div id="side">
+  <h1>open_vocab viewer</h1>
+  <select id="imgpick"></select>
+  <div class="navrow">
+    <button id="prev">&larr; prev</button>
+    <button id="next">next &rarr;</button>
+  </div>
+
+  <div class="global">
+    <input type="checkbox" id="showBoxes" checked>
+    <label for="showBoxes">boxes</label>
+  </div>
+  <div class="global">
+    <input type="checkbox" id="showMasks">
+    <label for="showMasks">masks</label>
+  </div>
+  <div class="global">
+    <label for="opacity">mask opacity</label>
+    <input type="range" id="opacity" min="0" max="100" value="45">
+  </div>
+  <div class="global">
+    <button id="fit">fit</button>
+    <button id="oneToOne">100%</button>
+  </div>
+  <hr>
+  <div id="cats"></div>
+  <hr>
+  <div id="status"></div>
+</div>
+
+<div id="canvaswrap">
+  <canvas id="canvas"></canvas>
+</div>
+
+<script>
+"use strict";
+
+const imgpick = document.getElementById("imgpick");
+const catsEl = document.getElementById("cats");
+const statusEl = document.getElementById("status");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const showBoxes = document.getElementById("showBoxes");
+const showMasks = document.getElementById("showMasks");
+const opacity = document.getElementById("opacity");
+
+let manifest = [];
+let record = null;        // current record.json
+let baseImg = null;       // Image, the .orig.jpg
+let maskIdx = null;       // Uint8ClampedArray, one byte per pixel, mask_index or 0
+let checked = new Set();  // detection indices (0-based into record.detections) that are on
+let scale = 1;
+
+async function loadManifest() {
+  const res = await fetch("manifest.json");
+  manifest = await res.json();
+  imgpick.innerHTML = manifest.map(s => `<option value="${s}">${s}</option>`).join("");
+}
+
+async function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+// Read the label PNG's pixel values into a flat per-pixel index array. The PNG is
+// single-channel grayscale (cv2.imwrite of a uint8 label image), so R holds the index
+// and G/B/A are along for the ride -- no color management touches raw luminance values.
+async function loadMaskIndex(src, w, h) {
+  const img = await loadImage(src);
+  const off = document.createElement("canvas");
+  off.width = w; off.height = h;
+  const octx = off.getContext("2d", { willReadFrequently: true });
+  octx.drawImage(img, 0, 0);
+  const data = octx.getImageData(0, 0, w, h).data;
+  const idx = new Uint8ClampedArray(w * h);
+  for (let p = 0; p < idx.length; p++) idx[p] = data[p * 4];
+  return idx;
+}
+
+function catColor(cat) {
+  const c = record.colors[cat] || [255, 255, 255];
+  return `rgb(${c[0]},${c[1]},${c[2]})`;
+}
+
+function buildSidebar() {
+  const byCat = {};
+  record.detections.forEach((d, i) => {
+    (byCat[d.category] ||= []).push(i);
+  });
+  catsEl.innerHTML = "";
+  for (const cat of Object.keys(byCat)) {
+    const block = document.createElement("div");
+    block.className = "cat";
+    const head = document.createElement("div");
+    head.className = "cathead";
+    head.innerHTML = `<span class="swatch" style="background:${catColor(cat)}"></span>` +
+                      `<span>${cat} (${byCat[cat].length})</span>`;
+    head.onclick = () => {
+      const anyOff = byCat[cat].some(i => !checked.has(i));
+      byCat[cat].forEach(i => anyOff ? checked.add(i) : checked.delete(i));
+      block.querySelectorAll("input").forEach(cb => cb.checked = anyOff);
+      redraw();
+    };
+    block.appendChild(head);
+
+    // Highest-confidence detections first within a category.
+    byCat[cat].sort((a, b) => record.detections[b].score - record.detections[a].score);
+    for (const i of byCat[cat]) {
+      const d = record.detections[i];
+      const row = document.createElement("div");
+      row.className = "det";
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.id = `det${i}`;
+      cb.checked = checked.has(i);
+      cb.onchange = () => { cb.checked ? checked.add(i) : checked.delete(i); redraw(); };
+      const label = document.createElement("label");
+      label.htmlFor = cb.id;
+      label.textContent = d.phrase;
+      label.title = d.phrase;
+      const score = document.createElement("span");
+      score.className = "score";
+      score.textContent = d.score.toFixed(2);
+      row.append(cb, label, score);
+      block.appendChild(row);
+    }
+    catsEl.appendChild(block);
+  }
+}
+
+function redraw() {
+  if (!record || !baseImg) return;
+  const w = record.width, h = record.height;
+  canvas.width = w * scale;
+  canvas.height = h * scale;
+  ctx.imageSmoothingEnabled = scale < 1;
+  ctx.drawImage(baseImg, 0, 0, w * scale, h * scale);
+
+  if (showMasks.checked && maskIdx && checked.size) {
+    const colorByIndex = new Map();
+    record.detections.forEach((d, i) => {
+      if (checked.has(i) && d.mask_index) colorByIndex.set(d.mask_index, record.colors[d.category]);
+    });
+    if (colorByIndex.size) {
+      const off = document.createElement("canvas");
+      off.width = w; off.height = h;
+      const octx = off.getContext("2d");
+      const out = octx.createImageData(w, h);
+      const a = Math.round(opacity.value * 2.55);
+      for (let p = 0; p < maskIdx.length; p++) {
+        const c = colorByIndex.get(maskIdx[p]);
+        if (c) {
+          out.data[p * 4] = c[0]; out.data[p * 4 + 1] = c[1];
+          out.data[p * 4 + 2] = c[2]; out.data[p * 4 + 3] = a;
+        }
+      }
+      octx.putImageData(out, 0, 0);
+      ctx.drawImage(off, 0, 0, w * scale, h * scale);
+    }
+  }
+
+  if (showBoxes.checked) {
+    for (const i of checked) {
+      const d = record.detections[i];
+      const [x0, y0, x1, y1] = d.box_px;
+      const c = record.colors[d.category];
+      ctx.strokeStyle = `rgb(${c[0]},${c[1]},${c[2]})`;
+      ctx.lineWidth = 2;
+      ctx.strokeRect(x0 * scale, y0 * scale, (x1 - x0) * scale, (y1 - y0) * scale);
+      ctx.font = "13px system-ui, sans-serif";
+      const text = `${d.phrase} ${d.score.toFixed(2)}`;
+      const tw = ctx.measureText(text).width;
+      ctx.fillStyle = "rgba(0,0,0,0.6)";
+      ctx.fillRect(x0 * scale, Math.max(0, y0 * scale - 16), tw + 6, 16);
+      ctx.fillStyle = ctx.strokeStyle;
+      ctx.fillText(text, x0 * scale + 3, Math.max(11, y0 * scale - 4));
+    }
+  }
+}
+
+async function selectImage(stem) {
+  statusEl.textContent = "loading...";
+  const res = await fetch(`${stem}.json`);
+  record = await res.json();
+  checked = new Set();
+  const [img] = await Promise.all([
+    loadImage(record.image),
+    loadMaskIndex(`${stem}.masks.png`, record.width, record.height).then(m => maskIdx = m),
+  ]);
+  baseImg = img;
+  buildSidebar();
+  fitToWindow();
+  statusEl.textContent = `${record.width}x${record.height}  --  ${record.detections.length} detections`;
+}
+
+function fitToWindow() {
+  const wrap = document.getElementById("canvaswrap");
+  const availW = wrap.clientWidth - 32, availH = wrap.clientHeight - 32;
+  scale = Math.min(1, availW / record.width, availH / record.height);
+  redraw();
+}
+
+document.getElementById("fit").onclick = fitToWindow;
+document.getElementById("oneToOne").onclick = () => { scale = 1; redraw(); };
+showBoxes.onchange = redraw;
+showMasks.onchange = redraw;
+opacity.oninput = redraw;
+imgpick.onchange = () => selectImage(imgpick.value);
+document.getElementById("prev").onclick = () => step(-1);
+document.getElementById("next").onclick = () => step(1);
+
+function step(dir) {
+  const i = manifest.indexOf(imgpick.value);
+  const next = (i + dir + manifest.length) % manifest.length;
+  imgpick.value = manifest[next];
+  selectImage(manifest[next]);
+}
+
+(async function init() {
+  await loadManifest();
+  if (manifest.length) {
+    imgpick.value = manifest[0];
+    await selectImage(manifest[0]);
+  } else {
+    statusEl.textContent = "no images -- run open_vocab.py first";
+  }
+})();
+</script>
+</body>
+</html>

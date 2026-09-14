@@ -238,7 +238,7 @@ Modules live in [src/figlib/](src/figlib/), with star calibration in [src/figlib
 | **Ingest & ground truth** | `ingest` `fires` `truth` `resolve` `wind` |
 | **Detection** | `detect_yolo` (ONNX) · `detect_coreml` (Apple) · `detect_diff` (training-free floor) |
 | **Geometry** | `geom` `geolocate` `accumulate` |
-| **Plume masks** *(tested, lost)* | `masks` `plumefit` — segmentation-based bearings, see `NOTES.md` |
+| **Plume masks** *(tested, lost)* | `masks` `plumefit` — segmentation-based bearings, see `NOTES.md` · `open_vocab` `sam2_track` *(exploratory, with viewers)* |
 | **Terrain** *(pose audit)* | `terrain` `calibrate` `pose_validate` — see `NOTES.md` |
 | **Star calibration** | `stars.tracks` `stars.solve` `stars.nights` `stars.fisheye` `stars.catalog` · `pose_ledger` `frame_sizes` `compare_geolocation` |
 | **Evaluation** | `falsealarm` `quantization` `evolve` · `coverage` `bias` (is the 95% region honest?) |

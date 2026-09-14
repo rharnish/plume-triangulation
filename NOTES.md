@@ -1607,6 +1607,42 @@ rendered as `out/confidence/{kitchen,steele}_confidence_after.mp4`.
      clock and re-score before quoting README time-resolved numbers again.
   5. The README should state the timing decision once these land.
 
+*Training-free scene reads and sequence tracking, with viewers (2026-09-11 and 2026-09-13).*
+Two exploratory tools hanging off `masks.py`. Neither feeds geolocation or any scored number;
+both are for looking at frames, and both use models not trained on FIgLib, so they add no
+contamination. Both need `requirements-masks.txt` and a GPU for reasonable speed.
+
+**Open-vocabulary detection (`src/figlib/open_vocab.py`, 2026-09-11).** Grounding DINO
+(`IDEA-Research/grounding-dino-tiny`) finds boxes from text, and the same SAM model `masks.py`
+uses masks them. Four categories: smoke ("smoke", "wildfire smoke plume"), water ("lake",
+"river", "pond"), terrain ("ridgeline", "mountain peak") and landmark ("tower", "road",
+"building"), at box threshold 0.25 and text threshold 0.20.
+  * **One phrase per pass, not one combined prompt.** All ten phrases in one period-separated
+    query collapsed every score under 0.11, smoke included, and returned merged labels
+    ("river pond road"). One phrase at a time on the same frame put smoke back to 0.57 and
+    tower to 0.33.
+  * Run on three mid-fire frames (Kitchen, Junction, Ranch2): 24-26 boxes each on Kitchen and
+    Junction, 5-7 of them smoke. Nothing is scored; whether the water and landmark boxes are
+    right is a question for the viewer.
+  * Viewer: `python -m src.figlib.open_vocab <image>` writes `out/openvocab/` and copies
+    `open_vocab_viewer.html` there; serve that directory and open `viewer.html`.
+
+**SAM2 video tracking (`src/figlib/sam2_track.py`, 2026-09-13).** SAM2's video model
+(`facebook/sam2.1-hiera-tiny`) keeps a memory across frames, so a mask given once is
+propagated through a sequence instead of re-detected per frame. Two seeds:
+  * `--seed motion`: median-background differencing, as `detect_diff.py` does, and every
+    large connected component becomes a tracked object (up to 6). It seeds on anything that
+    moves, plume or not.
+  * `--seed detector`: seeds at the frame where `falsealarm.py`'s k-of-m rule first alarms,
+    with that box, and tracks backward. Earlier masks are the trusted detection's fainter
+    self. Nothing re-checks them, so a track that drifts onto a ridge or cloud has to be
+    caught by eye, e.g. as a jump in the mask centroid.
+  * Run on 17 sequences from Roundfire, Kitchen and Junction, mostly detector-seeded. No
+    scored result.
+  * Viewer: `python -m src.figlib.sam2_track <tgz> [--seed detector]` writes
+    `out/sam2track/<sequence>/` and copies `sam2_track_viewer.html`; serve `out/sam2track/`
+    and open `viewer.html`.
+
 **Camera pose corrections need one shared ledger, not three incompatible files.**
 `pose_fit.json`, `pose_fit_staged.json` (terrain) and `out/sky/sun_calibration.json`
 (sun/tower) each fit d_az/d_pitch/d_roll/k1 independently, with no record of which won or

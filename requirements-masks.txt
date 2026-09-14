@@ -1,9 +1,10 @@
-# Plume masks: src/figlib/masks.py and src/figlib/plumefit.py only.
+# Plume masks and training-free scene tools: src/figlib/masks.py, plumefit.py,
+# open_vocab.py and sam2_track.py only.
 #
 # Kept out of requirements.txt on purpose. This file pulls ~3 GB of CUDA runtime, and
 # nothing in the headline results needs it -- geolocation, the false-alarm sweep and the
-# edge measurements all run from requirements.txt alone. The mask work is an experiment
-# hanging off the side of those, and it is the only thing that imports torch.
+# edge measurements all run from requirements.txt alone. The mask and scene-reading work
+# are experiments hanging off the side of those, and the only things that import torch.
 #
 #     python -m venv .venv && .venv/bin/pip install -r requirements.txt
 #     .venv/bin/pip install -r requirements-masks.txt --extra-index-url \
@@ -20,6 +21,9 @@ transformers==5.17.0     # SamModel / SamProcessor; pulls huggingface-hub, token
 # SAM weights are fetched at first use, not vendored: facebook/sam-vit-base, ~375 MB,
 # cached under ~/.cache/huggingface. Apache 2.0, and NOT trained on FIgLib -- so unlike
 # the pyronear detector it adds no contamination to anything measured with it.
+# open_vocab.py adds IDEA-Research/grounding-dino-tiny and sam2_track.py adds
+# facebook/sam2.1-hiera-tiny, fetched the same way from the same transformers pin; both
+# Apache 2.0 and not trained on FIgLib either.
 
 # ---------------------------------------------------------------------------
 # Why these versions, and why not newer.
