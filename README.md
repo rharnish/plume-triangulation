@@ -239,11 +239,11 @@ Modules live in [src/figlib/](src/figlib/), with star calibration in [src/figlib
 | **Detection** | `detect_yolo` (ONNX) · `detect_coreml` (Apple) · `detect_diff` (training-free floor) |
 | **Geometry** | `geom` `geolocate` `accumulate` |
 | **Plume masks** *(tested, lost)* | `masks` `plumefit` — segmentation-based bearings, see `NOTES.md` · `open_vocab` `sam2_track` *(exploratory, with viewers)* |
-| **Terrain** *(pose audit)* | `terrain` `calibrate` `pose_validate` — see `NOTES.md` |
+| **Terrain** *(pose audit)* | `terrain` `calibrate` `pose_validate` — see `NOTES.md` · `terrain_range` (how far along one bearing?) |
 | **Star calibration** | `stars.tracks` `stars.solve` `stars.nights` `stars.fisheye` `stars.catalog` · `pose_ledger` `frame_sizes` `compare_geolocation` |
 | **Evaluation** | `falsealarm` `quantization` `evolve` · `coverage` `bias` (is the 95% region honest?) |
 | **Edge** | `bench_edge` `power` |
-| **Figures** | `viz` `viz_map` `viz_terrain` `animate` `fig_peaks` `fig_pose` `fig_triangulate` |
+| **Figures** | `viz` `viz_map` `viz_terrain` `animate` `fig_peaks` `fig_pose` `fig_triangulate` `fig_bearing` |
 
 Two environment variables let a whole pipeline be re-scored against different inputs without
 editing anything: `FIGLIB_DETS` points at an alternative detection directory (this is how
