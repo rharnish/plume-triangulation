@@ -1,0 +1,325 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>sam2_track viewer</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; display: flex; height: 100vh; font: 13px/1.4 system-ui, sans-serif;
+    background: #1b1c1e; color: #ddd;
+  }
+  #side {
+    width: 300px; flex: none; overflow-y: auto; padding: 10px;
+    background: #232426; border-right: 1px solid #333;
+  }
+  #side h1 { font-size: 14px; margin: 0 0 8px; }
+  select, button { background: #333; color: #ddd; border: 1px solid #444; border-radius: 4px; padding: 4px 6px; font: inherit; cursor: pointer; }
+  button:hover { background: #3d3e40; }
+  #seqpick { width: 100%; margin-bottom: 10px; }
+  .global { display: flex; align-items: center; gap: 6px; margin: 4px 0; }
+  .global label { flex: 1; cursor: pointer; }
+  hr { border: none; border-top: 1px solid #333; margin: 10px 0; }
+  .obj { display: flex; align-items: center; gap: 6px; padding: 2px 0; }
+  .obj label { flex: 1; cursor: pointer; }
+  .swatch { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+  #main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  #canvaswrap { flex: 1; overflow: auto; padding: 16px; }
+  #canvas { display: block; image-rendering: pixelated; }
+  #scrub { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: #232426; border-top: 1px solid #333; }
+  #scrub input[type=range] { flex: 1; }
+  #frameLabel { width: 90px; text-align: right; font-variant-numeric: tabular-nums; }
+  #status { color: #888; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<div id="side">
+  <h1>sam2_track viewer</h1>
+  <select id="seqpick"></select>
+
+  <div class="global">
+    <input type="checkbox" id="showBoxes">
+    <label for="showBoxes">seed box</label>
+  </div>
+  <div class="global">
+    <input type="checkbox" id="showDetBoxes" checked>
+    <label for="showDetBoxes">pyronear boxes</label>
+  </div>
+  <div class="global">
+    <input type="checkbox" id="showMasks" checked>
+    <label for="showMasks">masks</label>
+  </div>
+  <div class="global">
+    <label for="opacity">opacity</label>
+    <input type="range" id="opacity" min="0" max="100" value="45">
+  </div>
+  <div class="global">
+    <button id="fit">fit</button>
+    <button id="oneToOne">100%</button>
+  </div>
+  <div class="global">
+    <button id="zoomSeed">zoom to seed box</button>
+  </div>
+  <hr>
+  <div id="objs"></div>
+  <hr>
+  <div id="status"></div>
+</div>
+
+<div id="main">
+  <div id="canvaswrap"><canvas id="canvas"></canvas></div>
+  <div id="scrub">
+    <button id="play">play</button>
+    <input type="range" id="frameSlider" min="0" max="0" value="0">
+    <span id="frameLabel">0 / 0</span>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+const seqpick = document.getElementById("seqpick");
+const objsEl = document.getElementById("objs");
+const statusEl = document.getElementById("status");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const showBoxes = document.getElementById("showBoxes");
+const showDetBoxes = document.getElementById("showDetBoxes");
+const showMasks = document.getElementById("showMasks");
+const opacity = document.getElementById("opacity");
+const frameSlider = document.getElementById("frameSlider");
+const frameLabel = document.getElementById("frameLabel");
+const playBtn = document.getElementById("play");
+
+let manifest = [];
+let record = null;         // current sequence.json
+let checked = new Set();   // object ids that are on
+let scale = 1;
+let frameIdx = 0;
+let cache = new Map();     // fstem -> { img, maskIdx }
+let playing = null;
+
+async function loadManifest() {
+  const res = await fetch("manifest.json");
+  manifest = await res.json();
+  seqpick.innerHTML = manifest.map(s => `<option value="${s}">${s}</option>`).join("");
+}
+
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+async function loadMaskIndex(src, w, h) {
+  const img = await loadImage(src);
+  const off = document.createElement("canvas");
+  off.width = w; off.height = h;
+  const octx = off.getContext("2d", { willReadFrequently: true });
+  octx.drawImage(img, 0, 0);
+  const data = octx.getImageData(0, 0, w, h).data;
+  const idx = new Uint8ClampedArray(w * h);
+  for (let p = 0; p < idx.length; p++) idx[p] = data[p * 4];
+  return idx;
+}
+
+// Prefetches nearby frames so scrubbing/playback doesn't stall on the network.
+async function getFrame(i) {
+  const fstem = record.frames[i];
+  if (!cache.has(fstem)) {
+    const seq = encodeURIComponent(record.sequence);   // sequence names can contain "#"
+    cache.set(fstem, Promise.all([
+      loadImage(`${seq}/${fstem}.orig.jpg`),
+      loadMaskIndex(`${seq}/${fstem}.masks.png`, record.width, record.height),
+    ]).then(([img, maskIdx]) => ({ img, maskIdx })));
+  }
+  return cache.get(fstem);
+}
+
+function prefetchAround(i, radius = 5) {
+  for (let d = -radius; d <= radius; d++) {
+    const j = i + d;
+    if (j >= 0 && j < record.frames.length) getFrame(j);
+  }
+}
+
+function buildSidebar() {
+  objsEl.innerHTML = "";
+  for (const obj of record.objects) {
+    const row = document.createElement("div");
+    row.className = "obj";
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.id = `obj${obj.id}`;
+    cb.checked = checked.has(obj.id);
+    cb.onchange = () => { cb.checked ? checked.add(obj.id) : checked.delete(obj.id); redraw(); };
+    const sw = document.createElement("span");
+    sw.className = "swatch";
+    sw.style.background = `rgb(${obj.color.join(",")})`;
+    const label = document.createElement("label");
+    label.htmlFor = cb.id;
+    label.textContent = `object ${obj.id}`;
+    row.append(cb, sw, label);
+    objsEl.appendChild(row);
+  }
+}
+
+async function redraw() {
+  if (!record) return;
+  const w = record.width, h = record.height;
+  let frame;
+  try {
+    frame = await getFrame(frameIdx);
+  } catch (e) {
+    statusEl.textContent = `frame ${frameIdx} failed to load: ${e}`;
+    return;
+  }
+  const { img, maskIdx } = frame;
+  canvas.width = w * scale;
+  canvas.height = h * scale;
+  ctx.imageSmoothingEnabled = scale < 1;
+  ctx.drawImage(img, 0, 0, w * scale, h * scale);
+
+  if (showMasks.checked && checked.size) {
+    const colorById = new Map(record.objects.map(o => [o.id, o.color]));
+    const off = document.createElement("canvas");
+    off.width = w; off.height = h;
+    const octx = off.getContext("2d");
+    const out = octx.createImageData(w, h);
+    const a = Math.round(opacity.value * 2.55);
+    for (let p = 0; p < maskIdx.length; p++) {
+      const id = maskIdx[p];
+      if (id && checked.has(id)) {
+        const c = colorById.get(id);
+        out.data[p * 4] = c[0]; out.data[p * 4 + 1] = c[1];
+        out.data[p * 4 + 2] = c[2]; out.data[p * 4 + 3] = a;
+      }
+    }
+    octx.putImageData(out, 0, 0);
+    ctx.drawImage(off, 0, 0, w * scale, h * scale);
+  }
+
+  if (showBoxes.checked && frameIdx === record.seed_idx) {
+    for (const obj of record.objects) {
+      if (!checked.has(obj.id)) continue;
+      const [x0, y0, x1, y1] = obj.seed_box;
+      ctx.strokeStyle = `rgb(${obj.color.join(",")})`;
+      ctx.lineWidth = 2;
+      ctx.strokeRect(x0 * scale, y0 * scale, (x1 - x0) * scale, (y1 - y0) * scale);
+    }
+  }
+
+  // pyronear's own boxes for this frame -- independent of SAM2, so a divergence
+  // between the two is visible directly rather than inferred from numbers.
+  const detBoxes = record.detector_boxes && record.detector_boxes[frameIdx];
+  if (showDetBoxes.checked && detBoxes) {
+    ctx.font = `${Math.max(11, Math.round(13 * scale))}px monospace`;
+    ctx.textBaseline = "bottom";
+    for (const { box, conf } of detBoxes) {
+      const [x0, y0, x1, y1] = box;
+      ctx.strokeStyle = "yellow";
+      ctx.lineWidth = 2;
+      ctx.setLineDash([6, 4]);
+      ctx.strokeRect(x0 * scale, y0 * scale, (x1 - x0) * scale, (y1 - y0) * scale);
+      ctx.setLineDash([]);
+      ctx.fillStyle = "yellow";
+      ctx.fillText(conf.toFixed(2), x0 * scale, y0 * scale - 2);
+    }
+  }
+
+  frameSlider.value = frameIdx;
+  const off = record.offsets ? record.offsets[frameIdx] : null;
+  frameLabel.textContent = off === null || off === undefined
+    ? `${frameIdx} / ${record.frames.length - 1}`
+    : `${frameIdx} / ${record.frames.length - 1}  (${off >= 0 ? "+" : ""}${off}s)`;
+  prefetchAround(frameIdx);
+}
+
+function fitToWindow() {
+  const wrap = document.getElementById("canvaswrap");
+  const availW = wrap.clientWidth - 32, availH = wrap.clientHeight - 32;
+  scale = Math.min(1, availW / record.width, availH / record.height);
+  redraw();
+}
+
+async function selectSequence(seq) {
+  statusEl.textContent = "loading...";
+  let res;
+  try {
+    res = await fetch(`${encodeURIComponent(seq)}/sequence.json`);
+  } catch (e) {
+    statusEl.textContent = `failed to fetch ${seq}/sequence.json: ${e}`;
+    return;
+  }
+  if (!res.ok) {
+    statusEl.textContent = `${seq}/sequence.json -> HTTP ${res.status}`;
+    return;
+  }
+  record = await res.json();
+  cache = new Map();
+  checked = new Set(record.objects.map(o => o.id));
+  frameIdx = record.seed_idx;
+  frameSlider.max = record.frames.length - 1;
+  buildSidebar();
+  fitToWindow();
+  let msg = `${record.width}x${record.height}  --  ${record.frames.length} frames, ` +
+            `${record.objects.length} objects, seed=${record.seed_mode || "motion"} at frame ${record.seed_idx}`;
+  if (record.trigger) {
+    msg += `  --  alarm at +${record.trigger.offset}s, conf ${record.trigger.conf.toFixed(2)} ` +
+           `(tau=${record.trigger.tau}, ${record.trigger.k}-of-${record.trigger.m}), tracked backward from there`;
+  }
+  statusEl.textContent = msg;
+}
+
+document.getElementById("fit").onclick = fitToWindow;
+document.getElementById("oneToOne").onclick = () => { scale = 1; redraw(); };
+document.getElementById("zoomSeed").onclick = async () => {
+  if (!record || !record.objects.length) return;
+  showBoxes.checked = true;
+  frameIdx = record.seed_idx;
+  const [x0, y0, x1, y1] = record.objects[0].seed_box;
+  const bw = x1 - x0, bh = y1 - y0;
+  scale = Math.max(1, Math.min(12, 300 / Math.max(bw, bh, 1)));
+  await redraw();
+  const wrap = document.getElementById("canvaswrap");
+  wrap.scrollLeft = (x0 + x1) / 2 * scale - wrap.clientWidth / 2;
+  wrap.scrollTop = (y0 + y1) / 2 * scale - wrap.clientHeight / 2;
+};
+showBoxes.onchange = redraw;
+showDetBoxes.onchange = redraw;
+showMasks.onchange = redraw;
+opacity.oninput = redraw;
+seqpick.onchange = () => selectSequence(seqpick.value);
+frameSlider.oninput = () => { frameIdx = +frameSlider.value; redraw(); };
+
+playBtn.onclick = () => {
+  if (playing) {
+    clearInterval(playing);
+    playing = null;
+    playBtn.textContent = "play";
+    return;
+  }
+  playBtn.textContent = "pause";
+  playing = setInterval(() => {
+    frameIdx = (frameIdx + 1) % record.frames.length;
+    redraw();
+  }, 120);
+};
+
+(async function init() {
+  await loadManifest();
+  if (manifest.length) {
+    seqpick.value = manifest[0];
+    await selectSequence(manifest[0]);
+  } else {
+    statusEl.textContent = "no sequences -- run sam2_track.py first";
+  }
+})();
+</script>
+</body>
+</html>
