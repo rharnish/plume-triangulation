@@ -1643,6 +1643,107 @@ propagated through a sequence instead of re-detected per frame. Two seeds:
     `out/sam2track/<sequence>/` and copies `sam2_track_viewer.html`; serve `out/sam2track/`
     and open `viewer.html`.
 
+*How far along one bearing? A two-sided terrain range, every single-site fire drawn, and an
+opt-in triangulation term (2026-09-14).*
+Follows "Plume feet" above, which left the cap one-sided and noted that it could only matter
+on weak geometry, above all one-site detections `geolocate` doesn't solve. All runs:
+`FIGLIB_CORPUS=all`, fisheye lens + pose ledger, from commit 568fff2 (runs.jsonl).
+
+**The range (`src/figlib/terrain_range.py`).** Along a bearing the DEM gives, at each distance,
+the lowest line of sight clearing the terrain in front, and the star lens turns it into an
+image row that falls with distance. The median bottom of the first three boxes (15 min) must
+sit on that row. It can be at most 20 px below it (the cap, cutting the far end), and the row
+at most `FIGLIB_BAND_PX` = 100 px below the box bottom (the band, cutting the near end).
+That gives one interval. Only star-posed 3072 px cameras get one. Where the ledger declines,
+the nearest star solve in time is used, labelled with its gap in days, and scored separately.
+
+**A near bound in metres does not work, and was removed.** The first attempt bounded the
+foot's height above the terrain line, `d (tan e_box - tan run(d))` <= h, over h = 100-3000 m.
+A fixed angular gap means a height proportional to `d`, so near distances always pass: every
+allowed set still started at the camera. At the truth the implied height had a median of
+-137 m. A pixel band replaced it.
+
+**Validation (`terrain_range validate`).** The set is the 73 bearings on confirmed and probable
+fires within 5 deg of the official point. A range "contains" the fire if it allows a distance
+within 0.3 km of the point's distance along the ray.
+
+| bound | contains truth | median length / true distance |
+|---|---|---|
+| cap alone | 60 / 73 | 1.29x |
+| band 300 / 150 px | 60 / 73 | 1.20x / 1.03x |
+| **band 100 px** | **60 / 73** | **0.92x** |
+| band 60 px | 59 / 73 | 0.83x |
+| band 30 px | 55 / 73 | 0.67x |
+
+By pose, at 100 px: ledger 35 of 39, nearest 25 of 34, the same counts as the cap alone.
+The terrain row at the true distance sits a median +3 px below the box bottom (IQR -15 to
++12), so a young plume's foot really is on the terrain line.
+
+**Single-site figures (`src/figlib/fig_bearing.py`).** One figure for each confirmed or
+probable fire not triangulable: 123 selected, 118 drawn, 5 with no detection at conf >= 0.25
+from a posed camera. The primary bearing's miss across the ray, at the true distance:
+
+| tier | figures | median miss | truth in view | range contains truth (ledger / nearest pose) |
+|---|---|---|---|---|
+| confirmed | 73 | 0.77 km, 4.3 deg | 71 | 14 / 16, 16 / 21 |
+| probable | 45 | 1.04 km, 7.6 deg | 43 | 6 / 7, 6 / 8 |
+
+Ranged bearings total 38 confirmed and 15 probable. The rest are cameras never star-solved
+(33), non-3072 px frames (28) or no early box (4). Ranges are about as long as the true
+distance: median 0.86x with a ledger pose, 0.80x nearest.
+
+The 10 misses, with the truth in view:
+  * **lp-n, nearest poses 2,210-2,989 days away, 4 misses** (West, 20190913, skyline, Sloane).
+    The camera was probably re-aimed.
+  * **Monte / cp-w** (nearest, 391 d): range 3.4-7.1 km, truth 22.8 km.
+  * **La / bh-s** (nearest, 1,328 d): range starts at 10.3 km, truth 4.4 km.
+  * **Church / ws-w**: the detection is 95 deg off the fire, so the range is not about it.
+  * **Ledger poses that fall short:**
+    * 20200521 om-n: range ends 22.3 km, truth 26.6 km.
+    * Border lp-s: 11.4 km vs 12.2 km.
+    * Beaver lp-w: 5.5 km vs 7.0 km.
+
+**As a triangulation term (`terrain_range solve`) it is mostly neutral, so it stays opt-in.**
+Each bearing's range becomes a log(0.05) penalty, within +-8 deg of the bearing, on the
+calibrated likelihood for the 36 triangulable confirmed and probable fires. `geolocate` is
+unchanged. Confirmed-tier median error:
+  * **1.82 -> 1.70 km** at 100 and 30 px;
+  * no change at 60 px or with the cap alone;
+  * within 2 km, 9 -> 9 at every band except 30 px (9 -> 10).
+
+Fires that moved by more than 0.05 km:
+
+| fire | cap | 100 px | 100 px, ledger only | 60 px | 30 px |
+|---|---|---|---|---|---|
+| Palisades (ledger dwpgm-s) | 1.82 | **0.32** | **0.32** | 1.82 | 1.82 |
+| Rainbow | 17.05 -> 9.59 | 9.59 | 9.59 | 4.17 | **1.33** |
+| Grove (nearest tp-w) | 8.97 -> 10.74 | 10.74 | 8.97 | 10.74 | 10.74 |
+| Valley (nearest) | 4.00 | 4.00 | 4.00 | 3.61 | 4.00 |
+| Willow (probable) | 0.20 -> 0.29 | 0.29 | 0.29 | 0.29 | 0.29 |
+| Posta3 (probable, nearest) | 2.54 | 2.54 | 2.54 | 2.54 | 4.41 |
+| inside-Mexico (probable) | 1.96 | 1.96 | 1.96 | 1.96 | 2.11 |
+
+  * **No single band wins both big cases.** Palisades needs 100 px; Rainbow's 1.33 km appears
+    only at 30 px, and 30 px drops 5 validated truths and harms Posta3.
+  * **Rainbow's rescue rests on bh-w's nearest pose, a 2020 solve 2,118 days away.** Its plain
+    calibrated error, 17.05 km, is itself the anomaly: the published rectilinear run gets
+    2.98 km. The bearings are nearly collinear, so 1.4 deg slides the estimate 14 km.
+  * **Stale poses do the harm.** Grove's damage comes from tp-w's nearest pose and vanishes
+    with `ledger`, which keeps Palisades.
+
+Figures, both dated from the commit:
+  * `out/all/terrain_range/20250107_PalisadesFire_terrain_band100.png`;
+  * `..._RainbowFire_terrain_band30.png`.
+
+Single-site figures and the contact sheet are in `out/all/bearing/`.
+
+*Next:* fresh CDN star solves for bh-w, tp-w, lp-n and cp-w, inside the ~90-day window, would
+turn most nearest-pose ranges into ledger ones and settle Rainbow and Grove. Only after that
+would a README subsection be honest, in this order:
+  1. hidden ignitions;
+  2. Palisades;
+  3. Rainbow, with caveats.
+
 **Camera pose corrections need one shared ledger, not three incompatible files.**
 `pose_fit.json`, `pose_fit_staged.json` (terrain) and `out/sky/sun_calibration.json`
 (sun/tower) each fit d_az/d_pitch/d_roll/k1 independently, with no record of which won or
