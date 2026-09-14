@@ -81,11 +81,12 @@ track, then assigns stars to whole tracks and refits.
 running inside the track. Orange: the same star under the published pose; the yellow arrows
 run from one to the other.*
 
-- **74 solves on 52 cameras**, from FIgLib's night sequences and two moonless nights pulled from
-  HPWREN's public CDN, at a median residual of 1.4 px and ~21 stars per solve.
-- **32 of the 52 cameras point more than 1° from their published azimuth**, mlo-s-mobo-c by
-  23°. Nights two months apart agree to 0.15°, and cameras do get re-aimed: Otay Mountain's
-  south cameras solve 10.5° off in 2019 and 0.4° in 2024. So corrections are kept per camera
+- **86 solves on 52 cameras**, from FIgLib's night sequences and moonless nights pulled from
+  HPWREN's public CDN, at a median residual of 1.3 px and ~22 stars per solve.
+- **33 of the 52 cameras point more than 1° from their published azimuth**, mlo-s-mobo-c by
+  23°. Consecutive nights agree to 0.01° and nights two months apart to 0.15°. Cameras do get
+  re-aimed, though: Otay Mountain's south cameras solve 10.5° off in 2019 and 0.4° in 2024,
+  and Toro Peak West moved 7.5° between 2021 and 2026. So corrections are kept per camera
   *and* date, in a [ledger](data/meta/pose_ledger.json) that refuses to bridge a re-aim or a
   sensor change. [Every solve, with its lens scale](docs/figures/star_ledger.png).
 - **One lens design, and not the one the pipeline assumed.** Every solve puts the focal scale at
@@ -114,6 +115,64 @@ the ignition point outside that camera's field of view, and its low-confidence d
 out to be a cumulus cloud at the frame edge. With the cameras calibrated, **detection
 selection** (edge-clipped boxes, best-confidence picking the wrong object) is what limits
 kilometers now. The full account is in NOTES.md.
+
+### How far along a bearing: terrain under the star pose
+
+A bearing gives a direction, and normally only a second site gives the distance. With the pose
+measured, the DEM can supply part of it. At every distance along the ray, terrain fixes the
+lowest image row that smoke rising from there can show. That row is the source itself where it
+is visible, or the crest in front of it where it is not. Usually it is not: most official
+ignitions sit behind a nearer crest, and the first detections sit on that crest.
+
+![Ignitions hidden behind crests, and a same-day skyline under the star pose](docs/figures/terrain_hidden_ignition.jpg)
+
+*Top: first detections (green) sit on the crest (white bar) that hides the official ignition
+(white cross). The lines are DEM ridges projected through the star-solved pose, with no pixels
+fitted. Bottom: a skyline predicted from the DEM and the star pose alone lands 6 px from the
+image edge.*
+
+So the bottom of the earliest boxes must sit on the terrain line at the fire's distance. It
+can't be below the line, because smoke behind a crest can't be seen. It can't be far above
+it either, because a young plume's foot is on the terrain it rises from. Each camera with a
+star pose therefore gets one interval of distance along its bearing.
+
+- **The interval contains the fire.** On 73 bearings within 5° of the official point, it
+  contains the official distance on 60, with a median length of 0.92× that distance. At the
+  official distance, the terrain row sits a median 3 px from the box bottom.
+- **One camera still says something.** Each of the 118 confirmed and probable fires seen from
+  a single site gets its own figure: bearing, miss across the ray (a median of 0.77 km on
+  confirmed fires), and the interval. The interval contains the official point on 30 of 37
+  confirmed bearings with a star pose.
+
+Two sites can cross and still leave the estimate at the wrong point along one ray. That is
+where the interval helps:
+
+![Palisades: bearings only vs bearings with terrain ranges](docs/figures/terrain_range_palisades.jpg)
+
+*`20250107_PalisadesFire`, from star-solved bearings on two sites crossing at 103°. Left:
+bearings only, 1.82 km from the official point. Right: dwpgm-s-mobo-c's early box bottom meets
+the terrain line only 1.4–7.6 km out (profile, bottom), which moves the estimate down its ray
+to **0.32 km**. 69bravo-e has no star pose, so it gets no interval.*
+
+The same mechanism fixes a failure bearings cannot. `20260722_RainbowFire` is seen by two
+cameras looking straight at each other, so their bearings coincide and give no distance at
+all:
+- **Bearings alone:** the estimate is 5.82 km out.
+- **With terrain:** 1.42 km, and the 95% region shrinks from 25.4 to 4.8 km².
+
+Before this week's star solves it was 17 km, because Boucher Hill West's published azimuth was
+1.16° off.
+
+![Rainbow: two opposed cameras, bearings only vs bearings with terrain ranges](docs/figures/terrain_range_rainbow.jpg)
+
+**Why it is an opt-in term, not the default.** It needs a band narrower than the 100 px
+default to help Rainbow (1.42 km at 30 or 60 px), and a 30 px band drops 5 of the 73 validated
+fires. On the 17 name-confirmed two-site fires across all of FIgLib, the median moves only
+1.82 → 1.70 km. Where it hurts, the pose is to blame: Toro Peak West was re-aimed between
+star solves. Matching skylines puts it 2.4° from today's pose at `20240724_GroveFire`, and an
+interval drawn with the wrong pose excludes the fire (8.97 → 9.85 km). Every validated bearing
+that moved from a years-old pose onto a fresh star solve contained the fire. The interval is
+only as good as the pose under it.
 
 ### Seconds-to-alert vs false alarms per camera-day
 
@@ -207,6 +266,15 @@ python -m src.figlib.stars.nights 20260911 @cams.json   # moonless-night frames 
 python -m src.figlib.stars.run_nights                   # track, star-solve, rebuild data/meta/pose_ledger.json
 FIGLIB_LENS=fisheye FIGLIB_POSE_LEDGER=1 python -m src.figlib.geolocate
 python -m src.figlib.compare_geolocation                # baseline vs calibrated, fire by fire
+```
+
+Terrain ranges along a bearing, optionally (needs `fetch_dem.sh`, the calibrated poses, and
+the full corpus):
+
+```sh
+FIGLIB_CORPUS=all python -m src.figlib.terrain_range validate    # does the range contain the official point?
+FIGLIB_CORPUS=all python -m src.figlib.fig_bearing               # one figure per single-site fire
+FIGLIB_CORPUS=all python -m src.figlib.terrain_range figure 20250107_PalisadesFire
 ```
 
 The Core ML work is macOS-only and installs separately (`requirements-edge.txt`); see
