@@ -1369,6 +1369,70 @@ and re-run `geolocate.py` properly, with provenance; (3) add per-camera d_az whe
 exists; (4) sea-horizon fit on `om-w` / `wc-w` / `rm-s` as the pitch/roll/k1 cross-check;
 (5) resolve `rm-s-mobo-c`.
 
+*Terrain under the star pose: ridgelines, skyline offsets and plume feet (2026-09-13, late).*
+
+`src/figlib/ridge_feet.py` puts the DEM ridge stack through the star pose and fisheye lens.
+Nothing in it is fitted to pixels.
+
+![Ignitions hidden behind crests, and a same-day skyline under the star pose](docs/figures/terrain_hidden_ignition.jpg)
+
+`python -m src.figlib.ridge_feet feet`, then `edges`, then `figure` regenerates it.
+
+**Ridges land where they are.** `align` overlays for sm-n, om-e, vo-n, hp-e and mg-e show
+the star pose on the terrain and the published pose with the rectilinear lens visibly off
+(om-e's +1.8 deg pitch is unmistakable). vo-n looked about 13 px low; mlo-s in 2024 can't be
+judged, because its nearest solve is 802 days later.
+
+**Same-day skyline offsets (`edges`).** For each CDN star solve, three 09:00 frames from the
+same day are compared with the predicted skyline. The search finds the vertical shift that
+maximises a row-smoothed sky-to-terrain edge score within +-45 px.
+  * **The old sky-mask extractor fails here:** `observed_skyline` calls hazy far ridges sky and
+    lands on the nearest crisp ridge, 30-45 px low on bm-n, om-e and mlo-s, while the
+    prediction sits on the true silhouette.
+  * **Stable solves:** 28 of 48 have a sharp edge peak (sharpness >= 2.5) that is identical
+    across the three frames. Median shift **-5.5 px** (IQR -9 to +1), with |shift| <= 15 px on
+    25 of 28. At ~30 px/deg that is a ~0.2 deg bias, with the real skyline slightly *above*
+    prediction. Unrefracted catalog altitudes push the same way but only by ~1-2 px, so most
+    of it is unexplained.
+  * **Large shifts are extractor failures, checked on the panels:** sm-n -33 and cp-w July -29
+    lock onto the top of the marine haze layer. mg-s +45 is at the window limit, on a nearer
+    ridge. sdsc-e +23 is an urban skyline. hp-e (-6, left and right agree) is the clean
+    example: the prediction traces the whole silhouette.
+  * Output: `out/ridges/feet/skyline_edges/`.
+
+**Plume feet (`feet`).** On the 10 confirmed fires, most official ignition points are out of
+line of sight from the cameras that detect them, hidden 0.2-6 deg behind a nearer crest.
+Early box bottoms sit on that crest, not at the ignition's row. On JunctionFire/mg-e, for
+example, the box is 5 px from a crest 1.8 km out and 180 px above the ignition.
+
+Treating the box bottom as the foot fails: the true distance falls inside the range of
+distances whose predicted foot row matches the box bottom within +-30 px for only 18 of 29
+cameras. The physical constraint is one-sided. Smoke can't appear below the lowest visible
+point of its source's column, which caps the distance. With 20 px slack the true distance
+respects the cap on **13 of 13 star-calibrated cameras and 8 of 16 on published azimuths**.
+Every miss is uncalibrated (mlo-s 23 deg off; starr-n's boxes 230 px low). Where the cap
+binds, it is ~1.35x the true distance. On 4 of 13 calibrated cameras the box is above the
+skyline, so there is no cap.
+
+**As a posterior term it barely moves anything, so it was not kept.** It was tried as an opt-in
+`FIGLIB_FOOT=1` on top of fisheye + ledger. The module and the geolocate patch are set aside,
+uncommitted, in `out/ridges/feet/foot_term/`. Each calibrated bearing's earliest three overlapping box bottoms give a
+mixture penalty, `floor 0.05 + exp(-0.5 (excess/20px)^2)`, on a +-8 deg fan. Results by
+bearing variant:
+
+| variant | confirmed median | within 2 km | fires changed |
+|---|---|---|---|
+| upwind | 1.52 -> 1.52 km | 7 -> 7 | Creelman 3.01 -> 3.10 |
+| center | 1.70 -> 1.70 | 6 -> 6 | none on confirmed |
+| early | 2.05 -> 1.99 | 5 -> 6 | Scissors 2.35 -> 1.99 |
+| early_upwind | 1.99 -> 1.60 | 6 -> 6 | Scissors 1.99 -> 1.60, Creelman 3.40 -> 3.10 |
+
+Probable tier is unchanged except WillowFire, 0.20 -> 0.29 km. Areas shrink a little
+(Steele early 7.4 -> 6.7 km2, Willow 1.9 -> 1.4). A cap is useless once two or more sites
+already cross: the peak is inside it. Where it could matter is weak geometry, i.e. one-site
+detections and long ellipses, and `geolocate` doesn't solve single-site fires at all. That
+run was exploratory from a dirty tree, and its runs.jsonl line was removed.
+
 **Camera pose corrections need one shared ledger, not three incompatible files.**
 `pose_fit.json`, `pose_fit_staged.json` (terrain) and `out/sky/sun_calibration.json`
 (sun/tower) each fit d_az/d_pitch/d_roll/k1 independently, with no record of which won or
