@@ -1433,6 +1433,180 @@ already cross: the peak is inside it. Where it could matter is weak geometry, i.
 detections and long ellipses, and `geolocate` doesn't solve single-site fires at all. That
 run was exploratory from a dirty tree, and its runs.jsonl line was removed.
 
+*Is the posterior's confidence honest? Timing, coverage, and a per-camera bias term
+(2026-09-13, night).*
+
+**Timing decision: one clock per fire, not one per camera.** FIgLib names every frame
+`<epoch>_<offset>.jpg`. The offset counts from *that camera's* annotated plume appearance
+(`t0`), and `epoch - offset == t0` exactly. Anything keyed on offsets puts cameras on
+different clocks, and the annotations disagree:
+  * The spread of camera `t0` within one scoring fire reaches 36 min (20191006) and 31 min
+    (Ranch2), and exceeds 12 min on 7 of 26 fires.
+  * On Steele, sm-n's `t0` is 13:53:22 and lp-w/om-n's are 14:09:37/14:09:55. sm-n's own
+    frames show no smoke at +0, +600 or +900 s; smoke first shows at +1081 s (14:11), and
+    all three cameras first detect within two minutes of each other on the real clock. The
+    sm-n annotation is ~16 min early. Roy spotted it as sm-n "appearing late" in the
+    animation.
+  * **Decision:** time-resolved analysis windows on `epoch - t0_median`. `t0_median` is
+    fires.json's upper median of the event's sequence `t0`s, the reference truth.py already
+    matches discovery times against. It is one clock for every camera, and one bad
+    annotation can't move it. Discovery time (WFIGS) was the alternative: independent of
+    FIgLib, but missing or coarse for some fires.
+  * The epochs themselves look sound. Star tracks fit them over hours at 1.4 px, so a
+    camera's clock doesn't drift within a night, and Steele's three cameras agree to about a
+    minute. A constant per-camera clock offset would mostly hide inside a star solve's azimuth
+    and roll, though, so absolute cross-camera sync is supported, not proven. The sun in
+    daytime frames would test it.
+  * Implemented in `coverage.py` (`clock_ref`, `gather_calibrated`, `best_calibrated`),
+    `bias.py`, and `animate.py --coverage`. Offset-clock outputs are kept in
+    `out/confidence/offset_clock/`.
+  * **Committed code still on per-camera offsets:** `evolve.py` (the "Does the estimate
+    evolve?" table), `accumulate.gather`, `geolocate.bearings_for_fire` windows (matters
+    for the `early*` 0-900 s variants), `masks.py` windows, and `falsealarm.py`.
+    `falsealarm.sweep` is per-camera by design (latency from that camera's own `t0`), but an
+    early annotation inflates that camera's latency and a late one leaks smoke into its
+    negatives. `falsealarm.cross_site` pairs events on epochs yet splits negatives,
+    refractory and latency on the triggering camera's offset, which is mixed. None of these
+    are fixed yet; they need re-scoring before the README's time-resolved numbers are quoted
+    again.
+
+**Step 1: the 95% region is badly overconfident** (`python -m src.figlib.coverage`, shared
+clock, calibrated camera model, `out/confidence/coverage.png`). "Covered" means the truth is
+inside the Delta-ll <= 3 region, the one reported as `area95`. The HPD-mass version is
+inflated early, when a wide posterior hits the grid edge.
+
+| confirmed fires | 3 min | 6 min | 10 min | 15 min | 30 min | 40 min |
+|---|---|---|---|---|---|---|
+| best box: covered | 14% | 22% | 11% | 30% | 40% | 40% |
+| best box: median error / area95 | 1.44 km / 2.9 | 1.62 / 2.6 | 2.11 / 2.8 | 2.03 / 3.3 | 1.98 / 3.0 | 1.51 / 3.1 |
+| all boxes: covered | 33% | 33% | 33% | 30% | 10% | 10% |
+| all boxes: median error / area95 | 4.45 km / 120 | 1.44 / 6.1 | 1.49 / 4.1 | 1.07 / 1.4 | 1.50 / 1.4 | 1.50 / 1.2 |
+
+Across all 26 fires the all-boxes coverage falls to 4% by 30 min. The breakdown shows two
+separate failures:
+  * **Best box:** errors under 1 km are covered ~90% of the time, 1-2 km ~40%, over 2 km
+    almost never. Those are 70-95 log-likelihood below the peak: wrong objects or wrong
+    records, which no widening reaches.
+  * **All boxes:** the region shrinks as evidence piles up while the error does not. On
+    the offset clock Kitchen went 2.5 -> 0.4 km2 at 0.74 km error and Steele 26.9 -> 0.4 at
+    1.07 km. Frames from one camera share its bias (box centre vs plume base, drift,
+    residual pose), and alpha = 0.5 lets them count as ~sqrt(n) independent measurements.
+    This is the sonar bearings-only / seismic-station problem.
+
+Animations: `python -m src.figlib.animate <fire> --coverage` draws the 95% region heavy, zoomed
+to +-5 km, with its radius traced against the error. Renders are in
+`out/confidence/{kitchen,steele}_confidence_before.mp4`.
+
+**Steele from sm-n: the plume foot argues with the record** (`out/confidence/
+steele_smn_foot_zoom.jpg`).
+  * The official ignition is 3.7 km out, hidden 0.35 deg behind a crest at 2.9 km, so its
+    lowest visible point would be row ~1334.
+  * The smoke base sits on visible ground at row ~1268 from +1081 s on. Along that bearing
+    that row is terrain 4.3-5.0 km out, 2.2 deg above the crest, far more than residual
+    pitch (~6 px).
+  * So the source looks 0.6-1.3 km beyond the WFIGS point along sm-n's line of sight. Every
+    geolocation variant also lands beyond it (+0.3 to +1.0 km along range).
+  * The likeliest explanation is a record point that is a kilometre off. That is common, and
+    I can't tell it apart from the fire having started farther out.
+
+**Step 2: a per-camera bias term, marginalised** (`python -m src.figlib.bias`,
+`out/confidence/bias_coverage.png`, `bias_sweep.json`).
+
+The model follows seismic Bayesloc:
+  * Each camera gets an unknown pointing bias beta ~ N(0, sigma_b), shared by all its
+    detections and integrated out.
+  * Each detection keeps its own noise sigma_r and the bounded outlier mixture.
+  * L(theta) = log sum_beta N(beta) exp(S(theta - beta)), where S is the camera's
+    alpha-discounted mixture log-likelihood.
+  * L depends on a cell only through its bearing, so it is computed on a 1-D angle grid.
+  * sigma_b = 0 reproduces `accumulate.posterior` to 0.001 in log-likelihood.
+  * The best-box solve is the same model with one detection per camera, which gives it the
+    outlier term it lacked.
+
+Swept sigma_r in {1, 2}, sigma_b in {0, 1, 2, 3} and alpha in {0.5, 1}, on the shared clock,
+291 fire-time cases:
+
+| confirmed fires, pooled over time | covered | median error | median area95 |
+|---|---|---|---|
+| all boxes, no bias (sigma_r 2, alpha 0.5) | 25% | 1.49 km | 2.5 km2 |
+| all boxes, bias 3 deg (sigma_r 2, alpha 0.5) | **65%** | 1.85 km | 13.1 km2 |
+| best box, no bias (sigma_r 1) | 29% | 1.85 km | 4.7 km2 |
+| best box, bias 3 deg (sigma_r 1) | **89%** | 1.85 km | 18.7 km2 |
+
+  * **The bias term is the fix the prior art predicted.** Across all 26 fires the all-boxes
+    coverage goes 15% -> 50%, and median error *improves*, 3.75 -> 2.56 km. Capping what one
+    camera can claim stops a confidently wrong camera dragging the peak. On confirmed fires
+    alone error rises a little (1.49 -> 1.85).
+  * **Honest for best box, at a price:** 89% on confirmed fires with no change in error, but
+    the region is ~19 km2.
+  * **Choice is stable:** leave-one-fire-out picks the same settings, so it isn't in-sample
+    luck. But sigma_b = 3 deg is the edge of the grid and coverage is still rising, so the
+    optimum is wider or needs structure.
+  * **Still decays with time for all boxes:** 62% at 3 min -> 39% at 40 min. A fixed bias
+    doesn't model the error that grows with plume age (drift, the box centre walking off
+    the base).
+  * **Where it can't reach:** the >2 km cases are wrong objects or wrong records, and no width
+    reaches those.
+
+The offset-clock run gave the same picture: confirmed all-boxes 3% -> 71%, best box
+26% -> 88%. Animations with the bias term: `python -m src.figlib.animate <fire> --bias 2,3,0.5`,
+rendered as `out/confidence/{kitchen,steele}_confidence_after.mp4`.
+
+**Widening sigma_b doesn't converge, and can't** (2026-09-14, 00:07; sigma_b in
+{0, 1, 2, 3, 4, 5, 6, 8}, 47.5 min, confirmed fires pooled).
+  * Coverage is still rising at the new edge: best box 89% (sigma_r 1, sigma_b 8), all boxes
+    81% (sigma_r 2, sigma_b 8).
+  * The regions stop being useful: median area95 429 km2 for best box (18.7 at 3 deg) and
+    116 km2 for all boxes (13.1).
+  * The fraction within 2 km stays flat at 38-44% across the whole sweep. Widening buys
+    coverage by inflating every region, not by reaching the >2 km cases.
+  * So the grid is back to 0-3 deg. The wide run proved the point; its settings weren't adopted.
+
+**Step 3: flag the cases no interval reaches, and report coverage on the rest**
+(`python -m src.figlib.bias`, 2026-09-14 08:31, `out/confidence/bias_sweep.json`,
+`bias_coverage.png`).
+  * **The flag reads only the solve.** `camera_agreement` compares each camera's
+    confidence-weighted mean bearing with the bearing the joint estimate implies from that
+    camera, and counts its detections. A case is flagged when any camera's residual exceeds
+    `resid_thr` or its thinnest camera has fewer than `min_det` detections. Truth is never read.
+  * **Truth does choose the thresholds.** The sweep picks the sigma config, `resid_thr` in
+    {5, 10, 15, 20, 30} deg and `min_det` in {1, 2, 3} whose coverage on unflagged cases is
+    closest to 95%, breaking ties toward flagging less, and keeping at least a quarter of the
+    cases. Leave-one-fire-out repeats the choice without each fire and scores that fire.
+
+| all 26 fires, pooled over six times | cases | covered | median error | median area95 | within 2 km |
+|---|---|---|---|---|---|
+| best box, bias only (sigma_r 2, sigma_b 3) | 140 | 63% | 3.26 km | 58.5 km2 | 39% |
+| best box + flag (resid <= 5 deg, >= 1 det): 47% flagged | 74 | **74%** (LOFO 68%) | 1.28 km | 25.7 km2 | 58% |
+| all boxes, bias only (sigma_r 2, sigma_b 3) | 144 | 50% | 2.56 km | 18.9 km2 | 44% |
+| all boxes + flag (resid <= 5 deg, >= 3 det): 71% flagged | 42 | **74%** (LOFO 72%) | 1.12 km | 9.3 km2 | 74% |
+
+  * **It separates the two failures.** On the unflagged cases error roughly halves and the
+    within-2-km share rises (39 -> 58%, 44 -> 74%). What it removes is where the wrong objects
+    and wrong records were.
+  * **Still not 95%.** Both land near 74% on unflagged cases and ~70% out of sample. The chosen
+    threshold, 5 deg, is the tightest on the grid, so a finer grid or a second signal comes next.
+  * **The price is abstention.** 47% and 71% of fire-time cases get no calibrated region. For
+    all boxes most of the loss is early: at 3 min only 2 of 21 cases have 3 detections per
+    camera.
+  * **By time,** best box + flag is flat at 69-79% from 3 to 40 min. All boxes + flag falls from
+    83% at 6 min to 56% at 40 min, the same plume-age drift the bias term alone shows.
+  * **Report it as two numbers, never one:** "flagged X%; of the rest, the 95% region holds the
+    truth Y% of the time."
+
+*Next, in order:*
+  1. Let sigma_b grow with plume age, or with distance of the box centre from its early
+     position. This is the "fading" that is actually justified: old evidence isn't wrong
+     because it is old, but a plume's box drifts off its source.
+  2. ~~Widen the sigma_b grid past 3 deg and check the km cost.~~ Done 2026-09-14: it doesn't
+     converge (above), and the flag replaced it.
+  3. Detection selection for the >2 km cases. Cross-site agreement is now the flag; still
+     missing are persistence tracks, edge-clipped boxes and the terrain foot check, plus a
+     finer `resid_thr` grid below 5 deg.
+  4. Move `evolve.py`, `falsealarm.cross_site` and the `geolocate` early windows onto the shared
+     clock and re-score before quoting README time-resolved numbers again.
+  5. The README should state the timing decision once these land.
+
 **Camera pose corrections need one shared ledger, not three incompatible files.**
 `pose_fit.json`, `pose_fit_staged.json` (terrain) and `out/sky/sun_calibration.json`
 (sun/tower) each fit d_az/d_pitch/d_roll/k1 independently, with no record of which won or

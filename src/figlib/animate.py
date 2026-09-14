@@ -39,7 +39,7 @@ def _bgr(hex_color: str) -> tuple[int, int, int]:
 
 
 def _map_panel(lats, lons, ll, est, truth, cam_pts, bearings, px=MAP_PX, trail=None,
-               cams=None, colors=None):
+               cams=None, colors=None, region95=False):
     """Posterior as an image: magma heat, camera markers, bearing rays, estimate, truth."""
     rel = ll - ll.max()
     if not np.any(ll):                       # nothing observed yet: draw it as empty
@@ -56,6 +56,13 @@ def _map_panel(lats, lons, ll, est, truth, cam_pts, bearings, px=MAP_PX, trail=N
         m = cv2.resize(m, (px, px), interpolation=cv2.INTER_NEAREST)
         cnt, _ = cv2.findContours(m, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         cv2.drawContours(img, cnt, -1, col, 1, cv2.LINE_AA)
+    if region95 and np.any(ll):
+        # The region reported as area95: drawn heavy, because whether the truth sits
+        # inside it is the question the animation is for (see coverage.py).
+        m = cv2.flip((rel >= -3.0).astype(np.uint8), 0)
+        m = cv2.resize(m, (px, px), interpolation=cv2.INTER_NEAREST)
+        cnt, _ = cv2.findContours(m, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        cv2.drawContours(img, cnt, -1, (255, 255, 0), 3, cv2.LINE_AA)
 
     def to_px(lat, lon):
         x = (lon - lons[0]) / (lons[-1] - lons[0]) * (px - 1)
@@ -111,7 +118,9 @@ def _map_panel(lats, lons, ll, est, truth, cam_pts, bearings, px=MAP_PX, trail=N
             cv2.line(img, a, b, (109, 77, 255), 1, cv2.LINE_AA)
 
     tp = to_px(*truth)
-    if 0 <= tp[0] < px and 0 <= tp[1] < px:
+    if region95 and not np.any(ll):
+        pass            # nothing locatable yet: an off-frame marker would sit on the caption
+    elif 0 <= tp[0] < px and 0 <= tp[1] < px:
         # White, as in fig_triangulate: yellow would read as one of the cameras
         cv2.circle(img, tp, 13, (255, 255, 255), 3, cv2.LINE_AA)
     else:
@@ -148,7 +157,26 @@ def _label(img, lines, org=(12, 26), scale=0.6, color=(255, 255, 255)):
 
 def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
             half_extent_km: float = 35.0, step_km: float = 0.3,
-            out: Path | None = None) -> Path | None:
+            out: Path | None = None, coverage: bool = False,
+            bias_cfg: tuple[float, float, float] | None = None) -> Path | None:
+    """`coverage=True` is the confidence view: calibrated bearings (fisheye + pose ledger),
+    the same alpha as coverage.py, the 95% region drawn heavy, and its radius traced
+    against the error so the moment the region stops containing the truth is visible."""
+    alpha = 0.5 if coverage else 0.25
+    if coverage:
+        # Close in: at 35 km a 1 km error and a 0.5 km2 region are a few pixels.
+        half_extent_km, step_km = 5.0, 0.04
+    if coverage:
+        from .coverage import gather_calibrated as gather_fn
+    else:
+        gather_fn = gather
+    post = posterior
+    if bias_cfg is not None:
+        # The "after" view: bias.py's per-camera bias marginalised (sigma_r, sigma_b, alpha).
+        from . import bias as _bias
+        sr, sb, alpha = bias_cfg
+        post = lambda d, c, ctr, half_extent_km, step_km, alpha=alpha: _bias.posterior(
+            d, c, ctr, half_extent_km, step_km, sr, sb, alpha)
     cams = json.loads((META / "cams.json").read_text())
     seqs = {s["seq"]: s for s in json.loads((META / "sequences.json").read_text())}
     fires = {f["fire_id"]: f for f in json.loads((META / "fires.json").read_text())}
@@ -203,10 +231,18 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
     colors = {cam: _bgr(PALETTE[i % len(PALETTE)]) for i, cam in enumerate(ranked)}
 
     frames_by_cam, dets_by_cam = {}, {}
+    # The confidence view runs every camera on one clock (epoch - t0_median, as coverage.py
+    # does). Per-camera offsets count from each camera's own annotated t0, which differ by
+    # up to 36 min on one fire, so the default view can show views out of step.
+    t_ref = int(fire["t0_median"]) if coverage else None
     for _, seq_name, camera, recs in chosen:
         tgz = ROOT / "data" / "tgz" / f"{seq_name.split('#')[0]}.tgz"
-        frames_by_cam[camera] = {o: b for _, o, b in read_frames(tgz)}
-        dets_by_cam[camera] = {r["offset"]: r["dets"] for r in recs}
+        if coverage:
+            frames_by_cam[camera] = {e - t_ref: b for e, _, b in read_frames(tgz)}
+            dets_by_cam[camera] = {r["epoch"] - t_ref: r["dets"] for r in recs}
+        else:
+            frames_by_cam[camera] = {o: b for _, o, b in read_frames(tgz)}
+            dets_by_cam[camera] = {r["offset"]: r["dets"] for r in recs}
 
     center = (float(np.mean([cams[c[2]]["lat"] for c in chosen])),
               float(np.mean([cams[c[2]]["lon"] for c in chosen])))
@@ -217,7 +253,8 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
     cam_h = int(CAM_W * 0.75)
     left_w, left_h = CAM_W * 2, cam_h * rows
     height = max(left_h, MAP_PX + STRIP_H)
-    out = out or ROOT / "out" / "videos" / f"{fire_id}.mp4"
+    suffix = ("_coverage_after" if bias_cfg else "_coverage_before") if coverage else ""
+    out = out or ROOT / "out" / "videos" / f"{fire_id}{suffix}.mp4"
     out.parent.mkdir(parents=True, exist_ok=True)
     vw = cv2.VideoWriter(str(out), cv2.VideoWriter_fourcc(*"mp4v"), fps,
                          (left_w + MAP_PX, height))
@@ -250,7 +287,7 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
             panels.append(np.full((cam_h, CAM_W, 3), 25, np.uint8))
         left = np.vstack([np.hstack(panels[i * 2:i * 2 + 2]) for i in range(rows)])
 
-        det = gather(fire, seqs, cams, max(off, 0), conf_thr=0.10)
+        det = gather_fn(fire, seqs, cams, max(off, 0), conf_thr=0.10)
         det = {k: v for k, v in det.items() if k in dets_by_cam}
         est, err, lats, lons, ll = None, None, None, None, None
         bearing_rays, cam_pts = [], [(cams[c[2]]["lat"], cams[c[2]]["lon"], c[2])
@@ -260,16 +297,21 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
             # on the cameras instead is a trap: with sites 80 km from the fire the true
             # peak can fall outside a 35 km window entirely, and argmax then returns an
             # edge cell -- which read as a 19 km error on Ranch2 that was pure artifact.
-            _, _, _, cla, clo = posterior(det, cams, center, half_extent_km=90.0,
-                                          step_km=1.5, alpha=0.25)
-            lats, lons, ll, la, lo = posterior(det, cams, (cla, clo),
+            _, _, _, cla, clo = post(det, cams, center, half_extent_km=90.0,
+                                          step_km=1.5, alpha=alpha)
+            lats, lons, ll, la, lo = post(det, cams, (cla, clo),
                                                half_extent_km=half_extent_km,
-                                               step_km=step_km, alpha=0.25)
+                                               step_km=step_km, alpha=alpha)
             est = (la, lo)
             err = haversine_km(la, lo, *truth)
+            area95 = float((ll >= ll.max() - 3.0).sum()) * step_km ** 2
+            ti = int(np.argmin(np.abs(lats - truth[0]))); tj = int(np.argmin(np.abs(lons - truth[1])))
+            on_grid = (abs(lats[ti] - truth[0]) <= step_km / 111.32
+                       and abs(lons[tj] - truth[1]) <= abs(lons[1] - lons[0]))
+            inside95 = bool(on_grid and ll[ti, tj] >= ll.max() - 3.0)
             if not trail or trail[-1] != est:
                 trail.append(est)
-            hist.append((off, err))
+            hist.append((off, err, math.sqrt(area95 / math.pi), inside95))
             for camera, ds in det.items():
                 b = max(ds, key=lambda z: z[1])[0]
                 bearing_rays.append((camera, (cams[camera]["lat"], cams[camera]["lon"]), b))
@@ -281,26 +323,36 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
             ll = np.zeros((len(lats), len(lons)))
 
         right = _map_panel(lats, lons, ll, est, truth, cam_pts, bearing_rays,
-                           trail=trail, cams=cams, colors=colors)
+                           trail=trail, cams=cams, colors=colors, region95=coverage)
         # error-vs-time strip: the whole point is that this is a trajectory, not a number
         strip = np.full((STRIP_H, MAP_PX, 3), 18, np.uint8)
         if hist:
-            emax = max(4.0, max(e for _, e in hist) * 1.1)
+            emax = 4.0 if coverage else max(4.0, max(h[1] for h in hist) * 1.1)
             for gx in range(0, MAP_PX, MAP_PX // 6):
                 cv2.line(strip, (gx, 0), (gx, STRIP_H), (38, 38, 38), 1)
-            pts = [(int((o - offsets[0]) / (offsets[-1] - offsets[0]) * (MAP_PX - 1)),
-                    int(88 - (e / emax) * 80)) for o, e in hist]
+            xy = lambda o, v: (int((o - offsets[0]) / (offsets[-1] - offsets[0]) * (MAP_PX - 1)),
+                               int(88 - (min(v, emax) / emax) * 80))
+            pts = [xy(h[0], h[1]) for h in hist]
+            if coverage:
+                rpts = [xy(h[0], h[2]) for h in hist]
+                for a, b in zip(rpts, rpts[1:]):
+                    cv2.line(strip, a, b, (255, 255, 0), 2, cv2.LINE_AA)
             for a, b in zip(pts, pts[1:]):
                 cv2.line(strip, a, b, (109, 77, 255), 2, cv2.LINE_AA)
             cv2.circle(strip, pts[-1], 4, (255, 255, 255), -1)
-            _label(strip, [f"error vs time   0 - {emax:.0f} km"], org=(8, 18), scale=0.5)
+            _label(strip, [f"error vs time   0 - {emax:.0f} km"
+                           + ("   cyan: 95% region radius" if coverage else "")],
+                   org=(8, 18), scale=0.5)
         right = np.vstack([right, strip])
         _label(right, [
-            f"t {off:+d} s from plume appearance",
+            (f"t {off:+d} s on the shared clock (median camera t0)" if coverage
+             else f"t {off:+d} s from plume appearance"),
             f"cameras detecting: {len(det)}   detections so far: "
             f"{sum(len(v) for v in det.values())}",
             (f"error {err:.2f} km" if err is not None else "not yet locatable"),
-        ], scale=0.62)
+        ] + ([f"95% region {math.pi * hist[-1][2] ** 2:.1f} km2   truth "
+              + ("INSIDE" if hist[-1][3] else "OUTSIDE")] if coverage and err is not None else []),
+            scale=0.62)
 
         if left.shape[0] != height:
             left = cv2.copyMakeBorder(left, 0, height - left.shape[0], 0, 0,
@@ -317,5 +369,12 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
 
 if __name__ == "__main__":
     import sys
-    for fid in (sys.argv[1:] or ["20240701_Kitchenfire"]):
-        animate(fid)
+    argv = sys.argv[1:]
+    cfg = None
+    if "--bias" in argv:            # --bias sigma_r,sigma_b,alpha   (implies --coverage)
+        k = argv.index("--bias")
+        cfg = tuple(float(v) for v in argv[k + 1].split(","))
+        del argv[k:k + 2]
+    args = [a for a in argv if a != "--coverage"]
+    for fid in (args or ["20240701_Kitchenfire"]):
+        animate(fid, coverage="--coverage" in sys.argv or cfg is not None, bias_cfg=cfg)
