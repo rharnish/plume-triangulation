@@ -1744,6 +1744,77 @@ would a README subsection be honest, in this order:
   2. Palisades;
   3. Rainbow, with caveats.
 
+*Fresh star solves for the stale poses, and what they changed (2026-09-14, evening).*
+New moon was 2026-09-11, so the Q1 blocks (00:00-03:00 local) of 09-12, 09-13 and 09-14 were
+dark. Frames came from the HPWREN CDN for bh-w, tp-w, rm-s, lp-n and cp-w (`stars.nights`,
+then `stars.run_nights`). 12 of 15 blocks solved, and the ledger went from 74 to 86 solves.
+
+| camera | 09-12 | 09-13 | 09-14 | before |
+|---|---|---|---|---|
+| bh-w | +1.33 | +1.32 | +1.32 | +0.99 (2020) |
+| tp-w | +1.26 | +1.27 | +1.26 | **-6.24 (2021)** |
+| rm-s | -0.18 | no tracks (cloud) | 6 tracks | -0.36 (2025-01) |
+| lp-n | -0.50 (1 of 5 runs agree) | -0.25 | 13 stars at 3.0 px, rejected | -0.26 (09-11) |
+| cp-w | -1.50 | -1.51 | -1.50 | -1.50 (09-11) |
+
+Renders:
+  * `out/sky/star_solve_hpwren_20260913_Q1_{bh-w,tp-w}-mobo-c.jpg`, 33 stars each at ~1.3 px;
+  * `..._20260912_Q1_rm-s-mobo-c.jpg`.
+
+**A correction to the plan above.** lp-n and cp-w already had 2026-09-11 solves. Under the
+ledger's rules (one-sided within 365 d, or bracketed by solves that agree within 1 deg), a
+newer solve can't reach their old fires, so they only measure repeatability. cp-w repeats to
+0.01 deg.
+
+**tp-w was re-aimed, in at least two steps.** I compared tp-w's pan and tilt across years by
+matching skylines (phase correlation on terrain-only rows) against a 2026-09-13 13:32 frame:
+  * **2021-02-09:** shifted +215 px (7.6 deg) and -25 px vertically. That matches the
+    star-measured change of 7.5 deg azimuth and 1.0 deg pitch, which validates the method.
+  * **2024-07-24 (Grove):** shifted **+68 px (2.4 deg)** and +13 px vertically.
+
+So at Grove tp-w pointed about -1.1 deg from its published azimuth, and no star solve gives
+that. The ledger rightly declines to bracket (2021 and 2026 disagree by 7.5 deg). The terrain
+range's nearest pose is now the 2026 solve, 779 days away, and its range (13.3-22.6 km) still
+misses Grove's official point at 31.9 km. The skyline estimate is not written into the ledger,
+because a skyline shift is not a star measurement.
+
+**New ledger poses:**
+  * bh-w, bracketed at +1.16 deg: Creek, Keys, Henderson and Rainbow.
+  * rm-s, bracketed at -0.27 deg: Mission (2025-06, 2026-05, 2026-06), Live Oak and Brengle.
+
+Re-run of everything in the terrain entry above, with the 86-solve ledger (38ef10a):
+
+| | 74-solve ledger | 86-solve ledger |
+|---|---|---|
+| Rainbow, bearings only | 17.05 km | **5.82 km** |
+| Rainbow + terrain, 30 / 60 / 100 px | 1.33 / 4.17 / 9.59 km | **1.42 / 1.42 / 5.82 km** |
+| Grove + terrain, any band (bearings only 8.97) | 10.74 km | 9.85 km |
+| validate at 100 px, ledger / nearest poses | 35 / 39, 25 / 34 | 39 / 43, 21 / 30 |
+| single-site confirmed contains truth, ledger / nearest | 14 / 16, 16 / 21 | 17 / 19, 13 / 18 |
+| single-site probable, ledger / nearest | 6 / 7, 6 / 8 | 7 / 8, 5 / 7 |
+| single-site confirmed median miss | 0.77 km, 4.3 deg | 0.77 km, 4.5 deg |
+
+  * **Rainbow no longer rests on a years-old pose.** Its 17 km came from bh-w's uncorrected
+    published azimuth, 1.16 deg off. With it corrected, the bearings-only error is 5.82 km,
+    still worse than the published rectilinear run's 2.98 km. Both terrain ranges now come
+    from ledger poses (rm-e one-sided at 51 d, bh-w bracketed), and the terrain rescue holds
+    at 60 px as well as 30 px.
+  * **Every bearing that moved from a nearest to a ledger pose contained the truth.** The
+    totals didn't change (60 of 73 validated; 30 of 37 single-site confirmed); only the
+    labels moved.
+  * **The triangulation medians are unchanged:** confirmed 1.82 -> 1.70 km at 100 px. Within
+    2 km, 9 -> 10 at 30 px and now also at 60 px.
+  * **Bearings moved both ways:** Henderson's bh-w miss went from -4.3 to -5.5 deg, Keys' from
+    +0.97 to -0.19 deg.
+  * **Core-corpus headline numbers are unaffected.** Rainbow is the only triangulable fire
+    whose bearings-only error changed.
+
+*Next:*
+  1. A README subsection can now use Palisades and Rainbow on ledger poses, with Grove as the
+     counterexample of a camera that moved between solves.
+  2. tp-w needs a star solve from before 2024-07, which isn't in the CDN window, or an accepted
+     skyline-based pose.
+
 **Camera pose corrections need one shared ledger, not three incompatible files.**
 `pose_fit.json`, `pose_fit_staged.json` (terrain) and `out/sky/sun_calibration.json`
 (sun/tower) each fit d_az/d_pitch/d_roll/k1 independently, with no record of which won or
