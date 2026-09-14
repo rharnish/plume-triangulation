@@ -515,7 +515,7 @@ def before_after(fire_id: str, band_px: float = BAND_PX):
     if cross is None:
         geometry = "One site."
     elif cross < 25 or cross > 155:
-        geometry = (f"The bearings are within {min(cross, 180 - cross):.0f}° of collinear, so bearings alone "
+        geometry = (f"The bearings are within {max(1.0, min(cross, 180 - cross)):.0f}° of collinear, so bearings alone "
                     "slide the estimate along the shared line.")
     else:
         geometry = (f"The bearings cross at {cross:.0f}°; the likelihood still peaks where one camera's error "
