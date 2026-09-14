@@ -241,7 +241,7 @@ Modules live in [src/figlib/](src/figlib/), with star calibration in [src/figlib
 | **Plume masks** *(tested, lost)* | `masks` `plumefit` — segmentation-based bearings, see `NOTES.md` |
 | **Terrain** *(pose audit)* | `terrain` `calibrate` `pose_validate` — see `NOTES.md` |
 | **Star calibration** | `stars.tracks` `stars.solve` `stars.nights` `stars.fisheye` `stars.catalog` · `pose_ledger` `frame_sizes` `compare_geolocation` |
-| **Evaluation** | `falsealarm` `quantization` `evolve` |
+| **Evaluation** | `falsealarm` `quantization` `evolve` · `coverage` `bias` (is the 95% region honest?) |
 | **Edge** | `bench_edge` `power` |
 | **Figures** | `viz` `viz_map` `viz_terrain` `animate` `fig_peaks` `fig_pose` `fig_triangulate` |
 
