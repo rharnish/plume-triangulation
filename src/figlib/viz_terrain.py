@@ -52,13 +52,19 @@ def observed_skyline(img: np.ndarray) -> np.ndarray:
 
 def render(camera: str, img: np.ndarray, pitch_deg: float = 0.0,
            roll_deg: float = 0.0, show_observed: bool = True,
-           dem: Dem | None = None) -> tuple[np.ndarray, dict]:
-    cams = json.loads((META / "cams.json").read_text())
-    cam = cams[camera]
+           dem: Dem | None = None, cam: dict | None = None, project_fn=None,
+           half_fov_pad: float = 8.0) -> tuple[np.ndarray, dict]:
+    """Skyline overlay under the published pose and rectilinear lens, unless `cam` (the pose
+    the DEM is marched from) and `project_fn(az, el, W, H) -> (x, y)` substitute another --
+    fig_peaks passes the star-solved pose and fisheye lens that way."""
+    cam = cam or json.loads((META / "cams.json").read_text())[camera]
     H, W = img.shape[:2]
     dem = dem or Dem()
-    prof = horizon(cam, dem)
-    x, y = project(cam, prof.az_deg, prof.elev_deg, W, H, pitch_deg, roll_deg)
+    prof = horizon(cam, dem, half_fov_pad=half_fov_pad)
+    if project_fn is None:
+        x, y = project(cam, prof.az_deg, prof.elev_deg, W, H, pitch_deg, roll_deg)
+    else:
+        x, y = project_fn(prof.az_deg, prof.elev_deg, W, H)
 
     vis = img.copy()
     pts = [(int(px * W), int(py * H)) for px, py, ok in
@@ -217,22 +223,26 @@ def _range_colour(km: float) -> tuple:
 
 def render_ridges(camera: str, img: np.ndarray, dem: Dem | None = None,
                   pitch_deg: float = 0.0, roll_deg: float = 0.0,
-                  min_chain_pts: int = 8) -> tuple[np.ndarray, dict]:
+                  min_chain_pts: int = 8, cam: dict | None = None, project_fn=None,
+                  half_fov_pad: float = 8.0) -> tuple[np.ndarray, dict]:
     """Draw every visible ridgeline, colored by range, with its summits marked.
 
     Where `render()` draws one curve and asks whether it lands on the skyline, this draws
     the whole nested stack. That matters for two reasons. It no longer depends on finding
     the sky, which is the step that fails on haze and on the monochrome units; and each
     ridge carries a distance, so agreement is evidence about pose at a known range rather
-    than a single bearing residual.
+    than a single bearing residual. `cam` and `project_fn` substitute another pose and lens,
+    as in `render()`.
     """
     from .terrain import ridges, summits
-    cams = load_cams()
-    cam = cams[camera]
+    cam = cam or load_cams()[camera]
     H, W = img.shape[:2]
     dem = dem or Dem()
-    field = ridges(cam, dem)
-    x, y = project(cam, field.az_deg, field.elev_deg, W, H, pitch_deg, roll_deg)
+    field = ridges(cam, dem, half_fov_pad=half_fov_pad)
+    if project_fn is None:
+        x, y = project(cam, field.az_deg, field.elev_deg, W, H, pitch_deg, roll_deg)
+    else:
+        x, y = project_fn(field.az_deg, field.elev_deg, W, H)
 
     vis = img.copy()
     drawn = 0
