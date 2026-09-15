@@ -28,3 +28,6 @@ models/*.mlpackage
 
 # Copernicus DEM tiles, fetched not committed
 data/dem/
+
+# Coverage map viewer, local work in progress
+src/figlib/coverage_map/
