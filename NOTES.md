@@ -331,8 +331,9 @@ A17 Pro the same export should show a real speedup, and that is a prediction thi
 cannot test.
 
 **Preprocessing becomes the bottleneck once the model leaves the CPU.** End-to-end is
-20.2 ms against 11.0 ms model-only, so JPEG decode plus letterbox costs ~9.4 ms -- about
-47% of the frame budget. Move inference to the NPU and the next thing to optimize is
+20.2 ms against 11.0 ms model-only, so JPEG decode plus letterbox costs ~9.2 ms -- about
+45% of the frame budget. (Corrected 2026-09-14: this first said ~9.4 ms and 47%, which took
+the end-to-end time from the "all units" row, 20.4 ms, against ANE-only model time.) Move inference to the NPU and the next thing to optimize is
 image handling, which no model-only benchmark would ever reveal.
 
 *Capacity, since the false-alarm sweep showed alert latency is partly sampling-bound:* 49
@@ -1757,6 +1758,12 @@ then `stars.run_nights`). 12 of 15 blocks solved, and the ledger went from 74 to
 | lp-n | -0.50 (1 of 5 runs agree) | -0.25 | 13 stars at 3.0 px, rejected | -0.26 (09-11) |
 | cp-w | -1.50 | -1.51 | -1.50 | -1.50 (09-11) |
 
+In the lp-n row, "rejected" is the 09-14 block only: its best fit, 3.03 px, fails the solver's
+3.0 px gate and never reached the ledger. The 09-12 solve passed the gate (12 stars, 2.61 px)
+and is in the ledger despite 1 of 5 runs agreeing. It is the weakest of the 86 on both counts,
+and sits 0.25 deg from the nights either side. It reaches no fire, since every lp-n fire takes
+the 09-11 solve.
+
 Renders:
   * `out/sky/star_solve_hpwren_20260913_Q1_{bh-w,tp-w}-mobo-c.jpg`, 33 stars each at ~1.3 px;
   * `..._20260912_Q1_rm-s-mobo-c.jpg`.
@@ -1867,6 +1874,12 @@ They are 23 of the 33 ground-truth fires, so they carry real weight.
 (`docs/figures/triangulate_kitchenfire.gif`, 760 px, thinned frames) and linked from the
 README. The other four mp4s in `out/videos/` (21 MB) still have nowhere to live; a GIF
 each is the cheapest fix if they are wanted.
+
+**Replaced 2026-09-14:** that GIF came from `animate.py`, whose own posterior
+(`accumulate.posterior`) ended at 0.99 km beside a README line quoting 0.08 km. It is now the
+`python -m src.figlib.animate_triangulate 20240701_Kitchenfire` rendering (1280 px, 1.0 MB):
+the still figure's map, camera panels and `geolocate.solve`, so its last frame is the still.
+Published pose and rectilinear lens, like the README numbers around it.
 
 **Tests, 2026-09-10.** `tests/` runs the geometry against committed metadata and one
 fire's detections in `tests/fixtures/yolo/` — no 13 GB download. `test_geom.py` pins the
