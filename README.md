@@ -4,6 +4,12 @@
 
 **Where is the fire, how fast can we say so, and can the model run on the camera?**
 
+![Kitchen fire: bearings accumulate and the posterior converges](docs/figures/triangulate_kitchenfire.gif)
+
+*The 2024 Kitchen fire, seen from four HPWREN towers. Each camera's most confident smoke
+detection (right) casts a bearing from its tower; the bearings accumulate into a likelihood
+field whose peak (✗) closes to **0.08 km** from the official ignition coordinate (open circle).*
+
 Wildfire smoke detection is usually reported as mAP on a held-out split. That number does
 not tell an operator anything they can act on. This project measures three things that it
 does: **how far off the located ignition point is, in kilometers, against official
@@ -31,15 +37,13 @@ medians: with an even count, the higher of the two middle values.
 | **name-confirmed truth** | 10 | **1.90 km** | **3.61 km** | | | |
 | probable truth | 16 | 4.37 km | 62.10 km | | | |
 
-![Kitchen fire: bearings accumulate and the posterior converges](docs/figures/triangulate_kitchenfire.gif)
-
-*How to read these: each camera's most confident detection (right) casts a bearing (matching
-color) from its tower; the bearings are accumulated into the likelihood field, whose peak is
+*How to read the triangulation figures (the animation at the top and the stills below): each
+camera's most confident detection (right) casts a bearing (matching color) from its tower; the bearings are accumulated into the likelihood field, whose peak is
 the estimate (✗) and whose falloff is the 95% contour. The open circle is the official
 coordinate. The inset appears only where the credible region is too small to see at the main
 scale.*
 
-*`20240701_Kitchenfire`, a frame a minute from t = −120 s to +2400 s, re-solved from each
+*The animation is `20240701_Kitchenfire`, a frame a minute from t = −120 s to +2400 s, re-solved from each
 camera's best detection so far. One ray has no depth; by +300 s three sites cross 1.33 km out.
 From +660 s lp-e-mobo-c's best box is a bird, and its ray, 39° off, drags the estimate to
 1.66 km until a stronger box on the plume replaces it at +1380 s. Four sites then close to
