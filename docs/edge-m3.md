@@ -113,7 +113,7 @@ cannot test.
 
 **Preprocessing becomes the bottleneck the moment the model leaves the CPU.** End-to-end
 latency is 20.2 ms against 11.0 ms model-only, so JPEG decode plus letterbox costs about
-**9.4 ms — roughly 47% of the frame budget**. Move inference to the NPU and the next thing
+**9.2 ms — roughly 45% of the frame budget**. Move inference to the NPU and the next thing
 worth optimizing is image handling, which no model-only benchmark would ever surface.
 
 **Capacity.** 49 fps end-to-end means a single M3 could serve roughly **49 cameras at 1 fps

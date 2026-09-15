@@ -19,28 +19,19 @@ interagency [WFIGS/IRWIN](https://data-nifc.opendata.arcgis.com/) incident feed.
 
 ## Results
 
-### Geolocation: 1.90 km median where the ground truth is solid
+### Geolocation: 1.90 km upper median where the ground truth is solid
 
 Bearings from two or more sites, accumulated into a likelihood field over the ground, scored
-in kilometers against the official ignition coordinate.
+in kilometers against the official ignition coordinate. Medians in these tables are upper
+medians: with an even count, the higher of the two middle values.
 
-| set | n | median error | max | ≤1 km | ≤2 km | ≤5 km |
+| set | n | upper median error | max | ≤1 km | ≤2 km | ≤5 km |
 |---|---|---|---|---|---|---|
 | all scoring fires | 26 | 2.58 km | 62.10 km | 6 | 12 | 19 |
 | **name-confirmed truth** | 10 | **1.90 km** | **3.61 km** | | | |
 | probable truth | 16 | 4.37 km | 62.10 km | | | |
 
-Best is `20240701_Kitchenfire` at **0.08 km** from four sites. Every confirmed-tier fire
-lands within 3.61 km; the probable tier carries the entire tail.
-
 ![Kitchen fire: bearings accumulate and the posterior converges](docs/figures/triangulate_kitchenfire.gif)
-
-*The posterior over the ground as detections arrive: four camera views on the left, the
-likelihood field with each site's bearing on the right, error against time below. A
-spurious early crossing of two false-positive rays is outvoted as further evidence
-accumulates. The static version, with the reading guide:*
-
-![Kitchen fire triangulation](docs/figures/triangulate_kitchenfire.jpg)
 
 *How to read these: each camera's most confident detection (right) casts a bearing (matching
 color) from its tower; the bearings are accumulated into the likelihood field, whose peak is
@@ -48,17 +39,24 @@ the estimate (✗) and whose falloff is the 95% contour. The open circle is the 
 coordinate. The inset appears only where the credible region is too small to see at the main
 scale.*
 
+*`20240701_Kitchenfire`, a frame a minute from t = −120 s to +2400 s, re-solved from each
+camera's best detection so far. One ray has no depth; by +300 s three sites cross 1.33 km out.
+From +660 s lp-e-mobo-c's best box is a bird, and its ray, 39° off, drags the estimate to
+1.66 km until a stronger box on the plume replaces it at +1380 s. Four sites then close to
+**0.08 km**.*
+
 The geometry holds up in conditions that are not benign. `20201202_WillowFire` is a night
 ignition seen against continuous city light from three sites, and lands **0.30 km** from the
 assigned coordinate (probable-tier truth).
 
 ![Willow fire triangulation, at night against urban light](docs/figures/triangulate_willow_night.jpg)
 
-**That split is the finding.** Where the probable-tier fires fail they fail in a diagnostic
-shape — bearings agreeing with each other to within a few km² while sitting 20–60 km from the
-assigned incident. Independent cameras do not agree by accident, so error much larger than
-√area₉₅ indicts the *ground truth*, not the geometry. Geolocation error turns out to be an
-audit of the weaker resolution tier.
+**The split between the tiers is the finding.** Every confirmed-tier fire lands within
+3.61 km; the probable tier carries the entire tail. Where the probable-tier fires fail they
+fail in a diagnostic shape — bearings agreeing with each other to within a few km² while
+sitting 20–60 km from the assigned incident. Independent cameras do not agree by accident, so
+error much larger than √area₉₅ indicts the *ground truth*, not the geometry. Geolocation
+error turns out to be an audit of the weaker resolution tier.
 
 ![PORTOLA: three bearings agree tightly 24 km from the assigned incident](docs/figures/triangulate_portola.jpg)
 
@@ -84,8 +82,10 @@ run from one to the other.*
 - **86 solves on 52 cameras**, from FIgLib's night sequences and moonless nights pulled from
   HPWREN's public CDN, at a median residual of 1.3 px and ~22 stars per solve.
 - **33 of the 52 cameras point more than 1° from their published azimuth**, mlo-s-mobo-c by
-  23°. Consecutive nights agree to 0.01° and nights two months apart to 0.15°. Cameras do get
-  re-aimed, though: Otay Mountain's south cameras solve 10.5° off in 2019 and 0.4° in 2024,
+  23°. Consecutive nights agree to 0.01°, except one weak lp-n-mobo-c solve (12 stars at
+  2.6 px) that sits 0.25° from the nights either side, and nights two months apart agree to
+  0.15°. Cameras do get re-aimed, though: Otay Mountain's south cameras solve 10.5° off in
+  2019 and 0.4° in 2024,
   and Toro Peak West moved 7.5° between 2021 and 2026. So corrections are kept per camera
   *and* date, in a [ledger](data/meta/pose_ledger.json) that refuses to bridge a re-aim or a
   sensor change. [Every solve, with its lens scale](docs/figures/star_ledger.png).
@@ -99,7 +99,7 @@ run from one to the other.*
 
 Priced in kilometers, with the same detections and solver, on the name-confirmed fires:
 
-| camera model | median error | ≤2 km |
+| camera model | upper median error | ≤2 km |
 |---|---|---|
 | published azimuth, rectilinear lens | 1.90 km | 7 of 10 |
 | star-measured fisheye lens | **1.70 km** | **8 of 10** |
@@ -158,7 +158,8 @@ The same mechanism fixes a failure bearings cannot. `20260722_RainbowFire` is se
 cameras looking straight at each other, so their bearings coincide and give no distance at
 all:
 - **Bearings alone:** the estimate is 5.82 km out.
-- **With terrain:** 1.42 km, and the 95% region shrinks from 25.4 to 4.8 km².
+- **With terrain, 30 px band:** 1.42 km, and the 95% region shrinks from 25.4 to 4.8 km²
+  (1.42 km and 8.0 km² at 60 px).
 
 Before this week's star solves it was 17 km, because Boucher Hill West's published azimuth was
 1.16° off.
@@ -230,12 +231,13 @@ number.
   Through the M3 generation the ANE supports weight-only INT8; full INT8 activation compute
   arrived with A17 Pro and M4. Stating that distinction is the point.
 - **Preprocessing is half the budget.** End-to-end is 20.2 ms against 11.0 model-only, so
-  JPEG decode and letterbox cost ~9.4 ms — 47%.
+  JPEG decode and letterbox cost ~9.2 ms — 45%.
 - **Thermal throttle is real but mild.** 94 fps sustained for ~8 minutes, then a 9.8% step down;
   frames/joule *improves* (12.0 → 12.4) as clocks drop.
 
-Priced downstream in kilometers: FP16 is free (2.28 km, identical recall). INT8-weight costs
-2.67 km at 40 minutes and 3.57 km at 3 minutes — the accuracy loss lands where latency matters.
+Priced downstream in kilometers: FP16 is free (2.28 km, identical recall). INT8-weight is not
+measurably worse: 2.67 km against 2.28 at 40 minutes, but 3.57 km against 3.93 at 3 minutes,
+with 9 fires inside 2 km against 6.
 
 ---
 
@@ -307,11 +309,11 @@ Modules live in [src/figlib/](src/figlib/), with star calibration in [src/figlib
 | **Detection** | `detect_yolo` (ONNX) · `detect_coreml` (Apple) · `detect_diff` (training-free floor) |
 | **Geometry** | `geom` `geolocate` `accumulate` |
 | **Plume masks** *(tested, lost)* | `masks` `plumefit` — segmentation-based bearings, see `NOTES.md` · `open_vocab` `sam2_track` *(exploratory, with viewers)* |
-| **Terrain** *(pose audit)* | `terrain` `calibrate` `pose_validate` — see `NOTES.md` · `terrain_range` (how far along one bearing?) |
+| **Terrain** *(pose audit)* | `terrain` `calibrate` `pose_validate` — see `NOTES.md` · `terrain_range` (how far along one bearing?) · `ridge_feet` (terrain under the star pose; hidden ignitions) |
 | **Star calibration** | `stars.tracks` `stars.solve` `stars.nights` `stars.fisheye` `stars.catalog` · `pose_ledger` `frame_sizes` `compare_geolocation` |
 | **Evaluation** | `falsealarm` `quantization` `evolve` · `coverage` `bias` (is the 95% region honest?) |
 | **Edge** | `bench_edge` `power` |
-| **Figures** | `viz` `viz_map` `viz_terrain` `animate` `fig_peaks` `fig_pose` `fig_triangulate` `fig_bearing` |
+| **Figures** | `viz` `viz_map` `viz_terrain` `animate` `animate_triangulate` `fig_peaks` `fig_pose` `fig_triangulate` `fig_bearing` |
 
 Two environment variables let a whole pipeline be re-scored against different inputs without
 editing anything: `FIGLIB_DETS` points at an alternative detection directory (this is how
@@ -346,9 +348,9 @@ corrected. It is the honest record, not a summary.
   which is worth knowing before reading a kilometer figure. `NOTES.md` records the attempt to
   refine it against terrain, and why that failed. Star tracks succeed where terrain did not; see
   *Camera calibration from the night sky*.
-- **"Minutes of warning gained" is not a claim this data supports.** Official
-  `FireDiscoveryDateTime` minus annotated plume appearance has a median of **+1.0 min** — humans
-  reported 7 of the 10 name-confirmed fires *before* the plume was annotated visible. What the
+- **"Minutes of warning gained" is not a claim this data supports.** On the core corpus,
+  official `FireDiscoveryDateTime` minus annotated plume appearance has a median of **+1.0 min**
+  — humans reported 7 of the 10 name-confirmed fires *before* the plume was annotated visible. What the
   WFIGS join buys is evidence that the FIgLib clock is a validated proxy for when a human knew.
 
 ## Attribution
