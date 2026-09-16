@@ -957,7 +957,7 @@ record. The spatial agreement is the evidence.
 
 **It does not generalize, and the earlier framing was too strong.** The README used to argue
 that error much larger than sqrt(area95) indicts the truth. Across 110 name-corresponding
-pairs the two sources agree to a median of 0.64 km and within 1 km on 72 of them, so the
+pairs the two sources agree to a median of 0.65 km and within 1 km on 72 of them, so the
 records are mostly fine. Four disagree by more than 5 km (PORTOLA 22.87, MONTEZUMA 9.32,
 DEHESA 8 7.21, CRUCES 6.76) and only PORTOLA has a solve to arbitrate it. The counterexample
 that matters is `20171207_FIRE.2` -> LIBERTY: the two sources agree to 1.71 km and the
