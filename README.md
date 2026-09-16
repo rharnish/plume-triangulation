@@ -56,17 +56,32 @@ assigned coordinate (probable-tier truth).
 ![Willow fire triangulation, at night against urban light](docs/figures/triangulate_willow_night.jpg)
 
 **The split between the tiers is the finding.** Every confirmed-tier fire lands within
-3.61 km; the probable tier carries the entire tail. Where the probable-tier fires fail they
-fail in a diagnostic shape — bearings agreeing with each other to within a few km² while
-sitting 20–60 km from the assigned incident. Independent cameras do not agree by accident, so
-error much larger than √area₉₅ indicts the *ground truth*, not the geometry. Geolocation
-error turns out to be an audit of the weaker resolution tier.
+3.61 km; the probable tier carries the entire tail. Where a probable-tier fire fails, the
+failure has a shape worth reading: bearings agreeing with each other to within a few km²
+while sitting 20–60 km from the assigned incident. That shape has two possible causes — a
+wrong record, or a weak crossing angle — and a second official source tells them apart.
 
 ![PORTOLA: three bearings agree tightly 24 km from the assigned incident](docs/figures/triangulate_portola.jpg)
 
 *`20171010_FIRE` → PORTOLA: three bearings from two sites close on an 8 km² region, with the
-assigned incident 24 km away and no ray passing near it. The geometry is not the thing that
-is wrong here.*
+WFIGS coordinate 23.63 km away and no ray passing near it. CAL FIRE records the same fire at
+33.50488, −117.02132 — Riverside County, De Portola Road east of Pauba Road, 23 acres —
+**1.02 km from the estimate**, inside the 95% region. The WFIGS point falls outside it
+entirely, at zero relative posterior density; it reads 33°18′00″ 116°59′59″, rounded to the
+arcminute, and is filed in the wrong county.*
+
+`python -m src.figlib.calfire` runs that cross-check over the corpus, picking each CAL FIRE
+candidate by the WFIGS *name* and never by the estimate, so the comparison cannot borrow
+credibility from the geometry it tests. On the 110 fires where both sources name the same
+incident they agree to a median of **0.66 km**, and 72 agree within 1 km. The official
+records are usually right, and PORTOLA is an outlier rather than a tier-wide failure — it is
+also the only one of the four disagreements over 5 km that has a solve to arbitrate it.
+
+The inverse case is the guard against reading too much into a large error. `20171207_FIRE.2`
+→ LIBERTY has both sources agreeing to within 1.71 km while the estimate sits 62 km out, and
+there the geometry really is what is wrong: two cameras 13° apart, a 155 km² credible region
+smeared along the line of sight. A large error indicts the record only when the credible
+region is small.
 
 ### Camera calibration from the night sky
 

@@ -925,6 +925,61 @@ for s in ingest fires truth resolve geolocate falsealarm; do FIGLIB_CORPUS=all p
 FIGLIB_CORPUS=all FIGLIB_TIER=likely_unseen,unseen python -m src.figlib.falsealarm
 ```
 
+## A second opinion on the ground truth (2026-09-15)
+
+WFIGS is not the only agency record. CAL FIRE publishes its own per-year incident list,
+unauthenticated, with coordinates, start time, acreage and a street location:
+
+```
+https://incidents.fire.ca.gov/umbraco/api/IncidentApi/List?inactive=true&year=YYYY
+```
+
+`src/figlib/calfire.py` joins it to the corpus the same way `truth.py` joins WFIGS -- a
+bounding box around the posed cameras, a +/-6 h window around plume appearance -- and then
+picks the best-ranked candidate whose *name* corresponds to the WFIGS name. The name is the
+important detail: choosing the CAL FIRE record by proximity to our own estimate would make
+the check circular, and the first version of this did exactly that by ranking on time alone,
+which matched `CLUB` to the `Vail Fire` 55 km away and `CREELMAN` to `Rainbow 3` 47 km away.
+Neither fire is in CAL FIRE's lists at all; a missing record is not a disagreement, and is
+now excluded rather than scored.
+
+**`20171010_FIRE` is a genuinely wrong record.** WFIGS gives PORTOLA as 33.300000,
+-116.999722 in San Diego County -- 33 deg 18' 00", 116 deg 59' 59", rounded to the arcminute,
+with null acreage, matched by elimination and not by name. CAL FIRE has the Portola Fire at
+33.50488, -117.02132, Riverside County, "De Portola Road east of Pauba Road, Temecula",
+23 acres, started 2017-10-10T21:57:00Z. The two records are 22.87 km apart. Our three
+bearings land 1.02 km from CAL FIRE's point, inside the 8.5 km^2 credible region at 0.089 of
+the peak posterior density; the WFIGS point falls outside that region entirely, at 0.0000.
+The README's geolocation error for this fire drops from 23.63 km to 1.02 km against the
+better record. Note that the *time* agreement is not independent evidence -- FIgLib's t0 comes from
+the frame-name annotation, which its annotators plausibly took from the same incident
+record. The spatial agreement is the evidence.
+
+**It does not generalize, and the earlier framing was too strong.** The README used to argue
+that error much larger than sqrt(area95) indicts the truth. Across 110 name-corresponding
+pairs the two sources agree to a median of 0.66 km and within 1 km on 72 of them, so the
+records are mostly fine. Four disagree by more than 5 km (PORTOLA 22.87, MONTEZUMA 9.32,
+DEHESA 8 7.21, CRUCES 6.76) and only PORTOLA has a solve to arbitrate it. The counterexample
+that matters is `20171207_FIRE.2` -> LIBERTY: the two sources agree to 1.71 km and the
+estimate is still 62 km out, because `smer-tcs8` and `bh-n` are 13 deg apart and the 155 km^2
+posterior is a long ridge, not a blob. The ratio only indicts the record when area95 is
+small. `20180504_FIRE` -> TORNADO is the other honest miss: the sources are 4.05 km apart
+and CAL FIRE is the *worse* of the two (1.71 km -> 5.11 km).
+
+**Coverage is the main limit.** CAL FIRE lists only incidents it reports on, so federal-only
+fires, Camp Pendleton, Orange County Fire Authority and anything in Mexico are absent: 117 of
+296 fires in the `all` corpus have no candidate at all, and 31 more matched something with
+no corresponding name. This is a second opinion on the fires it covers, not a replacement
+truth, and nothing in the pipeline has been re-pointed at it -- `truth.json` still drives
+every published number.
+
+Reproduce:
+
+```sh
+python -m src.figlib.calfire                      # core
+FIGLIB_CORPUS=all python -m src.figlib.calfire    # all 296
+```
+
 ## Open questions
 
 **Lens distortion and pose -- settled 2026-09-09, and not the way it first looked.**
