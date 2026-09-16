@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import json
 import re
+import statistics
 import sys
 import urllib.request
 from datetime import UTC, datetime, timedelta
@@ -263,8 +264,8 @@ def main(argv: list[str] | None = None) -> None:
     matched = [r for r in records if r["status"] == "matched"]
     corr = [r for r in rows if r["corresponds"]]
     scored = [r for r in rows if r["improvement_km"] is not None]
-    apart = sorted((r["sources_apart_km"] for r in corr
-                    if r["sources_apart_km"] is not None), reverse=True)
+    apart = sorted(r["sources_apart_km"] for r in corr
+                   if r["sources_apart_km"] is not None)
     better = [r for r in scored if r["improvement_km"] > 0.5]
     worse = [r for r in scored if r["improvement_km"] < -0.5]
     print(f"{len(fires)} fires -> {len(matched)} with >=1 CAL FIRE candidate "
@@ -275,8 +276,9 @@ def main(argv: list[str] | None = None) -> None:
     print(f"  matched, no such incident:{len(matched) - len(corr)}")
     print(f"  scored against a solve:   {len(scored)}")
     if apart:
-        print(f"  the two sources agree to within {apart[len(apart)//2]:.2f} km (median), "
-              f"{apart[0]:.2f} km (worst)")
+        print(f"  the two sources agree to within {statistics.median(apart):.2f} km "
+              f"(median), {apart[-1]:.2f} km (worst)")
+        print(f"  within 1 km:              {sum(1 for a in apart if a <= 1)}/{len(apart)}")
         print(f"  disagree by >5 km:        {sum(1 for a in apart if a > 5)}")
     print(f"  CAL FIRE closer by >0.5 km: {len(better)}")
     print(f"  WFIGS closer by >0.5 km:    {len(worse)}")

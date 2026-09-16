@@ -73,7 +73,7 @@ arcminute, and is filed in the wrong county.*
 `python -m src.figlib.calfire` runs that cross-check over the corpus, picking each CAL FIRE
 candidate by the WFIGS *name* and never by the estimate, so the comparison cannot borrow
 credibility from the geometry it tests. On the 110 fires where both sources name the same
-incident they agree to a median of **0.66 km**, and 72 agree within 1 km. The official
+incident they agree to a median of **0.64 km**, and 72 agree within 1 km. The official
 records are usually right, and PORTOLA is an outlier rather than a tier-wide failure — it is
 also the only one of the four disagreements over 5 km that has a solve to arbitrate it.
 
