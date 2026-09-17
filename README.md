@@ -37,6 +37,14 @@ medians: with an even count, the higher of the two middle values.
 | **name-confirmed truth** | 10 | **1.90 km** | **3.61 km** | | | |
 | probable truth | 16 | 4.37 km | 62.10 km | | | |
 
+![Every scoring fire's estimate, re-centred on its official ignition point](docs/figures/geolocation_offsets.png)
+
+*Each dot is one fire's estimate, displaced east/north from its own official coordinate. Left:
+the published camera table, full extent. The confirmed tier (blue) clusters at the centre and
+the probable tier carries the whole tail. Right: the inner 5 km under the star-measured lens
+([below](#camera-calibration-from-the-night-sky)), with a thin line back to where the published
+table put each estimate.*
+
 *How to read the triangulation figures (the animation at the top and the stills below): each
 camera's most confident detection (right) casts a bearing (matching color) from its tower; the bearings are accumulated into the likelihood field, whose peak is
 the estimate (✗) and whose falloff is the 95% contour. The open circle is the official
@@ -88,9 +96,7 @@ region is small.
 The published camera table is a nameplate: azimuths rounded to a compass quadrant, a nominal
 field of view, no lens model (see *Caveats*). Stars fix that without a site visit. A point
 that drifts at the sidereal rate is a star, and matching a night of such tracks to a star
-catalog under one shared pose measures a camera's azimuth, pitch, roll and lens together. No
-constellation is guessed first: the pose search scores how many catalog stars land on *any*
-track, then assigns stars to whole tracks and refits.
+catalog under one shared pose measures a camera's azimuth, pitch, roll and lens together.
 
 ![Star tracks against catalog stars under the published and the star-solved pose](docs/figures/star_pose_correction.jpg)
 
@@ -98,23 +104,18 @@ track, then assigns stars to whole tracks and refits.
 running inside the track. Orange: the same star under the published pose; the yellow arrows
 run from one to the other.*
 
-- **86 solves on 52 cameras**, from FIgLib's night sequences and moonless nights pulled from
-  HPWREN's public CDN, at a median residual of 1.3 px and ~22 stars per solve.
+- **86 solves on 52 cameras**, at a median residual of 1.3 px and ~22 stars per solve.
 - **33 of the 52 cameras point more than 1° from their published azimuth**, mlo-s-mobo-c by
-  23°. Consecutive nights agree to 0.01°, except one weak lp-n-mobo-c solve (12 stars at
-  2.6 px) that sits 0.25° from the nights either side, and nights two months apart agree to
-  0.15°. Cameras do get re-aimed, though: Otay Mountain's south cameras solve 10.5° off in
-  2019 and 0.4° in 2024,
-  and Toro Peak West moved 7.5° between 2021 and 2026. So corrections are kept per camera
-  *and* date, in a [ledger](data/meta/pose_ledger.json) that refuses to bridge a re-aim or a
-  sensor change. [Every solve, with its lens scale](docs/figures/star_ledger.png).
-- **One lens design, and not the one the pipeline assumed.** Every solve puts the focal scale at
-  0.877–0.893 of nameplate: an equidistant fisheye spanning about ±55°, not a rectilinear ±45°.
-  Near the frame edge that was worth up to 8° of bearing.
-- **An independent check agrees.** A sea horizon's dip below level depends only on camera
-  height, and on om-w-mobo-c it lies along the star-solved tilt, not the published level one.
+  23°. Cameras also get re-aimed (Toro Peak West moved 7.5° between 2021 and 2026), so
+  corrections are kept per camera *and* date, in a [ledger](data/meta/pose_ledger.json).
+- **Not the lens the pipeline assumed.** The solves put the focal scale at 0.877–0.893 of
+  nameplate: an equidistant fisheye spanning about ±55°, not a rectilinear ±45°. Near the frame
+  edge that was worth up to 8° of bearing.
 
-![Sea horizon under the star-solved and the published pose](docs/figures/sea_horizon_check.jpg)
+**[docs/star-calibration.md](docs/star-calibration.md)** has the rest: a sea-horizon check
+that agrees with the star pose, a closed-form pose from the star trails that names no star and
+found a second lens group, moonlit nights solving as well as dark ones, and night-to-night
+agreement as the acceptance test.
 
 Priced in kilometers, with the same detections and solver, on the name-confirmed fires:
 
@@ -289,6 +290,8 @@ FIGLIB_LENS=fisheye FIGLIB_POSE_LEDGER=1 python -m src.figlib.geolocate
 python -m src.figlib.compare_geolocation                # baseline vs calibrated, fire by fire
 ```
 
+More star commands are in [docs/star-calibration.md](docs/star-calibration.md#running-it).
+
 Terrain ranges along a bearing, optionally (needs `fetch_dem.sh`, the calibrated poses, and
 the full corpus):
 
@@ -329,10 +332,10 @@ Modules live in [src/figlib/](src/figlib/), with star calibration in [src/figlib
 | **Geometry** | `geom` `geolocate` `accumulate` |
 | **Plume masks** *(tested, lost)* | `masks` `plumefit` — segmentation-based bearings, see `NOTES.md` · `open_vocab` `sam2_track` *(exploratory, with viewers)* |
 | **Terrain** *(pose audit)* | `terrain` `calibrate` `pose_validate` — see `NOTES.md` · `terrain_range` (how far along one bearing?) · `ridge_feet` (terrain under the star pose; hidden ignitions) |
-| **Star calibration** | `stars.tracks` `stars.solve` `stars.nights` `stars.fisheye` `stars.catalog` · `pose_ledger` `frame_sizes` `compare_geolocation` |
+| **Star calibration** | `stars.tracks` `stars.solve` `stars.nights` `stars.fisheye` `stars.catalog` `stars.pole` `stars.moon` `stars.cross_night` · `pose_ledger` `frame_sizes` `compare_geolocation` |
 | **Evaluation** | `falsealarm` `quantization` `evolve` · `coverage` `bias` (is the 95% region honest?) |
 | **Edge** | `bench_edge` `power` |
-| **Figures** | `viz` `viz_map` `viz_terrain` `animate` `animate_triangulate` `fig_peaks` `fig_pose` `fig_triangulate` `fig_bearing` |
+| **Figures** | `viz` `viz_map` `viz_terrain` `animate` `animate_triangulate` `fig_peaks` `fig_pose` `fig_triangulate` `fig_bearing` `fig_offsets` · `stars.fig_solve_process` `stars.fig_moon` |
 
 Two environment variables let a whole pipeline be re-scored against different inputs without
 editing anything: `FIGLIB_DETS` points at an alternative detection directory (this is how
