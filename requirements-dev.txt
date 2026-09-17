@@ -1,5 +1,10 @@
-# Test dependencies. The suite exercises the geometry only -- bearings, the likelihood
-# field, evidence accumulation -- against the committed metadata and one fire's detections
-# in tests/fixtures/, so it needs numpy and pytest and nothing from the heavy pipeline.
+# Test dependencies. The suite exercises the geometry -- bearings, the likelihood field,
+# evidence accumulation -- and the star solver, against the committed metadata and one
+# fire's detections in tests/fixtures/. scipy and OpenCV are the solver's own imports, so
+# CI installs them rather than skipping those tests; versions follow requirements.txt, with
+# the headless OpenCV build since CI has no display (no 5.0.0.88 headless wheel exists;
+# .93 is the nearest build of the same 5.0.0 release).
 numpy==2.5.3
 pytest==9.1.1
+scipy==1.18.1
+opencv-python-headless==5.0.0.93
