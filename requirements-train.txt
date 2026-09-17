@@ -1,0 +1,22 @@
+# Training the detector-scale comparison: src/figlib/scale/ (yolo11s vs yolo11l, 1024 vs
+# 1280, trained on pyronear/pyro-sdis).
+#
+# A separate environment from .venv, on purpose. ultralytics pulls a wide dependency tree
+# and will move numpy/opencv/torch if it shares an environment, and .venv is what the
+# committed results were produced with. Trained weights are exported to ONNX here and
+# run for detection from .venv, exactly like the pyronear model.
+#
+#     uv venv --python 3.12 .venv-train
+#     uv pip install --python .venv-train/bin/python -r requirements-train.txt \
+#         --extra-index-url https://download.pytorch.org/whl/cu126 --index-strategy unsafe-best-match
+#
+# torch is the same cu126 pin as requirements-masks.txt, for the same reason (GTX 1070,
+# sm_61, carried by the sm_60 image -- see that file). ultralytics matches
+# requirements-edge.txt so weights trained here export to Core ML the same way.
+
+torch==2.7.1+cu126
+torchvision==0.22.1+cu126
+ultralytics==8.4.146
+onnx==1.22.0             # best.pt -> best.onnx export
+pyarrow==25.0.1          # reads the pyro-sdis parquet shards
+onnxruntime==1.29.0      # sdis_predict --check: GPU torch path vs the ONNX file results cite
