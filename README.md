@@ -96,9 +96,7 @@ region is small.
 The published camera table is a nameplate: azimuths rounded to a compass quadrant, a nominal
 field of view, no lens model (see *Caveats*). Stars fix that without a site visit. A point
 that drifts at the sidereal rate is a star, and matching a night of such tracks to a star
-catalog under one shared pose measures a camera's azimuth, pitch, roll and lens together. No
-constellation is guessed first: the pose search scores how many catalog stars land on *any*
-track, then assigns stars to whole tracks and refits.
+catalog under one shared pose measures a camera's azimuth, pitch, roll and lens together.
 
 ![Star tracks against catalog stars under the published and the star-solved pose](docs/figures/star_pose_correction.jpg)
 
@@ -106,57 +104,18 @@ track, then assigns stars to whole tracks and refits.
 running inside the track. Orange: the same star under the published pose; the yellow arrows
 run from one to the other.*
 
-- **86 solves on 52 cameras** in the ledger, from FIgLib's night sequences and moonless nights
-  pulled from HPWREN's public CDN, at a median residual of 1.3 px and ~22 stars per solve.
+- **86 solves on 52 cameras**, at a median residual of 1.3 px and ~22 stars per solve.
 - **33 of the 52 cameras point more than 1° from their published azimuth**, mlo-s-mobo-c by
-  23°. Consecutive nights agree to 0.01°, except one weak lp-n-mobo-c solve (12 stars at
-  2.6 px) that sits 0.25° from the nights either side, and nights two months apart agree to
-  0.15°. Cameras do get re-aimed, though: Otay Mountain's south cameras solve 10.5° off in
-  2019 and 0.4° in 2024,
-  and Toro Peak West moved 7.5° between 2021 and 2026. So corrections are kept per camera
-  *and* date, in a [ledger](data/meta/pose_ledger.json) that refuses to bridge a re-aim or a
-  sensor change. [Every solve, with its lens scale](docs/figures/star_ledger.png).
-- **Not the lens the pipeline assumed.** Every ledger solve puts the focal scale at
-  0.877–0.893 of nameplate: an equidistant fisheye spanning about ±55°, not a rectilinear ±45°.
-  Near the frame edge that was worth up to 8° of bearing. Three Big Black Mountain cameras
-  turned out to be a second lens group, at 0.774–0.779 (below).
-- **An independent check agrees.** A sea horizon's dip below level depends only on camera
-  height, and on om-w-mobo-c it lies along the star-solved tilt, not the published level one.
+  23°. Cameras also get re-aimed (Toro Peak West moved 7.5° between 2021 and 2026), so
+  corrections are kept per camera *and* date, in a [ledger](data/meta/pose_ledger.json).
+- **Not the lens the pipeline assumed.** The solves put the focal scale at 0.877–0.893 of
+  nameplate: an equidistant fisheye spanning about ±55°, not a rectilinear ±45°. Near the frame
+  edge that was worth up to 8° of bearing.
 
-![Sea horizon under the star-solved and the published pose](docs/figures/sea_horizon_check.jpg)
-
-**No star has to be named first.** Every trail in a frame is carried by one rotation of the
-sky, `ḋ = ω (p × d)`. In the camera's own frame that equation is linear in the celestial pole
-`p`, so least squares gives the pole in closed form, with no pose and no catalog. Against the 86
-ledger solves the pole lands a median **0.29°** from where they put it (81 of 86 within 2°).
-The pole fixes two of the three angles; the last one, the turn about the pole, becomes a 1-D
-scan instead of a 3-D grid search.
-
-![From star trails to camera pose, on a camera the grid search never solved](docs/figures/star_solve_process.jpg)
-
-*bm-s-mobo-c, which had never solved. 1: tracks, with nothing named. 2: their velocities and the
-closed-form pole. 3: the scan about the pole, where the peak clears the best rival angle by
-5.79 to 4.74, a much thinner margin than an easy camera gets. 4: 23 stars at 0.78 px.*
-
-- **The pole's length measures the lens.** The fit is given the sidereal rate, so `|p|` comes
-  out at 1 only when the pixel-to-angle map is right. That is why Big Black Mountain's south,
-  west and east cameras never solved: they need 0.774–0.779 of nameplate, not the shared 0.886,
-  a 150 px error at the frame edge. The same test rejects frames with no coherent rotation.
-  marconi-n, starr-n and sjh-n are lit cloud on the nights they were tried, not faint star
-  fields.
-- **More solves, none lost.** On the 111 sequences the grid search attempted, running both
-  methods takes **86 solves to 91 and 52 cameras to 55**. The 86 already solved keep their poses
-  (median change 0.000°, max 0.094°). The five new solves are not yet in the ledger, so the
-  kilometer table below does not use them.
-- **Moonlight does not matter.** Three cameras re-solved on 23 night blocks from full moon to
-  new: all 23 solve, star counts do not fall, and every pose stays within 0.07° of that camera's
-  dark-night pose ([figure](docs/figures/star_moon_ladder.jpg)). That roughly quadruples the
-  usable nights inside HPWREN's 90-day public window. The moon was above the frame on 20 of the
-  23 blocks, so a full moon *inside* the frame is still untested.
-- **A second night is the better acceptance test.** Two nights of one camera are independent
-  measurements of one pose. Solves with 20+ stars agree with another night of the same camera to 0.01°, and
-  8–11-star solves to 0.3°. Star count tracks reliability, but the ≥ 8 cutoff is a blunt stand-in
-  for checking that another night agrees.
+**[docs/star-calibration.md](docs/star-calibration.md)** has the rest: a sea-horizon check
+that agrees with the star pose, a closed-form pose from the star trails that names no star and
+found a second lens group, moonlit nights solving as well as dark ones, and night-to-night
+agreement as the acceptance test.
 
 Priced in kilometers, with the same detections and solver, on the name-confirmed fires:
 
@@ -329,8 +288,9 @@ python -m src.figlib.stars.nights 20260911 @cams.json   # moonless-night frames 
 python -m src.figlib.stars.run_nights                   # track, star-solve, rebuild data/meta/pose_ledger.json
 FIGLIB_LENS=fisheye FIGLIB_POSE_LEDGER=1 python -m src.figlib.geolocate
 python -m src.figlib.compare_geolocation                # baseline vs calibrated, fire by fire
-python -m src.figlib.stars.moon_test                    # the moon-phase ladder
 ```
+
+More star commands are in [docs/star-calibration.md](docs/star-calibration.md#running-it).
 
 Terrain ranges along a bearing, optionally (needs `fetch_dem.sh`, the calibrated poses, and
 the full corpus):
