@@ -12,6 +12,7 @@ data/**/*.mp4
 
 # Python
 .venv/
+.venv-train/
 __pycache__/
 *.py[cod]
 .pytest_cache/
@@ -31,3 +32,11 @@ data/dem/
 
 # Coverage map viewer, local work in progress
 src/figlib/coverage_map/
+
+# pyro-sdis training data (3.3 GB), fetched not committed
+data/sdis/
+
+# Trained and pretrained scale-comparison weights, fetched/produced not committed
+models/scale/
+# ultralytics' AMP self-check downloads yolo26n.pt into ./weights/ on every training start
+weights/
