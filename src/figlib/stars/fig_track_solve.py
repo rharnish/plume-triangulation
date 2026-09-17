@@ -36,8 +36,15 @@ def ref_frame(seq: str, ref: int) -> np.ndarray:
     return cv2.imdecode(np.frombuffer(blob, np.uint8), cv2.IMREAD_COLOR)
 
 
-def render(seq: str) -> Path:
-    r = json.loads((S.DATA / f"solve_{seq}.json").read_text())
+def render(seq: str, wide: bool = False) -> Path:
+    """Draw one sequence's solve. `wide` reads the result from `solve_wide_summary.json`
+    instead of the per-sequence file, so a camera recovered by the pole search can be looked
+    at without overwriting the committed solve the pose ledger is built from."""
+    if wide:
+        rows = json.loads((S.DATA / "solve_wide_summary.json").read_text())
+        r = next(x for x in rows if x["seq"] == seq)
+    else:
+        r = json.loads((S.DATA / f"solve_{seq}.json").read_text())
     tracks, _ = S.load_tracks(seq)
     s, c = S.SEQS[seq], S.CAMS[S.SEQS[seq]["camera"]]
     offs = sorted({o for t in tracks for o in t}) or [0]
@@ -131,5 +138,7 @@ def render(seq: str) -> Path:
 
 
 if __name__ == "__main__":
-    for seq in sys.argv[1:]:
-        print(render(seq))
+    args = [a for a in sys.argv[1:] if a != "--wide"]
+    wide = "--wide" in sys.argv
+    for seq in args:
+        print(render(seq, wide=wide))

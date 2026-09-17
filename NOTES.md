@@ -1954,6 +1954,107 @@ GIFs.
 views of the same two sites, so the deferred "does NIR see smoke earlier" question has usable
 paired data sitting in the existing download -- no new fetch needed.
 
+## Star solves without a moonless night, and pose without naming a star (2026-09-15)
+
+Three questions, all of them about assumptions the star pipeline had been carrying without
+ever testing them.
+
+**1. Does a star solve need a moonless night? No.** `nights.py` only ever fetched dark
+blocks, which throws away three weeks in four out of a supply that is already capped at the
+CDN's ~89 days. `stars/moon.py` is a truncated Meeus lunar ephemeris (validated to within
+0.001 of the illuminated fraction against five real eclipses -- two solar, three lunar) and
+`stars/moon_test.py` uses it to run a ladder: three cameras that solve cleanly in the dark
+(hp-w, vo-e, cp-w), re-solved on seven more nights from full moon 52 deg up down to new, all
+the same Q1 block, all inside two weeks so the season and star field barely move.
+
+**23 of 23 solved, including full moon at 52 deg elevation.** Stars matched is flat across
+the whole ladder (33-43, with the *highest* counts on moonlit nights); median residual is
+flat; and every pose lands within 0.07 deg of that camera's own dark-night pose. See
+`out/sky/moon_ladder.jpg`. The one honest qualification: on 20 of the 23 blocks the moon was
+above the frame, since these cameras look at the horizon and a bright moon is usually high.
+On the three where the moon disc really was in frame (vo-e, 39-61% illuminated) the solves
+were the *best* of the run, 36-42 stars. Full moon inside the frame is still untested.
+
+Practical consequence: the moonless filter can be dropped, which multiplies the usable
+nights per camera by roughly four and makes cross-night checking cheap.
+
+**2. Pose from the trails alone, no star named.** `stars/pole.py`. Every track, bright or
+faint, named or not, is carried by one rigid rotation: `d_dot = omega * (p x d)`. Map track
+points into the *camera's own frame* through the lens alone -- which needs no pose, since
+pose is exactly the rotation between camera frame and world -- and that equation is linear
+in `p`. Least squares over every sample then gives the pole in closed form, no search.
+
+Against the 86 known-good solves: **median pole error 0.29 deg, 81 of 86 inside 2 deg.** The
+sign convention had to be measured rather than derived -- `(right, up, boresight)` is
+left-handed, so the cross product picks up a minus, and fitting both signs put one at 0.29
+deg and the other at 179.7, exactly antipodal, which is what a pure sign error looks like.
+
+The pole fixes two of three angles; the turn about the polar axis is invisible to a flow
+field and becomes a 1-D scan at 0.1 deg, replacing a 3-D grid at 1 deg that could only ever
+reach +-30 deg from the published pose. On sequences that already solved, the wide path
+reproduces the old pose to a median of 0.000 deg.
+
+**|p| is a lens measurement.** The fit is told the sidereal rate, so |p| comes out at 1 only
+when the pixel-to-angle map is right. That turned out to be the actual reason the Big Black
+Mountain cameras had never solved: all three want **k ~ 0.777x nameplate, not the shared
+0.886x**, a 10% radial error and 150 px at the frame edge, far past any matching tolerance.
+Fitting the lens from the trails first solves bm-s (23 stars, 0.78 px), bm-w and bm-e -- a
+whole site recovered, and a second lens group in a rig that had been assumed uniform.
+
+The same number is a *rejection* test at the other end. marconi-n (0.19), starr-n (0.17) and
+sjh-n (0.06) return residuals at ~100% of the sidereal rate: there is no coherent rotation in
+those frames at all, confirming from the data that they are lit cloud and noise, not a faint
+star field. That is a check worth having before any frames are even solved.
+
+The measurement is not equally good everywhere, and this cost some debugging. The fitted rate
+is `omega*sin(angle from the pole)`, so trails *close* to the pole carry little scale
+information and trade it off against the pole's own position: a west-facing camera comes out
+within 0.2%, a north-facing one (pole inside the frame) is biased 3-4% low, which is enough
+to lose the solve. So the pole's lens is never imposed. `solve_wide` runs three separate
+attempts -- published grid, pole under the shared lens, pole under the measured lens -- each
+with the tolerance it needs, and keeps the best finished solve. Mixing them in one candidate
+list does not work, because the coincidence score is computed *through* the lens and so is
+not comparable across hypotheses.
+
+*The whole thing in one figure.* `stars/fig_solve_process.py` draws the four stages over a
+real frame -- tracks, the velocity field with the closed-form pole on it, the psi scan, and
+the final matched arcs -- with the panel-3 score coming from `solve.make_coincidence`, the
+same scorer the search optimises, so the diagram cannot drift from the code. Two are worth
+keeping side by side: `solve_process_hpwren_20260911_Q1_wc-n-mobo-c.jpg` is the easy case,
+pole inside the frame and a scan peaking at 7.50 against 0.25 for every rival angle; while
+`solve_process_hpwren_20260714_Q1_bm-s-mobo-c.jpg` is the hard one this work recovered, where
+the same scan peaks at only 5.79 against 4.74. Same method, very different margin, and the
+figure says so rather than hiding it.
+
+**3. Fewer stars, judged by whether another night agrees.** `stars/cross_night.py`. The >= 8
+star cutoff is a proxy for "enough evidence that this is not a coincidence", and a blunt one
+measured on a single night. Two nights of the same camera are independent measurements of one
+physical pose, and noise does not reproduce across them. Solves with 20+ stars agree with a
+sibling night to **0.010 deg** of boresight separation; the 8-11 star group sits at 0.305 deg
+-- so the star count does track reliability, but 8 is not where the line belongs, and a
+12-star lp-n-mobo-c solve disagreeing with the next night by 0.3 deg shows the cutoff passing
+something it should not. Now that moonlit nights count, a second night is cheap, and
+agreement is the better acceptance test.
+
+**Where this leaves the roster.** `solve_wide` on the 111 sequences the old solver saw:
+**86 solved -> 91, five gained and none lost**, and 52 distinct cameras -> 55. On the 86 both
+paths solve, the poses agree to a median of 0.000 deg (max 0.094). Across all 131 cached
+sequences, including the 20 new moonlit blocks, 111 solve. Of the 111, 69 came from the
+published grid and 42 from the pole search, so both paths are load-bearing.
+
+Gained: bm-s-mobo-c (23 stars, 0.78 px), bm-w-mobo-c (twice: 12 stars on the 2026-09-11
+block, 11 on the 2020 structure fire), bm-e-mobo-c (8 stars), and lp-n-mobo-c's 2026-09-14
+block, which the shared lens had left at 3.0 px. Of the 14 cameras that had been attempted
+and never solved, the three bm-* units are now recovered outright. marconi-n, starr-n, sjh-n
+and (partly) smer-tcs8 are confirmed unsolvable on those nights by a measurement rather than
+a guess, and need different nights -- which the moon result now makes easy to get.
+
+Cross-night agreement over the wider set (38 sibling pairs within 30 days, most of them from
+the moon ladder) holds the same shape: 34 pairs at 20+ stars agree to **0.010 deg**, and
+every disagreement above 0.1 deg is lp-n-mobo-c, on consecutive nights, at 10-13 stars.
+Moonlit nights agree with dark ones as tightly as dark nights agree with each other, which is
+the moon result restated as a pose check rather than a star count.
+
 ## Deliberately deferred
 
 Monochrome/NIR sequences (11 of them, paired with color views of the same fires) --
