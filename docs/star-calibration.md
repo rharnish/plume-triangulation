@@ -5,6 +5,26 @@ the field of view is nominal, and there is no lens model. A bearing is only as g
 table, so every kilometer figure in this project depends on it. Stars measure the real pose
 without a site visit, from frames the cameras already record every night.
 
+## Prior work
+
+Robert Quimby, Director of SDSU's Mount Laguna Observatory and Professor of Astronomy at San
+Diego State University, published this idea on these cameras in [*Using the Stars for
+Altitude-Azimuth Calibration of HPWREN
+Cameras*](https://www.hpwren.ucsd.edu/news/20240920/index.html) (HPWREN, 20 September 2024). He
+measures star positions across a night of images from a camera — the Mount Laguna east-facing
+monochrome camera is his worked example — and fits an image-to-sky mapping that predicts a
+star's pixel to about 0.5 px above the horizon, good enough to read a celestial object's
+coordinates to a few hundredths of a degree and to resample several cameras into a single
+pannable panorama.
+
+That article is the reference for what stars can do on HPWREN imagery. This project uses the
+same premise for a narrower end — a bearing to a smoke plume, so the quantity that matters is
+azimuth on the ground rather than sky coordinates — and differs in what it had to cover:
+solving 52 cameras from the archive rather than calibrating one carefully, dating each solve so
+a re-aim is never bridged, and recovering the lens scale itself, which turned out to be an
+equidistant fisheye rather than the nameplate rectilinear. Where the two overlap they agree:
+the published camera table is not where the cameras point.
+
 ![Star tracks against catalog stars under the published and the star-solved pose](figures/star_pose_correction.jpg)
 
 *Green: a star's track over the night. Magenta: that catalog star under the solved pose,

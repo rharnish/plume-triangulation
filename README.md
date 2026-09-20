@@ -98,6 +98,14 @@ field of view, no lens model (see *Caveats*). Stars fix that without a site visi
 that drifts at the sidereal rate is a star, and matching a night of such tracks to a star
 catalog under one shared pose measures a camera's azimuth, pitch, roll and lens together.
 
+Stars were used on these cameras first by Robert Quimby, Director of SDSU's Mount Laguna
+Observatory: [*Using the Stars for Altitude-Azimuth Calibration of HPWREN
+Cameras*](https://www.hpwren.ucsd.edu/news/20240920/index.html) (HPWREN, 20 Sep 2024), which
+fits a per-camera image-to-sky mapping good to about 0.5 px and reprojects several cameras into
+one panorama. What follows is a narrower use of the same idea — bearings for triangulation,
+across 52 cameras and dated per re-aim — and it reaches the same conclusion about the published
+table. See [Prior work](docs/star-calibration.md#prior-work).
+
 ![Star tracks against catalog stars under the published and the star-solved pose](docs/figures/star_pose_correction.jpg)
 
 *Green: a star's track over the night. Magenta: that catalog star under the solved pose,
@@ -383,6 +391,9 @@ corrected. It is the honest record, not a summary.
 - **pyronear** — `yolo11s_rapid-raccoon_v8.1.0`, Apache 2.0.
 - **WFIGS / IRWIN** — interagency wildland fire incident locations, NIFC open data.
 - **Copernicus DEM GLO-30** — ESA, via the AWS Open Data registry.
+- **Star calibration of HPWREN cameras** — R. Quimby, [*Using the Stars for Altitude-Azimuth
+  Calibration of HPWREN Cameras*](https://www.hpwren.ucsd.edu/news/20240920/index.html),
+  HPWREN, 20 September 2024. Prior work on the idea used here.
 - **HYG Database** — star catalog, [astronexus/HYG-Database](https://github.com/astronexus/HYG-Database),
   CC BY-SA 4.0. `data/meta/bright_stars.json` is a filtered derivative (mag ≤ 4) under the same license.
 
