@@ -40,3 +40,6 @@ data/sdis/
 models/scale/
 # ultralytics' AMP self-check downloads yolo26n.pt into ./weights/ on every training start
 weights/
+
+# Reference papers, kept locally for citation checking, not redistributed
+docs/reference/

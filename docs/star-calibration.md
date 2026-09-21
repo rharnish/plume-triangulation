@@ -5,26 +5,6 @@ the field of view is nominal, and there is no lens model. A bearing is only as g
 table, so every kilometer figure in this project depends on it. Stars measure the real pose
 without a site visit, from frames the cameras already record every night.
 
-## Prior work
-
-Robert Quimby, Director of SDSU's Mount Laguna Observatory and Professor of Astronomy at San
-Diego State University, published this idea on these cameras in [*Using the Stars for
-Altitude-Azimuth Calibration of HPWREN
-Cameras*](https://www.hpwren.ucsd.edu/news/20240920/index.html) (HPWREN, 20 September 2024). He
-measures star positions across a night of images from a camera — the Mount Laguna east-facing
-monochrome camera is his worked example — and fits an image-to-sky mapping that predicts a
-star's pixel to about 0.5 px above the horizon, good enough to read a celestial object's
-coordinates to a few hundredths of a degree and to resample several cameras into a single
-pannable panorama.
-
-That article is the reference for what stars can do on HPWREN imagery. This project uses the
-same premise for a narrower end — a bearing to a smoke plume, so the quantity that matters is
-azimuth on the ground rather than sky coordinates — and differs in what it had to cover:
-solving 52 cameras from the archive rather than calibrating one carefully, dating each solve so
-a re-aim is never bridged, and recovering the lens scale itself, which turned out to be an
-equidistant fisheye rather than the nameplate rectilinear. Where the two overlap they agree:
-the published camera table is not where the cameras point.
-
 ![Star tracks against catalog stars under the published and the star-solved pose](figures/star_pose_correction.jpg)
 
 *Green: a star's track over the night. Magenta: that catalog star under the solved pose,
@@ -118,6 +98,49 @@ Two nights of one camera are independent measurements of one pose, and noise doe
 across them. Solves with 20+ stars agree with another night of the same camera to 0.01°, and
 8–11-star solves to 0.3°. Star count does track reliability, but the ≥ 8 cutoff is a blunt
 stand-in for checking that another night agrees.
+
+## Prior work and other applications of astronomy to computer vision
+
+A bearing needs only the pose, and stops there. The same frames support a much finer
+alignment: Robert Quimby, Director of SDSU's Mount Laguna Observatory, fits a full
+image-to-sky mapping on an HPWREN camera that predicts a star's pixel to about 0.5 px, reads a
+celestial object's coordinates to a few hundredths of a degree, and resamples neighbouring
+cameras onto a common grid so they pan as one panorama — [*Using the Stars for Altitude-Azimuth
+Calibration of HPWREN Cameras*](https://www.hpwren.ucsd.edu/news/20240920/index.html) (HPWREN,
+20 September 2024). Reprojection at that precision is what would let two towers' pixels be
+compared directly, rather than only their bearings.
+
+Solving a pose with nothing named in advance is a problem in astronomy that continues to be
+refined. [astrometry.net](https://astrometry.net/) is the standard answer: it takes an image with
+no prior on where it points and returns a calibrated position on the sky, by hashing geometric
+patterns of four stars against an index built from a catalog. That index is built on a tangent
+plane, which a super-wide field breaks — under an equidistant lens a group of stars 40° off the
+boresight is sheared about 1.4:1 against its catalog shape, and 2:1 at the edge of these frames,
+far past any hash tolerance. Yang et al. measure the cost directly: astrometry.net with a
+second-order distortion tweak, on an all-sky frame, misses altitudes above 60° by as much as 5°,
+and higher orders overfit. They fit a Kannala–Brandt series instead — odd powers of the radius,
+with the optical centre offset from the zenith — and reach 0.4 px over 5170 images ([*Accurate
+astrometry for images with super-wide fields of
+view*](https://doi.org/10.1051/0004-6361/202452218), A&A 695, A50, 2025).
+
+That series is worth naming, because the lens model in this project is the same one truncated
+after two terms: `r = k·θ(1 + k1·θ²)`, axisymmetric, written forward where theirs is inverted, and
+with the optical centre pinned to the frame centre rather than fitted as they fit it.
+Kannala–Brandt is also the standard fisheye model in computer vision, which is the point of this
+section: the correction a photogrammetrist reaches for and the one an all-sky astronomer reaches
+for are the same series, arrived at from opposite ends.
+
+The pole solve here does something in astrometry.net's spirit at a much smaller scale — trails
+instead of point sources, and a closed-form rotation instead of an index — but the guarantee is
+the same one worth wanting, that nothing about the answer was assumed going in.
+
+Attitude from stars is also a shipped sensor, not only an analysis. Star trackers do exactly
+this aboard spacecraft, fixing orientation to arcseconds from a frame of the sky, and their
+lost-in-space mode is the blind case again. A fire camera has the easier version of that
+problem: it is bolted down, it knows roughly where it points, and it photographs the sky every
+clear night without being asked. Pose drift that a site visit would otherwise catch — a
+re-aim, a loosened mount — is visible in imagery the network already stores, which makes
+nightly self-calibration a reasonable thing for a detection system to expect of itself.
 
 ## Running it
 

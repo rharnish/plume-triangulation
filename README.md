@@ -97,14 +97,6 @@ field of view, no lens model (see *Caveats*). Stars fix that without a site visi
 that drifts at the sidereal rate is a star, and matching a night of such tracks to a star
 catalog under one shared pose measures a camera's azimuth, pitch, roll and lens together.
 
-Stars were used on these cameras first by Robert Quimby, Director of SDSU's Mount Laguna
-Observatory: [*Using the Stars for Altitude-Azimuth Calibration of HPWREN
-Cameras*](https://www.hpwren.ucsd.edu/news/20240920/index.html) (HPWREN, 20 Sep 2024), which
-fits a per-camera image-to-sky mapping good to about 0.5 px and reprojects several cameras into
-one panorama. What follows is a narrower use of the same idea — bearings for triangulation,
-across 52 cameras and dated per re-aim — and it reaches the same conclusion about the published
-table. See [Prior work](docs/star-calibration.md#prior-work).
-
 ![Star tracks against catalog stars under the published and the star-solved pose](docs/figures/star_pose_correction.jpg)
 
 *Green: a star's track over the night. Magenta: that catalog star under the solved pose,
@@ -122,8 +114,9 @@ run from one to the other.*
 
 **[docs/star-calibration.md](docs/star-calibration.md)** has the rest: a sea-horizon check
 that agrees with the star pose, a closed-form pose from the star trails that names no star and
-found a second lens group, moonlit nights solving as well as dark ones, and night-to-night
-agreement as the acceptance test.
+found a second lens group, moonlit nights solving as well as dark ones, night-to-night
+agreement as the acceptance test, and [prior work and other uses of the same
+sky](docs/star-calibration.md#prior-work-and-other-applications-of-astronomy-to-computer-vision).
 
 Priced in kilometers, with the same detections and solver, on the name-confirmed fires:
 
@@ -392,7 +385,7 @@ corrected. It is the honest record, not a summary.
 - **Copernicus DEM GLO-30** — ESA, via the AWS Open Data registry.
 - **Star calibration of HPWREN cameras** — R. Quimby, [*Using the Stars for Altitude-Azimuth
   Calibration of HPWREN Cameras*](https://www.hpwren.ucsd.edu/news/20240920/index.html),
-  HPWREN, 20 September 2024. Prior work on the idea used here.
+  HPWREN, 20 September 2024.
 - **HYG Database** — star catalog, [astronexus/HYG-Database](https://github.com/astronexus/HYG-Database),
   CC BY-SA 4.0. `data/meta/bright_stars.json` is a filtered derivative (mag ≤ 4) under the same license.
 
