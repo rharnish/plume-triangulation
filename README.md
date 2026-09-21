@@ -104,7 +104,8 @@ catalog under one shared pose measures a camera's azimuth, pitch, roll and lens 
 running inside the track. Orange: the same star under the published pose; the yellow arrows
 run from one to the other.*
 
-- **86 solves on 52 cameras**, at a median residual of 1.3 px and ~22 stars per solve.
+- **86 solves on 52 cameras** in the pose ledger, at a median residual of 1.3 px and ~22
+  stars per solve. A second method adds five more ([below](docs/star-calibration.md)).
 - **33 of the 52 cameras point more than 1° from their published azimuth**, mlo-s-mobo-c by
   23°. Cameras also get re-aimed (Toro Peak West moved 7.5° between 2021 and 2026), so
   corrections are kept per camera *and* date, in a [ledger](data/meta/pose_ledger.json).
