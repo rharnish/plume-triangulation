@@ -6,9 +6,14 @@
 
 ![Kitchen fire: bearings accumulate and the posterior converges](docs/figures/triangulate_kitchenfire.gif)
 
-*The 2024 Kitchen fire, seen from four HPWREN towers. Each camera's most confident smoke
-detection (right) casts a bearing from its tower; the bearings accumulate into a likelihood
-field whose peak (✗) closes to **0.08 km** from the official ignition coordinate (open circle).*
+*The 2024 Kitchen fire (`20240701_Kitchenfire`), seen from four HPWREN towers, a frame a minute
+from t = −120 s to +2400 s and re-solved from each camera's best detection so far. Each camera's
+most confident smoke detection (right) casts a bearing from its tower; the bearings accumulate
+into a likelihood field whose peak (✗) is the estimate; the open circle is the official ignition
+coordinate. One ray has no depth; by +300 s three sites cross 1.33 km out. From +660 s
+lp-e-mobo-c's best box is a bird (apparently with very smoke-like feet), and its ray, 39° off,
+drags the estimate to 1.66 km until a stronger box on the plume replaces it at +1380 s. Four
+sites then close to **0.08 km**.*
 
 Wildfire smoke detection is usually reported as mAP on a held-out split. That number does
 not tell an operator anything they can act on. This project measures three things that it
@@ -45,17 +50,11 @@ the probable tier carries the whole tail. Right: the inner 5 km under the star-m
 ([below](#camera-calibration-from-the-night-sky)), with a thin line back to where the published
 table put each estimate.*
 
-*How to read the triangulation figures (the animation at the top and the stills below): each
-camera's most confident detection (right) casts a bearing (matching color) from its tower; the bearings are accumulated into the likelihood field, whose peak is
-the estimate (✗) and whose falloff is the 95% contour. The open circle is the official
-coordinate. The inset appears only where the credible region is too small to see at the main
-scale.*
-
-*The animation is `20240701_Kitchenfire`, a frame a minute from t = −120 s to +2400 s, re-solved from each
-camera's best detection so far. One ray has no depth; by +300 s three sites cross 1.33 km out.
-From +660 s lp-e-mobo-c's best box is a bird, and its ray, 39° off, drags the estimate to
-1.66 km until a stronger box on the plume replaces it at +1380 s. Four sites then close to
-**0.08 km**.*
+*How to read the triangulation stills below: as in the animation at the top, each camera's most
+confident detection (right) casts a bearing (matching color) from its tower and the bearings are
+accumulated into the likelihood field, whose peak is the estimate (✗), whose falloff is the 95%
+contour, and where the open circle is the official coordinate. The inset appears only where the
+credible region is too small to see at the main scale.*
 
 The geometry holds up in conditions that are not benign. `20201202_WillowFire` is a night
 ignition seen against continuous city light from three sites, and lands **0.30 km** from the
