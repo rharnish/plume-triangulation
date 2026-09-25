@@ -149,8 +149,9 @@ ignitions sit behind a nearer crest, and the first detections sit on that crest.
 
 *Top: first detections (green) sit on the crest (white bar) that hides the official ignition
 (white cross). The lines are DEM ridges projected through the star-solved pose, with no pixels
-fitted. Bottom: a skyline predicted from the DEM and the star pose alone lands 6 px from the
-image edge.*
+fitted. Bottom: a skyline predicted from the DEM and the star pose alone lands on the image
+edge. On the solves from before precession was modelled it sat 6 px low ([the terrain
+check](docs/star-calibration.md#the-terrain-agrees)).*
 
 So the bottom of the earliest boxes must sit on the terrain line at the fire's distance. It
 can't be below the line, because smoke behind a crest can't be seen. It can't be far above
@@ -158,43 +159,35 @@ it either, because a young plume's foot is on the terrain it rises from. Each ca
 star pose therefore gets one interval of distance along its bearing.
 
 - **The interval contains the fire.** On 73 bearings within 5° of the official point, it
-  contains the official distance on 60, with a median length of 0.92× that distance. At the
-  official distance, the terrain row sits a median 3 px from the box bottom.
+  contains the official distance on 60, with a median length of 0.91× that distance. At the
+  official distance, the terrain row sits a median 1 px from the box bottom.
 - **One camera still says something.** Each of the 118 confirmed and probable fires seen from
-  a single site gets its own figure: bearing, miss across the ray (a median of 0.77 km on
+  a single site gets its own figure: bearing, miss across the ray (a median of 0.79 km on
   confirmed fires), and the interval. The interval contains the official point on 30 of 37
   confirmed bearings with a star pose.
 
-Two sites can cross and still leave the estimate at the wrong point along one ray. That is
-where the interval helps:
-
-![Palisades: bearings only vs bearings with terrain ranges](docs/figures/terrain_range_palisades.jpg)
-
-*`20250107_PalisadesFire`, from star-solved bearings on two sites crossing at 103°. Left:
-bearings only, 1.82 km from the official point. Right: dwpgm-s-mobo-c's early box bottom meets
-the terrain line only 1.4–7.6 km out (profile, bottom), which moves the estimate down its ray
-to **0.32 km**. 69bravo-e has no star pose, so it gets no interval.*
-
-The same mechanism fixes a failure bearings cannot. `20260722_RainbowFire` is seen by two
-cameras looking straight at each other, so their bearings coincide and give no distance at
-all:
-- **Bearings alone:** the estimate is 5.82 km out.
-- **With terrain, 30 px band:** 1.42 km, and the 95% region shrinks from 25.4 to 4.8 km²
-  (1.42 km and 8.0 km² at 60 px).
-
-Before this week's star solves it was 17 km, because Boucher Hill West's published azimuth was
-1.16° off.
+The interval rarely moves a two-site estimate, but it can say how far along a shared line
+the fire is. `20260722_RainbowFire` is seen by two cameras looking straight at each other, so
+their bearings nearly coincide and give almost no distance:
+- **Bearings alone:** 1.42 km, with a 95% region 25.6 km² long along the shared line. It
+  was 5.82 km before the ledger was re-solved with precession (and bearings made exact on
+  WGS84). The two bearings are within 1° of collinear, so a fifth of a degree slides the
+  crossing kilometres. Before the fresh star solves of 2026-09-12 to -14 it was 17 km, because
+  Boucher Hill West's published azimuth was 1.16° off.
+- **With terrain, 30 px band:** still 1.42 km, but the region shrinks to 4.8 km² (7.7 km² at
+  60 px, 20.6 at 100).
 
 ![Rainbow: two opposed cameras, bearings only vs bearings with terrain ranges](docs/figures/terrain_range_rainbow.jpg)
 
-**Why it is an opt-in term, not the default.** It needs a band narrower than the 100 px
-default to help Rainbow (1.42 km at 30 or 60 px), and a 30 px band drops 5 of the 73 validated
-fires. On the 17 name-confirmed two-site fires across all of FIgLib, the median moves only
-1.82 → 1.70 km. Where it hurts, the pose is to blame: Toro Peak West was re-aimed between
-star solves. Matching skylines puts it 2.4° from today's pose at `20240724_GroveFire`, and an
-interval drawn with the wrong pose excludes the fire (8.97 → 9.85 km). Every validated bearing
-that moved from a years-old pose onto a fresh star solve contained the fire. The interval is
-only as good as the pose under it.
+**Why it is an opt-in term, not the default.** On the 17 name-confirmed two-site fires across
+all of FIgLib, the median doesn't move at 100 px (1.82 km), and a 30 px band makes it worse
+(2.00 km) while dropping 4 of the 73 validated truths. On the poses from before precession was
+modelled, the 100 px term moved `20250107_PalisadesFire` from 1.82 to 0.32 km. On the
+precessed ledger the bearings cross next to dwpgm-s-mobo-c's own tower, and a log(0.05) penalty
+no longer outweighs the other bearing's miss, so it stays at 1.82 km. The interval is also only
+as good as the pose under it. Toro Peak West was re-aimed between star solves: matching
+skylines puts it 2.4° from today's pose at `20240724_GroveFire`, and the interval drawn with
+the wrong pose excludes the fire (14.7–28.9 km against 31.9 km).
 
 ### Seconds-to-alert vs false alarms per camera-day
 
@@ -299,7 +292,7 @@ the full corpus):
 ```sh
 FIGLIB_CORPUS=all python -m src.figlib.terrain_range validate    # does the range contain the official point?
 FIGLIB_CORPUS=all python -m src.figlib.fig_bearing               # one figure per single-site fire
-FIGLIB_CORPUS=all python -m src.figlib.terrain_range figure 20250107_PalisadesFire
+FIGLIB_CORPUS=all python -m src.figlib.terrain_range figure 20260722_RainbowFire 30
 ```
 
 The Core ML work is macOS-only and installs separately (`requirements-edge.txt`); see

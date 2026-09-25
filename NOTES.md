@@ -2363,10 +2363,101 @@ depend on them. Center bearing, upper medians the way geolocate prints them, con
     inside the 95% region, at 2.66 of the 3.0 log-likelihood drop.
 
 The headline numbers are within the solver's own grid step, so the changes read as
-resolution rather than calibration. A finer grid would settle whether 1.70 or 2.00 is the
-better figure for the ledger variant. **Not re-run:** the terrain-range section
-(`terrain_range validate`, Rainbow, Toro Peak), which also reads the ledger, and the `recent`
-corpus, whose ledger in `out/recent/` was solved before precession.
+resolution rather than calibration. The next section settles whether 1.70 or 2.00 is the
+better figure for the ledger variant, and re-runs the terrain range and the `recent` corpus.
+
+## Skyline check, grid resolution, terrain range and recent poses on the precessed ledger (2026-09-25)
+
+**The DEM skyline favours the corrected sky model, on 35 of 39 cameras
+(`stars/skyline_check.py`).** For each of the 41 cameras that have a 3072 px CDN star solve
+and daytime frames from the same day (all 2026-09-11), the night was solved again under five
+sky models. The re-solves reproduce both ledgers to within 0.001 deg: "none" against the J2000
+ledger from bbe220f, "all" against the current one. The DEM skyline under each pose then went
+onto the 09:00 frame. The residual is the strongest bright-above, dark-below edge within
++-25 px of the models' mean line, minus the line. Only ridges 10-78 km out count: at 80 km the
+march has run out, which dropped both lp-w cameras, whose view is mostly sea.
+
+| sky model | median of 39 camera medians | mean \|camera median\| |
+|---|---|---|
+| none (the old solver) | -4.2 px | 6.4 px |
+| refraction | -5.9 | 6.7 |
+| precession | +1.7 | 3.3 |
+| precession + refraction | +0.3 | 2.8 |
+| all (+ proper motion) | +0.3 | 2.8 |
+
+  * **Precession does most of it,** and its sign follows the camera's facing. Under "none"
+    every south- and west-facing camera sits + (line above the ridge, +2.4 to +12.4 px).
+    North- and east-facing cameras sit - (to -9.5), apart from rm-n, lp-e, rm-e and sdsc-e.
+    That is the precession rotation landing in pitch or roll.
+  * **Refraction is a uniform ~1.5 px.** Alone it moves the median away from zero; on top of
+    precession it brings it to +0.3. Proper motion changes nothing measurable.
+  * **Worse on four cameras:** lp-e (-0.4 -> +6.1), rm-e (-0.1 -> +7.2), sdsc-e (+12.8 ->
+    +18.9; an urban skyline), ws-w (+2.4 -> -4.8).
+  * **It explains the 2026-09-13 "mostly unexplained" skyline bias.** `ridge_feet edges` (the
+    whole-skyline shift search above) re-run on the precessed ledger: median -5.5 -> **-1.0 px**
+    on the solves with a sharp, repeatable edge (28 -> 31 of 48; IQR -9..+1 -> -4..0; 30 of 31
+    within 15 px). hp-e, the clean example in `terrain_hidden_ignition.jpg`, goes from -6 to 0.
+  * Mostly a pitch and roll test: a 0.2 deg azimuth change slides a ridge ~6 px sideways,
+    which shows only where the ridge slopes.
+  * Written up in docs/star-calibration.md ("The terrain agrees"), with
+    `docs/figures/skyline_sky_model{.png,_zooms.jpg}`. The frames leave the CDN around
+    mid-December.
+
+**Grid resolution: the ledger variant's confirmed median is 2.0 km, not 1.7.** Every
+confirmed fire was re-solved at 0.4, 0.2, 0.1 and 0.05 km, and with the peak re-found at
+0.01 km within two cells of the grid's (`geolocate.refine`, now opt-in as
+`FIGLIB_REFINE_KM`):
+
+| confirmed upper median | 0.4 | 0.2 | 0.1 | 0.05 | refined |
+|---|---|---|---|---|---|
+| baseline | 1.90 | 1.82 | 1.84 | 1.87 | 1.87 |
+| fisheye | 1.70 | 1.70 | 1.68 | 1.68 | 1.68 |
+| fisheye + ledger | 2.00 | 1.72 | 2.06 | 1.97 | 2.02 |
+
+  * **The ledger variant's median is whichever of Clubfire (2.07 refined), Roundfire (2.02) or
+    Creelman (2.11) the grid favours.** All three sit within about 0.1 km of the 2 km line. So the
+    "within 2 km" counts are the fragile number: refined, they are 7 / 6 / 5, against 7 / 8 / 6
+    on the grid.
+  * **The refinement converges.** Clubfire's refined peak is 2.065 km from coarse grids of
+    0.4, 0.1 and 0.05 alike, while the unrefined grid gives 2.00, 2.22 and 1.97.
+  * **It stays opt-in** because turning it on moves every km number in the README by up to
+    ~0.3 km: Kitchen 0.08 -> 0.14, Willow 0.30 -> 0.21, the all-fires median 2.58 -> 2.80.
+    Those should move together in one re-run of every stage that calls `solve`, not
+    piecemeal. The README stays on the 0.4 km grid.
+  * **Found on the way:** Clubfire's FIgLib archive has two sequences per starr-n camera
+    (`#1`, `#2`), and both give the same best box, so starr-n is counted twice against
+    stgo-s. Also, `terrain_range` sets `FIGLIB_LENS=fisheye` in `os.environ` when it is
+    imported. `tests/test_geolocation.py` therefore passes in the full suite but fails its
+    two-site Kitchen test when run alone (3.85 km against a 3.0 km bound, rectilinear lens).
+
+**Terrain range re-run (`FIGLIB_CORPUS=all`, grid solver).**
+  * **Validate, 73 bearings:** 60 contain the truth at 100 px (median length 0.91x, was
+    0.92x), 60 at 60 px (was 59), 56 at 30 px (was 55). The terrain row at the true distance
+    is a median +1 px from the box bottom (was +3).
+  * **Single-site figures:** confirmed median miss 0.79 km, 4.4 deg (was 0.77, 4.5). Ranges
+    contain the truth on 17 of 19 ledger and 13 of 18 nearest bearings (unchanged).
+  * **Rainbow, bearings alone: 5.82 -> 1.42 km.** The bearings are within 1 deg of
+    collinear, so the ~0.2 deg re-solve slides the crossing kilometres. The terrain term no
+    longer changes its error; it shrinks the 95% region from 25.6 to 4.8 km² at 30 px (7.7 at
+    60, 20.6 at 100).
+  * **Palisades no longer moves: 1.82 km at every band (was 1.82 -> 0.32 at 100 px).** The
+    peak sits next to dwpgm-s-mobo-c's own tower (its range there is ruled out: 1.6-7.8 km).
+    The log(0.05) penalty is not enough to pay for 69bravo-e's miss elsewhere. The old rescue
+    was marginal. `docs/figures/terrain_range_palisades.jpg` is removed from the README.
+  * **Grove: 8.08 km (was 8.97), and terrain no longer worsens it** (was 9.85). tp-w's range
+    from its 779-day-old nearest pose still excludes the official point (14.7-28.9 km against
+    31.9).
+  * **Confirmed-tier median (17 two-site fires):** 1.82 -> 1.82 at 100 and 60 px (was
+    1.82 -> 1.70), and 1.82 -> **2.00** at 30 px (within 2 km 10 -> 9).
+
+**Recent-corpus ledger re-solved** (`resolve_ledger out/recent/pose_ledger.json`: 86 entries
+copied from the tracked ledger, the 16 extra re-solved). 14 pass, with d_az a median -0.19 deg
+(range -0.23 to -0.14). Two fall just under the gates: bm-e 2026-09-19 (7 stars; the gate is 8)
+and sojr-s 2026-09-20 (3.3 px; the gate is 3.0). bm-e keeps its 09-20 solve (+4.63); sojr-s has
+no pose now. Scores, grid solver, fisheye + star poses: **Bernardo 0.63 km, Junction 3.54 km,
+both unchanged**. The published and fisheye rows are unchanged too. By k sites, Bernardo is
+1.92 / 1.64 / 1.18 / 0.93 / 0.83 / 0.86 / 0.63, and Junction 3.21 / 3.10 / 3.78 / 3.90 /
+3.69 / 3.65 / 3.54.
 
 ## Deliberately deferred
 
