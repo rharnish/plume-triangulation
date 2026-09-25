@@ -29,7 +29,7 @@ from pathlib import Path
 
 import numpy as np
 
-from .geom import (angdiff_deg, bearing_deg, haversine_km, load_cams,
+from .geom import (angdiff_deg, bearing_deg, bearing_grid, haversine_km, load_cams,
                     offset_bearing_deg)
 from . import corpus as C
 from . import pose_ledger
@@ -234,12 +234,7 @@ def solve(bearings: list[Bearing], center: tuple[float, float],
 
     total = np.zeros_like(LA)
     for b in bearings:
-        p1 = np.radians(b.lat)
-        p2 = np.radians(LA)
-        dl = np.radians(LO - b.lon)
-        y = np.sin(dl) * np.cos(p2)
-        x = np.cos(p1) * np.sin(p2) - np.sin(p1) * np.cos(p2) * np.cos(dl)
-        brg = (np.degrees(np.arctan2(y, x))) % 360.0
+        brg = bearing_grid(b.lat, b.lon, LA, LO)
         if b.ll_curve is not None:
             degs, ll = b.ll_curve
             # The curve is dense over the field of view and flat outside it; anything

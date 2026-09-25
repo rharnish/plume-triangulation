@@ -53,7 +53,9 @@ def test_in_view_wedge():
     assert in_view(cam, 0.0, 1.0)                              # dead ahead
     assert in_view(cam, 0.5, 1.0)                              # east-north-east, well inside
     assert not in_view(cam, 0.0, -1.0)                         # behind, due west
-    assert not in_view(cam, 1.0, 1.0)                          # ~45 deg, just past the edge
+    # ~45 deg, just past the edge. (1, 1) itself sits at 45.19 deg on the ellipsoid -- a
+    # degree of longitude is longer than one of latitude at the equator -- so step north.
+    assert not in_view(cam, 1.01, 1.0)
     assert in_view(cam, 1.0, 1.0, margin_deg=1.0)              # margin lets the edge case in
 
 
@@ -143,3 +145,19 @@ def test_fisheye_lens_only_on_the_frame_format_it_was_measured_on(monkeypatch):
     assert offset_bearing_deg(old_unit, 0.9) == rect
     assert offset_bearing_deg(unknown, 0.9) == rect
     assert offset_bearing_deg({**old_unit, "frame_w": 3072}, 0.9) != rect
+
+
+def test_bearing_is_ellipsoidal_not_spherical():
+    # Big Black Mountain to a point ~44 km NE: the sphere said 36.866 deg; the local-frame
+    # direction on WGS84 (checked against Vincenty in tests/test_landmarks.py) is 36.995.
+    assert bearing_deg(33.16, -116.808, 33.48, -116.52) == pytest.approx(36.9954, abs=1e-3)
+
+
+def test_bearing_grid_matches_scalar():
+    import numpy as np
+    from src.figlib.geom import bearing_grid
+    lats = np.array([[32.6, 33.4], [33.0, 32.9]]); lons = np.array([[-116.9, -116.2], [-117.3, -116.6]])
+    g = bearing_grid(33.16, -116.808, lats, lons)
+    for i in range(2):
+        for j in range(2):
+            assert g[i, j] == pytest.approx(bearing_deg(33.16, -116.808, lats[i, j], lons[i, j]), abs=1e-9)
