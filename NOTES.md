@@ -980,6 +980,90 @@ python -m src.figlib.calfire                      # core
 FIGLIB_CORPUS=all python -m src.figlib.calfire    # all 296
 ```
 
+## Cameras FIgLib didn't annotate, from the CDN (2026-09-21)
+
+A FIgLib archive holds the cameras someone annotated. For a fire inside the CDN's ~90-day
+public window, the other cameras can still be fetched. `src/figlib/recent.py` (corpus
+`recent`) fetches them over FIgLib's ±40 min window, runs the same detector, and scores each
+fire three ways: from its FIgLib cameras alone, with every extra camera, and from every
+subset of sites. Fires and truth come from `all`, so no published number moves.
+
+**Candidates.** For each 2026 fire: fixed color Mobotix cameras not in the archive, within
+45 km, with the fire inside the field of view (published azimuth plus any star d_az), and
+where a plume needs to rise 200 m or less to clear the DEM. Ten fires had live candidates,
+97 camera/fire pairs in all. Getty (LA) had none on the CDN: dwpgm-e and 69bravo-e return
+403. Mission (06-18) had fully expired by 09-21 and Bernardo (06-22) was expiring
+camera by camera, so the window is about 90 days to the day. Pulled so far: **Bernardo**
+(10 cameras; smarpk-s, mg-w and sm-n had already expired) and **Junction** (6 cameras), 1,281
+frames, 624 MB. bl-n is an old 2048×1536 unit.
+
+**Star poses for the new cameras.** Night blocks 2026-09-19 and -20 Q1, 15 cameras
+without a solve. The grid solver found 7. `solve_wide` (the pole method) added bm-e, bm-w
+and mpo-s's second night, under the Big Black Mountain lens again (k 0.771–0.775). Seven
+cameras agree across the two nights to 0.08° or better: bh-e −1.88/−1.90, bi-e
+−0.90/−0.88, bi-s −0.66/−0.72, mpo-e −0.02/+0.01, mpo-s +0.03/+0.06, bm-e +4.75/+4.83,
+bm-w +1.29/+1.30. ch-e (+0.85, 12 stars) and sojr-s (−1.39, 8 stars, 2.89 px) solved on
+one night only. No solve: bl-n (25–36k point sources a frame: not a star field), ch-s,
+rdd-s and wc-w (0–4 moving tracks; low cloud?), rdd-e (272 tracks, no convergence, pole
+lens 0.64 is implausible), wlfd-s (7 stars). These went into `out/recent/pose_ledger.json`,
+the tracked ledger plus 16 entries. `data/meta/pose_ledger.json` is untouched.
+
+**The fisheye lens holds on cameras it was never fitted to.** Two cameras at one site
+see a fire near their shared frame edge, so their bearings should agree. Under the
+rectilinear lens they miss in opposite directions. Under the star-measured fisheye they
+agree, with no pose correction and no reference to truth:
+
+| pair | x | rectilinear | fisheye |
+|---|---|---|---|
+| rdd-e / rdd-s (Bernardo) | 0.898 / 0.055 | 128.52 / 138.35° | 132.22 / 132.23° |
+| ch-e / ch-s (Bernardo) | 0.860 / 0.024 | 125.74 / 136.41° | 127.83 / 128.37° |
+| mpo-e / mpo-s (Junction) | 0.958 / 0.114 | 132.48 / 142.36° | 139.38 / 139.22° |
+
+**Scores, center bearing, km to the WFIGS point:**
+
+| fire | FIgLib only | + extra, published | + fisheye | + star poses |
+|---|---|---|---|---|
+| Bernardo | one site, no solve | 1.19 (8 sites) | 1.19 | **0.63** |
+| Junction | 2.21 / 1.97 / 3.06 | 2.90 (8 sites) | 2.89 | 3.54 |
+
+(Junction's FIgLib-only column is published / fisheye / fisheye+ledger. The 2.21 matches
+`out/all/geolocation.json`.)
+
+**Fewer sites.** Median error over every subset of k sites, fisheye + star poses:
+
+| k | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|---|---|---|---|---|---|---|---|
+| Bernardo | 1.98 | 1.64 | 1.24 | 0.92 | 0.83 | 0.86 | 0.63 |
+| Junction | 3.16 | 3.11 | 3.65 | 3.92 | 3.75 | 3.62 | 3.54 |
+
+- **Bernardo is what extra sites are for.** A single-site fire becomes a 0.63 km solve, and
+  error falls roughly monotonically with k. Star poses help: bh-s −2.71 → +0.21°, bi-s
+  +0.67 → 0.00°, ch-e −1.58 → −0.73°.
+- **Junction is detection selection, not geometry.** Six bearings form a consistent group
+  after calibration: bm-e, hp-s, bi-s, mpo-e, mpo-s, sojr-s, all −3.4 to −1.3° except bm-e
+  (see the lens note below). Six others are the wrong object: vo-n (the known cumulus),
+  mg-e (the known 0.81 cloud), vo-w and hp-e (edge-clipped at x 0.94–0.95), bh-e (−70°,
+  at +2132 s), and bi-e (−12°). More sites bring more of both, so the median by k is flat.
+  This needs the bounded-influence mixture in `accumulate`, not more cameras.
+- **Where calibration made things worse, it was the lens, not the pose.** `geom`'s fisheye
+  uses the shared 0.886 lens for every camera, but bm-* solve at 0.775. At x ≈ 0.3 that
+  is ~3° of bearing, which accounts for most of bm-w's +4.90 and bm-e's +4.78. Applying
+  the ledger's per-camera k_ratio to bearings would fix it (and affects the core corpus too).
+- wc-w (Bernardo's only FIgLib camera) misses by −9.9° and has no star pose; bl-n +6.4°.
+
+Reproduce (the fetch needs the frames to still be inside the CDN window):
+
+```sh
+python -m src.figlib.recent fetch 20260622_BernardoFire rdd-e-mobo-c rdd-s-mobo-c ...
+python -m src.figlib.recent detect
+python -m src.figlib.recent score
+FIGLIB_LENS=fisheye python -m src.figlib.recent score
+FIGLIB_LENS=fisheye FIGLIB_POSE_LEDGER=1 FIGLIB_POSE_LEDGER_PATH=out/recent/pose_ledger.json \
+  python -m src.figlib.recent score
+```
+
+Next deadlines: Thorn ~10-13, Creelman and Rainbow ~10-20.
+
 ## Open questions
 
 **Lens distortion and pose -- settled 2026-09-09, and not the way it first looked.**

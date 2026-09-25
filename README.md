@@ -328,7 +328,7 @@ Modules live in [src/figlib/](src/figlib/), with star calibration in [src/figlib
 
 | stage | modules |
 |---|---|
-| **Ingest & ground truth** | `ingest` `fires` `truth` `resolve` `wind` |
+| **Ingest & ground truth** | `ingest` `fires` `truth` `resolve` `wind` · `recent` (cameras FIgLib didn't annotate, from the CDN) |
 | **Detection** | `detect_yolo` (ONNX) · `detect_coreml` (Apple) · `detect_diff` (training-free floor) |
 | **Geometry** | `geom` `geolocate` `accumulate` |
 | **Plume masks** *(tested, lost)* | `masks` `plumefit` — segmentation-based bearings, see `NOTES.md` · `open_vocab` `sam2_track` *(exploratory, with viewers)* |

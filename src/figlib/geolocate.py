@@ -113,11 +113,13 @@ def bearings_for_fire(fire: dict, seqs: dict, cams: dict,
         s = seqs.get(seq_name)
         if not s or not s["has_pose"]:
             continue
-        path = YOLO_DIR / f"{seq_name.split('#')[0]}.json"
+        # A sequence may name its own detection directory and frame width: recent.py's
+        # CDN sequences live outside every corpus's detections and frame_sizes.json.
+        path = Path(s.get("dets_dir") or YOLO_DIR) / f"{seq_name.split('#')[0]}.json"
         if not path.exists():
             continue
         cam = {**cams[s["camera"]],
-               "frame_w": (FRAME_SIZES.get(seq_name.split("#")[0]) or [None])[0]}
+               "frame_w": s.get("frame_w") or (FRAME_SIZES.get(seq_name.split("#")[0]) or [None])[0]}
         best = None
         for rec in sorted(json.loads(path.read_text()), key=lambda r: r["offset"]):
             if not (window_s[0] <= rec["offset"] <= window_s[1]):
