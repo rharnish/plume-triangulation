@@ -2127,6 +2127,67 @@ The switches are `catalog.set_model(precession=..., refraction=...)`. Both are o
 so no existing solve has changed. Figure: `docs/figures/star_window_ablation.jpg`. Numbers:
 `out/sky/data/window_ablation/summary_*.json`.
 
+## Landmarks against the precession finding: inconclusive, and why (2026-09-25)
+
+The window ablation found that switching precession on moves every star-solved boresight by
+about -0.28 deg in azimuth. `src/figlib/landmarks.py` tried to confirm this with evidence that
+has nothing to do with stars.
+
+**The star side is now confirmed independently.** Skyfield 1.55 (IAU 2000A precession-nutation,
+aberration, DE421) computed apparent alt/az for seven catalog stars from Volcan Mountain.
+The precessed model agrees to within 0.005 deg; the J2000 model is off by up to 0.32 deg. Those
+values are now a test (`tests/test_window_ablation.py`). With the star directions correct, a
+pose fitted to them is correct, so the precessed poses are the right ones. The landmark check
+was meant as an end-to-end confirmation, and it could not provide one.
+
+**What was built:**
+- `data/meta/landmarks.json`: 4,518 constructed FCC Antenna Structure Registration structures
+  within 80 km of an HPWREN site, 451 of them marked or lit; the 73 HPWREN sites; and the Lake
+  Sutherland outline from OpenStreetMap (ODbL).
+- Exact geometry: WGS84 Earth-centred coordinates rotated into the camera's local
+  east-north-up frame, checked against Vincenty's formula to 0.001 deg.
+- Line of sight through the elevation model.
+- Static lights per night block: whole-frame detections clustered across frames.
+- A pair of star solves per block, one under each sky model, and matching to isolated lights
+  predicted halfway between the two poses. That halfway rule avoids a selection bias: in a
+  field of city lights, "the nearest light" otherwise drifts toward whichever pose made the
+  prediction.
+
+**Result:** 130 matches (57 unique camera/landmark pairs) over 44 blocks and 28 cameras.
+- Median azimuth residual: current pose +0.04 deg (95% CI -0.03 to +0.11); precessed pose
+  -0.15 deg (-0.21 to -0.09).
+- The spread per match is 0.25-0.3 deg (MAD), the same size as the effect being tested.
+- Taken naively, the median favours the current pose. The 13 landmarks seen from two or more
+  cameras favour the precessed one (median -0.07 against +0.12).
+
+**Why it is not trustworthy.** The annotated blocks (`out/sky/landmarks/*.jpg`) show:
+- On cp-w the "lights" matched to towers 50-75 km away are texture along the top of a marine
+  layer, not the towers.
+- On the Eaton Fire block of wilson-s, a maximum-projection over the night is fire glow.
+- Antenna farms put several registrations on one light.
+- An HPWREN site's coordinates are the site, not necessarily the lit mast, which is 0.1 deg at
+  30 km for a 50 m offset.
+
+Automatic matching at a 25 px gate cannot tell a beacon from glow. That noise floor is above
+the 0.2-0.3 deg the check needs to resolve.
+
+**Lake Sutherland** (bm-s-mobo-c, 5-7 km, 5-7 deg below the horizon) is the right idea. Under
+both poses the OSM full-pool outline lands on the reservoir's bathtub ring
+(`out/sky/landmarks/bm-s_lake_sutherland_overlay.png`). The two poses differ by about 7 px
+there, and the fuzzy, drawn-down shoreline does not constrain a shift that small: an edge
+search peaked weakly and at its search bounds. No dam is mapped in OpenStreetMap to anchor
+it.
+
+**What would work.** A short, hand-verified landmark list: beacons confirmed by eye on clear
+nights, with each mast's own coordinates rather than the site's. The pipeline above can
+produce candidate crops for that review.
+
+**A related finding for geolocation:** `geom.bearing_deg` was a spherical great-circle bearing
+evaluated at geodetic latitudes. Against the exact ellipsoidal direction it was off by up to
+0.135 deg on diagonal bearings at 40-60 km (tested from Big Black Mountain). That was a
+separate systematic from precession, feeding `geom.loglik_field`, `geolocate`, `accumulate`,
+`bias` and `fig_bearing`. It is fixed: bearings are now exact on WGS84 (see the next section).
+
 ## Precession, proper motion and refraction on by default; ledger re-solved (2026-09-25)
 
 **The catalog now carries its own reference frame.** `data/meta/bright_stars.json` has a
@@ -2147,7 +2208,8 @@ A catalog in any other frame or equinox raises an error rather than being silent
 proper_motion+precession+refraction`. `pose_ledger.load` refuses a ledger that mixes models.
 
 **Old results can be reproduced.** `catalog.using(...)` switches corrections off for one
-block, so earlier results can be regenerated: the window ablation pins its models explicitly.
+block, so earlier results can be regenerated: the window ablation and the landmark check pin
+their models explicitly.
 
 **The ledger was re-solved.** `stars/resolve_ledger.py` re-ran the same 86 sequences behind
 the ledger with the same solver each was accepted by. vo-e-mobo-m had been accepted by
@@ -2165,6 +2227,29 @@ the wide search. All 86 still pass. The previous ledger is kept at
 `geom.bearing_grid` now give the exact WGS84 local-frame bearing; the old spherical formula
 was up to 0.135 deg off. Hand-copied spherical formulas in `geolocate.py`, `accumulate.py`
 and `bias.py` now call the shared functions.
+
+**The hand-verified landmark list, first pass.** `landmarks.candidates` gathered every lit
+tower or HPWREN site that is in frame, in line of sight, and has a static light within 40 px of
+where the pose puts it, on the 2026 Q1 blocks. Keeping one per camera and direction, with at
+most two lights nearby, left 168. Their crops are on eleven contact sheets
+(`out/sky/landmarks/review/`).
+- **Most showed no beacon at the predicted spot.** The lights found near it were city lights,
+  the lit top of a marine layer, or noise along a skyline.
+- **Twelve were unambiguous** (`data/meta/landmarks_verified.json`). The HPWREN sites Birch
+  Hill (seen from four cameras), Buffalo and Idyllwild each show one light on the skyline
+  where the site is; so do three FCC towers and San Miguel Mountain seen from lp-w.
+- **On those 12, median azimuth residual:** current (J2000) pose +0.11 deg, precessed pose
+  -0.11 deg. Mean absolute: 0.12 and 0.14.
+- **This does not decide between the poses, for two reasons:**
+  - The crops were judged against a circle drawn at the precessed pose's prediction, so the
+    selection leans toward that pose.
+  - An HPWREN site's coordinates locate the site, not the lit mast. Birch Hill's four
+    residuals agree with each other to ~0.05 deg under either pose, which is what a fixed
+    offset in its coordinates would look like.
+
+The precession correction rests on the Skyfield comparison, not on landmarks. A landmark check
+that could decide it needs surveyed mast positions, or daytime structures whose position is
+known to ~10 m.
 
 **Not re-run yet:** the geolocation numbers in the README (km errors). The new ledger and the
 bearing fix will both move them slightly, and re-running writes `runs.jsonl`.
