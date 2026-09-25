@@ -142,6 +142,34 @@ clear night without being asked. Pose drift that a site visit would otherwise ca
 re-aim, a loosened mount — is visible in imagery the network already stores, which makes
 nightly self-calibration a reasonable thing for a detection system to expect of itself.
 
+## The sky had moved since 2000
+
+The star catalog is J2000, and the solver never precessed it. Over one 90-minute block the pose
+absorbs the ~0.36° the sky has shifted since then. It absorbs it as a wrong rotation, though. A
+whole-night study (four cameras, 600 solves on windows from 15 minutes to 8.5 hours) shows it
+two ways:
+- **An azimuth bias.** With precession on, every camera's boresight moves by about **−0.28° in
+  azimuth**. The rest of the rotation lands in pitch or roll, depending on which way the
+  camera faces.
+- **Drift across the night.** A 90-minute pose predicts stars 4+ hours later 3–6 px off
+  without precession, and 1–2.6 px off with it.
+
+With precession and refraction both on, calibration window length hardly matters. On the east
+and west cameras a 15-minute window predicts the rest of the night at 0.8–1.0 px, and its
+boresight repeats to about 0.01–0.02°. North-facing cameras still want an hour or more, because
+stars near the pole move slowly.
+
+![Window length and sky model against repeatability and held-out residual](figures/star_window_ablation.jpg)
+
+Since 2026-09-25 proper motion, precession and refraction are **on by default**. The catalog
+file now states its own frame (ICRS), equinox and epoch (2000.0), and the solver derives the
+corrections from that header. The ledger has been re-solved from the same 86 sequences: azimuth
+corrections moved by a median of **−0.21°** (−0.04° to −0.32°; older FIgLib-era solves move
+less because less precession had built up by then), and every entry records the sky model it
+was solved under. An independent check against Skyfield puts the corrected star positions
+within 0.005° of the full IAU chain. Poses quoted elsewhere in these docs from before that date
+are J2000 poses. The details are in [NOTES.md](../NOTES.md).
+
 ## Running it
 
 ```sh
@@ -150,6 +178,9 @@ python -m src.figlib.stars.run_nights                   # track, star-solve, reb
 python -m src.figlib.stars.moon_test                    # the moon-phase ladder
 python -m src.figlib.stars.cross_night                  # night-against-night agreement
 python -m src.figlib.stars.fig_solve_process            # the four-stage figure
+python -m src.figlib.stars.nights --night 20260713 vo-w-mobo-c   # a whole night (Q7, Q8, Q1, Q2)
+python -m src.figlib.stars.window_ablation hpwren_20260713_N_vo-w-mobo-c   # windowed solves; --summary to score
+python -m src.figlib.stars.fig_window_ablation          # the window/sky-model figure
 ```
 
 The full account, including the sign convention that had to be measured rather than derived, is
