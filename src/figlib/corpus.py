@@ -9,6 +9,7 @@ a published number. So every pipeline stage resolves its paths here, from one va
 | `core` (default) | `data/tgz` | `data/meta` | `out/yolo` | `out` |
 | `extra` | `out/figlib_extra/tgz` | `data/meta/extra` | `out/extra/yolo` | `out/extra` |
 | `all` | both of the above | `data/meta/all` | `out/all/yolo` | `out/all` |
+| `recent` | none: CDN frames, see recent.py | `data/meta/recent` | `out/recent/yolo` | `out/recent` |
 
 Unset means `core`, so every existing command reads and writes exactly what it did
 before. `out/all/yolo` holds links to the other two detection directories rather than a
@@ -56,6 +57,10 @@ CORPORA = {
                     ROOT / "out" / "extra"),
     "all": Corpus("all", (ROOT / "data" / "tgz", ROOT / "out" / "figlib_extra" / "tgz"),
                   SHARED_META / "all", ROOT / "out" / "all" / "yolo", ROOT / "out" / "all"),
+    # Extra cameras for recent fires, fetched from the CDN as frames rather than archives
+    # (recent.py). Scored against the `all` corpus's fires and ground truth.
+    "recent": Corpus("recent", (), SHARED_META / "recent", ROOT / "out" / "recent" / "yolo",
+                     ROOT / "out" / "recent"),
 }
 
 

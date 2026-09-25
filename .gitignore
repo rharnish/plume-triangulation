@@ -2,6 +2,10 @@
 data/tgz/
 data/frames/
 data/cache/
+# HPWREN CDN frames: star-calibration nights (stars/nights.py) and extra cameras for
+# recent fires (recent.py). Their manifests live in out/sky/ and data/meta/recent/.
+data/hpwren_nights/
+data/hpwren_recent/
 
 # Derived outputs (scoped, not blanket — a blanket *.png would silently
 # swallow committed figures and web assets)
@@ -9,6 +13,7 @@ out/
 data/**/*.png
 data/**/*.jpg
 data/**/*.mp4
+data/**/*.parquet
 
 # Python
 .venv/
