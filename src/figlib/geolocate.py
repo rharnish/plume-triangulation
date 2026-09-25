@@ -53,6 +53,9 @@ FRAME_SIZES = json.loads(_FRAME_SIZES.read_text()) if _FRAME_SIZES.exists() else
 # source. Two degrees is deliberately generous: claiming less would shrink the
 # uncertainty region without earning it.
 SIGMA_DEG = 2.0
+# Opt-in: re-find the peak at this step within two cells of the grid's (`refine`). Off by
+# default so every published number stays the grid's, until they are re-run together.
+REFINE_KM = float(os.environ["FIGLIB_REFINE_KM"]) if os.environ.get("FIGLIB_REFINE_KM") else None
 
 # Scored columns, in the order they are reported. The four box variants run by
 # default; everything past them takes the bearing from a pixel mask instead of a box
@@ -224,8 +227,13 @@ def _fit_x(kind: str, method: str, seq_name: str, offset: int, det: dict,
 
 def solve(bearings: list[Bearing], center: tuple[float, float],
           half_extent_km: float = 60.0, step_km: float = 0.4,
-          sigma_deg: float = SIGMA_DEG):
-    """Log-likelihood surface over the ground, and its peak."""
+          sigma_deg: float = SIGMA_DEG, refine_km: float | None = REFINE_KM):
+    """Log-likelihood surface over the ground, and its peak.
+
+    The surface is returned at `step_km`. Without refinement the peak can only be a grid
+    node. A 0.4 km cell then moves single fires by up to 0.5 km as the grid shifts under
+    them, and can carry a median across the 2 km line (NOTES.md, 2026-09-25).
+    `refine_km` (FIGLIB_REFINE_KM) re-finds the peak off the grid; see `refine`."""
     lat0, lon0 = center
     dlat = step_km / 111.32
     dlon = step_km / (111.32 * math.cos(math.radians(lat0)))
@@ -249,7 +257,27 @@ def solve(bearings: list[Bearing], center: tuple[float, float],
             total += -0.5 * (d / sigma_deg) ** 2
 
     i, j = np.unravel_index(np.argmax(total), total.shape)
-    return lats, lons, total, float(lats[i]), float(lons[j])
+    la, lo = float(lats[i]), float(lons[j])
+    if refine_km:
+        la, lo = refine(bearings, la, lo, step_km, sigma_deg=sigma_deg, fine_km=refine_km)
+    return lats, lons, total, la, lo
+
+
+def refine(bearings: list[Bearing], lat: float, lon: float, step_km: float,
+           extra=None, sigma_deg: float = SIGMA_DEG, fine_km: float | None = None) -> tuple[float, float]:
+    """A grid peak, re-found at `fine_km` within two coarse cells of it.
+
+    `extra(lats, lons)`, if given, adds a term on the fine grid, as it was added on the
+    coarse one (terrain_range's penalty). The fine grid is centred on the coarse peak, so it
+    moves with the peak and is not tied to the coarse grid's origin."""
+    fine_km = fine_km or REFINE_KM or 0.01
+    lats, lons, ll, la, lo = solve(bearings, (lat, lon), half_extent_km=2 * step_km,
+                                   step_km=fine_km, sigma_deg=sigma_deg, refine_km=None)
+    if extra is not None:
+        ll = ll + extra(lats, lons)
+        i, j = np.unravel_index(np.argmax(ll), ll.shape)
+        la, lo = float(lats[i]), float(lons[j])
+    return la, lo
 
 
 def credible_area_km2(lats, lons, ll, drop: float = 3.0, step_km: float = 0.4) -> float:
