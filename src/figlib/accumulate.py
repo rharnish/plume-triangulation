@@ -37,7 +37,7 @@ from pathlib import Path
 import numpy as np
 
 from .geolocate import credible_area_km2
-from .geom import haversine_km, load_cams, offset_bearing_deg
+from .geom import bearing_grid, haversine_km, load_cams, offset_bearing_deg
 
 from . import corpus as C
 
@@ -103,12 +103,7 @@ def posterior(det_by_cam: dict, cams: dict, center: tuple[float, float],
 
     for camera, dets in det_by_cam.items():
         cam = cams[camera]
-        p1 = math.radians(cam["lat"])
-        p2 = np.radians(LA)
-        dl = np.radians(LO - cam["lon"])
-        y = np.sin(dl) * np.cos(p2)
-        x = math.cos(p1) * np.sin(p2) - math.sin(p1) * np.cos(p2) * np.cos(dl)
-        brg = np.degrees(np.arctan2(y, x)) % 360.0
+        brg = bearing_grid(cam["lat"], cam["lon"], LA, LO)
 
         uniform = 1.0 / cam["fov"]
         cam_ll = np.zeros_like(LA)

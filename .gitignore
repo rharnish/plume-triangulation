@@ -43,3 +43,4 @@ weights/
 
 # Reference papers, kept locally for citation checking, not redistributed
 docs/reference/
+data/external/

@@ -39,7 +39,7 @@ import numpy as np
 from .accumulate import PI_MAX
 from .coverage import (FINE_HALF_KM, FINE_STEP_KM, META, OUT, TIMES, best_calibrated,
                        gather_calibrated, log, truth_cell)
-from .geom import haversine_km, load_cams
+from .geom import bearing_deg, bearing_grid, haversine_km, load_cams
 
 ANG_STEP = 0.05                 # deg, the 1-D likelihood grid
 
@@ -79,9 +79,7 @@ def posterior(det_by_cam, cams, center, half_extent_km, step_km, sigma_r, sigma_
     total = np.zeros_like(LA)
     for camera, dets in det_by_cam.items():
         cam = cams[camera]
-        p1 = math.radians(cam["lat"]); p2 = np.radians(LA); dl = np.radians(LO - cam["lon"])
-        brg = np.degrees(np.arctan2(np.sin(dl) * np.cos(p2),
-                                    math.cos(p1) * np.sin(p2) - math.sin(p1) * np.cos(p2) * np.cos(dl)))
+        brg = bearing_grid(cam["lat"], cam["lon"], LA, LO)
         ref, psi, L = camera_curve(dets, cam["fov"], sigma_r, sigma_b, alpha)
         total += np.interp((brg - ref + 180.0) % 360.0 - 180.0, psi, L)
     i, j = np.unravel_index(np.argmax(total), total.shape)
@@ -109,9 +107,7 @@ def camera_agreement(det, cams, la, lo):
         if w.sum() <= 0:
             w = np.ones_like(w)
         mean_b = math.degrees(math.atan2((w * np.sin(b)).sum(), (w * np.cos(b)).sum()))
-        p1 = math.radians(cam["lat"]); p2 = math.radians(la); dl = math.radians(lo - cam["lon"])
-        pred = math.degrees(math.atan2(math.sin(dl) * math.cos(p2),
-                            math.cos(p1) * math.sin(p2) - math.sin(p1) * math.cos(p2) * math.cos(dl)))
+        pred = bearing_deg(cam["lat"], cam["lon"], la, lo)
         resid = abs((mean_b - pred + 180.0) % 360.0 - 180.0)
         out[camera] = {"resid_deg": round(resid, 2), "n_det": len(dets)}
     return out

@@ -33,13 +33,60 @@ def load_cams() -> dict:
     return json.loads(Path(p if p else root / "data" / "meta" / "cams.json").read_text())
 
 
+# WGS84
+A_WGS = 6378137.0
+F_WGS = 1 / 298.257223563
+E2_WGS = F_WGS * (2 - F_WGS)
+
+
+def ecef(lat: float, lon: float, h: float = 0.0) -> tuple[float, float, float]:
+    """WGS84 geodetic -> Earth-centred, Earth-fixed metres."""
+    la, lo = math.radians(lat), math.radians(lon)
+    n = A_WGS / math.sqrt(1 - E2_WGS * math.sin(la) ** 2)
+    return ((n + h) * math.cos(la) * math.cos(lo), (n + h) * math.cos(la) * math.sin(lo),
+            (n * (1 - E2_WGS) + h) * math.sin(la))
+
+
+def enu(lat1: float, lon1: float, h1: float, lat2: float, lon2: float, h2: float):
+    """Point 2 in point 1's local east-north-up frame, metres. Exact on the ellipsoid."""
+    x1, y1, z1 = ecef(lat1, lon1, h1)
+    x2, y2, z2 = ecef(lat2, lon2, h2)
+    dx, dy, dz = x2 - x1, y2 - y1, z2 - z1
+    la, lo = math.radians(lat1), math.radians(lon1)
+    sla, cla, slo, clo = math.sin(la), math.cos(la), math.sin(lo), math.cos(lo)
+    e = -slo * dx + clo * dy
+    n = -sla * clo * dx - sla * slo * dy + cla * dz
+    u = cla * clo * dx + cla * slo * dy + sla * dz
+    return e, n, u
+
+
 def bearing_deg(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-    """Initial great-circle bearing from point 1 to point 2, degrees clockwise from N."""
-    p1, p2 = math.radians(lat1), math.radians(lat2)
-    dl = math.radians(lon2 - lon1)
-    y = math.sin(dl) * math.cos(p2)
-    x = math.cos(p1) * math.sin(p2) - math.sin(p1) * math.cos(p2) * math.cos(dl)
-    return math.degrees(math.atan2(y, x)) % 360.0
+    """Bearing from point 1 to point 2 as a camera at point 1 sees it: degrees clockwise from
+    north in point 1's local horizontal frame, on the WGS84 ellipsoid.
+
+    This used to be the spherical great-circle formula evaluated at geodetic latitudes. The
+    sphere treats a degree of latitude and a degree of longitude as the same length, and the
+    ellipsoid does not -- the ratio is ~1 - e^2 cos^2(lat) -- so on a diagonal bearing the
+    sphere was off by up to 0.135 deg at 40-60 km here (NOTES.md, 2026-09-25). Over those
+    ranges the local-frame direction and the geodesic's initial azimuth agree to < 0.001 deg.
+    """
+    e, n, _ = enu(lat1, lon1, 0.0, lat2, lon2, 0.0)
+    return math.degrees(math.atan2(e, n)) % 360.0
+
+
+def bearing_grid(lat1: float, lon1: float, lats, lons):
+    """`bearing_deg` from one camera to an array of ground points, vectorised."""
+    import numpy as np
+    la2, lo2 = np.radians(np.asarray(lats, float)), np.radians(np.asarray(lons, float))
+    n2 = A_WGS / np.sqrt(1 - E2_WGS * np.sin(la2) ** 2)
+    x1, y1, z1 = ecef(lat1, lon1, 0.0)
+    dx = n2 * np.cos(la2) * np.cos(lo2) - x1
+    dy = n2 * np.cos(la2) * np.sin(lo2) - y1
+    dz = n2 * (1 - E2_WGS) * np.sin(la2) - z1
+    la, lo = math.radians(lat1), math.radians(lon1)
+    e = -math.sin(lo) * dx + math.cos(lo) * dy
+    n = -math.sin(la) * math.cos(lo) * dx - math.sin(la) * math.sin(lo) * dy + math.cos(la) * dz
+    return np.degrees(np.arctan2(e, n)) % 360.0
 
 
 def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:

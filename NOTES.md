@@ -2055,6 +2055,205 @@ every disagreement above 0.1 deg is lp-n-mobo-c, on consecutive nights, at 10-13
 Moonlit nights agree with dark ones as tightly as dark nights agree with each other, which is
 the moon result restated as a pose check rather than a star count.
 
+## How much night does a star calibration need? Whole-night windows (2026-09-24)
+
+Every production solve uses one block of about 90 minutes: `nights.fetch` takes Q1's first
+90 frames, and FIgLib sequences run to 81. Nothing in the solver caps a track's length; the
+block does. `stars/window_ablation.py` takes a whole new-moon night (2026-07-13/14, sun below
+-8 deg: 8.4-8.6 h) on four cameras facing four ways (hp-s, lp-e, vo-n, vo-w), tiles it into
+non-overlapping windows of 15, 30, 60, 90, 180 and 360 minutes plus the full night, and runs
+the production solver (`solve_wide`) on each window alone. That is 600 solves at 5-20 s each.
+Each window is scored on the stars *outside* it: the full-night solve (with the sky-model
+terms below switched on) names every track, and each window's pose predicts those tracks at
+other times of night.
+
+**Getting a whole night through the pipeline took three fixes, none of which change a
+<=90-frame block:**
+- `nights.fetch_night` puts the four 3-hour blocks (Q7, Q8, Q1, Q2) in one `<day>_N/`
+  directory. `run_nights` skips those directories.
+- `tracks.collect(keep_frames=False, max_gap_s=300)` stops holding every decoded frame (about
+  9 GB for a night) and closes a lost track after 5 minutes. The colour-camera linker
+  previously kept a lost track open forever, so a star behind cloud could be relinked hours
+  later to whatever came within 20 px.
+- `solve.prune` kept tracks at least half as long as the longest one. Over a night that left
+  hp-s-mobo-c 12 of 377 tracks, and it failed at 7 stars. The bar is now capped at 45 frames,
+  which is exactly the old value for a 90-frame block.
+
+**The main result is not about window length. The solver has been missing precession.**
+`catalog.py` holds J2000 positions and the docstring called precession negligible at 0.014
+deg/yr. By 2026 that adds up to about 0.36 deg, around 11 px. Over one block the pose absorbs
+it almost entirely: the in-window residual improves only 1.27 -> 1.12 px (hp-s, 90-minute
+windows). But the absorbed rotation is wrong everywhere else in the night, and it is wrong
+relative to the ground:
+- **Every current pose is biased by about -0.28 deg in azimuth.** Switching precession on
+  moves the full-night boresight -0.28, -0.30, -0.28 and -0.27 deg in azimuth on the four
+  cameras. The rest of the rotation shows up as pitch on the east and west cameras (lp-e
+  -0.16, vo-w +0.29 with refraction) and as roll on the north and south ones (vo-n -0.18,
+  hp-s +0.26). The whole pose ledger inherits this. The FIgLib-era solves carry less, in
+  proportion to their years since 2000. At 20 km, 0.28 deg is about 100 m.
+- **Prediction away from the window.** A 90-minute window under the current model predicts
+  stars 4+ hours away at a median 3.3-5.8 px. With precession it is 1.1-2.6 px. The production
+  Q1 pose, scored across the whole night, has a held-out median of 3.05-3.29 px (hp-s, vo-n)
+  and a p90 of about 5 px.
+- **Repeatability.** For 90-minute windows, the boresight spread across disjoint windows falls
+  from 0.03-0.11 deg to 0.02 deg (lp-e, vo-w), 0.05 deg (hp-s) and 0.12 deg (vo-n).
+- **Full-night fit.** The residual drops by a third to a half: 1.76 -> 1.17 (hp-s),
+  1.15 -> 0.75 (lp-e), 2.32 -> 1.63 (vo-n), 1.61 -> 0.82 px (vo-w).
+
+**Refraction is a small, consistent term.** It adds about +0.05 deg of pitch on every camera:
+the solver has been tilting each camera slightly down to compensate for stars refraction
+lifts. Below 10 deg of altitude it trims the residual (hp-s 3.09 -> 2.64 px at 5-10 deg).
+Overall it barely moves the median, because few matched points are that low.
+
+**With both terms on, window length hardly matters.** On lp-e and vo-w a 15-minute window
+predicts the rest of the night at 0.8-1.0 px, the same as 180 minutes, and its boresight
+repeats to about 0.01-0.02 deg. hp-s is flat at 1.2-1.5 px out to 180 minutes. vo-n is the
+exception, as a north camera always is: stars near the pole move slowly, 15-minute windows
+never solve, and the spread only tightens at 180 minutes (0.03 deg). The long-window gains
+seen under the current model were mostly longer windows averaging away the precession drift.
+
+**The Polaris check did not discriminate.** On vo-n at 01:10 PDT the observed Polaris
+centroid is predicted to 0.8-1.3 px by every pose, with or without precession. Polaris barely
+moves, so any pose's rotation can absorb the discrepancy there. The evidence above is the
+held-out residuals.
+
+**What this leaves open:**
+- Turning precession (and refraction) on by default and re-solving the ledger.
+- Checking the -0.28 deg against something independent of stars: landmark or known-fire
+  bearings.
+- Whether nutation and aberration (~20 arcsec each) matter next.
+
+The switches are `catalog.set_model(precession=..., refraction=...)`. Both are off by default,
+so no existing solve has changed. Figure: `docs/figures/star_window_ablation.jpg`. Numbers:
+`out/sky/data/window_ablation/summary_*.json`.
+
+## Landmarks against the precession finding: inconclusive, and why (2026-09-25)
+
+The window ablation found that switching precession on moves every star-solved boresight by
+about -0.28 deg in azimuth. `src/figlib/landmarks.py` tried to confirm this with evidence that
+has nothing to do with stars.
+
+**The star side is now confirmed independently.** Skyfield 1.55 (IAU 2000A precession-nutation,
+aberration, DE421) computed apparent alt/az for seven catalog stars from Volcan Mountain.
+The precessed model agrees to within 0.005 deg; the J2000 model is off by up to 0.32 deg. Those
+values are now a test (`tests/test_window_ablation.py`). With the star directions correct, a
+pose fitted to them is correct, so the precessed poses are the right ones. The landmark check
+was meant as an end-to-end confirmation, and it could not provide one.
+
+**What was built:**
+- `data/meta/landmarks.json`: 4,518 constructed FCC Antenna Structure Registration structures
+  within 80 km of an HPWREN site, 451 of them marked or lit; the 73 HPWREN sites; and the Lake
+  Sutherland outline from OpenStreetMap (ODbL).
+- Exact geometry: WGS84 Earth-centred coordinates rotated into the camera's local
+  east-north-up frame, checked against Vincenty's formula to 0.001 deg.
+- Line of sight through the elevation model.
+- Static lights per night block: whole-frame detections clustered across frames.
+- A pair of star solves per block, one under each sky model, and matching to isolated lights
+  predicted halfway between the two poses. That halfway rule avoids a selection bias: in a
+  field of city lights, "the nearest light" otherwise drifts toward whichever pose made the
+  prediction.
+
+**Result:** 130 matches (57 unique camera/landmark pairs) over 44 blocks and 28 cameras.
+- Median azimuth residual: current pose +0.04 deg (95% CI -0.03 to +0.11); precessed pose
+  -0.15 deg (-0.21 to -0.09).
+- The spread per match is 0.25-0.3 deg (MAD), the same size as the effect being tested.
+- Taken naively, the median favours the current pose. The 13 landmarks seen from two or more
+  cameras favour the precessed one (median -0.07 against +0.12).
+
+**Why it is not trustworthy.** The annotated blocks (`out/sky/landmarks/*.jpg`) show:
+- On cp-w the "lights" matched to towers 50-75 km away are texture along the top of a marine
+  layer, not the towers.
+- On the Eaton Fire block of wilson-s, a maximum-projection over the night is fire glow.
+- Antenna farms put several registrations on one light.
+- An HPWREN site's coordinates are the site, not necessarily the lit mast, which is 0.1 deg at
+  30 km for a 50 m offset.
+
+Automatic matching at a 25 px gate cannot tell a beacon from glow. That noise floor is above
+the 0.2-0.3 deg the check needs to resolve.
+
+**Lake Sutherland** (bm-s-mobo-c, 5-7 km, 5-7 deg below the horizon) is the right idea. Under
+both poses the OSM full-pool outline lands on the reservoir's bathtub ring
+(`out/sky/landmarks/bm-s_lake_sutherland_overlay.png`). The two poses differ by about 7 px
+there, and the fuzzy, drawn-down shoreline does not constrain a shift that small: an edge
+search peaked weakly and at its search bounds. No dam is mapped in OpenStreetMap to anchor
+it.
+
+**What would work.** A short, hand-verified landmark list: beacons confirmed by eye on clear
+nights, with each mast's own coordinates rather than the site's. The pipeline above can
+produce candidate crops for that review.
+
+**A related finding for geolocation:** `geom.bearing_deg` was a spherical great-circle bearing
+evaluated at geodetic latitudes. Against the exact ellipsoidal direction it was off by up to
+0.135 deg on diagonal bearings at 40-60 km (tested from Big Black Mountain). That was a
+separate systematic from precession, feeding `geom.loglik_field`, `geolocate`, `accumulate`,
+`bias` and `fig_bearing`. It is fixed: bearings are now exact on WGS84 (see the next section).
+
+## Precession, proper motion and refraction on by default; ledger re-solved (2026-09-25)
+
+**The catalog now carries its own reference frame.** `data/meta/bright_stars.json` has a
+header giving its frame (ICRS), equinox (2000.0) and epoch (2000.0), plus Hipparcos proper
+motions for all 523 stars, joined from HYG v3 by position (every star matched to < 1"). The
+build is `catalog.rebuild_catalog`.
+
+**The solver follows the header.** `stars/catalog.py` runs, in order:
+1. proper motion from the catalog's epoch;
+2. precession from its equinox (IAU 1976);
+3. conversion to alt/az;
+4. refraction.
+
+A catalog in any other frame or equinox raises an error rather than being silently mixed in.
+
+**Every solve records what it used.** Each solve and each ledger entry records
+`catalog.model_id()`, for example `HYG v3 mag<=4 | ICRS eq 2000.0 ep 2000.00 |
+proper_motion+precession+refraction`. `pose_ledger.load` refuses a ledger that mixes models.
+
+**Old results can be reproduced.** `catalog.using(...)` switches corrections off for one
+block, so earlier results can be regenerated: the window ablation and the landmark check pin
+their models explicitly.
+
+**The ledger was re-solved.** `stars/resolve_ledger.py` re-ran the same 86 sequences behind
+the ledger with the same solver each was accepted by. vo-e-mobo-m had been accepted by
+`solve_wide` before that solver recorded `found_by`, so a failed grid solve now falls back to
+the wide search. All 86 still pass. The previous ledger is kept at
+`out/sky/data/star_tracks/pose_ledger_before_resolve.json`.
+- **d_az moved** by a median of -0.208 deg, ranging from -0.043 to -0.316.
+- **The shift grows with the solve's date:** -0.08 deg for 2020 solves and -0.21 for 2026,
+  because precession accumulates since 2000. How much of the rotation lands in azimuth rather
+  than pitch or roll also depends on which way the camera faces.
+- **Everything else barely moved:** d_pitch +0.015, d_roll -0.068 (medians). Star counts are
+  unchanged and the median residual improved by 0.07 px.
+
+**Also fixed: bearings on the ellipsoid.** `geom.bearing_deg` and a new vectorised
+`geom.bearing_grid` now give the exact WGS84 local-frame bearing; the old spherical formula
+was up to 0.135 deg off. Hand-copied spherical formulas in `geolocate.py`, `accumulate.py`
+and `bias.py` now call the shared functions.
+
+**The hand-verified landmark list, first pass.** `landmarks.candidates` gathered every lit
+tower or HPWREN site that is in frame, in line of sight, and has a static light within 40 px of
+where the pose puts it, on the 2026 Q1 blocks. Keeping one per camera and direction, with at
+most two lights nearby, left 168. Their crops are on eleven contact sheets
+(`out/sky/landmarks/review/`).
+- **Most showed no beacon at the predicted spot.** The lights found near it were city lights,
+  the lit top of a marine layer, or noise along a skyline.
+- **Twelve were unambiguous** (`data/meta/landmarks_verified.json`). The HPWREN sites Birch
+  Hill (seen from four cameras), Buffalo and Idyllwild each show one light on the skyline
+  where the site is; so do three FCC towers and San Miguel Mountain seen from lp-w.
+- **On those 12, median azimuth residual:** current (J2000) pose +0.11 deg, precessed pose
+  -0.11 deg. Mean absolute: 0.12 and 0.14.
+- **This does not decide between the poses, for two reasons:**
+  - The crops were judged against a circle drawn at the precessed pose's prediction, so the
+    selection leans toward that pose.
+  - An HPWREN site's coordinates locate the site, not the lit mast. Birch Hill's four
+    residuals agree with each other to ~0.05 deg under either pose, which is what a fixed
+    offset in its coordinates would look like.
+
+The precession correction rests on the Skyfield comparison, not on landmarks. A landmark check
+that could decide it needs surveyed mast positions, or daytime structures whose position is
+known to ~10 m.
+
+**Not re-run yet:** the geolocation numbers in the README (km errors). The new ledger and the
+bearing fix will both move them slightly, and re-running writes `runs.jsonl`.
+
 ## Deliberately deferred
 
 Monochrome/NIR sequences (11 of them, paired with color views of the same fires) --
