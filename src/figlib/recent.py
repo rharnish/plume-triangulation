@@ -305,10 +305,10 @@ def _recent_sequences(cams: dict) -> dict[str, dict]:
             continue
         c = cams.get(d.name) or {}
         with Image.open(next(d.glob("*.jpg"))) as im:
-            w = im.size[0]
+            w, h = im.size
         out[seq] = {"seq": seq, "event": d.parent.name, "camera": d.name,
                     "has_pose": bool(c) and c.get("az") is not None,
-                    "dets_dir": str(CORPUS.dets), "frame_w": w}
+                    "dets_dir": str(CORPUS.dets), "frame_w": w, "frame_h": h}
     return out
 
 
@@ -379,14 +379,16 @@ def score() -> Path:
         rows.append(row)
 
     variant = (("_fisheye" if os.environ.get("FIGLIB_LENS") == "fisheye" else "")
-               + ("_ledger" if pose_ledger.enabled() else ""))
+               + ("_ledger" if pose_ledger.enabled() else "")
+               + ("_full" if pose_ledger.enabled() and pose_ledger.full_enabled() else ""))
     dest = CORPUS.out / f"geolocation{variant}.json"
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps(rows, indent=1) + "\n")
     P.record("recent-score", [dest], started=started,
              params={"variants": [v[0] for v in VARIANTS], "use_wind": False,
                      "lens": os.environ.get("FIGLIB_LENS", "rectilinear"),
-                     "pose_ledger": str(pose_ledger.path()) if pose_ledger.enabled() else None},
+                     "pose_ledger": str(pose_ledger.path()) if pose_ledger.enabled() else None,
+                     "pose_full": pose_ledger.enabled() and pose_ledger.full_enabled()},
              extra_inputs=[meta / "sequences.json", meta / "fires.json", meta / "resolved.json",
                            C.CORPORA["all"].dets, CORPUS.dets, MANIFEST]
              + ([pose_ledger.path()] if pose_ledger.enabled() else []))
