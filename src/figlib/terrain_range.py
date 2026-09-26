@@ -26,12 +26,6 @@ range: without a measured lens and pitch, a row is not an angle.
 
 from __future__ import annotations
 
-import os
-
-# The calibrated camera model, as in coverage.py. Set before the geometry reads them.
-os.environ.setdefault("FIGLIB_LENS", "fisheye")
-os.environ.setdefault("FIGLIB_POSE_LEDGER", "1")
-
 import json
 import math
 import sys
@@ -39,12 +33,13 @@ import sys
 import numpy as np
 
 from . import corpus as C
+from . import settings
 from . import pose_ledger
 from . import provenance as P
 from . import terrain as T
 from .fig_triangulate import _det_for
-from .geolocate import (FRAME_SIZES, META, REFINE_KM, YOLO_DIR, bearings_for_fire, credible_area_km2,
-                        refine, solve)
+from .geolocate import (FRAME_SIZES, META, YOLO_DIR, bearings_for_fire, credible_area_km2,
+                        refine, refine_step, solve)
 from .geom import angdiff_deg, bearing_deg, enu_grid, haversine_km, load_cams, ray_latlon
 from .stars.fisheye import initial_k, project_fisheye
 
@@ -57,7 +52,7 @@ MAX_KM, STEP_M = 80.0, 30.0
 # The near-side bound: the terrain line's row may lie at most this far below the early box
 # bottom. 100 px lost no truth the cap kept on 73 validated bearings (validate, 2026-09-14);
 # narrower bands start dropping truths.
-BAND_PX = float(os.environ.get("FIGLIB_BAND_PX", 100))
+BAND_PX = float(settings.get("FIGLIB_BAND_PX"))
 BAND_GRID = (30, 60, 100, 150, 200, 300)
 STEP_KM = 0.4                   # geolocate.solve's default grid, which the penalty is added on
 NEAR_SAMPLES = 10       # truth is "contained" within this many samples (0.3 km): the official
@@ -329,7 +324,7 @@ def solve_compare(band_px: float | None = BAND_PX, ledger_only: bool = False) ->
             ll2 = ll + terrain_loglik(lats, lons, terr, band_px)
             i, j = np.unravel_index(np.argmax(ll2), ll2.shape)
             alat, alon = float(lats[i]), float(lons[j])
-            if REFINE_KM:
+            if refine_step():
                 alat, alon = refine(bs, alat, alon, STEP_KM,
                                     extra=lambda la, lo: terrain_loglik(la, lo, terr, band_px))
             rec["after_km"] = round(haversine_km(alat, alon, t["lat"], t["lon"]), 2)
@@ -387,7 +382,7 @@ def before_after(fire_id: str, band_px: float = BAND_PX):
     ll1 = ll + terrain_loglik(lats, lons, terr, band_px)
     i, j = np.unravel_index(np.argmax(ll1), ll1.shape)
     e1lat, e1lon = float(lats[i]), float(lons[j])
-    if REFINE_KM:
+    if refine_step():
         e1lat, e1lon = refine(bs, e1lat, e1lon, STEP_KM,
                               extra=lambda la, lo: terrain_loglik(la, lo, terr, band_px))
     err1 = haversine_km(e1lat, e1lon, t["lat"], t["lon"]); area1 = credible_area_km2(lats, lons, ll1)
@@ -563,6 +558,7 @@ def before_after(fire_id: str, band_px: float = BAND_PX):
 
 
 if __name__ == "__main__":
+    settings.default_profile("calibrated")   # configs/calibrated.toml unless FIGLIB_PROFILE is set
     a = sys.argv[1:]
     if a and a[0] == "validate":
         validate()

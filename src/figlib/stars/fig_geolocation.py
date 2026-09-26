@@ -1,8 +1,9 @@
 """Geolocation before and after the star calibration, from geolocate.py's own outputs.
 
 Before: `geolocation.json` (published azimuth, rectilinear nameplate lens). After:
-`geolocation_fisheye_ledger.json` (FIGLIB_LENS=fisheye, FIGLIB_POSE_LEDGER=1). Same
-detections and solver, so every difference is the calibration.
+`geolocation_fisheye_ledger_full.json` (FIGLIB_PROFILE=calibrated: the star-measured lens and
+each camera's whole star solve). Same detections and solver, so every difference is the
+calibration.
 
   docs/figures/calibration_maps.png    bearing rays and estimates for a few fires
   docs/figures/calibration_bearings.png  every confirmed-fire bearing's miss vs frame position
@@ -146,7 +147,7 @@ def bearings(before, after, cams, dest=DOCS / "calibration_bearings.png"):
 
 
 def main(argv):
-    before, after = _load(""), _load("_fisheye_ledger")
+    before, after = _load(""), _load("_fisheye_ledger_full")
     cams = geom.load_cams()
     fires = argv
     if not fires:

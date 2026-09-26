@@ -9,7 +9,8 @@ Two records, both committed, both small:
   258-byte placeholder with no frames -- so the hash is what pins a result to its input.
 * **Run log** (`<corpus metadata>/runs.jsonl`). One line appended per pipeline stage:
   git commit and a hash of any uncommitted diff, package versions, the model pin, input
-  manifest hashes, parameters, and the SHA-256 of every output. A result file whose hash
+  manifest hashes, parameters, every FIGLIB_* setting as resolved (`settings.py`, with the
+  profile's hash), and the SHA-256 of every output. A result file whose hash
   is not in the log did not come from a recorded run.
 
 The detector weights are pinned here, and `check_model` refuses to run on anything else.
@@ -31,6 +32,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from . import corpus as C
+from . import settings
 
 ROOT = C.ROOT
 MANIFESTS = C.SHARED_META / "manifests"
@@ -77,7 +79,7 @@ def check_model(path: Path | None = None) -> dict:
     path = path or ROOT / MODEL["file"]
     actual = sha256_file(path)
     if actual != MODEL["sha256"]:
-        if os.environ.get("FIGLIB_ALLOW_UNPINNED_MODEL") != "1":
+        if not settings.flag("FIGLIB_ALLOW_UNPINNED_MODEL"):
             raise RuntimeError(
                 f"{rel(path)} has sha256 {actual}, not the pinned {MODEL['sha256']} "
                 f"({MODEL['source']} @ {MODEL['revision'][:8]}). Refetch it per "
@@ -97,8 +99,9 @@ def _git(*args: str) -> str | None:
 
 
 def code_state() -> dict:
-    diff = _git("diff", "HEAD", "--", "src", "tests", "run_detect.sh", "data/fetch.sh")
-    untracked = _git("ls-files", "--others", "--exclude-standard", "--", "src")
+    diff = _git("diff", "HEAD", "--", "src", "tests", "configs", "run_detect.sh",
+                "data/fetch.sh")
+    untracked = _git("ls-files", "--others", "--exclude-standard", "--", "src", "configs")
     return {
         "commit": (_git("rev-parse", "HEAD") or "").strip() or None,
         "branch": (_git("rev-parse", "--abbrev-ref", "HEAD") or "").strip() or None,
@@ -152,6 +155,8 @@ def record(stage: str, outputs, params: dict | None = None, model: dict | None =
         "finished_utc": utc_now(),
         "argv": sys.argv,
         "env": {k: v for k, v in sorted(os.environ.items()) if k.startswith("FIGLIB_")},
+        # Every FIGLIB_* setting as the run saw it, defaults included, and the profile's hash.
+        "settings": settings.resolved(),
         "code": code_state(),
         "versions": _versions(),
         "platform": platform.platform(),

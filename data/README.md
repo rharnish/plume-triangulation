@@ -88,7 +88,8 @@ by epoch alone, with no plume-appearance offset and so no clock to score against
 
 **`meta/runs.jsonl`, `meta/<corpus>/runs.jsonl`** — one line per pipeline run: git commit and a
 hash of any uncommitted diff, package versions, the model pin, the manifest hashes it read,
-parameters, and the SHA-256 of every file it wrote. A result whose hash is not in the log did
+parameters, every FIGLIB_* setting as resolved (with its source, and the profile's hash; see
+`src/figlib/settings.py`), and the SHA-256 of every file it wrote. A result whose hash is not in the log did
 not come from a recorded run.
 
 ## Attribution

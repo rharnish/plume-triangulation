@@ -26,6 +26,8 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
+from . import settings
+
 ROOT = Path(__file__).resolve().parents[2]
 SHARED_META = ROOT / "data" / "meta"
 
@@ -65,7 +67,7 @@ CORPORA = {
 
 
 def current() -> Corpus:
-    name = os.environ.get("FIGLIB_CORPUS", "core")
+    name = settings.get("FIGLIB_CORPUS")
     if name not in CORPORA:
         raise ValueError(f"FIGLIB_CORPUS={name!r}; expected one of {sorted(CORPORA)}")
     return CORPORA[name]
@@ -107,7 +109,7 @@ def contamination(name: str) -> str:
 
 def tier_filter() -> tuple[str, ...] | None:
     """Tiers named in FIGLIB_TIER, or None to score everything."""
-    raw = os.environ.get("FIGLIB_TIER")
+    raw = settings.get("FIGLIB_TIER")
     if not raw:
         return None
     tiers = tuple(t.strip() for t in raw.split(",") if t.strip())

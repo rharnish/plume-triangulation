@@ -25,17 +25,13 @@ accumulate.posterior exactly (the sanity check below).
 """
 from __future__ import annotations
 
-import os
-
-os.environ.setdefault("FIGLIB_LENS", "fisheye")
-os.environ.setdefault("FIGLIB_POSE_LEDGER", "1")
-
 import itertools
 import json
 import math
 
 import numpy as np
 
+from . import settings
 from .accumulate import PI_MAX
 from .coverage import (FINE_HALF_KM, FINE_STEP_KM, META, OUT, TIMES, best_calibrated,
                        gather_calibrated, log, truth_cell)
@@ -326,6 +322,7 @@ def figure():
 
 
 if __name__ == "__main__":
+    settings.default_profile("calibrated")   # configs/calibrated.toml unless FIGLIB_PROFILE is set
     import sys
     if sys.argv[1:] == ["figure"]:
         print(figure())

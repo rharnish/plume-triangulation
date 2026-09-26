@@ -30,7 +30,6 @@ cross-site requirement buys -- is the transferable result.
 from __future__ import annotations
 
 import json
-import os
 import math
 from collections import defaultdict
 from pathlib import Path
@@ -38,6 +37,7 @@ from pathlib import Path
 import numpy as np
 
 from . import corpus as C
+from . import settings
 from .geom import offset_bearing_deg
 
 
@@ -60,7 +60,7 @@ META = CORPUS.meta
 # Which detection pass to score. Overridable so the Core ML variants run through this
 # exact pipeline rather than a parallel one -- the point of the quantization study is a
 # paired comparison, and a second implementation would be a second source of difference.
-YOLO_DIR = Path(os.environ.get("FIGLIB_DETS", CORPUS.dets))
+YOLO_DIR = Path(settings.get("FIGLIB_DETS") or CORPUS.dets)
 OUT = CORPUS.out
 # Restrict scoring to what the detector cannot have trained on (corpus.contamination).
 TIERS = C.tier_filter()

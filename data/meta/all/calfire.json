@@ -8696,9 +8696,9 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 12.68,
-   "area95_km2": 79.5,
-   "err_calfire_km": 11.48,
+   "err_wfigs_km": 12.92,
+   "area95_km2": 78.1,
+   "err_calfire_km": 11.72,
    "sources_apart_km": 2.51,
    "improvement_km": 1.2
   },
@@ -8713,11 +8713,11 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 4.37,
-   "area95_km2": 7.4,
-   "err_calfire_km": 5.32,
+   "err_wfigs_km": 4.45,
+   "area95_km2": 8.0,
+   "err_calfire_km": 5.39,
    "sources_apart_km": 0.99,
-   "improvement_km": -0.95
+   "improvement_km": -0.94
   },
   {
    "fire_id": "20160711_FIRE",
@@ -8798,9 +8798,9 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 9.12,
+   "err_wfigs_km": 9.25,
    "area95_km2": 46.2,
-   "err_calfire_km": 8.9,
+   "err_calfire_km": 9.03,
    "sources_apart_km": 0.28,
    "improvement_km": 0.22
   },
@@ -9053,11 +9053,11 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 6.0,
+   "err_wfigs_km": 5.95,
    "area95_km2": 6.1,
-   "err_calfire_km": 3.51,
+   "err_calfire_km": 3.49,
    "sources_apart_km": 2.74,
-   "improvement_km": 2.49
+   "improvement_km": 2.46
   },
   {
    "fire_id": "20170713_FIRE",
@@ -9189,11 +9189,11 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 23.63,
-   "area95_km2": 8.5,
-   "err_calfire_km": 1.02,
+   "err_wfigs_km": 23.86,
+   "area95_km2": 8.3,
+   "err_calfire_km": 1.24,
    "sources_apart_km": 22.87,
-   "improvement_km": 22.61
+   "improvement_km": 22.62
   },
   {
    "fire_id": "20171016_FIRE",
@@ -9257,9 +9257,9 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 17.53,
+   "err_wfigs_km": 17.49,
    "area95_km2": 1.8,
-   "err_calfire_km": 19.5,
+   "err_calfire_km": 19.46,
    "sources_apart_km": 2.26,
    "improvement_km": -1.97
   },
@@ -9291,11 +9291,11 @@
    "n_calfire_candidates": 2,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 62.1,
-   "area95_km2": 155.4,
-   "err_calfire_km": 60.4,
+   "err_wfigs_km": 63.21,
+   "area95_km2": 154.1,
+   "err_calfire_km": 61.52,
    "sources_apart_km": 1.71,
-   "improvement_km": 1.7
+   "improvement_km": 1.69
   },
   {
    "fire_id": "20171207_Lilac",
@@ -9325,11 +9325,11 @@
    "n_calfire_candidates": 3,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 1.71,
+   "err_wfigs_km": 1.68,
    "area95_km2": 0.3,
-   "err_calfire_km": 5.11,
+   "err_calfire_km": 5.05,
    "sources_apart_km": 4.05,
-   "improvement_km": -3.4
+   "improvement_km": -3.37
   },
   {
    "fire_id": "20180517_FIRE",
@@ -9393,9 +9393,9 @@
    "n_calfire_candidates": 2,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 3.68,
+   "err_wfigs_km": 3.98,
    "area95_km2": 1.0,
-   "err_calfire_km": 3.66,
+   "err_calfire_km": 3.96,
    "sources_apart_km": 0.02,
    "improvement_km": 0.02
   },
@@ -9903,11 +9903,11 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 7.98,
+   "err_wfigs_km": 7.89,
    "area95_km2": 6.1,
-   "err_calfire_km": 7.05,
+   "err_calfire_km": 6.98,
    "sources_apart_km": 1.29,
-   "improvement_km": 0.93
+   "improvement_km": 0.91
   },
   {
    "fire_id": "20180813_FIRE",
@@ -10889,8 +10889,8 @@
    "n_calfire_candidates": 0,
    "status": "no-candidate",
    "corresponds": false,
-   "err_wfigs_km": 8.1,
-   "area95_km2": 4.0,
+   "err_wfigs_km": 7.97,
+   "area95_km2": 3.8,
    "err_calfire_km": null,
    "sources_apart_km": null,
    "improvement_km": null
@@ -10906,7 +10906,7 @@
    "n_calfire_candidates": 0,
    "status": "no-candidate",
    "corresponds": false,
-   "err_wfigs_km": 27.94,
+   "err_wfigs_km": 27.75,
    "area95_km2": 2.7,
    "err_calfire_km": null,
    "sources_apart_km": null,
@@ -11246,8 +11246,8 @@
    "n_calfire_candidates": 0,
    "status": "no-candidate",
    "corresponds": false,
-   "err_wfigs_km": 1.07,
-   "area95_km2": 4.2,
+   "err_wfigs_km": 1.34,
+   "area95_km2": 4.3,
    "err_calfire_km": null,
    "sources_apart_km": null,
    "improvement_km": null
@@ -11297,7 +11297,7 @@
    "n_calfire_candidates": 0,
    "status": "no-candidate",
    "corresponds": false,
-   "err_wfigs_km": 0.42,
+   "err_wfigs_km": 0.14,
    "area95_km2": 1.1,
    "err_calfire_km": null,
    "sources_apart_km": null,
@@ -11331,7 +11331,7 @@
    "n_calfire_candidates": 0,
    "status": "no-candidate",
    "corresponds": false,
-   "err_wfigs_km": 2.58,
+   "err_wfigs_km": 2.8,
    "area95_km2": 0.8,
    "err_calfire_km": null,
    "sources_apart_km": null,
@@ -11400,10 +11400,10 @@
    "status": "matched",
    "corresponds": true,
    "err_wfigs_km": 1.9,
-   "area95_km2": 28.3,
-   "err_calfire_km": 1.54,
+   "area95_km2": 28.8,
+   "err_calfire_km": 1.55,
    "sources_apart_km": 0.39,
-   "improvement_km": 0.36
+   "improvement_km": 0.35
   },
   {
    "fire_id": "20200813_SkylineFire",
@@ -11501,8 +11501,8 @@
    "n_calfire_candidates": 0,
    "status": "no-candidate",
    "corresponds": false,
-   "err_wfigs_km": 1.4,
-   "area95_km2": 2.4,
+   "err_wfigs_km": 1.51,
+   "area95_km2": 2.6,
    "err_calfire_km": null,
    "sources_apart_km": null,
    "improvement_km": null
@@ -11518,8 +11518,8 @@
    "n_calfire_candidates": 0,
    "status": "no-candidate",
    "corresponds": false,
-   "err_wfigs_km": 1.96,
-   "area95_km2": 11.0,
+   "err_wfigs_km": 1.97,
+   "area95_km2": 11.2,
    "err_calfire_km": null,
    "sources_apart_km": null,
    "improvement_km": null
@@ -11535,9 +11535,9 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 3.61,
-   "area95_km2": 2.4,
-   "err_calfire_km": 3.85,
+   "err_wfigs_km": 3.74,
+   "area95_km2": 2.6,
+   "err_calfire_km": 3.98,
    "sources_apart_km": 0.35,
    "improvement_km": -0.24
   },
@@ -11552,8 +11552,8 @@
    "n_calfire_candidates": 0,
    "status": "no-candidate",
    "corresponds": false,
-   "err_wfigs_km": 0.49,
-   "area95_km2": 3.5,
+   "err_wfigs_km": 0.36,
+   "area95_km2": 3.4,
    "err_calfire_km": null,
    "sources_apart_km": null,
    "improvement_km": null
@@ -11654,8 +11654,8 @@
    "n_calfire_candidates": 0,
    "status": "no-candidate",
    "corresponds": false,
-   "err_wfigs_km": 3.59,
-   "area95_km2": 3.7,
+   "err_wfigs_km": 3.39,
+   "area95_km2": 3.8,
    "err_calfire_km": null,
    "sources_apart_km": null,
    "improvement_km": null
@@ -11705,8 +11705,8 @@
    "n_calfire_candidates": 0,
    "status": "no-candidate",
    "corresponds": false,
-   "err_wfigs_km": 0.3,
-   "area95_km2": 2.1,
+   "err_wfigs_km": 0.21,
+   "area95_km2": 2.2,
    "err_calfire_km": null,
    "sources_apart_km": null,
    "improvement_km": null
@@ -11858,8 +11858,8 @@
    "n_calfire_candidates": 0,
    "status": "no-candidate",
    "corresponds": false,
-   "err_wfigs_km": 5.21,
-   "area95_km2": 35.8,
+   "err_wfigs_km": 5.16,
+   "area95_km2": 36.3,
    "err_calfire_km": null,
    "sources_apart_km": null,
    "improvement_km": null
@@ -12062,11 +12062,11 @@
    "n_calfire_candidates": 2,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 0.08,
+   "err_wfigs_km": 0.14,
    "area95_km2": 3.0,
-   "err_calfire_km": 0.57,
+   "err_calfire_km": 0.43,
    "sources_apart_km": 0.51,
-   "improvement_km": -0.49
+   "improvement_km": -0.29
   },
   {
    "fire_id": "20240701_McCainfire",
@@ -12181,11 +12181,11 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 6.09,
-   "area95_km2": 47.8,
-   "err_calfire_km": 6.08,
+   "err_wfigs_km": 6.12,
+   "area95_km2": 47.5,
+   "err_calfire_km": 6.12,
    "sources_apart_km": 0.0,
-   "improvement_km": 0.01
+   "improvement_km": 0.0
   },
   {
    "fire_id": "20240727_Fire",
@@ -12589,9 +12589,9 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 3.02,
-   "area95_km2": 4.5,
-   "err_calfire_km": 2.8,
+   "err_wfigs_km": 2.91,
+   "area95_km2": 4.3,
+   "err_calfire_km": 2.69,
    "sources_apart_km": 0.23,
    "improvement_km": 0.22
   },
@@ -12725,9 +12725,9 @@
    "n_calfire_candidates": 2,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 1.7,
-   "area95_km2": 5.3,
-   "err_calfire_km": 1.7,
+   "err_wfigs_km": 1.87,
+   "area95_km2": 5.4,
+   "err_calfire_km": 1.87,
    "sources_apart_km": 0.0,
    "improvement_km": 0.0
   },
@@ -12861,11 +12861,11 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 1.03,
+   "err_wfigs_km": 1.12,
    "area95_km2": 0.5,
-   "err_calfire_km": 0.86,
+   "err_calfire_km": 0.97,
    "sources_apart_km": 0.66,
-   "improvement_km": 0.17
+   "improvement_km": 0.15
   },
   {
    "fire_id": "20250120_TedWilliamsFire",
@@ -13184,11 +13184,11 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 0.75,
+   "err_wfigs_km": 0.59,
    "area95_km2": 1.3,
-   "err_calfire_km": 0.51,
+   "err_calfire_km": 0.44,
    "sources_apart_km": 0.81,
-   "improvement_km": 0.24
+   "improvement_km": 0.15
   },
   {
    "fire_id": "20250710_SpringsFire",
@@ -13235,11 +13235,11 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 2.06,
+   "err_wfigs_km": 2.11,
    "area95_km2": 5.0,
-   "err_calfire_km": 2.06,
+   "err_calfire_km": 2.12,
    "sources_apart_km": 0.0,
-   "improvement_km": 0.0
+   "improvement_km": -0.01
   },
   {
    "fire_id": "20250801_BernardoFire",
@@ -13286,9 +13286,9 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": false,
-   "err_wfigs_km": 2.0,
-   "area95_km2": 0.2,
-   "err_calfire_km": 53.51,
+   "err_wfigs_km": 1.76,
+   "area95_km2": 0.3,
+   "err_calfire_km": 53.67,
    "sources_apart_km": 55.1,
    "improvement_km": null
   },
@@ -13405,11 +13405,11 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 0.82,
-   "area95_km2": 3.4,
-   "err_calfire_km": 1.27,
+   "err_wfigs_km": 0.79,
+   "area95_km2": 3.5,
+   "err_calfire_km": 1.21,
    "sources_apart_km": 0.78,
-   "improvement_km": -0.45
+   "improvement_km": -0.42
   },
   {
    "fire_id": "20260128_Fire",
@@ -13439,8 +13439,8 @@
    "n_calfire_candidates": 0,
    "status": "no-candidate",
    "corresponds": false,
-   "err_wfigs_km": 52.39,
-   "area95_km2": 134.4,
+   "err_wfigs_km": 53.19,
+   "area95_km2": 135.2,
    "err_calfire_km": null,
    "sources_apart_km": null,
    "improvement_km": null
@@ -13558,9 +13558,9 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 2.21,
+   "err_wfigs_km": 2.07,
    "area95_km2": 1.1,
-   "err_calfire_km": 2.21,
+   "err_calfire_km": 2.07,
    "sources_apart_km": 0.0,
    "improvement_km": 0.0
   },
@@ -13592,9 +13592,9 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": false,
-   "err_wfigs_km": 1.77,
+   "err_wfigs_km": 1.69,
    "area95_km2": 7.2,
-   "err_calfire_km": 46.14,
+   "err_calfire_km": 46.18,
    "sources_apart_km": 47.16,
    "improvement_km": null
   },
@@ -13609,11 +13609,11 @@
    "n_calfire_candidates": 1,
    "status": "matched",
    "corresponds": true,
-   "err_wfigs_km": 2.98,
+   "err_wfigs_km": 3.81,
    "area95_km2": 25.8,
-   "err_calfire_km": 3.07,
+   "err_calfire_km": 3.89,
    "sources_apart_km": 0.18,
-   "improvement_km": -0.09
+   "improvement_km": -0.08
   },
   {
    "fire_id": "20260807_BeaverFire",

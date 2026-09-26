@@ -18,16 +18,12 @@ puts the truth inside its q-level region a fraction q of the time, so the levels
 uniform on [0, 1]. Finally it finds the single log-likelihood temperature that would make
 the 95% region cover 95% -- how much wider the posterior needs to be.
 
-Uses the calibrated camera model (fisheye lens + star pose ledger), the current best.
+Uses the calibrated camera model (configs/calibrated.toml: fisheye lens + star pose ledger),
+the current best, unless FIGLIB_PROFILE names another.
 
     python -m src.figlib.coverage          # writes out/confidence/
 """
 from __future__ import annotations
-
-import os
-
-os.environ.setdefault("FIGLIB_LENS", "fisheye")
-os.environ.setdefault("FIGLIB_POSE_LEDGER", "1")
 
 import json
 import math
@@ -37,6 +33,7 @@ from pathlib import Path
 import numpy as np
 
 from . import corpus as C
+from . import settings
 from . import pose_ledger
 from .accumulate import posterior as accum_posterior
 from .geolocate import FRAME_SIZES, YOLO_DIR, solve
@@ -184,7 +181,7 @@ def main() -> None:
     resolved = [r for r in json.loads((META / "resolved.json").read_text())
                 if r["tier"] in ("confirmed", "probable") and r.get("triangulable")]
     log(f"coverage: {len(resolved)} scoring fires x {len(TIMES)} times x 2 estimators, "
-        f"lens={os.environ['FIGLIB_LENS']} ledger={os.environ['FIGLIB_POSE_LEDGER']}")
+        f"lens={settings.get('FIGLIB_LENS')} ledger={settings.get('FIGLIB_POSE_LEDGER')}")
 
     rows, grids = [], []
     for k, r in enumerate(resolved, 1):
@@ -301,6 +298,7 @@ def figure() -> Path:
 
 
 if __name__ == "__main__":
+    settings.default_profile("calibrated")   # configs/calibrated.toml unless FIGLIB_PROFILE is set
     import sys
     if sys.argv[1:] == ["figure"]:
         print(figure())
