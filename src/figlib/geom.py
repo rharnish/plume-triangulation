@@ -74,8 +74,8 @@ def bearing_deg(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     return math.degrees(math.atan2(e, n)) % 360.0
 
 
-def bearing_grid(lat1: float, lon1: float, lats, lons):
-    """`bearing_deg` from one camera to an array of ground points, vectorised."""
+def enu_grid(lat1: float, lon1: float, lats, lons):
+    """(east, north) metres from one camera to an array of ground points, exact on WGS84."""
     import numpy as np
     la2, lo2 = np.radians(np.asarray(lats, float)), np.radians(np.asarray(lons, float))
     n2 = A_WGS / np.sqrt(1 - E2_WGS * np.sin(la2) ** 2)
@@ -86,7 +86,41 @@ def bearing_grid(lat1: float, lon1: float, lats, lons):
     la, lo = math.radians(lat1), math.radians(lon1)
     e = -math.sin(lo) * dx + math.cos(lo) * dy
     n = -math.sin(la) * math.cos(lo) * dx - math.sin(la) * math.sin(lo) * dy + math.cos(la) * dz
+    return e, n
+
+
+def bearing_grid(lat1: float, lon1: float, lats, lons):
+    """`bearing_deg` from one camera to an array of ground points, vectorised."""
+    import numpy as np
+    e, n = enu_grid(lat1, lon1, lats, lons)
     return np.degrees(np.arctan2(e, n)) % 360.0
+
+
+def ray_latlon(lat0: float, lon0: float, az_deg, d_m):
+    """Ground points under a camera's straight line of sight: `d_m` metres out along local
+    azimuth `az_deg`, as (lat, lon). Broadcasts `az_deg` against `d_m`.
+
+    The point is placed in the camera's east-north plane and dropped onto the ellipsoid, so
+    its `bearing_deg` from the camera is `az_deg` exactly. Stepping in latitude and longitude
+    with fixed metres-per-degree instead drifts off the line of sight by up to 0.33 deg at
+    80 km on diagonal azimuths (NOTES.md, 2026-09-25, "Terrain on the line of sight").
+    """
+    import numpy as np
+    az, d = np.radians(np.asarray(az_deg, float)), np.asarray(d_m, float)
+    e, n = d * np.sin(az), d * np.cos(az)
+    la, lo = math.radians(lat0), math.radians(lon0)
+    x0, y0, z0 = ecef(lat0, lon0, 0.0)
+    x = x0 - math.sin(lo) * e - math.sin(la) * math.cos(lo) * n
+    y = y0 + math.cos(lo) * e - math.sin(la) * math.sin(lo) * n
+    z = z0 + math.cos(la) * n
+    # ECEF -> geodetic latitude by fixed-point iteration; four rounds reach < 1e-12 rad here.
+    p = np.hypot(x, y)
+    lat = np.arctan2(z, p * (1 - E2_WGS))
+    for _ in range(4):
+        nn = A_WGS / np.sqrt(1 - E2_WGS * np.sin(lat) ** 2)
+        h = p / np.cos(lat) - nn
+        lat = np.arctan2(z, p * (1 - E2_WGS * nn / (nn + h)))
+    return np.degrees(lat), np.degrees(np.arctan2(y, x))
 
 
 def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:

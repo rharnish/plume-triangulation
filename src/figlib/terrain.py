@@ -18,17 +18,23 @@ What the comparison buys:
   from a single camera rather than needing two.
 
 Earth curvature and standard atmospheric refraction are both applied, via the usual
-four-thirds effective Earth radius. Over 60 km the drop is roughly 240 m, which is the
-difference between a ridge being visible and being hidden.
+four-thirds effective Earth radius. Over 60 km the drop is roughly 210 m (280 m with no
+refraction), which is the difference between a ridge being visible and being hidden.
+
+Every line of sight to terrain in the repo goes through `sight_angles`, and every ray
+through `geom.ray_latlon`, so there is one geometry and one refraction constant.
 """
 
 from __future__ import annotations
 
 import math
+import warnings
 from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
+
+from .geom import enu, ray_latlon
 
 ROOT = Path(__file__).resolve().parents[2]
 DEM_DIR = ROOT / "data" / "dem"
@@ -36,6 +42,21 @@ DEM_DIR = ROOT / "data" / "dem"
 EARTH_R_M = 6_371_000.0
 K_REFRACTION = 4.0 / 3.0          # effective radius multiplier, standard atmosphere
 R_EFF = EARTH_R_M * K_REFRACTION
+# A camera this far below the surface model at its own site has a wrong height in cams.json
+# (elev 0, or no agl on a mast); its horizon is the ground around its feet.
+SITE_TOL_M = 5.0
+
+
+def sight_angles(h, h_cam: float, d_m):
+    """Apparent elevation angle (deg) of terrain at height `h` (m), `d_m` metres out, from an
+    eye at `h_cam`: Earth curvature and standard refraction via the 4/3 radius `R_EFF`."""
+    d = np.asarray(d_m, float)
+    return np.degrees(np.arctan2(np.asarray(h, float) - h_cam - d ** 2 / (2.0 * R_EFF), d))
+
+
+def eye_height(cam: dict) -> float:
+    """The lens's height above sea level: site elevation plus mast."""
+    return cam["elev"] + (cam.get("agl") or 0.0)
 
 
 @dataclass
@@ -71,6 +92,14 @@ class Dem:
                     srcs.append(rasterio.open(f))
         if not srcs:
             raise FileNotFoundError(f"no DEM tiles cover {lat0},{lon0}")
+        # Snap the window to the tiles' own pixel grid. `merge` anchors its output at the
+        # requested corner and copies whole pixels, so an unsnapped corner shifts every
+        # sample by up to half a pixel (15 m), differently for every window.
+        t0 = srcs[0].transform
+        rx, ry = t0.a, -t0.e
+        snap = lambda v, o, r, f: o + f((v - o) / r) * r
+        bounds = (snap(bounds[0], t0.c, rx, math.floor), snap(bounds[1], t0.f, ry, math.floor),
+                  snap(bounds[2], t0.c, rx, math.ceil), snap(bounds[3], t0.f, ry, math.ceil))
         arr, transform = merge(srcs, bounds=bounds)
         for s in srcs:
             s.close()
@@ -81,9 +110,20 @@ class Dem:
         return band, transform
 
     @staticmethod
+    def site_problem(cam: dict, band: np.ndarray, tf) -> str | None:
+        """Why this camera's height can't be trusted against the DEM (a window around it), or None."""
+        if not cam.get("elev"):
+            return f"elev {cam.get('elev')!r} in cams.json"
+        ground = float(Dem.sample(band, tf, np.array([cam["lat"]]), np.array([cam["lon"]]))[0])
+        if eye_height(cam) < ground - SITE_TOL_M:
+            return f"eye {eye_height(cam):.0f} m is {ground - eye_height(cam):.0f} m below the DSM"
+        return None
+
+    @staticmethod
     def sample(band: np.ndarray, transform, lats: np.ndarray, lons: np.ndarray):
         inv = ~transform
         cols, rows = inv * (lons, lats)
+        cols, rows = cols - 0.5, rows - 0.5           # pixel (r, c) holds the value at its centre
         r = np.clip(rows, 0, band.shape[0] - 1.001)
         c = np.clip(cols, 0, band.shape[1] - 1.001)
         r0, c0 = np.floor(r).astype(int), np.floor(c).astype(int)
@@ -93,38 +133,58 @@ class Dem:
         return v
 
 
+def _march(cam: dict, dem: Dem, half_fov_pad: float, step_deg: float, max_km: float,
+           step_m: float):
+    """Azimuths, distances, terrain heights and sight angles over the camera's field of view."""
+    half = cam["fov"] / 2.0 + half_fov_pad
+    az = np.arange(cam["az"] - half, cam["az"] + half + 1e-9, step_deg)
+    d_m = np.arange(step_m, max_km * 1000.0, step_m)
+    lat0, lon0 = cam["lat"], cam["lon"]
+    band, transform = dem.window(lat0, lon0, max_km / 111.0 + 0.05)
+    why = Dem.site_problem(cam, band, transform)
+    if why:
+        warnings.warn(f"camera at {lat0:.4f},{lon0:.4f}: {why}; its skyline is its own site",
+                      stacklevel=3)
+    lats, lons = ray_latlon(lat0, lon0, az[:, None], d_m[None, :])
+    h = Dem.sample(band, transform, lats.ravel(), lons.ravel()).reshape(lats.shape)
+    return az, d_m, h, sight_angles(h, eye_height(cam), d_m[None, :])
+
+
 def horizon(cam: dict, dem: Dem, half_fov_pad: float = 8.0,
             step_deg: float = 0.2, max_km: float = 80.0,
             step_m: float = 60.0) -> HorizonProfile:
     """March rays across the camera's field of view and record the skyline."""
-    half = cam["fov"] / 2.0 + half_fov_pad
-    az = np.arange(cam["az"] - half, cam["az"] + half + 1e-9, step_deg)
-    d_m = np.arange(step_m, max_km * 1000.0, step_m)
-
-    lat0, lon0 = cam["lat"], cam["lon"]
-    h_cam = cam["elev"] + (cam.get("agl") or 0.0)
-
-    band, transform = dem.window(lat0, lon0, max_km / 111.0 + 0.05)
-
-    # Local flat approximation: over 80 km the along-ray geodesic error is well under a
-    # DEM pixel, and curvature is handled separately in the elevation term.
-    m_per_deg_lat = 111_132.0
-    m_per_deg_lon = 111_320.0 * math.cos(math.radians(lat0))
-
-    A = np.radians(az)[:, None]
-    D = d_m[None, :]
-    lats = lat0 + (D * np.cos(A)) / m_per_deg_lat
-    lons = lon0 + (D * np.sin(A)) / m_per_deg_lon
-
-    h = Dem.sample(band, transform, lats.ravel(), lons.ravel()).reshape(lats.shape)
-
-    drop = D ** 2 / (2.0 * R_EFF)                    # curvature + refraction
-    ang = np.degrees(np.arctan2(h - h_cam - drop, D))
-
+    az, d_m, h, ang = _march(cam, dem, half_fov_pad, step_deg, max_km, step_m)
     i = np.argmax(ang, axis=1)
     j = np.arange(ang.shape[0])
     return HorizonProfile(az_deg=az, elev_deg=ang[j, i],
                           range_km=d_m[i] / 1000.0, peak_m=h[j, i])
+
+
+def sightline(dem: Dem, cam: dict, lat: float, lon: float, h_target: float | None = None,
+              step_m: float = 30.0, start_m: float = 60.0, skip_last_m: float = 150.0) -> dict:
+    """The line of sight from a camera to one point, and the terrain in between.
+
+    Returns the point's azimuth, elevation angle and distance, and the highest intervening
+    terrain angle (`occ_el`) and its distance. The point is visible when `el >= occ_el`.
+    `h_target` defaults to the ground there. The last `skip_last_m` are left out, where the
+    target's own hilltop sits.
+    """
+    e, n, _ = enu(cam["lat"], cam["lon"], 0.0, lat, lon, 0.0)
+    D = math.hypot(e, n)
+    az = math.degrees(math.atan2(e, n)) % 360
+    band, tf = dem.window(cam["lat"], cam["lon"], max(80.0 / 111.0 + 0.05, D / 111_000 + 0.08))
+    h_cam = eye_height(cam)
+    if h_target is None:
+        h_target = float(Dem.sample(band, tf, np.array([lat]), np.array([lon]))[0])
+    el = float(sight_angles(h_target, h_cam, D))
+    d = np.arange(start_m, D - skip_last_m, step_m)
+    if d.size == 0:
+        return {"az": az, "el": el, "km": D / 1000, "occ_el": -90.0, "occ_km": 0.0}
+    la, lo = ray_latlon(cam["lat"], cam["lon"], az, d)
+    ang = sight_angles(Dem.sample(band, tf, la, lo), h_cam, d)
+    i = int(np.argmax(ang))
+    return {"az": az, "el": el, "km": D / 1000, "occ_el": float(ang[i]), "occ_km": float(d[i] / 1000)}
 
 
 def vfov_deg(cam: dict, width: int, height: int) -> float:
@@ -226,22 +286,7 @@ def ridges(cam: dict, dem: Dem, half_fov_pad: float = 8.0, step_deg: float = 0.1
     angle is required as well. `min_km` drops the near field, where a 30 m surface model
     is reporting the canopy and the rooftop the camera is bolted to, not landmarks.
     """
-    half = cam["fov"] / 2.0 + half_fov_pad
-    az = np.arange(cam["az"] - half, cam["az"] + half + 1e-9, step_deg)
-    d_m = np.arange(step_m, max_km * 1000.0, step_m)
-
-    lat0, lon0 = cam["lat"], cam["lon"]
-    h_cam = cam["elev"] + (cam.get("agl") or 0.0)
-    band, transform = dem.window(lat0, lon0, max_km / 111.0 + 0.05)
-
-    m_per_deg_lat = 111_132.0
-    m_per_deg_lon = 111_320.0 * math.cos(math.radians(lat0))
-    A = np.radians(az)[:, None]
-    D = d_m[None, :]
-    lats = lat0 + (D * np.cos(A)) / m_per_deg_lat
-    lons = lon0 + (D * np.sin(A)) / m_per_deg_lon
-    h = Dem.sample(band, transform, lats.ravel(), lons.ravel()).reshape(lats.shape)
-    ang = np.degrees(np.arctan2(h - h_cam - D ** 2 / (2.0 * R_EFF), D))
+    az, d_m, h, ang = _march(cam, dem, half_fov_pad, step_deg, max_km, step_m)
 
     run = np.maximum.accumulate(ang, axis=1)
     rec = ang >= run - 1e-12                      # visible: nothing nearer stands higher

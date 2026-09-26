@@ -152,22 +152,7 @@ def align(seq: str) -> Path:
 
 def sightline(cam, lat, lon):
     """Ignition geometry from the camera: az, el, km, and the highest nearer terrain."""
-    m_lat, m_lon = 111_132.0, 111_320.0 * math.cos(math.radians(cam["lat"]))
-    dn, de = (lat - cam["lat"]) * m_lat, (lon - cam["lon"]) * m_lon
-    D = math.hypot(dn, de); az = math.degrees(math.atan2(de, dn)) % 360
-    band, tf = DEM.window(cam["lat"], cam["lon"], D / 111_000 + 0.08)
-    h_cam = cam["elev"] + (cam.get("agl") or 0.0)
-    d = np.arange(60.0, D - 150.0, 30.0)
-    la = cam["lat"] + d * math.cos(math.radians(az)) / m_lat
-    lo = cam["lon"] + d * math.sin(math.radians(az)) / m_lon
-    h = T.Dem.sample(band, tf, la, lo)
-    ang = np.degrees(np.arctan2(h - h_cam - d ** 2 / (2 * T.R_EFF), d))
-    h_t = float(T.Dem.sample(band, tf, np.array([lat]), np.array([lon]))[0])
-    el = math.degrees(math.atan2(h_t - h_cam - D ** 2 / (2 * T.R_EFF), D))
-    i = int(np.argmax(ang)) if ang.size else 0
-    occ_el = float(ang[i]) if ang.size else -90.0
-    return {"az": az, "el": el, "km": D / 1000, "occ_el": occ_el,
-            "occ_km": float(d[i] / 1000) if ang.size else 0.0}
+    return T.sightline(DEM, cam, lat, lon)
 
 
 def neighbourhood_visible(cam, lat, lon, radius_m=300.0, n=16):
