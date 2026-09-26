@@ -184,7 +184,7 @@ simply run out.
 |---|---|---|
 | no corrections (the old solver) | −4.2 px | 6.4 px |
 | refraction only | −5.9 px | 6.7 px |
-| precession only | +1.7 px | 3.3 px |
+| precession only | +1.8 px | 3.2 px |
 | precession + refraction | +0.3 px | 2.8 px |
 | all three (now) | +0.3 px | 2.8 px |
 
@@ -195,7 +195,7 @@ simply run out.
   camera sat high, and nearly every north- and east-facing one low. That is precession's
   rotation landing in pitch or roll. With precession on, the scatter halves.
 - **Refraction only helps once precession is in.** On its own it moves the line the wrong way.
-  With precession it takes the median from +1.7 to +0.3 px. That is about its expected size
+  With precession it takes the median from +1.8 to +0.3 px. That is about its expected size
   (+0.05° of pitch).
 - **Proper motion does nothing measurable here**, as expected over 26 years for these stars.
 - **35 of 39 cameras move closer to the ridge.** The four that move away are lp-e, rm-e, sdsc-e

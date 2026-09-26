@@ -2459,6 +2459,78 @@ both unchanged**. The published and fisheye rows are unchanged too. By k sites, 
 1.92 / 1.64 / 1.18 / 0.93 / 0.83 / 0.86 / 0.63, and Junction 3.21 / 3.10 / 3.78 / 3.90 /
 3.69 / 3.65 / 3.54.
 
+## Terrain on the line of sight (2026-09-25)
+
+**Why.** Bearings became exact on WGS84 in PR #17, and the skyline check now resolves the sky
+model to a third of a pixel. That left the terrain code as the least exact geometry in the
+chain. A review of every DEM use found the following:
+- **Every march stepped in lat/lon with fixed metres-per-degree** (111 132 / 111 320·cos lat0).
+  `horizon`, `ridges`, `terrain_range.along_ray` and `terrain_loglik` all did this. Against
+  `geom.bearing_deg` at 33°N, the march drifted off the ray:
+  - 0.06° at 20 km and 0.23° at 80 km due east;
+  - 0.15° and 0.33° at azimuth 135°.
+
+  At 34 px/deg on the 3072 px fisheye, that is up to 11 px sideways.
+- **The sight-angle formula was copied in seven places.** The copies were `horizon`, `ridges`,
+  `terrain_range.profile`, `landmarks.visible`, `ridge_feet.sightline`, `fig_sea_horizon` and
+  the gitignored `coverage_map/pairs`. They differed in where the march started and where it
+  stopped short of the target.
+- **DEM samples were off by up to a pixel.** `Dem.window` anchored its mosaic at the requested
+  corner, so each window was shifted by a different fraction of a pixel. `Dem.sample` also read
+  a pixel's value at its corner rather than its centre.
+- **Some camera heights disagree with the DEM.** Four sites have `elev = 0` in cams.json
+  (alertranchita, latem, mcnally, raab). Axis cameras have no `agl`, which puts wilson-axis
+  23 m under the DSM, and 59 cameras have a "skyline" within 1 km over more than 10% of the
+  view. No ledger camera is among them.
+
+**Measured first, on the skyline check** (39 cameras, the "all" pose, a scratch march). The
+table gives per-column |residual|, the median over cameras, and the mean |camera median|:
+
+| march | refraction k | mean \|res\| | median | mean \|median\| |
+|---|---|---|---|---|
+| flat (was) | 0.25 (4/3 radius) | 6.36 px | +0.32 | 2.95 |
+| line of sight | 0.25 | 6.32 | +0.27 | 2.91 |
+| flat | 0.13 | 6.29 | −0.23 | 2.86 |
+| line of sight | 0.13 | 6.25 | −0.42 | 2.86 |
+
+- **The march correction is real but small on the skyline.** It moves a camera's skyline by a
+  median 0.25 px (at most 0.54 px). The check is insensitive to azimuth, so this was expected.
+- **Refraction is not decided by this data.** k = 0.13 (the optical value `landmarks` uses)
+  lowers the line by up to 1.4 px at 75 km. That trades a +0.3 px median for −0.2 to −0.4 px.
+  The terrain stays at the 4/3 radius, and `landmarks.K_TERRESTRIAL` stays 0.13 for lights.
+- **An unexplained range trend.** Within a camera, the residual rises about 1.2 px per 10 km
+  (32 of 39 cameras positive): the DEM line sits about 2 px higher, relative to the image edge,
+  at 70 km than at 15 km. k = 0.13 removes only 0.16 px/10 km of it. Cancelling it would need
+  k ≈ −0.5, which is implausible. The likelier cause is haze: a faint far skyline loses the
+  edge search to a nearer, lower ridge inside the ±25 px window. This is not followed up.
+
+**What changed** (c841ee3):
+- `geom.ray_latlon` gives ground points under the straight line of sight, placed in the
+  camera's east-north plane and dropped onto the ellipsoid.
+- `terrain.sight_angles`, `eye_height` and `sightline` are now the only copies of the formula,
+  and all six tracked call sites use them. `terrain_loglik` uses `geom.enu_grid`.
+- Windows snap to the tiles' pixel grid, and a pixel is read at its centre. Samples no longer
+  depend on the window: moving `terrain_range.profile` to a camera-centred window gave
+  identical validate rows.
+- `Dem.site_problem`: `horizon`/`ridges` warn, and `terrain_range` skips a camera with a bad
+  height. `profile(min_km=...)` is available but off by default, and validate rows now carry
+  `horizon_km` (none of the 73 is under 1.5 km).
+- `test_geolocation` pins `FIGLIB_LENS=fisheye` and `FIGLIB_POSE_LEDGER=1`. It passed in the
+  full suite only because an earlier module had set them at import, and failed alone
+  (3.85 km on two sites, rectilinear).
+
+**Re-run from c841ee3.** Almost nothing moves:
+- **terrain_range validate:** containment is identical at every band (60/73 cap and 100 px,
+  56/73 at 30 px). Lengths moved by 0.06 km or less. The terrain row at truth changed by a
+  median of 0 px (5–95%: −2.4 to +1.4); the largest single change was 18 px.
+- **Solves:** confirmed medians are unchanged at every band. Rainbow's 95% region is 5.0 km²
+  at 30 px (was 4.8) and 7.5 at 60 px (was 7.7); its error stays 1.42 km. Border 1.40 → 1.38
+  km. Valley at 60 px 3.61 → 4.00. inside-Mexico at 30 px 3.06 → 2.96.
+- **Grove's tp-w interval** is unchanged (14.7–28.9 km against 31.9).
+- **fig_bearing:** range length ratios moved by +0.01; counts are unchanged.
+- **Skyline check:** "none" −4.17 / 6.39, "precession" +1.80 / 3.21, "all" +0.32 / 2.79.
+  The same 35 of 39 cameras move closer to the ridge.
+
 ## Deliberately deferred
 
 Monochrome/NIR sequences (11 of them, paired with color views of the same fires) --
