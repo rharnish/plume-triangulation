@@ -174,7 +174,7 @@ their bearings nearly coincide and give almost no distance:
   WGS84). The two bearings are within 1° of collinear, so a fifth of a degree slides the
   crossing kilometres. Before the fresh star solves of 2026-09-12 to -14 it was 17 km, because
   Boucher Hill West's published azimuth was 1.16° off.
-- **With terrain, 30 px band:** still 1.42 km, but the region shrinks to 4.8 km² (7.7 km² at
+- **With terrain, 30 px band:** still 1.42 km, but the region shrinks to 5.0 km² (7.5 km² at
   60 px, 20.6 at 100).
 
 ![Rainbow: two opposed cameras, bearings only vs bearings with terrain ranges](docs/figures/terrain_range_rainbow.jpg)

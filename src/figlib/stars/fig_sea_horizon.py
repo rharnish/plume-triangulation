@@ -23,6 +23,7 @@ import numpy as np
 
 from .. import corpus as C
 from .. import terrain as T
+from ..geom import ray_latlon
 from ..detect_yolo import read_frames
 from .fisheye import initial_k, project_fisheye
 
@@ -40,14 +41,12 @@ def sea_azimuths(cam: dict, dem: T.Dem, max_km: float = 80.0) -> tuple[np.ndarra
     az = np.arange(cam["az"] - half, cam["az"] + half + 1e-9, 0.25)
     d = np.arange(500.0, max_km * 1000.0, 250.0)
     band, tf = dem.window(cam["lat"], cam["lon"], max_km / 111.0 + 0.05)
-    A, D = np.radians(az)[:, None], d[None, :]
-    lats = cam["lat"] + D * np.cos(A) / 111132.0
-    lons = cam["lon"] + D * np.sin(A) / (111320.0 * math.cos(math.radians(cam["lat"])))
+    lats, lons = ray_latlon(cam["lat"], cam["lon"], az[:, None], d[None, :])
     h = T.Dem.sample(band, tf, lats.ravel(), lons.ravel()).reshape(lats.shape)
     covered = (lats >= 31) & (lats < 35) & (lons >= -119) & (lons < -116)
-    h_cam = cam["elev"] + (cam.get("agl") or 0.0)
+    h_cam = T.eye_height(cam)
     dip = -math.degrees(math.acos(T.R_EFF / (T.R_EFF + h_cam)))
-    ang = np.degrees(np.arctan2(h - h_cam - D ** 2 / (2 * T.R_EFF), D))
+    ang = T.sight_angles(h, h_cam, d[None, :])
     tail = d >= (max_km - 30) * 1000.0
     sea = (np.all((np.abs(h[:, tail]) < 0.5) & covered[:, tail], axis=1) & (lons[:, -1] < -117.1)
            & (ang.max(axis=1) <= dip + 0.05))

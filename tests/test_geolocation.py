@@ -9,11 +9,23 @@ noise or a grid-resolution change does not make it flaky.
 from __future__ import annotations
 
 import numpy as np
+import pytest
 
 from src.figlib import geolocate as G
 from src.figlib.geom import haversine_km
 
 FIRE_ID = "20240701_Kitchenfire"
+
+
+@pytest.fixture(autouse=True)
+def calibrated(monkeypatch):
+    """The calibrated camera model the corpus figures use: star-measured fisheye and ledger poses.
+
+    Pinned here rather than inherited: coverage, bias, fig_bearing and terrain_range set these
+    at import, so without the pin the result depended on which test module was collected first.
+    """
+    monkeypatch.setenv("FIGLIB_LENS", "fisheye")
+    monkeypatch.setenv("FIGLIB_POSE_LEDGER", "1")
 
 
 def _solve(fire, seqs, cams, **kw):

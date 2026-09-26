@@ -209,27 +209,13 @@ def load() -> dict:
 # ---- line of sight ----------------------------------------------------------------------------
 
 def visible(dem, cam: dict, lat: float, lon: float, h_target: float, margin_deg: float = 0.02) -> bool:
-    """Whether a point clears the terrain between it and the camera (Copernicus DSM, 4/3 earth).
-
-    Same construction as ridge_feet.sightline, but for a target at a given height rather than
-    on the ground, and ignoring the last 150 m, where the target's own hilltop sits."""
+    """Whether a point at height `h_target` clears the terrain between it and the camera
+    (`terrain.sightline`: Copernicus DSM, 4/3 earth, the target's own last 150 m ignored)."""
     from . import terrain as T
-    m_lat, m_lon = 111_132.0, 111_320.0 * math.cos(math.radians(cam["lat"]))
-    dn, de = (lat - cam["lat"]) * m_lat, (lon - cam["lon"]) * m_lon
-    D = math.hypot(dn, de)
-    if D < 300:
+    g = T.sightline(dem, cam, lat, lon, h_target)
+    if g["km"] < 0.3:
         return False
-    band, tf = dem.window(cam["lat"], cam["lon"], RANGE_KM / 100 + 0.1)
-    h_cam = cam["elev"] + (cam.get("agl") or 0.0)
-    d = np.arange(60.0, D - 150.0, 30.0)
-    if d.size == 0:
-        return True
-    la = cam["lat"] + d * dn / D / m_lat
-    lo = cam["lon"] + d * de / D / m_lon
-    h = T.Dem.sample(band, tf, la, lo)
-    ang = np.degrees(np.arctan2(h - h_cam - d ** 2 / (2 * T.R_EFF), d))
-    tgt = math.degrees(math.atan2(h_target - h_cam - D ** 2 / (2 * T.R_EFF), D))
-    return bool(tgt >= ang.max() - margin_deg)
+    return bool(g["el"] >= g["occ_el"] - margin_deg)
 
 
 # ---- static lights ----------------------------------------------------------------------------

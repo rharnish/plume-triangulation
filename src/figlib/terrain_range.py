@@ -45,7 +45,7 @@ from . import terrain as T
 from .fig_triangulate import _det_for
 from .geolocate import (FRAME_SIZES, META, REFINE_KM, YOLO_DIR, bearings_for_fire, credible_area_km2,
                         refine, solve)
-from .geom import angdiff_deg, bearing_deg, haversine_km, load_cams
+from .geom import angdiff_deg, bearing_deg, enu_grid, haversine_km, load_cams, ray_latlon
 from .stars.fisheye import initial_k, project_fisheye
 
 OUT = C.current().out / "terrain_range"
@@ -72,11 +72,8 @@ _DEM: T.Dem | None = None
 # ------------------------------------------------------------------ geometry
 
 def along_ray(lat: float, lon: float, az_deg: float, km):
-    """Points `km` along a bearing, flat-earth: under a pixel of error at these ranges."""
-    km = np.asarray(km, float)
-    m_lat, m_lon = 111.132, 111.320 * math.cos(math.radians(lat))
-    return (lat + km * math.cos(math.radians(az_deg)) / m_lat,
-            lon + km * math.sin(math.radians(az_deg)) / m_lon)
+    """Ground points `km` along a bearing, on the camera's line of sight (`geom.ray_latlon`)."""
+    return ray_latlon(lat, lon, az_deg, np.asarray(km, float) * 1000.0)
 
 
 def full_pose(camera: str, epoch: float, frame_w: int | None) -> dict | None:
@@ -127,23 +124,33 @@ def early_box_bottom(seq_name: str, det: dict, H: int) -> float | None:
     return float(np.median(ys)) if ys else None
 
 
-def profile(cam: dict, pose: dict, az_deg: float, W: int, H: int) -> dict:
-    """Terrain along the ray: distance (m), lowest clearing angle (deg), and its image row (px)."""
+def profile(cam: dict, pose: dict, az_deg: float, W: int, H: int, min_km: float = 0.0) -> dict:
+    """Terrain along the ray: distance (m), lowest clearing angle (deg), and its image row (px).
+
+    `min_km` stops terrain nearer than that from hiding anything beyond it: a 30 m surface
+    model there is mostly the canopy and buildings around the mast. Off by default.
+    Raises `ValueError` when the camera's height disagrees with the DEM at its own site.
+    """
     global _DEM
     if _DEM is None:
         _DEM = T.Dem()
     d = np.arange(STEP_M, MAX_KM * 1000.0, STEP_M)
+    # A window around the ray alone, half the size of one around the camera. Windows snap to
+    # the tiles' pixel grid, so the samples don't depend on which window they came from.
     mid_lat, mid_lon = along_ray(cam["lat"], cam["lon"], az_deg, MAX_KM / 2)
     band, tf = _DEM.window(float(mid_lat), float(mid_lon), MAX_KM / 2 / 111.0 + 0.08)
+    why = T.Dem.site_problem(cam, band, tf)
+    if why:
+        raise ValueError(why)
     lats, lons = along_ray(cam["lat"], cam["lon"], az_deg, d / 1000.0)
-    h = T.Dem.sample(band, tf, lats, lons)
-    h_cam = cam["elev"] + (cam.get("agl") or 0.0)
-    ang = np.degrees(np.arctan2(h - h_cam - d ** 2 / (2 * T.R_EFF), d))
-    run = np.maximum.accumulate(ang)       # highest terrain angle up to each distance
+    ang = T.sight_angles(T.Dem.sample(band, tf, lats, lons), T.eye_height(cam), d)
+    far = d >= min_km * 1000.0
+    run = ang.copy()                       # highest terrain angle up to each distance
+    run[far] = np.maximum.accumulate(ang[far])
     k = pose["k_ratio"] * initial_k(cam, W)
     _x, y = project_fisheye(cam, np.full_like(run, az_deg), run, W, H,
                             pose["d_az"], pose["d_pitch"], pose["d_roll"], k, pose["k1"])
-    return {"d": d, "run": run, "rows": y * H}
+    return {"d": d, "run": run, "rows": y * H, "horizon_km": float(d[np.argmax(ang)] / 1000.0)}
 
 
 def allowed(prof: dict, y1: float, band_px: float | None = BAND_PX) -> np.ndarray:
@@ -207,6 +214,9 @@ def bearing_terrain(b, fire: dict, seqs: dict, cams: dict) -> dict | None:
         prof = profile(cam, pose, b.bearing_deg, W, H)
     except FileNotFoundError:
         return None
+    except ValueError as exc:
+        print(f"  skip {b.camera}: {exc}", flush=True)
+        return None
     return {"cam": cam, "pose": pose, "W": W, "H": H, "y1": y1, "prof": prof, "b": b}
 
 
@@ -232,7 +242,7 @@ def validate() -> dict:
             i = int(np.clip(round(along * 1000 / STEP_M) - 1, 0, len(prof["d"]) - 1))
             rec = {"fire_id": r["fire_id"], "tier": r["tier"], "triangulable": bool(r.get("triangulable")),
                    "camera": b.camera, "pose": bt["pose"]["source"], "gap_days": bt["pose"]["gap_days"],
-                   "along_km": round(along, 2),
+                   "along_km": round(along, 2), "horizon_km": round(prof["horizon_km"], 2),
                    "terrain_row_minus_box_px_at_truth": round(float(prof["rows"][i] - bt["y1"]))}
             ok = allowed(prof, bt["y1"], None)
             rec["cap_only"] = {"contains": contains(ok, along), **summarise_mask(prof["d"], ok)}
@@ -280,8 +290,7 @@ def terrain_loglik(lats, lons, terr: list[dict], band_px: float | None) -> np.nd
     for bt in terr:
         cam, b = bt["cam"], bt["b"]
         ok = allowed(bt["prof"], bt["y1"], band_px)
-        m_lat, m_lon = 111_132.0, 111_320.0 * math.cos(math.radians(cam["lat"]))
-        dn, de = (LA - cam["lat"]) * m_lat, (LO - cam["lon"]) * m_lon
+        de, dn = enu_grid(cam["lat"], cam["lon"], LA, LO)
         dist = np.hypot(dn, de)
         rel = (np.degrees(np.arctan2(de, dn)) - b.bearing_deg + 180.0) % 360.0 - 180.0
         idx = np.clip(np.rint(dist / STEP_M).astype(int) - 1, 0, len(ok) - 1)
