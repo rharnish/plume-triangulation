@@ -18,6 +18,8 @@ import json
 import math
 from pathlib import Path
 
+from . import settings
+
 EARTH_R_KM = 6371.0
 
 
@@ -27,8 +29,7 @@ def load_cams() -> dict:
     Set FIGLIB_CAMS to `data/meta/cams_refined.json` to run everything downstream against
     terrain-fitted azimuths instead of the published ones.
     """
-    import os
-    p = os.environ.get("FIGLIB_CAMS")
+    p = settings.get("FIGLIB_CAMS")
     root = Path(__file__).resolve().parents[2]
     return json.loads(Path(p if p else root / "data" / "meta" / "cams.json").read_text())
 
@@ -186,8 +187,7 @@ def _fisheye(cam: dict) -> bool:
     Callers that know the frame width pass it as cam["frame_w"] (see frame_sizes.py);
     without it the lens is not applied.
     """
-    import os
-    return (os.environ.get("FIGLIB_LENS") == "fisheye" and cam.get("fov") == 90
+    return (settings.get("FIGLIB_LENS") == "fisheye" and cam.get("fov") == 90
             and cam.get("frame_w") == 3072)
 
 

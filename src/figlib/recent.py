@@ -48,6 +48,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from . import corpus as C
+from . import settings
 
 ROOT = Path(__file__).resolve().parents[2]
 FRAMES = ROOT / "data" / "hpwren_recent"
@@ -378,7 +379,7 @@ def score() -> Path:
             row[tag] = out
         rows.append(row)
 
-    variant = (("_fisheye" if os.environ.get("FIGLIB_LENS") == "fisheye" else "")
+    variant = (("_fisheye" if settings.get("FIGLIB_LENS") == "fisheye" else "")
                + ("_ledger" if pose_ledger.enabled() else "")
                + ("_full" if pose_ledger.enabled() and pose_ledger.full_enabled() else ""))
     dest = CORPUS.out / f"geolocation{variant}.json"
@@ -386,7 +387,7 @@ def score() -> Path:
     dest.write_text(json.dumps(rows, indent=1) + "\n")
     P.record("recent-score", [dest], started=started,
              params={"variants": [v[0] for v in VARIANTS], "use_wind": False,
-                     "lens": os.environ.get("FIGLIB_LENS", "rectilinear"),
+                     "lens": settings.get("FIGLIB_LENS"),
                      "pose_ledger": str(pose_ledger.path()) if pose_ledger.enabled() else None,
                      "pose_full": pose_ledger.enabled() and pose_ledger.full_enabled()},
              extra_inputs=[meta / "sequences.json", meta / "fires.json", meta / "resolved.json",

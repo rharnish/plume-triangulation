@@ -22,7 +22,6 @@ contributes no peak. Requiring cross-site agreement rejects what thresholding ca
 from __future__ import annotations
 
 import json
-import os
 import math
 from dataclasses import dataclass
 from pathlib import Path
@@ -32,6 +31,7 @@ import numpy as np
 from .geom import (angdiff_deg, bearing_deg, bearing_grid, haversine_km, load_cams,
                     offset_bearing_deg)
 from . import corpus as C
+from . import settings
 from . import pose_ledger
 from .wind import upwind_x, wind_at
 
@@ -40,7 +40,7 @@ META = C.current().meta
 # Which detection pass to score. Overridable so the Core ML variants run through this
 # exact pipeline rather than a parallel one -- the point of the quantization study is a
 # paired comparison, and a second implementation would be a second source of difference.
-YOLO_DIR = Path(os.environ.get("FIGLIB_DETS", C.current().dets))
+YOLO_DIR = Path(settings.get("FIGLIB_DETS") or C.current().dets)
 
 # Frame width per archive (frame_sizes.py). The star-measured fisheye lens and the pose
 # ledger apply only to the frame format they were measured on, and the same camera name
@@ -53,9 +53,14 @@ FRAME_SIZES = json.loads(_FRAME_SIZES.read_text()) if _FRAME_SIZES.exists() else
 # source. Two degrees is deliberately generous: claiming less would shrink the
 # uncertainty region without earning it.
 SIGMA_DEG = 2.0
-# Opt-in: re-find the peak at this step within two cells of the grid's (`refine`). Off by
-# default so every published number stays the grid's, until they are re-run together.
-REFINE_KM = float(os.environ["FIGLIB_REFINE_KM"]) if os.environ.get("FIGLIB_REFINE_KM") else None
+
+
+def refine_step() -> float | None:
+    """FIGLIB_REFINE_KM: the step at which `solve` re-finds its peak within two cells of the
+    grid's (`refine`), 0.01 km unless set; None when set to 0, for the bare grid node."""
+    step = float(settings.get("FIGLIB_REFINE_KM") or 0)
+    return step if step > 0 else None
+
 
 # Scored columns, in the order they are reported. The four box variants run by
 # default; everything past them takes the bearing from a pixel mask instead of a box
@@ -67,8 +72,8 @@ MASK_VARIANTS = ("foot_diff", "foot_sam", "axis_diff", "axis_sam",
                  "wedge_diff", "wedge_sam", "seq_diff", "seq_sam",
                  "field_diff", "field_sam")
 ALL_VARIANTS = BOX_VARIANTS + MASK_VARIANTS
-if os.environ.get("FIGLIB_VARIANTS"):
-    _keep = set(os.environ["FIGLIB_VARIANTS"].split(","))
+if settings.get("FIGLIB_VARIANTS"):
+    _keep = set(settings.get("FIGLIB_VARIANTS").split(","))
     VARIANTS = tuple(v for v in ALL_VARIANTS if v in _keep)
 else:
     VARIANTS = BOX_VARIANTS
@@ -203,7 +208,7 @@ def _fit_x(kind: str, method: str, seq_name: str, offset: int, det: dict,
     # two thirds of the sequences where the crosswind is decisive -- so it is not
     # obvious the constraint earns its rejections. FIGLIB_WIND_GATE=0 turns it off, to
     # measure that rather than argue about it.
-    if os.environ.get("FIGLIB_WIND_GATE") == "0":
+    if settings.get("FIGLIB_WIND_GATE") == "0":
         cross = None
 
     if kind == "seq":
@@ -230,13 +235,14 @@ def _fit_x(kind: str, method: str, seq_name: str, offset: int, det: dict,
 
 def solve(bearings: list[Bearing], center: tuple[float, float],
           half_extent_km: float = 60.0, step_km: float = 0.4,
-          sigma_deg: float = SIGMA_DEG, refine_km: float | None = REFINE_KM):
+          sigma_deg: float = SIGMA_DEG, refine_km: float | None = None):
     """Log-likelihood surface over the ground, and its peak.
 
     The surface is returned at `step_km`. Without refinement the peak can only be a grid
     node. A 0.4 km cell then moves single fires by up to 0.5 km as the grid shifts under
     them, and can carry a median across the 2 km line (NOTES.md, 2026-09-25).
-    `refine_km` (FIGLIB_REFINE_KM) re-finds the peak off the grid; see `refine`."""
+    `refine_km` re-finds the peak off the grid (see `refine`): None takes FIGLIB_REFINE_KM
+    (`refine_step`), and 0 keeps the grid node."""
     lat0, lon0 = center
     dlat = step_km / 111.32
     dlon = step_km / (111.32 * math.cos(math.radians(lat0)))
@@ -261,8 +267,9 @@ def solve(bearings: list[Bearing], center: tuple[float, float],
 
     i, j = np.unravel_index(np.argmax(total), total.shape)
     la, lo = float(lats[i]), float(lons[j])
-    if refine_km:
-        la, lo = refine(bearings, la, lo, step_km, sigma_deg=sigma_deg, fine_km=refine_km)
+    fine_km = refine_step() if refine_km is None else refine_km
+    if fine_km:
+        la, lo = refine(bearings, la, lo, step_km, sigma_deg=sigma_deg, fine_km=fine_km)
     return lats, lons, total, la, lo
 
 
@@ -273,9 +280,9 @@ def refine(bearings: list[Bearing], lat: float, lon: float, step_km: float,
     `extra(lats, lons)`, if given, adds a term on the fine grid, as it was added on the
     coarse one (terrain_range's penalty). The fine grid is centred on the coarse peak, so it
     moves with the peak and is not tied to the coarse grid's origin."""
-    fine_km = fine_km or REFINE_KM or 0.01
+    fine_km = fine_km or refine_step() or 0.01
     lats, lons, ll, la, lo = solve(bearings, (lat, lon), half_extent_km=2 * step_km,
-                                   step_km=fine_km, sigma_deg=sigma_deg, refine_km=None)
+                                   step_km=fine_km, sigma_deg=sigma_deg, refine_km=0)
     if extra is not None:
         ll = ll + extra(lats, lons)
         i, j = np.unravel_index(np.argmax(ll), ll.shape)
@@ -355,7 +362,7 @@ def main() -> None:
     _save_wind(wind_cache)
 
     # Calibration variants write beside the baseline, never over it.
-    variant = (("_fisheye" if os.environ.get("FIGLIB_LENS") == "fisheye" else "")
+    variant = (("_fisheye" if settings.get("FIGLIB_LENS") == "fisheye" else "")
                + ("_ledger" if pose_ledger.enabled() else "")
                + ("_full" if pose_ledger.enabled() and pose_ledger.full_enabled() else ""))
     dest = C.current().out / f"geolocation{C.tier_suffix(tiers)}{variant}.json"
@@ -364,7 +371,7 @@ def main() -> None:
     from .wind import CACHE as WIND_CACHE
     P.record("geolocate", [dest, WIND_CACHE], started=started,
              params={"variants": list(VARIANTS), "sigma_deg": SIGMA_DEG,
-                     "lens": os.environ.get("FIGLIB_LENS", "rectilinear"),
+                     "lens": settings.get("FIGLIB_LENS"),
                      "pose_ledger": str(pose_ledger.path()) if pose_ledger.enabled() else None,
                      "pose_full": pose_ledger.enabled() and pose_ledger.full_enabled()},
              extra_inputs=[META / "sequences.json", META / "fires.json",

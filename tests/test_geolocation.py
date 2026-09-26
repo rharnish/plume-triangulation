@@ -21,8 +21,8 @@ FIRE_ID = "20240701_Kitchenfire"
 def calibrated(monkeypatch):
     """The calibrated camera model the corpus figures use: star-measured fisheye and ledger poses.
 
-    Pinned here rather than inherited: coverage, bias, fig_bearing and terrain_range set these
-    at import, so without the pin the result depended on which test module was collected first.
+    Pinned here: configs/calibrated.toml is only the default of those modules' `main()`, so an
+    imported module scores whatever the environment says.
     """
     monkeypatch.setenv("FIGLIB_LENS", "fisheye")
     monkeypatch.setenv("FIGLIB_POSE_LEDGER", "1")

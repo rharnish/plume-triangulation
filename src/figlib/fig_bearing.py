@@ -27,12 +27,6 @@ Writes `out/<corpus>/bearing/`: one PNG per fire, `index.json` (per fire and per
 
 from __future__ import annotations
 
-import os
-
-# The calibrated camera model, as in coverage.py. Set before the geometry reads them.
-os.environ.setdefault("FIGLIB_LENS", "fisheye")
-os.environ.setdefault("FIGLIB_POSE_LEDGER", "1")
-
 import json
 import math
 from pathlib import Path
@@ -40,6 +34,7 @@ from pathlib import Path
 import numpy as np
 
 from . import corpus as C
+from . import settings
 from . import provenance as P
 from . import terrain_range as TR
 from .fig_triangulate import PALETTE, _det_for, _hillshade, _plume_crop, _title
@@ -425,6 +420,7 @@ def sheet(tile_w: int = 560, cols: int = 4) -> Path:
 
 
 if __name__ == "__main__":
+    settings.default_profile("calibrated")   # configs/calibrated.toml unless FIGLIB_PROFILE is set
     import sys
     a = sys.argv[1:]
     if a and a[0] == "sheet":
