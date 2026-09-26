@@ -191,7 +191,8 @@ def _fisheye(cam: dict) -> bool:
             and cam.get("frame_w") == 3072)
 
 
-def offset_bearing_deg(cam: dict, x_frac: float, y_frac: float = 0.5) -> float:
+def offset_bearing_deg(cam: dict, x_frac: float, y_frac: float = 0.5,
+                       foot_y: float | None = None) -> float:
     """Bearing to a feature at horizontal position `x_frac` across the image.
 
     `x_frac` runs 0 (left edge) to 1 (right edge); 0.5 is the optical axis. Uses the
@@ -199,7 +200,22 @@ def offset_bearing_deg(cam: dict, x_frac: float, y_frac: float = 0.5) -> float:
     at 90 deg FoV the linear approximation is off by several degrees at the edges,
     which at 20 km is a kilometer of error. With FIGLIB_LENS=fisheye, 90 deg cameras use
     the star-measured equidistant lens instead, read along the horizon row.
+
+    When `cam` carries its whole solved camera (`cam["solved"]`, from
+    `pose_ledger.corrected_cam` with FIGLIB_POSE_FULL=1), the pixel is read through that
+    camera's own lens, pitch and roll at row `foot_y` (the box's foot; `y_frac` if not given).
+    `foot_y` is ignored otherwise, so every other path is unchanged.
     """
+    if _fisheye(cam) and cam.get("solved"):
+        # The whole star-solved camera (pose_ledger.corrected_cam with FIGLIB_POSE_FULL=1):
+        # its own lens, pitch and roll, and the row as well as the column.
+        from .stars.fisheye import initial_k, unproject_fisheye
+        p, W = cam["solved"], cam["frame_w"]
+        H = cam.get("frame_h") or round(W * 2 / 3)
+        y = y_frac if foot_y is None else foot_y
+        az, _el = unproject_fisheye(cam, x_frac, y, W, H, 0.0, p["d_pitch"], p["d_roll"],
+                                    p["k_ratio"] * initial_k(cam, W), p["k1"])
+        return float(az)
     if _fisheye(cam):
         r = (x_frac - 0.5) * math.radians(cam["fov"]) / FISHEYE_K_RATIO
         t = r

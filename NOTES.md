@@ -1062,7 +1062,107 @@ FIGLIB_LENS=fisheye FIGLIB_POSE_LEDGER=1 FIGLIB_POSE_LEDGER_PATH=out/recent/pose
   python -m src.figlib.recent score
 ```
 
-Next deadlines: Thorn ~10-13, Creelman and Rainbow ~10-20.
+## Eight more 2026 fires from the CDN, and the whole solved camera in bearings (2026-09-25)
+
+**Candidates are reproducible now.** The 09-21 probe that chose Bernardo's and Junction's
+extra cameras lived in a session scratchpad and was lost. `recent candidates <fire>` applies
+the same criteria:
+- fixed color Mobotix units not in the archive, within 45 km of the official point;
+- the point inside the frame, using the star `d_az` where a solve exists. For a 90° unit the
+  frame is the star-measured fisheye's (±54.7°), less 1°. The nameplate ±45° misses cameras
+  the 09-21 probe kept (ch-s, rdd-s, mpo-e, bi-s);
+- a plume rising 200 m or less clears the terrain (`terrain.sightline`);
+- the CDN still serves a frame near t0.
+
+It reproduces the 09-21 lists exactly. All of Bernardo's cameras are now 403.
+
+**Fetched: Thorn, Creelman, Rainbow, Beaver, Sorrento, Church2, Chia and Brengle.** That is
+61 cameras (51 distinct), 4,830 frames and 2.7 GB. The CDN's deadline no longer applies to any
+2026 fire. Returning 403 were wc-e, wc-s, bl-s, bl-w and smer-tcs9-s, which match the
+cameras seen offline on 09-21.
+
+**Star poses for 29 cameras new to the recent ledger.** The nights were 09-12 and 09-13 Q1,
+just after new moon. Every night went straight to `solve_wide`, which already runs the
+published-pose grid as its first attempt. Exceptions:
+- mp-w has no night blocks from 09-10 to 09-19, so it used 09-24/25.
+- smer-tcs9-e only uploads Q7/Q8, and nothing after about 08-25, so it used 08-15/20 Q8.
+- smer-tcs9-s has no night blocks at all.
+
+**21 cameras solved; the recent ledger went from 100 to 132 entries (81 cameras).**
+- **Eleven agree across two nights to 0.03°:** bi-w, buff-e, mpo-n, pi-n, rdmrc-s, rdmrc-w,
+  rndmsa-e, rndmsa-s, sm-w, smer-tcs10-1 and mp-w.
+- **Several published azimuths are far off:** smer-tcs10-1 −15.9°, mp-w +12.4°, rdmrc-s −11.7°,
+  rdmrc-w −10.6°, rndmsa-s +6.0°, smer-tcs9-e +5.5° and blkrc-s −5.5°.
+- **mpo-n is pitched +16.8°** on both nights.
+- **One night only:** smer-tcs9-e, blkrc-s, ch-n, ch-s, smarpk-e/n/s/w, tdlln-e and wlfd-s.
+  09-13 gave zero moving tracks on most coastal cameras, probably cloud.
+- **No solve:** bl-e, bl-n, wc-w (no tracks), buff-s and tdlln-n (5–7 stars), ms-n, tje-1 and
+  smer-tcs9-s.
+
+**The lenses.** `stars/fig_intrinsics.py` (untracked, meant for the calibration repo) plots
+`k_ratio` against `k1` for every solve.
+- 79 cameras sit at k 0.877–0.894. Within them k and k1 trade off (r = −0.89): the image
+  radius varies by 0.19% at 45° off axis and 0.4% at most. That is about 0.2° of bearing.
+- bm-e and bm-w sit at 0.775.
+
+**Bearings through the whole solved camera** (`FIGLIB_POSE_FULL=1`, 4cf5fee, opt-in).
+- **What was missing:** bearings used only the ledger's `d_az`, with the shared 0.886 / −0.078
+  lens read along the middle row. `unproject_fisheye` inverts the solved camera, including its
+  own lens, pitch and roll, and reads it at the box bottom.
+- **Flag off:** Bernardo and Junction re-scored on the old ledger are identical, apart from
+  the lens fields stored with each bearing's pose.
+- **Flag on:** it fixes the bm-lens bearings as predicted. bm-w at Bernardo goes +4.6 → +1.6°,
+  and bm-e at Junction +4.6 → +1.8°. Over the other 77 bearings the median change is 0.04°;
+  mpo-n's 16.8° pitch moves its bearing only 0.3°.
+- **Fire errors are unchanged, except Bernardo 0.63 → 1.19 km.** Its 0.63 km had been helped
+  by bm-w's 4.6° miss.
+
+**Scores, center bearing, km to the WFIGS point** (FIgLib only → all sites):
+
+| fire | FIgLib only | published | fisheye | + star az | + full camera | sites |
+|---|---|---|---|---|---|---|
+| Bernardo | one site | 1.19 | 1.19 | 0.63 | 1.19 | 8 |
+| Junction | 3.06 | 2.90 | 2.89 | 3.54 | 3.54 | 8 |
+| Thorn | one site | 3.37 | 2.99 | **1.09** | 1.09 | 4 |
+| Creelman | 2.07 | **0.28** | 0.65 | 1.17 | 1.17 | 9 |
+| Rainbow | 1.42 | 1.23 | 1.16 | 1.60 | 1.60 | 8 |
+| Beaver | one site | 1.08 | 1.46 | **0.77** | 0.77 | 6 |
+| Sorrento | one site | 1.22 | 0.95 | 1.68 | 1.68 | 2 |
+| Church2 | one site | 3.26 | 2.15 | **1.47** | 1.47 | 4 |
+| Chia | one site | 1.47 | 1.10 | 3.73 | 3.73 | 7 |
+| Brengle | one site | 0.82 | 0.82 | 1.17 | 1.17 | 10 |
+
+**Extra sites turn single-site fires into located ones:** six fires land at 0.77–1.68 km, and
+Chia at 3.73. **Star poses fix every large per-bearing azimuth error:**
+- smer-tcs10-1 (Chia) +16.8 → +0.8°;
+- mlo-s (Thorn) +18.7 → −4.6°;
+- rdmrc-s and rdmrc-w (Rainbow) +11.7 / +10.3 → +0.1 / −0.2°;
+- smer-tcs9-e (Chia) −4.9 → +0.7°.
+
+**Calibration still loses at the fire level on five of the ten fires.** That is because of
+detection selection, as at Junction:
+- **Wrong objects.** At Chia, vo-n is +49° off (the known cumulus again) and rdmrc-s is chosen
+  at +2369 s, at the window's end. At Rainbow, smer-tcs9-s is −12° off and has no star pose.
+- **Luck under the published poses.** Creelman's 0.28 km rested on bm-s +12.9° and mg-s −7.3°
+  roughly cancelling.
+
+Bearings that sat near zero under published azimuths move 1.5–3.3° out once corrected:
+sdsc-e −0.9 → −4.2°, pi-e +0.2 → −2.0°, buff-e +0.2 → −1.4° and rndmsa-e −0.4 → −2.5°. That
+is within single-site detection noise (median 4.3°). But most of these corrections apply one
+09-12 solve back to a July or August fire ("one-sided"). A camera re-aimed in between (as tp-w
+was) would look exactly like this.
+
+**Next:** the bounded-influence mixture in `accumulate` for detection selection, and the
+FIGLIB_POSE_FULL decision in the coordinated re-run.
+
+```sh
+python -m src.figlib.recent candidates 20260715_ThornFire 20260722_CreelmanFire ...
+python -m src.figlib.recent fetch 20260715_ThornFire mlo-s-mobo-c pi-e-mobo-c lp-e-mobo-c
+python -m src.figlib.recent detect
+python -m src.figlib.stars.nights 20260912 <cams>           # then solve_wide per block
+FIGLIB_LENS=fisheye FIGLIB_POSE_LEDGER=1 FIGLIB_POSE_FULL=1 \
+  FIGLIB_POSE_LEDGER_PATH=out/recent/pose_ledger.json python -m src.figlib.recent score
+```
 
 ## Open questions
 

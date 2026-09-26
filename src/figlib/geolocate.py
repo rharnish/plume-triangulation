@@ -121,8 +121,9 @@ def bearings_for_fire(fire: dict, seqs: dict, cams: dict,
         path = Path(s.get("dets_dir") or YOLO_DIR) / f"{seq_name.split('#')[0]}.json"
         if not path.exists():
             continue
-        cam = {**cams[s["camera"]],
-               "frame_w": s.get("frame_w") or (FRAME_SIZES.get(seq_name.split("#")[0]) or [None])[0]}
+        size = FRAME_SIZES.get(seq_name.split("#")[0]) or [None, None]
+        cam = {**cams[s["camera"]], "frame_w": s.get("frame_w") or size[0],
+               "frame_h": s.get("frame_h") or size[1]}
         best = None
         for rec in sorted(json.loads(path.read_text()), key=lambda r: r["offset"]):
             if not (window_s[0] <= rec["offset"] <= window_s[1]):
@@ -168,7 +169,9 @@ def bearings_for_fire(fire: dict, seqs: dict, cams: dict,
                 source = x_mode
 
         out.append(Bearing(camera=s["camera"], lat=cam["lat"], lon=cam["lon"],
-                           bearing_deg=offset_bearing_deg(cam_b, x),
+                           # the box's foot: the lowest smoke, which only the full solved
+                           # camera (FIGLIB_POSE_FULL) reads -- the shared lens ignores the row
+                           bearing_deg=offset_bearing_deg(cam_b, x, foot_y=d["y1"]),
                            conf=d["conf"], epoch=rec["epoch"], x_frac=round(x, 4),
                            wind_from_deg=wfrom, x_source=source,
                            ll_curve=ll_curve, pose=pose))
@@ -217,7 +220,7 @@ def _fit_x(kind: str, method: str, seq_name: str, offset: int, det: dict,
         xs, ll = plumefit.column_loglik(m, cross)
         if ll.min() > -0.05:            # flat: the mask carries no directional evidence
             return None, None
-        degs = np.array([offset_bearing_deg(cam, float(x)) for x in xs])
+        degs = np.array([offset_bearing_deg(cam, float(x), foot_y=det["y1"]) for x in xs])
         o = np.argsort(degs)
         # The wedge fit gives the point estimate that goes in the table; the curve is
         # what actually reaches the posterior.
@@ -353,7 +356,8 @@ def main() -> None:
 
     # Calibration variants write beside the baseline, never over it.
     variant = (("_fisheye" if os.environ.get("FIGLIB_LENS") == "fisheye" else "")
-               + ("_ledger" if pose_ledger.enabled() else ""))
+               + ("_ledger" if pose_ledger.enabled() else "")
+               + ("_full" if pose_ledger.enabled() and pose_ledger.full_enabled() else ""))
     dest = C.current().out / f"geolocation{C.tier_suffix(tiers)}{variant}.json"
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps(rows, indent=1) + "\n")
@@ -361,7 +365,8 @@ def main() -> None:
     P.record("geolocate", [dest, WIND_CACHE], started=started,
              params={"variants": list(VARIANTS), "sigma_deg": SIGMA_DEG,
                      "lens": os.environ.get("FIGLIB_LENS", "rectilinear"),
-                     "pose_ledger": str(pose_ledger.path()) if pose_ledger.enabled() else None},
+                     "pose_ledger": str(pose_ledger.path()) if pose_ledger.enabled() else None,
+                     "pose_full": pose_ledger.enabled() and pose_ledger.full_enabled()},
              extra_inputs=[META / "sequences.json", META / "fires.json",
                            META / "resolved.json", YOLO_DIR] + ([pose_ledger.path()] if pose_ledger.enabled() else []))
 

@@ -84,8 +84,8 @@ def gather_calibrated(fire, seqs, cams, t_max, conf_thr=0.10):
         path = YOLO_DIR / f"{seq_name.split('#')[0]}.json"
         if not path.exists():
             continue
-        cam = {**cams[s["camera"]],
-               "frame_w": (FRAME_SIZES.get(seq_name.split("#")[0]) or [None])[0]}
+        size = FRAME_SIZES.get(seq_name.split("#")[0]) or [None, None]
+        cam = {**cams[s["camera"]], "frame_w": size[0], "frame_h": size[1]}
         acc = out.setdefault(s["camera"], [])
         for rec in json.loads(path.read_text()):
             if not (0 <= rec["epoch"] - t_ref <= t_max):
@@ -93,7 +93,7 @@ def gather_calibrated(fire, seqs, cams, t_max, conf_thr=0.10):
             cam_b, _ = pose_ledger.corrected_cam(s["camera"], cam, rec["epoch"])
             for d in rec["dets"]:
                 if d["conf"] >= conf_thr:
-                    acc.append((offset_bearing_deg(cam_b, (d["x0"] + d["x1"]) / 2), d["conf"]))
+                    acc.append((offset_bearing_deg(cam_b, (d["x0"] + d["x1"]) / 2, foot_y=d["y1"]), d["conf"]))
     return {k: v for k, v in out.items() if v}
 
 
@@ -109,8 +109,8 @@ def best_calibrated(fire, seqs, cams, t_max, conf_thr=0.25):
         path = YOLO_DIR / f"{seq_name.split('#')[0]}.json"
         if not path.exists():
             continue
-        cam = {**cams[s["camera"]],
-               "frame_w": (FRAME_SIZES.get(seq_name.split("#")[0]) or [None])[0]}
+        size = FRAME_SIZES.get(seq_name.split("#")[0]) or [None, None]
+        cam = {**cams[s["camera"]], "frame_w": size[0], "frame_h": size[1]}
         for rec in json.loads(path.read_text()):
             if not (0 <= rec["epoch"] - t_ref <= t_max):
                 continue
@@ -123,7 +123,7 @@ def best_calibrated(fire, seqs, cams, t_max, conf_thr=0.25):
         cam_b, _ = pose_ledger.corrected_cam(camera, cam, rec["epoch"])
         x = (d["x0"] + d["x1"]) / 2
         out.append(Bearing(camera=camera, lat=cam["lat"], lon=cam["lon"],
-                           bearing_deg=offset_bearing_deg(cam_b, x), conf=d["conf"],
+                           bearing_deg=offset_bearing_deg(cam_b, x, foot_y=d["y1"]), conf=d["conf"],
                            epoch=rec["epoch"], x_frac=round(x, 4)))
     return out
 
