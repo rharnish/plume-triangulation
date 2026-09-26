@@ -2335,8 +2335,38 @@ The precession correction rests on the Skyfield comparison, not on landmarks. A 
 that could decide it needs surveyed mast positions, or daytime structures whose position is
 known to ~10 m.
 
-**Not re-run yet:** the geolocation numbers in the README (km errors). The new ledger and the
-bearing fix will both move them slightly, and re-running writes `runs.jsonl`.
+The geolocation re-run under all this is in the next section.
+
+## Geolocation re-run on the precessed ledger and ellipsoidal bearings (2026-09-25)
+
+Three `geolocate.py` runs from c1019da (baseline, `FIGLIB_LENS=fisheye`, plus
+`FIGLIB_POSE_LEDGER=1`), then `calfire` (its audit reads the baseline) and the figures that
+depend on them. Center bearing, upper medians the way geolocate prints them, confirmed fires:
+
+| | baseline | fisheye lens | fisheye + ledger |
+|---|---|---|---|
+| before (2734e77) | 1.90 km, 7 ≤ 2 km | 1.70 km, 8 | 1.70 km, 6 |
+| now | 1.90 km, 7 | 1.70 km, 8 | **2.00 km**, 6 |
+
+  * **The reported bearings did not move at all** in the baseline and fisheye runs. The
+    ellipsoidal `bearing_deg` changes only the solver's grid, and every change there is the
+    argmax stepping one 0.4 km cell: SteeleFire 0.75 -> 0.93, PORTOLA 23.63 -> 24.03,
+    20161113_FIRE.1 9.12 -> 9.51 (baseline); Clubfire 1.44 -> 2.00, CreelmanFire
+    1.89 -> 1.39 (fisheye).
+  * **The ledger's median moves 1.70 -> 2.00 km for Clubfire alone.** That fire has no ledger
+    correction, so it is the same one-cell step as in the fisheye run. It is the upper-median
+    fire of the ten confirmed and sits on the 2 km line. The counts are unchanged.
+  * The precessed poses (bearings up to 0.32 deg different) moved two probable fires:
+    Border11Fire 0.07 -> 0.42 km, SpringsFire 3.14 -> 2.92. ScissorsFire stays at 0.02 and
+    JunctionFire at 2.68; vo-n's correction is now +11.31 deg rather than +11.6.
+  * **PORTOLA:** the CAL FIRE point is now 1.36 km from the estimate (was 1.02). It is still
+    inside the 95% region, at 2.66 of the 3.0 log-likelihood drop.
+
+The headline numbers are within the solver's own grid step, so the changes read as
+resolution rather than calibration. A finer grid would settle whether 1.70 or 2.00 is the
+better figure for the ledger variant. **Not re-run:** the terrain-range section
+(`terrain_range validate`, Rainbow, Toro Peak), which also reads the ledger, and the `recent`
+corpus, whose ledger in `out/recent/` was solved before precession.
 
 ## Deliberately deferred
 

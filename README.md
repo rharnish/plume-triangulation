@@ -71,9 +71,9 @@ wrong record, or a weak crossing angle — and a second official source tells th
 ![PORTOLA: three bearings agree tightly 24 km from the assigned incident](docs/figures/triangulate_portola.jpg)
 
 *`20171010_FIRE` → PORTOLA: three bearings from two sites close on an 8 km² region, with the
-WFIGS coordinate 23.63 km away and no ray passing near it. CAL FIRE records the same fire at
+WFIGS coordinate 24.03 km away and no ray passing near it. CAL FIRE records the same fire at
 33.50488, −117.02132 — Riverside County, De Portola Road east of Pauba Road, 23 acres —
-**1.02 km from the estimate**, inside the 95% region. The WFIGS point falls outside it
+**1.36 km from the estimate**, inside the 95% region. The WFIGS point falls outside it
 entirely, at zero relative posterior density; it reads 33°18′00″ 116°59′59″, rounded to the
 arcminute, and is filed in the wrong county.*
 
@@ -124,14 +124,14 @@ Priced in kilometers, with the same detections and solver, on the name-confirmed
 |---|---|---|
 | published azimuth, rectilinear lens | 1.90 km | 7 of 10 |
 | star-measured fisheye lens | **1.70 km** | **8 of 10** |
-| + per-camera star azimuth from the ledger | 1.70 km | 6 of 10 |
+| + per-camera star azimuth from the ledger | 2.00 km | 6 of 10 |
 
 ![Bearing rays and estimates before and after calibration](docs/figures/calibration_maps.png)
 
 The lens is the clear gain: detections in the outer half of the frame go from a median bearing
 miss of 4.4° to 3.5° ([every bearing](docs/figures/calibration_bearings.png)). The azimuth
 ledger lands where detections are right: ScissorsFire goes from 0.58 km to **0.02 km**. It
-also makes JunctionFire worse, and that is informative. Correcting vo-n-mobo-c by 11.6° puts
+also makes JunctionFire worse, and that is informative. Correcting vo-n-mobo-c by 11.3° puts
 the ignition point outside that camera's field of view, and its low-confidence detection turns
 out to be a cumulus cloud at the frame edge. With the cameras calibrated, **detection
 selection** (edge-clipped boxes, best-confidence picking the wrong object) is what limits
