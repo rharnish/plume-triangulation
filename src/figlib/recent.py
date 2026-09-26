@@ -8,8 +8,9 @@ weak. This module fetches those frames, runs the same detector over them, and sc
 fire from its FIgLib cameras alone, with every extra camera added, and from every subset
 of sites in between.
 
-Choosing the cameras is left to the caller: the ones with the fire inside the field of
-view, in range, and with a line of sight that a young plume can clear. The frames are
+`candidates` chooses the cameras: fixed color Mobotix units not in the archive, within
+MAX_KM of the official point, with it inside the field of view, where a plume rising
+MAX_RISE_M or less clears the terrain, and whose frames the CDN still serves. The frames are
 named like FIgLib's, `<epoch>_<signed offset>.jpg`. The offset is taken from the fire's
 FIgLib t0, so a frame here and a frame in the archive with the same offset were taken at
 the same moment. The window is FIgLib's, +-40 min.
@@ -25,6 +26,7 @@ Only the box-center bearings are scored (`center`, `early`), which need no wind 
 
 Data credit: HPWREN, https://www.hpwren.ucsd.edu/
 
+    python -m src.figlib.recent candidates 20260715_ThornFire ...   # -> out/recent/candidates/
     python -m src.figlib.recent fetch 20260629_JunctionFire bi-e-mobo-c mpo-s-mobo-c ...
     python -m src.figlib.recent detect
     python -m src.figlib.recent score     # FIGLIB_LENS and FIGLIB_POSE_LEDGER as in geolocate
@@ -55,6 +57,9 @@ CDN = "https://cdn.hpwren.ucsd.edu"
 LA = ZoneInfo("America/Los_Angeles")   # Q blocks are local time: Q1 = 00:00-02:59
 HALF_S = 2400
 VARIANTS = (("center", "best", (0, 2400)), ("early", "earliest", (0, 900)))
+MAX_KM = 45.0          # candidates: farther than this, a young plume is a few pixels
+MAX_RISE_M = 200.0     # candidates: how far a plume may have to rise to clear the terrain
+EDGE_DEG = 1.0         # candidates: a fire in the frame's outermost degree is half cut off
 
 
 def _get(url: str, tries: int = 3) -> tuple[bytes, str | None]:
@@ -127,6 +132,131 @@ def fetch(fire_id: str, cam: str, prior: dict | None = None) -> dict:
                               "sha256": hashlib.sha256(data).hexdigest(), "last_modified": lm})
     rec["fetched_utc"] = datetime.now(UTC).isoformat(timespec="seconds")
     return rec
+
+
+def _archive_cameras(fire: dict) -> set[str]:
+    return {s.split("#")[0].split("_", 2)[2] for s in fire["sequences"]}
+
+
+def select(fire: dict, truth: dict, cams: dict, d_az: dict, rise_m) -> list[dict]:
+    """Candidate cameras for one fire, before asking the CDN.
+
+    Every fixed color Mobotix (`-mobo-c`) not already in the fire's archive, within MAX_KM of
+    the official point and with it inside the frame (published azimuth plus the star `d_az`
+    where one exists; a 90 deg unit's frame is the star-measured fisheye's, ~+-53 deg). `rise_m(cam)` gives how far a plume must rise above the ignition
+    to clear the terrain; it is only asked of cameras that pass the cheap tests. Returns them
+    all with `ok` set where the rise is within MAX_RISE_M, nearest first.
+    """
+    from .geom import angdiff_deg, bearing_deg, haversine_km
+    have = _archive_cameras(fire)
+    fish = fisheye_half_deg()
+    out = []
+    for name, cam in cams.items():
+        if not name.endswith("-mobo-c") or name in have or cam.get("fov") is None:
+            continue
+        km = haversine_km(cam["lat"], cam["lon"], truth["lat"], truth["lon"])
+        if km > MAX_KM:
+            continue
+        off = angdiff_deg(bearing_deg(cam["lat"], cam["lon"], truth["lat"], truth["lon"]),
+                          cam["az"] + d_az.get(name, 0.0))
+        if abs(off) > (fish if cam["fov"] == 90 else cam["fov"] / 2.0) - EDGE_DEG:
+            continue
+        rise = rise_m(cam)
+        out.append({"camera": name, "km": round(km, 1), "off_axis_deg": round(off, 1),
+                    "d_az": d_az.get(name), "rise_m": round(rise), "ok": rise <= MAX_RISE_M})
+    return sorted(out, key=lambda r: r["km"])
+
+
+def fisheye_half_deg() -> float:
+    """Half the horizontal field of a 3072 px 90 deg unit under the star-measured lens: the
+    off-axis angle that `geom.bearing_x_frac` maps to the frame edge."""
+    import math
+    from .geom import FISHEYE_K1, FISHEYE_K_RATIO
+    lo, hi = 0.0, math.radians(90.0)
+    for _ in range(60):
+        mid = (lo + hi) / 2
+        x = 0.5 + mid * (1 + FISHEYE_K1 * mid * mid) * FISHEYE_K_RATIO / math.radians(90.0)
+        lo, hi = (mid, hi) if x < 1.0 else (lo, mid)
+    return math.degrees(lo)
+
+
+def _rise_m(dem, truth: dict):
+    """How far above the ground at the official point a plume must be to clear the terrain."""
+    import math
+    from . import terrain as T
+
+    def rise(cam: dict) -> float:
+        g = T.sightline(dem, cam, truth["lat"], truth["lon"])
+        return max(0.0, (math.tan(math.radians(g["occ_el"])) - math.tan(math.radians(g["el"])))
+                   * g["km"] * 1000.0)
+    return rise
+
+
+def _star_d_az(epoch: float) -> dict[str, float]:
+    """Each camera's d_az from its nearest star solve in time, recent ledger first."""
+    from . import pose_ledger
+    p = CORPUS.out / "pose_ledger.json"
+    entries = pose_ledger.load(p if p.exists() else None)
+    best: dict[str, dict] = {}
+    for e in entries:
+        c = e["camera"]
+        if c not in best or abs(e["epoch"] - epoch) < abs(best[c]["epoch"] - epoch):
+            best[c] = e
+    return {c: e["d_az"] for c, e in best.items()}
+
+
+def cdn_status(cam: str, t0: int) -> dict:
+    """Does the CDN still serve this camera's frames around t0? `live`, `403` (gone to
+    Glacier), `404` (offline or no such listing), or an error. Fetches one frame to be sure:
+    a listing can outlive the frames it names."""
+    frames = []
+    for day, q in _blocks(t0):
+        try:
+            body, _ = _get(f"{CDN}/hpwren-cameras/{cam}/{day[:4]}/{day}/{day}_{cam}_Q{q}.txt")
+        except urllib.error.HTTPError as exc:
+            return {"status": str(exc.code), "n_listed": 0}
+        except Exception as exc:
+            return {"status": f"error: {str(exc)[:60]}", "n_listed": 0}
+        frames += [(day, q, int(n[:-4])) for n in body.decode().split()
+                   if n.endswith(".jpg") and abs(int(n[:-4]) - t0) <= HALF_S]
+    if not frames:
+        return {"status": "no frames listed", "n_listed": 0}
+    day, q, ep = min(frames, key=lambda f: abs(f[2] - t0))
+    try:
+        _get(f"{CDN}/MTA/{cam}/large/{day}/Q{q}/{ep}.jpg", tries=2)
+    except urllib.error.HTTPError as exc:
+        return {"status": str(exc.code), "n_listed": len(frames)}
+    except Exception as exc:
+        return {"status": f"error: {str(exc)[:60]}", "n_listed": len(frames)}
+    return {"status": "live", "n_listed": len(frames)}
+
+
+def candidates(fire_id: str) -> Path:
+    from .geom import load_cams
+    from .terrain import Dem
+    meta = C.CORPORA["all"].meta
+    fire = next(f for f in json.loads((meta / "fires.json").read_text()) if f["fire_id"] == fire_id)
+    truth = next(r for r in json.loads((meta / "resolved.json").read_text())
+                 if r["fire_id"] == fire_id)["truth"]
+    t0 = fire["t0_median"]
+    rows = select(fire, truth, load_cams(), _star_d_az(t0), _rise_m(Dem(), truth))
+    ok = [r for r in rows if r["ok"]]
+    with ThreadPoolExecutor(4) as pool:
+        for r, st in zip(ok, pool.map(lambda r: cdn_status(r["camera"], t0), ok)):
+            r.update(st)
+    print(f"{fire_id}  archive: {', '.join(sorted(_archive_cameras(fire)))}")
+    for r in rows:
+        print(f"  {r['camera']:18s} {r['km']:5.1f} km  off-axis {r['off_axis_deg']:+6.1f}  "
+              f"rise {r['rise_m']:5d} m  {r.get('status', 'terrain') if r['ok'] else 'terrain'}")
+    live = [r["camera"] for r in ok if r.get("status") == "live"]
+    print(f"  live: {' '.join(live) or '-'}")
+    dest = CORPUS.out / "candidates" / f"{fire_id}.json"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(json.dumps({"fire_id": fire_id, "t0": t0, "truth": truth,
+                                "max_km": MAX_KM, "max_rise_m": MAX_RISE_M, "edge_deg": EDGE_DEG,
+                                "checked_utc": datetime.now(UTC).isoformat(timespec="seconds"),
+                                "cameras": rows, "live": live}, indent=1) + "\n")
+    return dest
 
 
 def _manifest() -> dict:
@@ -296,7 +426,14 @@ def main(argv: list[str]) -> None:
     # The run log goes to the `recent` corpus's metadata, whatever the shell has set.
     os.environ["FIGLIB_CORPUS"] = "recent"
     cmd, args = (argv[0], argv[1:]) if argv else ("", [])
-    if cmd == "fetch":
+    if cmd == "candidates":
+        for fire_id in args:
+            started = P.utc_now()
+            dest = candidates(fire_id)
+            P.record("recent-candidates", [dest], started=started,
+                     params={"fire": fire_id, "max_km": MAX_KM, "max_rise_m": MAX_RISE_M,
+                             "edge_deg": EDGE_DEG})
+    elif cmd == "fetch":
         fire_id, cam_ids = args[0], args[1:]
         started = P.utc_now()
         man = _manifest()
