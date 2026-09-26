@@ -58,3 +58,12 @@ def test_a_wrong_bearing_does_not_run_away_with_the_estimate(fires, seqs, cams,
     _, _, _, la, lo = G.solve(bs, center)
     err = haversine_km(la, lo, kitchen_truth["lat"], kitchen_truth["lon"])
     assert err < 15.0          # pulled off, but still in the right basin
+
+
+def test_refined_peak_does_not_depend_on_the_grid_step(fires, seqs, cams):
+    """Unrefined, the peak is a grid node and moves by up to a cell as the step changes."""
+    bs = G.bearings_for_fire(fires[FIRE_ID], seqs, cams, use_wind=False, x_mode="box")
+    center = (float(np.mean([b.lat for b in bs])), float(np.mean([b.lon for b in bs])))
+    peaks = [G.solve(bs, center, step_km=s, refine_km=0.01)[3:] for s in (0.4, 0.25, 0.1)]
+    for la, lo in peaks[1:]:
+        assert haversine_km(la, lo, *peaks[0]) < 0.03

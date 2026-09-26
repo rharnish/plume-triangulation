@@ -446,8 +446,12 @@ def figure() -> Path:
     sky = cv2.resize(sky, (W, int(sky.shape[0] * W / sky.shape[1])), interpolation=cv2.INTER_AREA)
     legend = cap(["Green box: first detections.  White cross: official ignition.  White bar: the crest that hides it.",
                   "Lines: DEM ridges under the star-solved pose, purple near to yellow far. No pixels were fitted."], W)
+    shift = next(r["shift_px"] for r in json.loads((OUT / "skyline_edges" / "skyline_edges.json").read_text())
+                 if r["camera"] == "hp-e-mobo-c" and r["day"] == "20260911")
+    where = ("on the prediction" if shift == 0 else
+             f"{abs(shift):.0f} px {'higher' if shift < 0 else 'lower'}")
     legend2 = cap(["hp-e-mobo-c, 2026-09-11 09:00, the same day as its star solve.",
-                   "Magenta: skyline predicted from the DEM and star pose alone.  Green: best-fit image edge, 6 px higher."], W)
+                   f"Magenta: skyline predicted from the DEM and star pose alone.  Green: best-fit image edge, {where}."], W)
     sheet = np.vstack([top, legend, sky, legend2])
     dest = ROOT / "docs" / "figures" / "terrain_hidden_ignition.jpg"
     cv2.imwrite(str(dest), sheet, [cv2.IMWRITE_JPEG_QUALITY, 88])

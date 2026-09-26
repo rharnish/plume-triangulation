@@ -170,6 +170,50 @@ was solved under. An independent check against Skyfield puts the corrected star 
 within 0.005° of the full IAU chain. Poses quoted elsewhere in these docs from before that date
 are J2000 poses. The details are in [NOTES.md](../NOTES.md).
 
+### The terrain agrees
+
+The DEM gives a second test of the same corrections, one that shares nothing with the star
+catalog. For each of 41 cameras, the night behind its newest ledger solve was solved again under
+five combinations of the corrections. The DEM skyline was then drawn through each pose onto a
+09:00 frame from the same day (2026-09-11 for all of them). In each column, the residual is the
+strongest sky-to-terrain edge in the image minus the predicted row. Only columns whose skyline
+is a ridge 10–78 km away count: nearer ridges are tree-lined, and at 80 km the DEM march has
+simply run out.
+
+| sky model | median over 39 cameras | mean \|camera median\| |
+|---|---|---|
+| no corrections (the old solver) | −4.2 px | 6.4 px |
+| refraction only | −5.9 px | 6.7 px |
+| precession only | +1.7 px | 3.3 px |
+| precession + refraction | +0.3 px | 2.8 px |
+| all three (now) | +0.3 px | 2.8 px |
+
+![Per-camera skyline residual before and after the sky-model corrections](figures/skyline_sky_model.png)
+
+- **Precession is most of it.** Under the old solver the DEM skyline sat a median 4 px (0.15°)
+  below the ridge. The scatter follows the camera's facing: every south- and west-facing
+  camera sat high, and nearly every north- and east-facing one low. That is precession's
+  rotation landing in pitch or roll. With precession on, the scatter halves.
+- **Refraction only helps once precession is in.** On its own it moves the line the wrong way.
+  With precession it takes the median from +1.7 to +0.3 px. That is about its expected size
+  (+0.05° of pitch).
+- **Proper motion does nothing measurable here**, as expected over 26 years for these stars.
+- **35 of 39 cameras move closer to the ridge.** The four that move away are lp-e, rm-e, sdsc-e
+  and ws-w. sdsc-e's skyline is urban, so its DEM ridge is not what the camera sees.
+- **An earlier version of this check was "mostly unexplained".** A whole-skyline shift search
+  on 2026-09-13 (`ridge_feet edges`) found the real skyline a median 5.5 px above the
+  prediction, on the 28 solves with a sharp, repeatable edge. Refraction's 1–2 px was the only
+  candidate then. Re-run on the precessed ledger, it gives −1.0 px, on 31 such solves.
+
+What it does not test: azimuth, much. A 0.2° azimuth change slides a ridge about 6 px sideways,
+which only shows where the ridge slopes. The edge is searched within ±25 px of the models' mean
+line, so the comparison between models is the result, not each residual's absolute size.
+
+![DEM skyline under the old and the corrected star pose, native pixels](figures/skyline_sky_model_zooms.jpg)
+
+*The four cameras with the most measured ridge (not the four that look best), at three far
+ridges each. Magenta is the pose with no sky-model corrections, orange the pose with them.*
+
 ## Running it
 
 ```sh
@@ -181,7 +225,13 @@ python -m src.figlib.stars.fig_solve_process            # the four-stage figure
 python -m src.figlib.stars.nights --night 20260713 vo-w-mobo-c   # a whole night (Q7, Q8, Q1, Q2)
 python -m src.figlib.stars.window_ablation hpwren_20260713_N_vo-w-mobo-c   # windowed solves; --summary to score
 python -m src.figlib.stars.fig_window_ablation          # the window/sky-model figure
+python -m src.figlib.stars.skyline_check solve          # each camera's night under every sky model
+python -m src.figlib.stars.skyline_check measure        # DEM skyline vs the image's ridge edge
+python -m src.figlib.stars.skyline_check figure         # the two skyline figures
 ```
+
+The skyline check reads daytime CDN frames (`data/hpwren_nights/<cam>/<day>_Q4`, gitignored).
+The 2026-09-11 frames it uses leave HPWREN's public window around mid-December 2026.
 
 The full account, including the sign convention that had to be measured rather than derived, is
 in [NOTES.md](../NOTES.md).

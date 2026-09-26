@@ -43,7 +43,8 @@ from . import pose_ledger
 from . import provenance as P
 from . import terrain as T
 from .fig_triangulate import _det_for
-from .geolocate import FRAME_SIZES, META, YOLO_DIR, bearings_for_fire, credible_area_km2, solve
+from .geolocate import (FRAME_SIZES, META, REFINE_KM, YOLO_DIR, bearings_for_fire, credible_area_km2,
+                        refine, solve)
 from .geom import angdiff_deg, bearing_deg, haversine_km, load_cams
 from .stars.fisheye import initial_k, project_fisheye
 
@@ -58,6 +59,7 @@ MAX_KM, STEP_M = 80.0, 30.0
 # narrower bands start dropping truths.
 BAND_PX = float(os.environ.get("FIGLIB_BAND_PX", 100))
 BAND_GRID = (30, 60, 100, 150, 200, 300)
+STEP_KM = 0.4                   # geolocate.solve's default grid, which the penalty is added on
 NEAR_SAMPLES = 10       # truth is "contained" within this many samples (0.3 km): the official
                         # point and the DEM ray are each good to a few hundred metres
 MISS_MAX_DEG = 5.0      # validation: along-ray distance only means something for a close bearing
@@ -317,7 +319,11 @@ def solve_compare(band_px: float | None = BAND_PX, ledger_only: bool = False) ->
         if terr:
             ll2 = ll + terrain_loglik(lats, lons, terr, band_px)
             i, j = np.unravel_index(np.argmax(ll2), ll2.shape)
-            rec["after_km"] = round(haversine_km(float(lats[i]), float(lons[j]), t["lat"], t["lon"]), 2)
+            alat, alon = float(lats[i]), float(lons[j])
+            if REFINE_KM:
+                alat, alon = refine(bs, alat, alon, STEP_KM,
+                                    extra=lambda la, lo: terrain_loglik(la, lo, terr, band_px))
+            rec["after_km"] = round(haversine_km(alat, alon, t["lat"], t["lon"]), 2)
             rec["area_after"] = round(credible_area_km2(lats, lons, ll2), 1)
         else:
             rec["after_km"], rec["area_after"] = rec["before_km"], rec["area_before"]
@@ -372,6 +378,9 @@ def before_after(fire_id: str, band_px: float = BAND_PX):
     ll1 = ll + terrain_loglik(lats, lons, terr, band_px)
     i, j = np.unravel_index(np.argmax(ll1), ll1.shape)
     e1lat, e1lon = float(lats[i]), float(lons[j])
+    if REFINE_KM:
+        e1lat, e1lon = refine(bs, e1lat, e1lon, STEP_KM,
+                              extra=lambda la, lo: terrain_loglik(la, lo, terr, band_px))
     err1 = haversine_km(e1lat, e1lon, t["lat"], t["lon"]); area1 = credible_area_km2(lats, lons, ll1)
     colors = {b.camera: c for b, c in zip(bs, PALETTE)}
 
