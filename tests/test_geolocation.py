@@ -1,9 +1,10 @@
 """End-to-end geolocation on one fire's real detections.
 
 This is the smoke test: if bearings, the projection, and the likelihood surface all agree,
-`20240701_Kitchenfire` lands within a few hundred meters of its official coordinate. The
-full corpus run reports 0.08 km here; the assertion leaves generous margin so detector
-noise or a grid-resolution change does not make it flaky.
+`20240701_Kitchenfire` lands within a few hundred meters of its official coordinate. Under
+the calibrated model pinned below it lands 0.33 km out (0.14 km on the published table); the
+assertion leaves generous margin so detector noise or a grid-resolution change does not make
+it flaky.
 """
 
 from __future__ import annotations

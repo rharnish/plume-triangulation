@@ -50,8 +50,8 @@ That is this project's situation. Camera azimuths are nameplate values: `az` is 
 0/90/180/270 on 482 of 505 cameras, which is a per-station pointing bias.
 
 **The symptom is already visible.** In the Kitchen fire animation the 95% region holds at
-about 2.6 km² — an equivalent radius near 0.9 km — while the error sits at 1.33 km for
-most of the sequence. The official ignition point is outside the stated 95% region for
+about 2.4–3.2 km² — an equivalent radius near 0.9–1.0 km — while the error sits at 1.2–1.7 km
+for most of the sequence. The official ignition point is outside the stated 95% region for
 most of the fire's duration. The uncertainty is overconfident.
 
 Standard remedies:
@@ -119,7 +119,7 @@ appearance.
 constraints (Sünderhauf & Protzel, 2012) — are the temporal relatives of the α = 0.25
 uniform outlier term. They handle a transient false positive well: in the Kitchen fire
 animation, a bird in front of `lp-e-mobo-c` at 0.45 confidence moves the estimate from
-1.33 km to 1.66 km error, and it recovers when a better detection replaces it.
+1.22 km to 1.60 km error, and it recovers when a better detection replaces it.
 
 **Multi-target tracking** handles several fires, or a recurring false plume, at once:
 

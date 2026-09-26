@@ -2631,6 +2631,131 @@ table gives per-column |residual|, the median over cameras, and the mean |camera
 - **Skyline check:** "none" −4.17 / 6.39, "precession" +1.80 / 3.21, "all" +0.32 / 2.79.
   The same 35 of 39 cameras move closer to the ridge.
 
+## The coordinated re-run: refined peaks, the whole solved camera, one settings layer (2026-09-26)
+
+Every change that moves a README number was held for this one pass, so the numbers move once.
+Tagged `results-2026-09-26`.
+
+**What changed in the code.**
+- **`settings.py`.** All 13 FIGLIB_* switches are read in one place, with their defaults. A value
+  comes from the environment, then a profile (`configs/<name>.toml`, chosen with
+  FIGLIB_PROFILE or by a module's `main()`), then the default. Nothing is written into
+  `os.environ` any more. So the import-order bug from 2026-09-25 (terrain_range set
+  FIGLIB_LENS when imported, and test_geolocation failed when run alone) cannot come back:
+  coverage, bias, fig_bearing and terrain_range now select `calibrated` in `__main__`.
+  `tests/test_settings.py` checks that importing them sets nothing.
+- **The run log stores every setting as resolved,** defaults included, with where each value
+  came from and the profile's name and SHA-256. It used to store only the variables that were
+  set. `configs/` counts toward the dirty-tree check.
+- **FIGLIB_REFINE_KM defaults to 0.01.** `solve` re-finds its peak at 10 m within two cells
+  of the grid's best, unless set to 0. `accumulate.posterior` and `bias` still report their
+  own grid argmax; they are separate estimators and were not part of this change.
+- **FIGLIB_POSE_FULL is on in the calibrated profiles** (`calibrated`, `recent`). It was
+  measured first, with refinement on:
+  - Core corpus: bearings move a median 0.00° and at most 0.30° (sm-n at Steele). Seven fires
+    move by 0.03 km or less, and no count changes.
+  - Recent corpus: it removes the bm-lens miss (bm-w at Bernardo 249.70 → 246.72°, bm-e at
+    Junction 75.24 → 72.50°).
+  - The model is the camera the stars measured, so it is the calibrated one.
+    `compare_geolocation` gains the `_full` column, and `stars.fig_geolocation` draws it as
+    "after".
+- **`rerun_results.sh`** runs every stage that reaches the README, in order, and refuses a
+  dirty tree. All of this pass ran from d469059, in `out/logs/rerun_d469059{,_recent}.log`.
+  The recent block was run a second time because a test docstring was edited while it ran,
+  which marked the first four entries dirty. Those entries stay in the log. The rerun's
+  outputs are identical.
+
+**Core corpus, center bearing, upper medians** (grid → refined):
+
+| | all 26 | confirmed 10 | probable 16 | ≤2 km (confirmed) |
+|---|---|---|---|---|
+| published | 2.58 → 2.80 km | 1.90 → 1.87 | 4.37 → 4.45 | 7 → 7 |
+| fisheye lens | | 1.70 → 1.68 | | 8 → 6 |
+| + star azimuth | | 2.00 → 2.02 | | 6 → 5 |
+| + whole solved camera | | — → 2.02 | | — → 5 |
+
+- **These are the numbers the grid study predicted** (2026-09-25, "refined": 1.87 / 1.68 / 2.02).
+- **The within-2 km counts are the fragile ones.** Clubfire (2.07), Roundfire (2.02) and
+  Creelman (2.09) sit within 0.1 km of the line under the calibrated model.
+- **Fisheye loses Clubfire** (1.76 → 2.07). ResortFire.2 (1.87 → 0.70) and Roundfire
+  (3.39 → 2.05) are the lens's gains.
+- **Kitchen:** 0.08 → 0.14 km (published), and 0.33 under the calibrated model.
+- **Other fires:** Willow 0.30 → 0.21. ScissorsFire under the calibrated model is 0.07
+  (0.05 with star azimuth alone).
+- **PORTOLA:** WFIGS 24.03 → 23.86 km. CAL FIRE's point is now 1.24 km from the estimate
+  (was 1.36), still inside the 95% region (Δll 2.38 of 3.0).
+- **LIBERTY:** 62.10 → 63.21 km, region 154 km².
+- **The CAL FIRE agreement figures do not depend on the estimate** and are unchanged: 110
+  fires, 0.65 km median, 72 within 1 km.
+- **The Kitchen animation was re-rendered.** Three sites cross 1.22 km out at +240 s. The
+  lp-e bird enters at +600 s (37.5° off the official point) and holds the estimate at
+  1.6–1.7 km until +1380 s. Four sites then sit near 1.3 km, and close to 0.39 at +2220 s
+  and 0.14 at +2340 s. The README caption had said +660 s and 39°; the bird is in the
+  +600 s frame. `docs/likelihood-over-time.md` quotes these numbers and is updated.
+- **Bearing misses are unchanged:** outer half of the frame 4.4 → 3.5°, central half
+  2.6 → 2.5°.
+
+**All of FIgLib, terrain range** (calibrated profile, so now with the whole solved camera):
+- **Validate:** 74 bearings within 5° (was 73). 61 contain the truth at 100 px (median length
+  0.91×, unchanged) and 57 at 30 px. The terrain row at the true distance is a median 0 px
+  from the box bottom (was +1). The extra bearing and the 1 px are both POSE_FULL's pitch
+  and roll; refinement does not touch validate.
+- **Two-site confirmed median (17 fires):** 2.02 km before and after the term at cap, 100
+  and 60 px (was 1.82). At 30 px it is 2.02 → 2.07, and within 2 km goes 8 → 7.
+- **Rainbow, bearings alone: 1.42 → 2.17 km.** That is refinement, not the camera model:
+  refine=0 gives 1.42 under both FIGLIB_POSE_FULL settings, and refine=0.01 gives 2.21
+  without it and 2.17 with it. The two bearings are within 1° of collinear, so the
+  likelihood peak is a long flat ridge, and the 0.4 km grid's best cell happened to sit
+  0.75 km nearer the truth than the ridge's top. With terrain at 30 px: 2.11 km, and the region
+  25.6 → 5.0 km² (7.5 at 60, 20.6 at 100; unchanged). The README had credited the precessed
+  re-solve with 5.82 → 1.42; part of that was the grid.
+- **Palisades: 1.82 → 1.08 km, also refinement,** and the term changes nothing at any band.
+  The "peak next to dwpgm-s's tower" reading from 2026-09-25 was about the grid cell, and is
+  dropped from the README.
+- **Grove:** 8.08 → 8.31 km. tp-w's interval is unchanged (14.7–28.9 km against 31.9).
+- **Single-site figures:** confirmed miss 0.79 km / 4.42° and containment 17 of 19 ledger
+  and 13 of 18 nearest are all unchanged, because they do not solve.
+
+**Recent corpus (extra CDN cameras), center bearing, km, all sites** (grid values from
+2026-09-25 in brackets where they moved by more than 0.1 km):
+
+| fire | published | fisheye | + star az | + whole camera | sites |
+|---|---|---|---|---|---|
+| Bernardo | 1.06 (1.19) | 0.94 (1.19) | 0.90 (0.63) | 1.00 (1.19) | 8 |
+| Junction | 2.90 | 2.92 | 3.42 (3.54) | 3.42 (3.54) | 8 |
+| Thorn | 2.68 (3.37) | 2.52 (2.99) | 1.08 | 1.12 | 4 |
+| Creelman | 0.24 | 0.52 (0.65) | 1.22 | 1.21 | 9 |
+| Rainbow | 1.20 | 1.14 | 1.47 (1.60) | 1.47 (1.60) | 8 |
+| Beaver | 1.11 | 1.39 | 0.87 (0.77) | 0.90 (0.77) | 6 |
+| Sorrento | 1.10 (1.22) | 0.97 | **0.70** (1.68) | **0.70** (1.68) | 2 |
+| Church2 | 3.18 | 2.53 (2.15) | 1.50 | 1.51 | 4 |
+| Chia | 1.30 (1.47) | 1.16 | 3.66 | 3.67 | 7 |
+| Brengle | 0.76 | 0.83 | 1.07 (1.17) | 1.06 (1.17) | 10 |
+
+- **Bernardo's "whole camera costs 0.56 km" was mostly the grid.** Refined, the star-azimuth
+  and whole-camera estimates are 0.90 and 1.00.
+- **Sorrento** is a two-site fire whose refined peak sits a kilometre from its grid cell.
+- **The conclusion from 2026-09-25 stands.** Calibration fixes every large per-bearing error,
+  and loses at the fire level on Junction, Creelman, Rainbow, Chia and Brengle through
+  detection selection.
+
+**Coverage and the bias term** (`coverage`, `bias`, calibrated profile) are unchanged in
+substance:
+- **Best box:** cov95 27–41% across the six times; all boxes fall to 4% by 30 min.
+- **With the pre-hoc flag, best box:** 48% flagged; of the rest, 75% covered (LOFO 74%),
+  1.28 km, 25.7 km², 59% within 2 km. It was 47% / 74% (68%) / 1.28 / 25.7 / 58%.
+- **With the pre-hoc flag, all boxes:** 70% flagged; 74% (74%), 1.03 km, 8.1 km², 74%. It
+  was 71% / 74% (72%) / 1.12 / 9.3 / 74%.
+
+**Not moved by this pass:** the quantization and edge figures (from `accumulate.posterior`,
+not refined), the false-alarm sweep (no solve), and the skyline check (no solve).
+
+```sh
+./rerun_results.sh                               # every stage above, from a committed tree
+python -m src.figlib.settings                    # what each FIGLIB_* resolves to, and from where
+FIGLIB_PROFILE=calibrated python -m src.figlib.geolocate
+```
+
 ## Deliberately deferred
 
 Monochrome/NIR sequences (11 of them, paired with color views of the same fires) --
