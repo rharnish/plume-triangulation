@@ -1,5 +1,7 @@
-# The calibrated camera model: the star-measured fisheye lens and per-camera star poses
-# from data/meta/pose_ledger.json. coverage, bias, fig_bearing and terrain_range run under
+# The calibrated camera model: the star-measured fisheye lens, and each camera's star solve
+# from data/meta/pose_ledger.json -- its azimuth, and (FIGLIB_POSE_FULL) its own lens, pitch
+# and roll, read at the box's foot. coverage, bias, fig_bearing and terrain_range run under
 # this profile unless FIGLIB_PROFILE names another; anything set in the environment wins.
 FIGLIB_LENS = "fisheye"
 FIGLIB_POSE_LEDGER = "1"
+FIGLIB_POSE_FULL = "1"

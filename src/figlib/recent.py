@@ -19,7 +19,7 @@ Corpus `recent` (corpus.py):
     data/hpwren_recent/<fire_id>/<cam>/*.jpg        frames (gitignored)
     data/meta/recent/manifest.json                  source URL, SHA-256, Last-Modified per frame
     out/recent/yolo/<fire_id>_<cam>.json            detections, in detect_yolo's shape
-    out/recent/geolocation{_fisheye}{_ledger}.json  scores
+    out/recent/geolocation{_fisheye}{_ledger}{_full}.json  scores
 
 Fires, sequences and ground truth come from the `all` corpus, so no FIgLib result moves.
 Only the box-center bearings are scored (`center`, `early`), which need no wind lookup.

@@ -1,11 +1,12 @@
 """Compare geolocation outputs across calibration variants, fire by fire.
 
 Each variant is a file geolocate.py writes: the baseline `geolocation.json`, and beside it
-`geolocation_fisheye.json` (FIGLIB_LENS=fisheye) and `geolocation_fisheye_ledger.json`
-(plus FIGLIB_POSE_LEDGER=1). Same detections and solver in all of them, so differences are
-the calibration alone.
+`geolocation_fisheye.json` (FIGLIB_LENS=fisheye), `geolocation_fisheye_ledger.json` (plus
+FIGLIB_POSE_LEDGER=1: star azimuths) and `geolocation_fisheye_ledger_full.json` (plus
+FIGLIB_POSE_FULL=1: the whole solved camera; FIGLIB_PROFILE=calibrated). Same detections
+and solver in all of them, so differences are the calibration alone.
 
-    python -m src.figlib.compare_geolocation [variant ...]    # default: all three, center bearing
+    python -m src.figlib.compare_geolocation [variant ...]    # default: all four, center bearing
 """
 
 from __future__ import annotations
@@ -16,7 +17,7 @@ import sys
 
 from . import corpus as C
 
-VARIANTS = ["", "_fisheye", "_fisheye_ledger"]
+VARIANTS = ["", "_fisheye", "_fisheye_ledger", "_fisheye_ledger_full"]
 
 
 def load(variant: str) -> dict[str, dict] | None:
