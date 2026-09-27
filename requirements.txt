@@ -10,7 +10,7 @@ onnxruntime==1.29.0      # pyronear yolo11s, CPU
 pillow==12.3.0
 # The star solver, HPWREN's camera table and its CDN night frames. Split from this repository
 # after the 2026-09-26 re-run; pinned, so a pose-model change arrives as a deliberate bump.
-star-calibration @ git+https://github.com/rharnish/star-calibration@v0.2.0
+star-calibration @ git+https://github.com/rharnish/star-calibration@v0.2.1
 
 # Nothing else is needed. Ground truth comes from WFIGS/IRWIN over urllib, and the
 # frame archives from data/fetch.sh -- no requests, no API key, no credentials.
