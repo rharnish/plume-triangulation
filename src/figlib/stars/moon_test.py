@@ -24,10 +24,10 @@ from pathlib import Path
 
 import numpy as np
 
-from . import moon as M
-from . import pole as POLE
+from star_calibration import moon as M
+from star_calibration import pole as POLE
 from . import solve as S
-from .fisheye import initial_k
+from star_calibration.fisheye import initial_k
 
 ROOT = Path(__file__).resolve().parents[3]
 OUT = ROOT / "out" / "sky" / "moon_exp"

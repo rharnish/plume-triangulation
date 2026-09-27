@@ -16,16 +16,16 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from . import catalog as SG
+from star_calibration import catalog as SG
 from . import solve as S
-from .fisheye import initial_k, project_fisheye
+from star_calibration.fisheye import initial_k, project_fisheye
 
 SKY = S.SKY
 
 
 def ref_frame(seq: str, ref: int) -> np.ndarray:
     if seq.startswith("hpwren_"):
-        from . import nights
+        from star_calibration.hpwren import nights
         frames = nights.read_frames(seq)
     else:
         from .. import corpus as C

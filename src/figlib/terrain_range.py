@@ -41,7 +41,7 @@ from .fig_triangulate import _det_for
 from .geolocate import (FRAME_SIZES, META, YOLO_DIR, bearings_for_fire, credible_area_km2,
                         refine, refine_step, solve)
 from .geom import angdiff_deg, bearing_deg, enu_grid, haversine_km, load_cams, ray_latlon
-from .stars.fisheye import initial_k, project_fisheye
+from star_calibration.fisheye import initial_k, project_fisheye
 
 OUT = C.current().out / "terrain_range"
 

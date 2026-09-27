@@ -29,9 +29,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import least_squares
 
-from . import catalog as SG
+from star_calibration import catalog as SG
 from . import solve as S
-from .fisheye import initial_k, project_fisheye
+from star_calibration.fisheye import initial_k, project_fisheye
 
 SKY = S.SKY
 

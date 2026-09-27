@@ -216,13 +216,18 @@ ridges each. Magenta is the pose with no sky-model corrections, orange the pose 
 
 ## Running it
 
+The solver, lens model, catalog, camera table and CDN fetcher are the
+[star-calibration](https://github.com/rharnish/star-calibration) library, split out of this
+repository with its history; its README covers calibrating a camera on its own. The commands
+here run it over this project's sequences, FIgLib's and the CDN's together.
+
 ```sh
-python -m src.figlib.stars.nights 20260911 @cams.json   # moonless-night frames from HPWREN's public CDN
+python -m star_calibration.hpwren.nights 20260911 @cams.txt  # night frames from HPWREN's public CDN
 python -m src.figlib.stars.run_nights                   # track, star-solve, rebuild data/meta/pose_ledger.json
 python -m src.figlib.stars.moon_test                    # the moon-phase ladder
-python -m src.figlib.stars.cross_night                  # night-against-night agreement
+python -m src.figlib.stars.agree                        # night-against-night agreement
 python -m src.figlib.stars.fig_solve_process            # the four-stage figure
-python -m src.figlib.stars.nights --night 20260713 vo-w-mobo-c   # a whole night (Q7, Q8, Q1, Q2)
+python -m star_calibration.hpwren.nights --night 20260713 vo-w-mobo-c   # a whole night (Q7, Q8, Q1, Q2)
 python -m src.figlib.stars.window_ablation hpwren_20260713_N_vo-w-mobo-c   # windowed solves; --summary to score
 python -m src.figlib.stars.fig_window_ablation          # the window/sky-model figure
 python -m src.figlib.stars.skyline_check solve          # each camera's night under every sky model
@@ -230,7 +235,7 @@ python -m src.figlib.stars.skyline_check measure        # DEM skyline vs the ima
 python -m src.figlib.stars.skyline_check figure         # the two skyline figures
 ```
 
-The skyline check reads daytime CDN frames (`data/hpwren_nights/<cam>/<day>_Q4`, gitignored).
+The skyline check reads daytime CDN frames (`nights/<cam>/<day>_Q4` in the shared HPWREN cache).
 The 2026-09-11 frames it uses leave HPWREN's public window around mid-December 2026.
 
 The full account, including the sign convention that had to be measured rather than derived, is

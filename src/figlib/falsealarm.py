@@ -36,6 +36,7 @@ from pathlib import Path
 
 import numpy as np
 
+from .geom import published_cams
 from . import corpus as C
 from . import settings
 from .geom import offset_bearing_deg
@@ -84,7 +85,7 @@ SECONDS_PER_DAY = 86400
 def load() -> tuple[list[dict], dict, dict]:
     seqs = {s["seq"]: s for s in json.loads((META / "sequences.json").read_text())
             if C.in_tier(s["seq"], TIERS)}
-    cams = json.loads((C.SHARED_META / "cams.json").read_text())
+    cams = published_cams()
     fires = [f for f in json.loads((META / "fires.json").read_text())
              if C.in_tier(f["fire_id"], TIERS)]
     return fires, seqs, cams

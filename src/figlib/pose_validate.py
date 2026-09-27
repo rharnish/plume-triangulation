@@ -23,6 +23,7 @@ from pathlib import Path
 
 import numpy as np
 
+from .geom import published_cams
 from .terrain import Dem, horizon
 from .viz_terrain import observed_skyline, _best_frame
 from .calibrate import _predicted_rows, MIN_COVERAGE
@@ -34,7 +35,7 @@ OUT = ROOT / "out"
 
 def holdout(argv: list[str]) -> None:
     """Residual on a frame from a different day than the one fitted."""
-    cams = json.loads((META / "cams.json").read_text())
+    cams = published_cams()
     seqs = json.loads((META / "sequences.json").read_text())
     fits = {r["camera"]: r for r in json.loads((OUT / "pose_fit.json").read_text())
             if r["status"] == "fitted"}
@@ -87,7 +88,7 @@ def holdout(argv: list[str]) -> None:
 
 def write_refined_cams(fit_file: str = "pose_fit.json") -> Path:
     """cams.json with fitted azimuths applied, so geolocation can be re-run against it."""
-    cams = json.loads((META / "cams.json").read_text())
+    cams = published_cams()
     fits = [r for r in json.loads((OUT / fit_file).read_text())
             if r["status"] == "fitted"]
     out = json.loads(json.dumps(cams))

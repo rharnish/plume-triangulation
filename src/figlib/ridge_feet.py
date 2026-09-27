@@ -30,15 +30,16 @@ from pathlib import Path
 import cv2
 import numpy as np
 
+from .geom import published_cams
 from . import corpus as C
 from . import pose_ledger
 from . import terrain as T
 from .detect_yolo import read_frames
-from .stars.fisheye import initial_k, project_fisheye
+from star_calibration.fisheye import initial_k, project_fisheye
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "out" / "ridges" / "feet"
-CAMS = json.loads((ROOT / "data/meta/cams.json").read_text())
+CAMS = published_cams()
 SEQS = {s["seq"]: s for s in json.loads((ROOT / "data/meta/all/sequences.json").read_text())}
 FIRES = {f["fire_id"]: f for f in json.loads((ROOT / "data/meta/fires.json").read_text())}
 SIZES = json.loads((ROOT / "data/meta/frame_sizes.json").read_text())
@@ -273,7 +274,7 @@ def skyline_check(q: int = 4, n_frames: int = 3) -> list[dict]:
     camera-height error moves near crests much more than far ones.
     """
     from concurrent.futures import ThreadPoolExecutor
-    from .stars import nights
+    from star_calibration.hpwren import nights
     from .viz_terrain import observed_skyline
     solves = [e for e in LEDGER if e["source"].startswith("star:hpwren_") and e["frame_w"] == 3072]
     jobs = [(e["camera"], e["source"].split("_")[1]) for e in solves]
@@ -283,7 +284,7 @@ def skyline_check(q: int = 4, n_frames: int = 3) -> list[dict]:
     (OUT / "skyline").mkdir(parents=True, exist_ok=True)
     for e in solves:
         cam = CAMS[e["camera"]]; day = e["source"].split("_")[1]
-        paths = sorted((nights.FRAMES / e["camera"] / f"{day}_Q{q}").glob("*.jpg"))
+        paths = sorted((nights.frames_dir() / e["camera"] / f"{day}_Q{q}").glob("*.jpg"))
         best = None
         for pth in paths:
             img = cv2.imread(str(pth))
@@ -371,14 +372,14 @@ def skyline_shift(img: np.ndarray, pred: np.ndarray, max_shift: int = 45):
 
 def skyline_edges(q: int = 4) -> list[dict]:
     """Same-day skyline offsets for every CDN star solve, on each daytime frame fetched."""
-    from .stars import nights
+    from star_calibration.hpwren import nights
     solves = [e for e in LEDGER if e["source"].startswith("star:hpwren_") and e["frame_w"] == 3072]
     rows = []
     dest = OUT / "skyline_edges"; dest.mkdir(parents=True, exist_ok=True)
     for e in solves:
         cam = CAMS[e["camera"]]; day = e["source"].split("_")[1]
         pose = {k: e[k] for k in ("d_az", "d_pitch", "d_roll", "k_ratio", "k1")}
-        paths = sorted((nights.FRAMES / e["camera"] / f"{day}_Q{q}").glob("*.jpg"))
+        paths = sorted((nights.frames_dir() / e["camera"] / f"{day}_Q{q}").glob("*.jpg"))
         pred = None; per = []
         for pth in paths:
             img = cv2.imread(str(pth))

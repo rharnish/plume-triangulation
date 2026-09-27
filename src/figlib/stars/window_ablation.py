@@ -37,9 +37,10 @@ from pathlib import Path
 
 import numpy as np
 
-from . import catalog as SG
+from star_calibration import catalog as SG
+from star_calibration.hpwren import nights as hpwren_nights
 from . import solve as S
-from .fisheye import initial_k, project_fisheye
+from star_calibration.fisheye import initial_k, project_fisheye
 
 OUT = S.SKY / "data/window_ablation"
 LENGTHS_MIN = (15, 30, 60, 90, 180, 360)          # plus the full night
@@ -176,7 +177,7 @@ def summarize(seq: str) -> dict:
     if qp.exists() and q1 in S.SEQS:
         qr = json.loads(qp.read_text())
         qs = S.SEQS[q1]
-        qd = S.ROOT / qs["dir"]
+        qd = hpwren_nights.block_dir(qs)
         eps = sorted(int(p.stem) for p in qd.glob("*.jpg"))
         inw = (pts[1] >= eps[0]) & (pts[1] <= eps[-1])
         prod = {"seq": q1, "pose": qr["pose"], "boresight": boresight(cam, qr["pose"]),

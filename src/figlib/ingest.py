@@ -18,6 +18,7 @@ import tarfile
 from dataclasses import dataclass, asdict
 from pathlib import Path
 
+from .geom import published_cams
 from . import corpus as C
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -104,7 +105,7 @@ class Sequence:
 
 
 def load_cams() -> dict:
-    return json.loads((META_DIR / "cams.json").read_text())
+    return published_cams()
 
 
 def split_seq_name(name: str, cams: dict) -> tuple[str, str]:

@@ -1,14 +1,17 @@
-"""Camera pose and lens calibration from the night sky.
+"""Star calibration as this project uses it: FIgLib and CDN sequences, by name.
 
-Point sources that drift at the sidereal rate are stars; matching their tracks to a catalog
-under one shared pose measures a camera's azimuth, pitch, roll and lens in a single fit.
-See NOTES.md (2026-09-13) for how this was built and what it established.
+The calibration itself -- catalog, lens model, track extraction, pole, solver, ledger rules --
+is the star-calibration library (`star_calibration`, github.com/rharnish/star-calibration),
+split out with its history after the 2026-09-26 re-run. HPWREN's camera table and CDN night
+frames come from its `star_calibration.hpwren` package and the shared cache it keeps.
 
-  sun        sun position (el, az) for an epoch and site
-  catalog    bright-star catalog (HYG, mag <= 4) and alt/az for any epoch
-  fisheye    equidistant fisheye projection, the model these lenses follow
-  tracks     point-source detection and linking into moving tracks, per sequence
-  solve      label-free pose search and star<->track fit with the lens held fixed
-  nights     moonless-night frame blocks from HPWREN's public CDN
-  run_nights track and solve every fetched night block, then rebuild the pose ledger
+What stays here is what depends on this project's data or its terrain work:
+
+  solve, tracks   sequence names -> the library's Night: FIgLib archives and CDN blocks alike,
+                  tracks and results cached in out/sky/data/star_tracks
+  run_nights      track and solve every CDN block, then rebuild data/meta/pose_ledger.json
+  resolve_ledger  re-solve a ledger's sequences under the current sky model
+  skyline_check   the DEM skyline under each star pose, against the image
+  window_ablation how much of a night a solve needs
+  fig_*           the figures in README.md and docs/star-calibration.md
 """

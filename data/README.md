@@ -10,24 +10,23 @@ Nothing large is committed here. `meta/` is checked in; `tgz/` is fetched.
 
 ## What is here
 
-**`meta/cams.json`** — 505 cameras across 82 HPWREN sites, derived from
-`https://www.hpwren.ucsd.edu/cameras/sites.js`. Per site: latitude, longitude, elevation.
-Per camera: azimuth, horizontal field of view, roll/pitch/yaw, height above ground level, and
-imager type (199 color, 187 monochrome, 109 PTZ, plus VNIR, SWIR and thermal singles).
+**The camera table** — 505 cameras across 82 HPWREN sites, derived from HPWREN's own listing,
+`https://www.hpwren.ucsd.edu/cameras/sites.js`. It ships with
+[star-calibration](https://github.com/rharnish/star-calibration) as `hpwren/cams.json`, beside
+a verbatim `sites.js`, and `geom.published_cams()` reads it (`FIGLIB_CAMS` overrides it for a
+run). Per site: latitude, longitude, elevation. Per camera: azimuth, horizontal field of view,
+roll/pitch/yaw, height above ground level, and imager type.
 
 This is what makes bearing triangulation tractable — a detection's horizontal pixel offset maps
 to a true bearing through azimuth and FOV, and bearings from two sites intersect at the ignition.
 
 **Read the orientation fields carefully.** Only position is a survey. Across all 505 cameras,
 `az` is exactly 0/90/180/270 on **482** and `fov` exactly 90 or 60 on **483** — a cardinal
-heading and a spec sheet, not a calibration. `pitch`, `roll` and `yaw` exist as columns and are
-non-zero on only **9**, **14** and **3** cameras respectively; everywhere else they are literal
-`0.0` placeholders. There is no focal length, principal point or distortion coefficient
-anywhere. HPWREN built this network to give people pictures, not to do photogrammetry, and the
-metadata is entirely adequate for that — but any pose claim in this project rests on the numbers
-above, and `NOTES.md` records what happened when they were taken at face value.
-
-**`meta/sites.js`** — the upstream source, kept verbatim for provenance.
+heading and a spec sheet, not a calibration. `pitch`, `roll` and `yaw` are non-zero on only
+**9**, **14** and **3** cameras; everywhere else they are literal `0.0` placeholders. There is
+no focal length, principal point or distortion coefficient anywhere. `NOTES.md` records what
+happened when they were taken at face value, and the pose ledger (`meta/pose_ledger.json`)
+holds what the stars measured instead.
 
 **`meta/tgz_multicam.txt`** — the 189 archives `fetch.sh` pulls: every FIgLib sequence belonging
 to a fire observed by three or more cameras.
@@ -58,7 +57,7 @@ Two consequences this project leans on:
 
 Camera pose resolves for **167 of 191** sequences (189 archives, two of which carry two
 annotation passes and are split). The 24 that do not — 14 distinct camera IDs (`*-iqeye`,
-`lo-*`, `ml-*`, `mw-e`, `so-*`, `smer-tcs9/10`) — are retired hardware absent from `sites.js`,
+`lo-*`, `ml-*`, `mw-e`, `so-*`, `smer-tcs9/10`) — are retired hardware absent from HPWREN's `sites.js`,
 which lists only currently active cameras while FIgLib reaches back to 2016. Expected, not a
 defect; the **42** triangulable fires were counted using resolved cameras only.
 

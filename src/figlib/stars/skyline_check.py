@@ -36,16 +36,17 @@ from zoneinfo import ZoneInfo
 import cv2
 import numpy as np
 
+from ..geom import published_cams
 from .. import pose_ledger
 from ..terrain import Dem, horizon
-from . import catalog as SG
-from . import nights
+from star_calibration import catalog as SG
+from star_calibration.hpwren import nights
 from . import solve as S
 
 ROOT = Path(__file__).resolve().parents[3]
 DOCS = ROOT / "docs" / "figures"
 OUT = S.SKY / "data" / "skyline_check"
-CAMS = json.loads((ROOT / "data/meta/cams.json").read_text())
+CAMS = published_cams()
 
 # Legacy first: the solver as it was before 2026-09-25, then each correction alone, then all.
 MODELS = {
@@ -71,7 +72,7 @@ def targets() -> list[dict]:
             continue
         seq = e["source"].split(":", 1)[1]
         day = seq.split("_")[1]
-        frames = sorted((nights.FRAMES / e["camera"] / f"{day}_Q4").glob("*.jpg"))
+        frames = sorted((nights.frames_dir() / e["camera"] / f"{day}_Q4").glob("*.jpg"))
         if frames and (e["camera"] not in best or e["epoch"] > best[e["camera"]]["epoch"]):
             best[e["camera"]] = {"camera": e["camera"], "seq": seq, "epoch": e["epoch"],
                                  "frames": [str(p) for p in frames]}

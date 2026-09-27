@@ -32,10 +32,10 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-from . import catalog as SG
-from . import pole as POLE
+from star_calibration import catalog as SG
+from star_calibration import pole as POLE
 from . import solve as S
-from .fisheye import initial_k, project_fisheye
+from star_calibration.fisheye import initial_k, project_fisheye
 
 ROOT = Path(__file__).resolve().parents[3]
 OUT = ROOT / "out" / "sky"
@@ -44,7 +44,7 @@ DEFAULT_SEQ = "hpwren_20260911_Q1_wc-n-mobo-c"
 
 def _frame(seq: str, ref: int) -> np.ndarray:
     if seq.startswith("hpwren_"):
-        from . import nights
+        from star_calibration.hpwren import nights
         frames = nights.read_frames(seq)
     else:
         from .. import corpus as C

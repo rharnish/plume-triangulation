@@ -15,6 +15,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
+from .geom import published_cams
 from .detect_yolo import detect, make_session, read_frames
 from .geom import bearing_x_frac
 
@@ -26,7 +27,7 @@ PANEL_W = 900
 
 def render_fire(fire_id: str, at_offset: int = 900, conf: float = 0.10,
                 out: Path | None = None, cols: int = 2) -> Path | None:
-    cams = json.loads((META / "cams.json").read_text())
+    cams = published_cams()
     seqs = {s["seq"]: s for s in json.loads((META / "sequences.json").read_text())}
     fires = {f["fire_id"]: f for f in json.loads((META / "fires.json").read_text())}
     res = {r["fire_id"]: r for r in json.loads((META / "resolved.json").read_text())}

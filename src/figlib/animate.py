@@ -19,6 +19,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
+from .geom import published_cams
 from .accumulate import gather, posterior
 from .detect_yolo import read_frames
 from .fig_triangulate import PALETTE
@@ -177,7 +178,7 @@ def animate(fire_id: str, fps: int = 6, max_cams: int = 4,
         sr, sb, alpha = bias_cfg
         post = lambda d, c, ctr, half_extent_km, step_km, alpha=alpha: _bias.posterior(
             d, c, ctr, half_extent_km, step_km, sr, sb, alpha)
-    cams = json.loads((META / "cams.json").read_text())
+    cams = published_cams()
     seqs = {s["seq"]: s for s in json.loads((META / "sequences.json").read_text())}
     fires = {f["fire_id"]: f for f in json.loads((META / "fires.json").read_text())}
     res = {r["fire_id"]: r for r in json.loads((META / "resolved.json").read_text())}

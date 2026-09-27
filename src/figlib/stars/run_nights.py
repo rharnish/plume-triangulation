@@ -12,7 +12,7 @@ import sys
 from multiprocessing import Pool
 from pathlib import Path
 
-from . import nights as hpwren_nights
+from star_calibration.hpwren import nights as hpwren_nights
 from . import solve as S
 
 ROOT = Path(__file__).resolve().parents[3]

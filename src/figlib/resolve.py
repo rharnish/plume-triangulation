@@ -24,6 +24,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from .geom import published_cams, published_cams_path
 from .geom import in_view
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -75,7 +76,7 @@ def main() -> None:
     truth = json.loads((meta / "truth.json").read_text())
     fires = {f["fire_id"]: f for f in json.loads((meta / "fires.json").read_text())}
     seqs = {s["seq"]: s for s in json.loads((meta / "sequences.json").read_text())}
-    cams = json.loads((META_DIR / "cams.json").read_text())
+    cams = published_cams()
 
     out = []
     for rec in truth:
@@ -90,7 +91,7 @@ def main() -> None:
     P.record("resolve", [dest], started=started,
              params={"fov_margin_deg": FOV_MARGIN_DEG, "dt_tight_s": DT_TIGHT_S},
              extra_inputs=[meta / "truth.json", meta / "fires.json",
-                           meta / "sequences.json", META_DIR / "cams.json"])
+                           meta / "sequences.json", published_cams_path()])
 
     from collections import Counter
     tiers = Counter(r["tier"] for r in out)
