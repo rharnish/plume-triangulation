@@ -1,11 +1,12 @@
-"""Draw a stars.solve result on the sequence's own frame.
+"""Draw a stars.solve result on the sequence's own frame (star_calibration.overlay).
 
-Solved: matched tracks in thick green, each matched star's predicted arc under the fitted
-pose in thin magenta on top of it, so agreement shows as magenta running inside green.
-Unmatched tracks are thin gray.
-Failed: every track in cyan, and the bright catalog stars' predicted arcs in orange under
-the *published* pose with the shared lens -- what the camera should have seen if cams.json
-were right, which is usually the fastest way to see why it didn't solve.
+Solved: matched tracks in thick green with the fitted stars in magenta on top, the published
+pose in orange and a yellow arrow from published to fitted. Failed: the tracks used in cyan,
+and the bright stars in orange under the published pose with the shared lens. The drawing is
+the library's; this finds the frame -- in a FIgLib archive or the HPWREN cache -- and writes
+out/sky/star_solve_<seq>.jpg.
+
+    python -m src.figlib.stars.fig_track_solve <seq> ... [--wide]
 """
 from __future__ import annotations
 
@@ -15,10 +16,9 @@ from pathlib import Path
 
 import cv2
 import numpy as np
+from star_calibration import overlay
 
-from star_calibration import catalog as SG
 from . import solve as S
-from star_calibration.fisheye import initial_k, project_fisheye
 
 SKY = S.SKY
 
@@ -26,13 +26,12 @@ SKY = S.SKY
 def ref_frame(seq: str, ref: int) -> np.ndarray:
     if seq.startswith("hpwren_"):
         from star_calibration.hpwren import nights
-        frames = nights.read_frames(seq)
+        _, _, blob = nights.frame_at(seq, ref)
     else:
         from .. import corpus as C
         from ..detect_yolo import read_frames
         arch = {p.name[:-4]: p for p in C.tgz_paths(C.CORPORA["all"])}[seq.split("#")[0]]
-        frames = read_frames(arch)
-    _, _, blob = min(frames, key=lambda f: abs(f[1] - ref))
+        _, _, blob = min(read_frames(arch), key=lambda f: abs(f[1] - ref))
     return cv2.imdecode(np.frombuffer(blob, np.uint8), cv2.IMREAD_COLOR)
 
 
@@ -45,95 +44,10 @@ def render(seq: str, wide: bool = False) -> Path:
         r = next(x for x in rows if x["seq"] == seq)
     else:
         r = json.loads((S.DATA / f"solve_{seq}.json").read_text())
-    tracks, _ = S.load_tracks(seq)
-    s, c = S.SEQS[seq], S.CAMS[S.SEQS[seq]["camera"]]
-    offs = sorted({o for t in tracks for o in t}) or [0]
-    ref = r.get("ref_offset", offs[len(offs) // 2])
-    img = ref_frame(seq, ref)
-    H, W = img.shape[:2]
-    canvas = cv2.convertScaleAbs(img, alpha=2.0, beta=10)
-    solved = "pose" in r   # draw the best fit even when it fell below the solve cutoff
-    matched = {j: n for n, j in r.get("matches", {}).items()}
-    keep = set(S.prune(tracks)) if tracks else set()
-
-    y_max = 0.0
-    for j, t in enumerate(tracks):
-        pts = np.array([t[o][:2] for o in sorted(t)], np.int32)
-        y_max = max(y_max, float(pts[:, 1].max()))
-        if solved and j in matched:
-            cv2.polylines(canvas, [pts], False, (60, 220, 60), 7, cv2.LINE_AA)
-        elif solved:
-            cv2.polylines(canvas, [pts], False, (150, 150, 150), 1, cv2.LINE_AA)
-        elif j in keep:
-            cv2.polylines(canvas, [pts], False, (230, 210, 60), 2, cv2.LINE_AA)
-
-    k0 = initial_k(c, W)
-    if solved:
-        p = r["pose"]
-        pose = (p["d_az"], p["d_pitch"], p["d_roll"], p["k_ratio"] * k0, p["k1"])
-        names, color, width = list(matched.values()), (255, 60, 255), 2
-    else:
-        pose = (0.0, 0.0, 0.0, S.K_RATIO * k0, S.K1)
-        names = [v["name"] for v in SG.visible_stars(c, s["t0"] + ref, mag_limit=3.0,
-                                                     fov_margin_deg=20)]
-        color, width = (0, 140, 255), 2
-    ep = s["t0"] + np.array(offs, float)
-    for n in names:
-        alt, az = SG.altaz(*SG.STARS[n], ep, c["lat"], c["lon"])
-        x, y = project_fisheye(c, az, alt, W, H, *pose)
-        pts = np.c_[x * W, y * H]
-        ins = (pts[:, 0] >= 0) & (pts[:, 0] < W) & (pts[:, 1] >= 0) & (pts[:, 1] < H)
-        if ins.sum() < 2:
-            continue
-        pts = pts[ins].astype(np.int32)
-        y_max = max(y_max, float(pts[:, 1].max()))
-        cv2.polylines(canvas, [pts], False, color, width, cv2.LINE_AA)
-        mid = pts[len(pts) // 2]
-        cv2.putText(canvas, n, (int(mid[0]) + 10, int(mid[1]) - 10), cv2.FONT_HERSHEY_SIMPLEX,
-                    1.0, color, 2, cv2.LINE_AA)
-
-    if solved:
-        # The same stars under the published pose (cams.json, no correction) with the fitted
-        # lens, so the gap is the pose error alone; a yellow arrow at the reference epoch runs
-        # from where cams.json puts each star to where the fit (and the sky) has it.
-        pub = (0.0, 0.0, 0.0, pose[3], pose[4])
-        j_ref = offs.index(ref) if ref in offs else len(offs) // 2
-        for n in names:
-            alt, az = SG.altaz(*SG.STARS[n], ep, c["lat"], c["lon"])
-            xp, yp = project_fisheye(c, az, alt, W, H, *pub)
-            xf, yf = project_fisheye(c, az, alt, W, H, *pose)
-            pts = np.c_[xp * W, yp * H]
-            ins = (pts[:, 0] >= 0) & (pts[:, 0] < W) & (pts[:, 1] >= 0) & (pts[:, 1] < H)
-            if ins.sum() >= 2:
-                cv2.polylines(canvas, [pts[ins].astype(np.int32)], False, (0, 140, 255), 2,
-                              cv2.LINE_AA)
-            a = (int(xp[j_ref] * W), int(yp[j_ref] * H))
-            b = (int(xf[j_ref] * W), int(yf[j_ref] * H))
-            if 0 <= a[0] < W and 0 <= a[1] < H:
-                y_max = max(y_max, float(a[1]))
-            cv2.arrowedLine(canvas, a, b, (0, 255, 255), 2, cv2.LINE_AA, tipLength=0.08)
-
-    canvas = canvas[: int(min(H, max(0.55 * H, y_max + 120)))]
-    if solved:
-        p = r["pose"]
-        tag = "SOLVED" if r["status"] == "solved" else "BELOW CUTOFF, best fit"
-        line2 = (f"{tag}  {r['n_stars']} stars, median {r['median_px']:.2f}px  "
-                 f"d_az {p['d_az']:+.2f}  d_pitch {p['d_pitch']:+.2f}  d_roll {p['d_roll']:+.2f}  "
-                 f"k {p['k_ratio']:.3f}x  k1 {p['k1']:+.3f}   green=track, magenta=fitted, "
-                 f"orange=published pose, yellow=published->fitted")
-    else:
-        line2 = (f"FAILED  {r['reason']}   cyan=tracks used, "
-                 f"orange=bright stars at published pose + shared lens")
-    line1 = f"{seq}   {c.get('imager')}   {r.get('n_tracks', 0)}/{r.get('n_tracks_raw', 0)} tracks"
-    banner = np.zeros((90, canvas.shape[1], 3), np.uint8)
-    for k, text in enumerate((line1, line2)):
-        cv2.putText(banner, text, (14, 36 + 40 * k), cv2.FONT_HERSHEY_SIMPLEX, 1.05,
-                    (255, 255, 255), 2, cv2.LINE_AA)
-    out = np.vstack([banner, canvas])
-    scale = 1600 / out.shape[1]
-    out = cv2.resize(out, (1600, int(out.shape[0] * scale)), interpolation=cv2.INTER_AREA)
+    night = S.night(seq)
+    img = overlay.draw(r, night, ref_frame(seq, overlay.reference_offset(r, night)))
     dest = SKY / f"star_solve_{seq.replace('#', '_')}.jpg"
-    cv2.imwrite(str(dest), out, [cv2.IMWRITE_JPEG_QUALITY, 88])
+    overlay.write(img, dest)
     return dest
 
 
