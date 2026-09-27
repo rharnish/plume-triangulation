@@ -2,9 +2,11 @@
 data/tgz/
 data/frames/
 data/cache/
-# HPWREN CDN frames: star-calibration nights (stars/nights.py) and extra cameras for
-# recent fires (recent.py). Their manifests live in out/sky/ and data/meta/recent/.
-data/hpwren_nights/
+# HPWREN CDN frames. Star-calibration nights live in the shared HPWREN cache
+# (star_calibration.hpwren, $HPWREN_CACHE); data/hpwren_nights is at most a symlink to it,
+# kept for checkouts from before the split. Extra cameras for recent fires (recent.py) are
+# here, with their manifest in data/meta/recent/.
+data/hpwren_nights
 data/hpwren_recent/
 
 # Derived outputs (scoped, not blanket — a blanket *.png would silently

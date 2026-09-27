@@ -286,10 +286,13 @@ python -m src.figlib.geolocate     # kilometers against official coordinates
 python -m src.figlib.falsealarm    # the seconds-to-alert sweep
 ```
 
-Star calibration, optionally:
+Star calibration, optionally. The solver is
+[star-calibration](https://github.com/rharnish/star-calibration), installed by
+`requirements.txt`; CDN night frames go to its shared cache (`$HPWREN_CACHE`, default
+`~/.cache/hpwren`):
 
 ```sh
-python -m src.figlib.stars.nights 20260911 @cams.json   # moonless-night frames from HPWREN's public CDN
+python -m star_calibration.hpwren.nights 20260911 @cams.txt  # night frames from HPWREN's public CDN
 python -m src.figlib.stars.run_nights                   # track, star-solve, rebuild data/meta/pose_ledger.json
 FIGLIB_PROFILE=calibrated python -m src.figlib.geolocate  # star lens and whole solved camera
 python -m src.figlib.compare_geolocation                # baseline vs calibrated, fire by fire
@@ -340,7 +343,7 @@ Modules live in [src/figlib/](src/figlib/), with star calibration in [src/figlib
 | **Geometry** | `geom` `geolocate` `accumulate` |
 | **Plume masks** *(tested, lost)* | `masks` `plumefit` — segmentation-based bearings, see `NOTES.md` · `open_vocab` `sam2_track` *(exploratory, with viewers)* |
 | **Terrain** *(pose audit)* | `terrain` `calibrate` `pose_validate` — see `NOTES.md` · `terrain_range` (how far along one bearing?) · `ridge_feet` (terrain under the star pose; hidden ignitions) |
-| **Star calibration** | `stars.tracks` `stars.solve` `stars.nights` `stars.fisheye` `stars.catalog` `stars.pole` `stars.moon` `stars.cross_night` · `pose_ledger` `frame_sizes` `compare_geolocation` |
+| **Star calibration** | the [star-calibration](https://github.com/rharnish/star-calibration) library (solver, lens, catalog, HPWREN camera table and CDN nights) · `stars.solve` `stars.tracks` (FIgLib and CDN sequences by name) `stars.skyline_check` `stars.agree` · `pose_ledger` `frame_sizes` `compare_geolocation` |
 | **Evaluation** | `falsealarm` `quantization` `evolve` · `coverage` `bias` (is the 95% region honest?) |
 | **Edge** | `bench_edge` `power` |
 | **Figures** | `viz` `viz_map` `viz_terrain` `animate` `animate_triangulate` `fig_peaks` `fig_pose` `fig_triangulate` `fig_bearing` `fig_offsets` · `stars.fig_solve_process` `stars.fig_moon` |
@@ -398,10 +401,9 @@ corrected. It is the honest record, not a summary.
   Calibration of HPWREN Cameras*](https://www.hpwren.ucsd.edu/news/20240920/index.html),
   HPWREN, 20 September 2024.
 - **HYG Database** — star catalog, [astronexus/HYG-Database](https://github.com/astronexus/HYG-Database),
-  CC BY-SA 4.0. `data/meta/bright_stars.json` is a filtered derivative (mag ≤ 4) under the same license.
+  CC BY-SA 4.0, through star-calibration, which ships the filtered (mag ≤ 4) derivative.
 
 ## License
 
 Code is MIT ([LICENSE](LICENSE)). The data and model weights above are used under
-their own terms and are not redistributed here, except `data/meta/bright_stars.json`,
-which is CC BY-SA 4.0 as derived from HYG.
+their own terms and are not redistributed here.

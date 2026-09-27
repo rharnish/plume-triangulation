@@ -8,3 +8,5 @@ numpy==2.5.3
 pytest==9.1.1
 scipy==1.18.1
 opencv-python-headless==5.0.0.93
+# geom reads the camera table and the shared lens from it (see requirements.txt)
+star-calibration @ git+https://github.com/rharnish/star-calibration@v0.1.0

@@ -30,6 +30,7 @@ from pathlib import Path
 
 import numpy as np
 
+from .geom import published_cams
 from .geom import bearing_deg, haversine_km, offset_bearing_deg
 from .geolocate import Bearing, credible_area_km2, solve
 from .wind import _load as load_wind, wind_at
@@ -89,7 +90,7 @@ def track(fire, truth, seqs, cams, mode="cumulative", edges=None):
 
 
 def main() -> None:
-    cams = json.loads((META / "cams.json").read_text())
+    cams = published_cams()
     seqs = {s["seq"]: s for s in json.loads((META / "sequences.json").read_text())}
     fires = {f["fire_id"]: f for f in json.loads((META / "fires.json").read_text())}
     resolved = json.loads((META / "resolved.json").read_text())

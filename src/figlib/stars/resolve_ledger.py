@@ -27,7 +27,7 @@ from pathlib import Path
 import numpy as np
 
 from .. import pose_ledger
-from . import catalog as SG
+from star_calibration import catalog as SG
 from . import solve as S
 
 

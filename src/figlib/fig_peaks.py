@@ -26,7 +26,8 @@ from zoneinfo import ZoneInfo
 import cv2
 import numpy as np
 
-from .stars.fisheye import initial_k, project_fisheye
+from star_calibration.fisheye import initial_k, project_fisheye
+from .geom import published_cams
 from .terrain import Dem, horizon, project, ridges
 from .viz_terrain import observed_skyline, render, render_ridges, _best_frame
 
@@ -43,7 +44,7 @@ FISHEYE_PAD_DEG = 14.0
 
 def band_crop(camera: str, img: np.ndarray, dem: Dem, cam: dict | None = None,
               project_fn=None, half_fov_pad: float = 8.0) -> tuple[np.ndarray, dict]:
-    cam = cam or json.loads((META / "cams.json").read_text())[camera]
+    cam = cam or published_cams()[camera]
     H, W = img.shape[:2]
     prof = horizon(cam, dem, half_fov_pad=half_fov_pad)
     if project_fn is None:
@@ -97,7 +98,7 @@ def main(argv: list[str]) -> None:
         h = int(crop.shape[0] * PANEL_W / crop.shape[1])
         crop = cv2.resize(crop, (PANEL_W, h), interpolation=cv2.INTER_AREA)
         bar = np.zeros((46, PANEL_W, 3), np.uint8)
-        cv2.putText(bar, f"{r['camera']}   az={json.loads((META / 'cams.json').read_text())[r['camera']]['az']}"
+        cv2.putText(bar, f"{r['camera']}   az={published_cams()[r['camera']]['az']}"
                          f"   residual {r['resid_median_px']:+.0f} px   "
                          f"{st['n_peaks']} predicted peaks"
                          + (f"   [{tag}]" if tag else ""),
@@ -131,7 +132,7 @@ RIDGE_EXAMPLE_CAMS = ["bh-n-mobo-c", "sm-s-mobo-c", "vo-n-mobo-c", "stgo-e-mobo-
 
 def ridge_band_crop(camera: str, img: np.ndarray, dem: Dem, cam: dict | None = None,
                     project_fn=None, half_fov_pad: float = 8.0) -> tuple[np.ndarray, dict]:
-    cam = cam or json.loads((META / "cams.json").read_text())[camera]
+    cam = cam or published_cams()[camera]
     H, W = img.shape[:2]
     vis, st = render_ridges(camera, img, dem=dem, cam=cam, project_fn=project_fn,
                             half_fov_pad=half_fov_pad)
@@ -164,7 +165,7 @@ def main_ridges(argv: list[str]) -> None:
     it yet.
     """
     seqs = {s["seq"]: s for s in json.loads((META / "sequences.json").read_text())}
-    cams = json.loads((META / "cams.json").read_text())
+    cams = published_cams()
     chosen = [c for c in RIDGE_EXAMPLE_CAMS if not argv or any(a in c for a in argv)]
 
     dem = Dem()
@@ -214,13 +215,13 @@ def calibrated_view(camera: str) -> tuple[np.ndarray, dict, str] | None:
     shared measured lens when no solve applies.
     """
     from . import ridge_feet as RF
-    from .stars import nights
+    from star_calibration.hpwren import nights
 
     solves = sorted((e for e in RF.LEDGER if e["camera"] == camera and e.get("frame_w") == 3072
                      and e["source"].startswith("star:hpwren_")), key=lambda e: -e["epoch"])
     for e in solves:
         day = e["source"].split("_")[1]
-        imgs = [(p, cv2.imread(str(p))) for p in sorted((nights.FRAMES / camera / f"{day}_Q4").glob("*.jpg"))]
+        imgs = [(p, cv2.imread(str(p))) for p in sorted((nights.frames_dir() / camera / f"{day}_Q4").glob("*.jpg"))]
         imgs = [(p, im) for p, im in imgs if im is not None and im.shape[1] == 3072]
         if imgs:
             p, img = max(imgs, key=lambda t: float(np.isfinite(observed_skyline(t[1])).mean()))
@@ -262,7 +263,7 @@ def pose_text(pose: dict) -> str:
 
 
 def calibrated_panel(camera: str, dem: Dem, crop_fn, head) -> np.ndarray | None:
-    cams = json.loads((META / "cams.json").read_text())
+    cams = published_cams()
     view = calibrated_view(camera)
     if view is None:
         print(f"{camera}: no 3072-wide frame")

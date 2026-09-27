@@ -38,6 +38,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
+from .geom import published_cams
 from .terrain import Dem, horizon, project
 from .viz_terrain import observed_skyline, _best_frame
 
@@ -137,7 +138,7 @@ def fit_camera(cam_name: str, img: np.ndarray, cams: dict, dem: Dem,
 
 
 def main(argv: list[str]) -> None:
-    cams = json.loads((META / "cams.json").read_text())
+    cams = published_cams()
     seqs = json.loads((META / "sequences.json").read_text())
     by_cam: dict[str, dict] = {}
     for s in seqs:
@@ -308,7 +309,7 @@ def fit_camera_staged(cam_name: str, img: np.ndarray, cams: dict, dem: Dem) -> d
 
 
 def main_staged(argv: list[str]) -> None:
-    cams = json.loads((META / "cams.json").read_text())
+    cams = published_cams()
     seqs = json.loads((META / "sequences.json").read_text())
     by_cam: dict[str, dict] = {}
     for s in seqs:

@@ -15,6 +15,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
+from .geom import published_cams
 from .geom import load_cams
 from .terrain import Dem, horizon, project, prominent_peaks, vfov_deg
 
@@ -57,7 +58,7 @@ def render(camera: str, img: np.ndarray, pitch_deg: float = 0.0,
     """Skyline overlay under the published pose and rectilinear lens, unless `cam` (the pose
     the DEM is marched from) and `project_fn(az, el, W, H) -> (x, y)` substitute another --
     fig_peaks passes the star-solved pose and fisheye lens that way."""
-    cam = cam or json.loads((META / "cams.json").read_text())[camera]
+    cam = cam or published_cams()[camera]
     H, W = img.shape[:2]
     dem = dem or Dem()
     prof = horizon(cam, dem, half_fov_pad=half_fov_pad)

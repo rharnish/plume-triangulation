@@ -18,7 +18,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-from . import cross_night as X
+from star_calibration import cross_night as X
 from . import solve as S
 
 ROOT = Path(__file__).resolve().parents[3]

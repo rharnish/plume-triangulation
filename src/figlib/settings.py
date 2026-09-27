@@ -28,7 +28,7 @@ SETTINGS: dict[str, tuple[str | None, str]] = {
     "FIGLIB_CORPUS": ("core", "which archives and outputs: core, extra, all, recent"),
     "FIGLIB_TIER": (None, "restrict scoring to contamination tiers, comma-separated"),
     "FIGLIB_DETS": (None, "alternative detection directory (default: the corpus's own)"),
-    "FIGLIB_CAMS": (None, "alternative camera table (default: data/meta/cams.json)"),
+    "FIGLIB_CAMS": (None, "alternative camera table (default: star_calibration's hpwren/cams.json)"),
     "FIGLIB_LENS": ("rectilinear", "rectilinear, or fisheye for the star-measured lens"),
     "FIGLIB_POSE_LEDGER": ("0", "1: per-camera star azimuths from the pose ledger"),
     "FIGLIB_POSE_LEDGER_PATH": (None, "alternative pose ledger (default: data/meta/pose_ledger.json)"),

@@ -23,15 +23,27 @@ from . import settings
 EARTH_R_KM = 6371.0
 
 
+def published_cams_path() -> Path:
+    """Where the published camera table lives: star_calibration's hpwren/cams.json."""
+    import star_calibration.hpwren
+    return Path(star_calibration.hpwren.__file__).with_name("cams.json")
+
+
+def published_cams() -> dict:
+    """HPWREN's published camera table, as star_calibration ships it (hpwren/cams.json)."""
+    from star_calibration.hpwren import cameras
+    return cameras()
+
+
 def load_cams() -> dict:
     """Camera table, overridable so a refined pose can be scored through this pipeline.
 
-    Set FIGLIB_CAMS to `data/meta/cams_refined.json` to run everything downstream against
-    terrain-fitted azimuths instead of the published ones.
+    The published table (`published_cams`) unless FIGLIB_CAMS names another file: set it to
+    `cams_refined.json` (pose_validate) to run everything downstream against terrain-fitted
+    azimuths instead of the published ones.
     """
     p = settings.get("FIGLIB_CAMS")
-    root = Path(__file__).resolve().parents[2]
-    return json.loads(Path(p if p else root / "data" / "meta" / "cams.json").read_text())
+    return json.loads(Path(p).read_text()) if p else published_cams()
 
 
 # WGS84
@@ -169,13 +181,13 @@ def undistort_x(cam: dict, x_frac: float, y_frac: float = 0.5) -> float:
 
 
 # Equidistant fisheye lens for the 90 deg Mobotix units, measured from star tracks on 26
-# night sequences across 12 cameras (src/figlib/stars/solve.py; NOTES.md, 2026-09-13):
-# pixel radius r = k * theta * (1 + k1 * theta^2) off axis, with k 0.886 of the nameplate
-# scale that would put fov/2 at the frame edge. The frame really spans about +-55 deg, not
-# +-45. Measured on 3072x2048 frames only, so only those frames get it. Opt in with
+# night sequences across 12 cameras (star_calibration.fisheye.K_RATIO/K1; NOTES.md,
+# 2026-09-13): pixel radius r = k * theta * (1 + k1 * theta^2) off axis, with k 0.886 of the
+# nameplate scale that would put fov/2 at the frame edge. The frame really spans about +-55
+# deg, not +-45. Measured on 3072x2048 frames only, so only those frames get it. Opt in with
 # FIGLIB_LENS=fisheye; the default stays rectilinear so every recorded result reproduces.
-FISHEYE_K_RATIO = 0.886
-FISHEYE_K1 = -0.078
+from star_calibration.fisheye import K1 as FISHEYE_K1  # noqa: E402
+from star_calibration.fisheye import K_RATIO as FISHEYE_K_RATIO  # noqa: E402
 
 
 def _fisheye(cam: dict) -> bool:
@@ -209,7 +221,7 @@ def offset_bearing_deg(cam: dict, x_frac: float, y_frac: float = 0.5,
     if _fisheye(cam) and cam.get("solved"):
         # The whole star-solved camera (pose_ledger.corrected_cam with FIGLIB_POSE_FULL=1):
         # its own lens, pitch and roll, and the row as well as the column.
-        from .stars.fisheye import initial_k, unproject_fisheye
+        from star_calibration.fisheye import initial_k, unproject_fisheye
         p, W = cam["solved"], cam["frame_w"]
         H = cam.get("frame_h") or round(W * 2 / 3)
         y = y_frac if foot_y is None else foot_y

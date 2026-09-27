@@ -42,6 +42,7 @@ import cv2
 cv2.setNumThreads(1)
 import numpy as np
 
+from .geom import published_cams
 from .detect_yolo import read_frames
 from .detect_diff import BG_FRAMES, BG_LAG_FRAMES, OPEN_K, WIDTH, _load_gray
 
@@ -280,7 +281,7 @@ def render_fire(fire_id: str, conf_thr: float = 0.25, pad: float = 0.45,
     from .geom import bearing_x_frac
     from .wind import upwind_x, wind_at
 
-    cams = json.loads((META / "cams.json").read_text())
+    cams = published_cams()
     seqs = {s["seq"]: s for s in json.loads((META / "sequences.json").read_text())}
     fires = {f["fire_id"]: f for f in json.loads((META / "fires.json").read_text())}
     res = {r["fire_id"]: r for r in json.loads((META / "resolved.json").read_text())}
@@ -651,7 +652,7 @@ def mask_video(fire_id: str, method: str = "sam", fps: int = 4, max_cams: int = 
     """
     from .geom import bearing_x_frac
 
-    cams = json.loads((META / "cams.json").read_text())
+    cams = published_cams()
     seqs = {s["seq"]: s for s in json.loads((META / "sequences.json").read_text())}
     fires = {f["fire_id"]: f for f in json.loads((META / "fires.json").read_text())}
     res = {r["fire_id"]: r for r in json.loads((META / "resolved.json").read_text())}

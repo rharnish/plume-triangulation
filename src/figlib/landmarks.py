@@ -50,6 +50,7 @@ FCC_URL = "https://data.fcc.gov/download/pub/uls/complete/r_tower.zip"
 OUT = ROOT / "out" / "sky" / "data" / "landmarks"
 RANGE_KM = 80.0
 
+from .geom import published_cams
 from .geom import A_WGS, E2_WGS as E2   # one WGS84 definition, shared with geom.bearing_deg
 K_TERRESTRIAL = 0.13        # optical refraction coefficient; only elevation feels it
 
@@ -93,7 +94,7 @@ def dms(deg, minutes, sec, hemi) -> float:
 # ---- landmark catalogue ---------------------------------------------------------------------------
 
 def _sites() -> dict:
-    cams = json.loads((META / "cams.json").read_text())
+    cams = published_cams()
     out = {}
     for name, c in cams.items():
         s = c.get("site")
@@ -190,7 +191,7 @@ def build() -> dict:
         print(f"  water: {exc}")
         water = []
     doc = {"pulled": {"fcc_asr": date.today().isoformat(), "osm_water": date.today().isoformat(),
-                      "hpwren": "data/meta/cams.json"},
+                      "hpwren": "star_calibration hpwren/cams.json"},
            "notes": "FCC ASR (public domain) constructed structures within "
                     f"{RANGE_KM:.0f} km of an HPWREN site; NAD83, heights in metres.",
            "attribution": {"osm_water": "Water outlines (c) OpenStreetMap contributors, available "
@@ -221,7 +222,8 @@ def visible(dem, cam: dict, lat: float, lon: float, h_target: float, margin_deg:
 # ---- static lights ----------------------------------------------------------------------------
 
 def _frames(seq: str):
-    from .stars import nights, solve as S
+    from star_calibration.hpwren import nights
+    from .stars import solve as S
     if seq.startswith("hpwren_"):
         return nights.read_frames(seq)
     from . import corpus as C
@@ -296,7 +298,7 @@ def lights(seq: str, el_max: float = -8.0) -> dict:
         return json.loads(path.read_text())
     import cv2
     from .stars import solve as S
-    from .stars.sun import sun as sun_altaz
+    from star_calibration.sun import sun as sun_altaz
     s = S.SEQS[seq]
     dets, n = [], 0
     for epoch, off, blob in _frames(seq):
@@ -321,7 +323,8 @@ PR = dict(proper_motion=False, precession=True, refraction=True)        # as run
 
 
 def _solve_both(seq: str) -> dict:
-    from .stars import catalog as SG, solve as S
+    from star_calibration import catalog as SG
+    from .stars import solve as S
     out = {}
     for tag, model in (("cur", CUR), ("pr", PR)):
         p = OUT / f"solve_{tag}_{seq}.json"
@@ -354,8 +357,8 @@ def blocks() -> list[str]:
 def observed_dir(cam: dict, pose: dict, x: float, y: float, W: int, H: int):
     """Pixel -> (az, el) in the world through a solved pose and lens: pole.pixel_to_cam's
     lens inversion, then the pose's camera axes."""
-    from .stars import pole as POLE
-    from .stars.fisheye import initial_k
+    from star_calibration import pole as POLE
+    from star_calibration.fisheye import initial_k
     d = POLE.pixel_to_cam(np.array([x]), np.array([y]), W, H, pose["k_ratio"] * initial_k(cam, W), pose["k1"])[0]
     M = POLE.axes_from_pose(cam, pose["d_az"], pose["d_pitch"], pose["d_roll"])
     w = M.T @ d
@@ -365,7 +368,7 @@ def observed_dir(cam: dict, pose: dict, x: float, y: float, W: int, H: int):
 def in_front(cam, pose, az, el, max_off_deg: float = 80.0) -> bool:
     """Within max_off_deg of the boresight. The lens model r = k*theta*(1 + k1*theta^2)
     folds back past ~110 deg, so a direction behind the camera can project into the frame."""
-    from .stars import pole as POLE
+    from star_calibration import pole as POLE
     b = POLE.axes_from_pose(cam, pose["d_az"], pose["d_pitch"], pose["d_roll"])[2]
     a, e = math.radians(az), math.radians(el)
     v = np.array([math.cos(e) * math.sin(a), math.cos(e) * math.cos(a), math.sin(e)])
@@ -373,7 +376,7 @@ def in_front(cam, pose, az, el, max_off_deg: float = 80.0) -> bool:
 
 
 def predict_px(cam, pose, az, el, W, H):
-    from .stars.fisheye import initial_k, project_fisheye
+    from star_calibration.fisheye import initial_k, project_fisheye
     x, y = project_fisheye(cam, np.atleast_1d(az), np.atleast_1d(el), W, H, pose["d_az"], pose["d_pitch"],
                            pose["d_roll"], pose["k_ratio"] * initial_k(cam, W), pose["k1"])
     return float(x[0] * W), float(y[0] * H)
@@ -500,7 +503,7 @@ def figure_block(seq: str, rows: list[dict], dest: Path) -> Path:
     pose (circle) and the precession + refraction pose (square), and the light it matched."""
     import cv2
     from .stars import solve as S
-    from .stars.sun import sun as sun_altaz
+    from star_calibration.sun import sun as sun_altaz
     s = S.SEQS[seq]
     stack = None
     for epoch, off, blob in _frames(seq):
@@ -538,7 +541,7 @@ def figure_block(seq: str, rows: list[dict], dest: Path) -> Path:
 def _maxproj(seq: str):
     import cv2
     from .stars import solve as S
-    from .stars.sun import sun as sun_altaz
+    from star_calibration.sun import sun as sun_altaz
     s = S.SEQS[seq]
     stack = None
     for epoch, off, blob in _frames(seq):

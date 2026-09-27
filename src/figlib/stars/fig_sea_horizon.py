@@ -21,16 +21,17 @@ from pathlib import Path
 import cv2
 import numpy as np
 
+from ..geom import published_cams
 from .. import corpus as C
 from .. import terrain as T
 from ..geom import ray_latlon
 from ..detect_yolo import read_frames
-from .fisheye import initial_k, project_fisheye
+from star_calibration.fisheye import initial_k, project_fisheye
 
 ROOT = Path(__file__).resolve().parents[3]
 SKY = ROOT / "out" / "sky"
 
-CAMS = json.loads((ROOT / "data/meta/cams.json").read_text())
+CAMS = published_cams()
 SEQS = {s["seq"]: s for s in json.loads((ROOT / "data/meta/all/sequences.json").read_text())}
 LEDGER = json.loads((ROOT / "data/meta/pose_ledger.json").read_text())
 K_RATIO, K1 = 0.886, -0.078
