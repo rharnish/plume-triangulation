@@ -2756,6 +2756,83 @@ python -m src.figlib.settings                    # what each FIGLIB_* resolves t
 FIGLIB_PROFILE=calibrated python -m src.figlib.geolocate
 ```
 
+## star-calibration v0.3.0: every pose read through its optical centre (2026-09-30)
+
+star-calibration v0.3.0 (tag v0.3.0, merge bf6cdb9) fits each HPWREN unit's optical centre
+from all of its solved nights (hpwren/intrinsics.json), solves through it, and records it in
+every ledger entry as `cx`, `cy`: pixels right and down from the frame's middle, 0 when
+missing. It also cleans tracks before solving, leads `solve_wide` with the pole search, and
+stops stars behind the camera folding into the frame. Pinned here, and every README number
+re-run through `rerun_results.sh` from c4188b5 (`out/logs/rerun_c4188b5.log`). Tagged
+`results-2026-09-30`.
+
+**Why the centre has to reach the bearings.** A solve's d_az is the azimuth of its boresight,
+which lands at the centre, not the frame's middle. The centre trades against azimuth almost
+exactly: d_az moves by about cx/k, 0.85° for bh-w's 25.7 px. Read from the middle column, that
+is a bearing error of the same size. So:
+- `pose_ledger.corrected_cam` attaches the solves' centre to the camera;
+- `geom.offset_bearing_deg` and `bearing_x_frac` read both fisheye paths (shared lens along
+  the horizon row, and the whole solved camera) relative to it. The rectilinear path ignores it:
+  the centre was measured through the fisheye lens.
+- `terrain_range`, `ridge_feet`, `fig_peaks`, `landmarks`, `skyline_check` and the star
+  figures project ledger and solve poses through their centre (`pose_ledger.centred`).
+
+**The ledger was rebuilt from the same 86 sources** (`stars.resolve_ledger`, now: CDN entries
+copied from the library's shipped ledger, FIgLib sequences re-solved here).
+- **FIgLib (26).** `stars.solve` now solves a sequence the way `hpwren.calibrate` solves a CDN
+  block: through `hpwren.camera`'s centre for that frame size and date, on tracks cleaned with
+  `calibrate.clean_recipe`. All 26 still pass, and the 7 failures still fail. 8 get a centre;
+  their d_az moves a median 0.48°, at most 1.18° (tp-w at Bonita, −6.29 → −7.47°), and their
+  median residual drops 1.21 → 1.02 px. Cleaning alone moves no d_az by more than 0.011°.
+- **CDN (60, and 106 in the recent ledger).** Copied from the library: d_az moves a median
+  0.17° and up to 1.67° (hp-e), always in step with the centre. The recent ledger (132) was
+  rebuilt the same way.
+- **Whole ledger:** median residual 1.27 → 0.91 px, ~22 → ~24 stars per solve, 48 of 86
+  solves on 24 cameras centred (median 31 px off the middle). Night-to-night: consecutive
+  nights now all agree to 0.01°. lp-n-mobo-c 09-12, the one weak night (12 stars, 2.6 px,
+  0.24° off its neighbours), now has 17 stars at 0.8 px. Nights two months apart agree to
+  0.03° (was 0.065°).
+
+**Caveats on the FIgLib centres.**
+- **Their centres come from 2026 CDN nights.** `intrinsics.lookup` takes the nearest segment
+  for the frame size, even years earlier. A night's own centre (one-night joint fit) agrees with
+  the looked-up one to 3.5–7.9 px on 7 of the 8. The exception is lp-w at Willow (2020), 39.8 px
+  off: its looked-up centre (1.9, 63.1) comes from one 2026 night. Its residual barely moves
+  (1.88 → 1.75 px), and its solve is the ledger's lowest lens scale (0.875).
+- **The other 18 FIgLib nights keep the frame's middle,** because the library has no centre for
+  those cameras. Their own one-night fits sit 10–37 px off, so the ledger mixes centred and
+  uncentred poses. Fitting FIgLib nights into `intrinsics.series` would close that gap.
+
+**What moved** (upper medians; core confirmed tier unchanged):
+
+| | before | after |
+|---|---|---|
+| published / fisheye (confirmed) | 1.87 / 1.68 km | same; nothing ledger-free changed |
+| + star azimuth / + whole camera | 2.02 / 2.02 km, 5 of 10 ≤2 km | 2.02 / 2.02, 5 of 10 |
+| largest per-fire move, core | | 0.04 km (Steele 0.25 → 0.29, whole camera) |
+| all-FIgLib confirmed, two-site (17) | 2.02 km, 8 ≤2 km | **1.87 km, 9 ≤2 km** |
+| same, 30 px terrain band | 2.07 km | 2.02 km |
+| terrain validate, 100 px | 61 of 74, 0.91×, row 0 px | 62 of 74, 0.91×, row 1 px |
+| Rainbow, bearings alone / 30 px | 2.17 / 2.11 km | 0.99 / 0.99 km, 5.0 km² |
+| Grove tp-w interval | 14.7–28.9 km | 14.9–29.0 km (truth 31.9) |
+| bearing miss, central half | 2.6 → 2.5° | 2.6 → 2.6° |
+
+- **The all-FIgLib gain is one fire.** Rainbow's two bearings are within 1° of collinear. They
+  moved 0.06° and 0.09°, and that slid the peak 1.2 km along the ridge, toward the truth this
+  time. It is the same sensitivity the README already describes, not a better geometry.
+- **Recent corpus:** per-camera corrections move as above. Fire-level estimates move by
+  ≤0.02 km, except Rainbow on its two FIgLib cameras: center bearing 2.21 → 1.00 km (star
+  azimuth) and 2.17 → 0.99 (whole camera); early bearing 3.35 → 0.94 and 0.67 → 1.01. With the
+  extra CDN cameras it holds at 1.39–1.47 km.
+- **Single-site (fig_bearing):** unchanged (118 figures, 0.79 km median lateral miss, 30 of 37).
+- **Coverage/bias:** areas and errors move in the second decimal; no README number.
+- **evolve was run twice.** In the scripted run the Open-Meteo request for JunctionFire's
+  wind (not in `wind_cache.json`, which evolve doesn't write) failed, and it dropped out of the
+  drift-vs-wind count (26 → 25). Re-run from the same commit, it is back to 26.
+- **Also:** the FIgLib solves were filed in the shared HPWREN cache again (`stars.publish`),
+  and its weather and gallery were rebuilt (220 solves). `docs/figures/star_ledger.png` was
+  redrawn, and it still shows 33 of 52 cameras more than 1° off.
+
 ## Deliberately deferred
 
 Monochrome/NIR sequences (11 of them, paired with color views of the same fires) --
