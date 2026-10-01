@@ -359,7 +359,8 @@ def observed_dir(cam: dict, pose: dict, x: float, y: float, W: int, H: int):
     lens inversion, then the pose's camera axes."""
     from star_calibration import pole as POLE
     from star_calibration.fisheye import initial_k
-    d = POLE.pixel_to_cam(np.array([x]), np.array([y]), W, H, pose["k_ratio"] * initial_k(cam, W), pose["k1"])[0]
+    d = POLE.pixel_to_cam(np.array([x]), np.array([y]), W, H, pose["k_ratio"] * initial_k(cam, W), pose["k1"],
+                          pose.get("cx", 0.0), pose.get("cy", 0.0))[0]
     M = POLE.axes_from_pose(cam, pose["d_az"], pose["d_pitch"], pose["d_roll"])
     w = M.T @ d
     return math.degrees(math.atan2(w[0], w[1])) % 360, math.degrees(math.asin(np.clip(w[2], -1, 1)))
@@ -377,7 +378,8 @@ def in_front(cam, pose, az, el, max_off_deg: float = 80.0) -> bool:
 
 def predict_px(cam, pose, az, el, W, H):
     from star_calibration.fisheye import initial_k, project_fisheye
-    x, y = project_fisheye(cam, np.atleast_1d(az), np.atleast_1d(el), W, H, pose["d_az"], pose["d_pitch"],
+    from .pose_ledger import centred
+    x, y = project_fisheye(centred(cam, pose), np.atleast_1d(az), np.atleast_1d(el), W, H, pose["d_az"], pose["d_pitch"],
                            pose["d_roll"], pose["k_ratio"] * initial_k(cam, W), pose["k1"])
     return float(x[0] * W), float(y[0] * H)
 
@@ -427,7 +429,7 @@ def check_block(seq: str, lm: dict, dem) -> list[dict]:
                "az": float(az), "el": float(el)}
         ok_both = True
         for tag in ("cur", "pr"):
-            pose = sol[tag]["pose"]
+            pose = {**sol[tag]["pose"], "cx": sol[tag].get("cx", 0.0), "cy": sol[tag].get("cy", 0.0)}
             if not in_front(cam, pose, az, el):
                 ok_both = False
                 break

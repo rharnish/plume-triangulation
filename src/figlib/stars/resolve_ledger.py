@@ -1,20 +1,24 @@
-"""Re-solve every sequence behind the pose ledger under the current sky model, and rebuild it.
+"""Rebuild a pose ledger from the same sources under the current solver and sky model.
 
-The ledger's poses were solved against J2000 star positions used as if they were of date
-(stars.catalog's docstring; NOTES.md, 2026-09-24). With proper motion, precession and
-refraction now applied by default, each of those sequences is solved again -- same tracks,
-same solver it was accepted by (`solve_wide` where the summary records a `found_by`, `solve`
-otherwise, falling back to `solve_wide` if that fails) -- and the ledger is rebuilt from exactly the same set of sources, so the only
-thing that changes is the sky model. The previous ledger is kept beside the new results for
-comparison, and the per-camera shift is printed.
+Each FIgLib sequence behind the ledger is solved again -- same tracks, same solver it was
+accepted by (`solve_wide` where the summary records a `found_by`, `solve` otherwise, falling
+back to `solve_wide` if that fails). Each CDN block's entry is copied from star_calibration's
+shipped ledger (hpwren/pose_ledger.json), which hpwren.calibrate solves from the shared cache;
+one the library no longer has is dropped, and named. The set of sources stays the same, so
+only the solver changes. The previous ledger is kept beside the results
+(pose_ledger_before_<version>.json), and the shift in each part is printed.
+
+History: written to re-solve under proper motion, precession and refraction (NOTES.md,
+2026-09-25); since star-calibration v0.3.0 the CDN blocks come from the library, and every
+solve carries the optical centre it assumed (`cx`, `cy`).
 
     python -m src.figlib.stars.resolve_ledger
     python -m src.figlib.stars.resolve_ledger out/recent/pose_ledger.json
 
 Given another ledger file (the `recent` corpus keeps the tracked ledger plus its own solves),
-entries whose source the tracked ledger already has under the current sky model are copied
-from it, not solved a second time: the solver's random restarts could otherwise leave the
-two files with slightly different poses for the same night. Only the rest are re-solved.
+entries the tracked ledger already holds under the current sky model and solver are copied
+from it, not solved a second time, so the two files never hold different poses for one night.
+Rebuild the tracked ledger first.
 """
 from __future__ import annotations
 
@@ -27,7 +31,9 @@ from pathlib import Path
 import numpy as np
 
 from .. import pose_ledger
+from star_calibration import __version__, solver_id
 from star_calibration import catalog as SG
+from star_calibration.hpwren import ledger_path
 from . import solve as S
 
 
@@ -49,22 +55,29 @@ def main(path: Path = pose_ledger.LEDGER):
     path = Path(path).resolve()
     tracked = path == pose_ledger.LEDGER.resolve()
     old = json.loads(path.read_text())
-    backup = S.DATA / ("pose_ledger_before_resolve.json" if tracked
-                       else f"{path.parent.name}_{path.stem}_before_resolve.json")
+    backup = S.DATA / (f"pose_ledger_before_{__version__}.json" if tracked
+                       else f"{path.parent.name}_{path.stem}_before_{__version__}.json")
     if not backup.exists():
         shutil.copy(path, backup)
-    reused = []
-    if not tracked:
-        current = {e["source"]: e for e in json.loads(pose_ledger.LEDGER.read_text())
-                   if e.get("sky_model") == SG.model_id()}
-        reused = [current[e["source"]] for e in old if e["source"] in current]
-        old = [e for e in old if e["source"] not in current]
-        print(f"{len(reused)} entries copied from {pose_ledger.LEDGER.name}, already under this sky model")
+    before = {e["source"]: e for e in old}
+    # A CDN block's solve is the library's: its shipped ledger, made by hpwren.calibrate from
+    # the shared cache. Only the FIgLib sequences are solved here.
+    shipped = {e["source"]: e for e in json.loads(ledger_path().read_text()) if current(e)}
+    if not tracked:   # the recent ledger: whatever the tracked one holds, as it holds it
+        shipped |= {e["source"]: e for e in json.loads(pose_ledger.LEDGER.read_text()) if current(e)}
+    cdn = [e for e in old if e["source"].startswith("star:hpwren_")]
+    reused = [shipped[e["source"]] for e in old if e["source"] in shipped]
+    dropped = [e["source"] for e in cdn if e["source"] not in shipped]
+    old = [e for e in old if e["source"] not in shipped and e not in cdn]
+    print(f"{len(reused)} entries copied from {ledger_path().name} (star-calibration {__version__})"
+          + ("" if tracked else f" and {pose_ledger.LEDGER.name}")
+          + (f"; {len(dropped)} CDN solves it no longer has: {dropped}" if dropped else ""))
     summary_path = S.DATA / "solve_summary.json"
     summary = {r["seq"]: r for r in json.loads(summary_path.read_text())}
     seqs = [e["source"].split(":", 1)[1] for e in old]
     jobs = [(q, "found_by" in summary.get(q, {})) for q in seqs]
-    print(f"re-solving {len(jobs)} ledger sequences under: {SG.model_id()}", flush=True)
+    print(f"re-solving {len(jobs)} ledger sequences under: {SG.model_id()}, solver {solver_id()}",
+          flush=True)
     with Pool(4) as pool:
         new = {r["seq"]: r for r in pool.imap_unordered(_one, jobs)}
     summary.update(new)
@@ -73,19 +86,26 @@ def main(path: Path = pose_ledger.LEDGER):
 
     t0 = {s["seq"]: s["t0"] for s in json.loads((S.ROOT / "data/meta/all/sequences.json").read_text())}
     t0.update({k: v["t0"] for k, v in S.SEQS.items() if k.startswith("hpwren_")})
-    rows = pose_ledger.build([new[q] for q in seqs], t0, dest=path)
-    if reused:
-        allrows = sorted(rows + reused, key=lambda e: (e["camera"], e["epoch"]))
-        path.write_text(json.dumps(allrows, indent=1) + "\n")
+    rows = pose_ledger.build([new[q] for q in seqs], t0, dest=None)
+    allrows = sorted(rows + reused, key=lambda e: (e["camera"], e["epoch"]))
+    path.write_text(json.dumps(allrows, indent=1) + "\n")
     lost = [q for q in seqs if new[q]["status"] != "solved"]
     print(f"wrote {path}: {len(rows)} of {len(seqs)} re-solved, plus {len(reused)} copied "
           f"({len(lost)} no longer pass: {lost})")
-    before = {e["source"]: e for e in old}
-    d = np.array([[r["d_az"] - before[r["source"]]["d_az"], r["d_pitch"] - before[r["source"]]["d_pitch"],
-                   r["d_roll"] - before[r["source"]]["d_roll"]] for r in rows])
-    print(f"change in d_az: median {np.median(d[:, 0]):+.3f}, range {d[:, 0].min():+.3f} .. {d[:, 0].max():+.3f} deg")
-    print(f"change in d_pitch: median {np.median(d[:, 1]):+.3f};  d_roll: median {np.median(d[:, 2]):+.3f}")
+    for name, part in (("re-solved", rows), ("copied", reused)):
+        if not part:
+            continue
+        d = np.array([[r["d_az"] - before[r["source"]]["d_az"], r["d_pitch"] - before[r["source"]]["d_pitch"],
+                       r["d_roll"] - before[r["source"]]["d_roll"]] for r in part])
+        print(f"{name}: change in d_az median {np.median(d[:, 0]):+.3f}, |median| "
+              f"{np.median(abs(d[:, 0])):.3f}, range {d[:, 0].min():+.3f} .. {d[:, 0].max():+.3f} deg; "
+              f"d_pitch median {np.median(d[:, 1]):+.3f}, d_roll median {np.median(d[:, 2]):+.3f}")
 
+
+def current(e: dict) -> bool:
+    """Solved under this sky model by this version of the solver."""
+    return (e.get("sky_model") == SG.model_id()
+            and (e.get("solver") or "").split("+")[0] == __version__)
 
 if __name__ == "__main__":
     main(*sys.argv[1:2])

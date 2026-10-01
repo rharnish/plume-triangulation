@@ -104,12 +104,14 @@ catalog under one shared pose measures a camera's azimuth, pitch, roll and lens 
 running inside the track. Orange: the same star under the published pose; the yellow arrows
 run from one to the other.*
 
-- **86 solves on 52 cameras** in the pose ledger, at a median residual of 1.3 px and ~22
-  stars per solve. A second method adds five more ([below](docs/star-calibration.md)).
+- **86 solves on 52 cameras** in the pose ledger, at a median residual of 0.9 px and ~24
+  stars per solve. Each is solved through its unit's own optical centre, which on 24 of the
+  cameras sits a median 31 px off the frame's middle (star-calibration v0.3.0). A second
+  method adds five more ([below](docs/star-calibration.md)).
 - **33 of the 52 cameras point more than 1° from their published azimuth**, mlo-s-mobo-c by
-  23°. Cameras also get re-aimed (Toro Peak West moved 7.5° between 2021 and 2026), so
+  23°. Cameras also get re-aimed (Toro Peak West moved 7.4° between 2021 and 2026), so
   corrections are kept per camera *and* date, in a [ledger](data/meta/pose_ledger.json).
-- **Not the lens the pipeline assumed.** The solves put the focal scale at 0.877–0.893 of
+- **Not the lens the pipeline assumed.** The solves put the focal scale at 0.875–0.894 of
   nameplate: an equidistant fisheye spanning about ±55°, not a rectilinear ±45°. Near the frame
   edge that was worth up to 8° of bearing.
 
@@ -129,9 +131,9 @@ Priced in kilometers, with the same detections and solver, on the name-confirmed
 | + each camera's own solved lens, pitch and roll | 2.02 km | 5 of 10 |
 
 The ≤2 km counts are the fragile number: Clubfire (2.07 km), Roundfire (2.02) and Creelman
-(2.09) all sit within 0.1 km of the line, so a tenth of a kilometre moves the count by three.
+(2.11) all sit within 0.1 km of the line, so a tenth of a kilometre moves the count by three.
 The last row is the calibrated model (`FIGLIB_PROFILE=calibrated`). On these fires it moves no
-estimate by more than 0.03 km; it matters for the few cameras whose lens differs from the rest
+estimate by more than 0.04 km; it matters for the few cameras whose lens differs from the rest
 (NOTES.md, 2026-09-25).
 
 ![Bearing rays and estimates before and after calibration](docs/figures/calibration_maps.png)
@@ -141,7 +143,7 @@ median miss of 4.4° to 3.5° ([every bearing](docs/figures/calibration_bearings
 median falls to 1.68 km. ResortFire.2 (1.87 → 0.70 km) and Roundfire (3.39 → 2.05) gain most;
 Clubfire (1.76 → 2.07) crosses the 2 km line the other way. The azimuth ledger lands where detections are right:
 ScissorsFire goes from 0.62 km to **0.07 km**. It
-also makes JunctionFire worse, and that is informative. Correcting vo-n-mobo-c by 11.3° puts
+also makes JunctionFire worse, and that is informative. Correcting vo-n-mobo-c by 11.4° puts
 the ignition point outside that camera's field of view, and its low-confidence detection turns
 out to be a cumulus cloud at the frame edge. With the cameras calibrated, **detection
 selection** (edge-clipped boxes, best-confidence picking the wrong object) is what limits
@@ -169,8 +171,8 @@ it either, because a young plume's foot is on the terrain it rises from. Each ca
 star pose therefore gets one interval of distance along its bearing.
 
 - **The interval contains the fire.** On 74 bearings within 5° of the official point, it
-  contains the official distance on 61, with a median length of 0.91× that distance. At the
-  official distance, the terrain row sits a median 0 px from the box bottom.
+  contains the official distance on 62, with a median length of 0.91× that distance. At the
+  official distance, the terrain row sits a median 1 px from the box bottom.
 - **One camera still says something.** Each of the 118 confirmed and probable fires seen from
   a single site gets its own figure: bearing, miss across the ray (a median of 0.79 km on
   confirmed fires), and the interval. The interval contains the official point on 30 of 37
@@ -179,26 +181,26 @@ star pose therefore gets one interval of distance along its bearing.
 The interval rarely moves a two-site estimate, but it can say how far along a shared line
 the fire is. `20260722_RainbowFire` is seen by two cameras looking straight at each other, so
 their bearings nearly coincide and give almost no distance:
-- **Bearings alone:** 2.17 km, with a 95% region 25.6 km² long along the shared line. The two
-  bearings are within 1° of collinear, so the peak is a long flat ridge: the 0.4 km grid's best
-  cell had put it at 1.42 km, and a fifth of a degree slides it kilometres. It was 5.82 km
-  before the ledger was re-solved with precession (and bearings made exact on WGS84), and 17 km
-  before the fresh star solves of 2026-09-12 to -14, because Boucher Hill West's published
-  azimuth was 1.16° off.
-- **With terrain, 30 px band:** 2.11 km, and the region shrinks to 5.0 km² (7.5 km² at
-  60 px, 20.6 at 100).
+- **Bearings alone:** 0.99 km, with a 95% region 25.8 km² long along the shared line. The two
+  bearings are within 1° of collinear, so the peak is a long flat ridge, and a tenth of a degree
+  slides it a kilometre: solving through each camera's optical centre moved the two bearings by
+  0.06° and 0.09°, and the estimate from 2.17 km to 0.99 km. It was 5.82 km before the ledger
+  was re-solved with precession (and bearings made exact on WGS84), and 17 km before the fresh
+  star solves of 2026-09-12 to -14, because Boucher Hill West's published azimuth was 1.16° off.
+- **With terrain, 30 px band:** still 0.99 km, and the region shrinks to 5.0 km² (8.3 km² at
+  60 px, 21.0 at 100).
 
 ![Rainbow: two opposed cameras, bearings only vs bearings with terrain ranges](docs/figures/terrain_range_rainbow.jpg)
 
 **Why it is an opt-in term, not the default.** On the 17 name-confirmed two-site fires across
-all of FIgLib, the median doesn't move at 100 px (2.02 km), and a 30 px band makes it worse
-(2.07 km) while dropping 4 of the 74 validated truths. On the poses from before precession was
+all of FIgLib, the median doesn't move at 100 px (1.87 km), and a 30 px band makes it worse
+(2.02 km) while dropping 4 of the 74 validated truths. On the poses from before precession was
 modelled, the 100 px term moved `20250107_PalisadesFire` from 1.82 to 0.32 km. With the
 precessed ledger and the refined peak, its bearings alone put it at 1.08 km, and the term
 changes nothing at any band. The interval is also only
 as good as the pose under it. Toro Peak West was re-aimed between star solves: matching
 skylines puts it 2.4° from today's pose at `20240724_GroveFire`, and the interval drawn with
-the wrong pose excludes the fire (14.7–28.9 km against 31.9 km).
+the wrong pose excludes the fire (14.9–29.0 km against 31.9 km).
 
 ### Seconds-to-alert vs false alarms per camera-day
 

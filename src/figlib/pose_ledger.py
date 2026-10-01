@@ -10,8 +10,12 @@ The rules and the file format are star_calibration.ledger's; this module adds th
 that decide whether geolocation uses them, and `corrected_cam`, which applies them to a
 camera. Entries come from star-track solves (stars/solve.py) and live in
 data/meta/pose_ledger.json, one per solve:
-    {"camera", "epoch", "frame_w", "d_az", "d_pitch", "d_roll", "k_ratio", "k1",
-     "n_stars", "median_px", "source", "sky_model"}
+    {"camera", "epoch", "frame_w", "d_az", "d_pitch", "d_roll", "k_ratio", "k1", "cx", "cy",
+     "n_stars", "median_px", "source", "sky_model", "solver"}
+
+`cx`, `cy` are the optical centre the solve assumed, in pixels right and down from the frame's
+middle (star_calibration.intrinsics); a pose is only right together with its centre. An entry
+without them means (0, 0).
 
 `sky_model` is star_calibration.catalog.model_id() at solve time: the catalog and which corrections
 (proper motion, precession, refraction) were applied. Poses solved under different models
@@ -27,8 +31,8 @@ Lookup for (camera, epoch), first rule that fires:
   3. one-sided: the nearest solve, if within MAX_DAYS -> it; otherwise no correction.
 A solve never carries across a change of frame format: a 2048x1536 unit replaced by a
 3072x2048 one under the same camera name is a new installation, whatever cams.json says.
-Only d_az reaches a bearing (geom.offset_bearing_deg reads along the horizon row), so it
-is the one `corrected_cam` applies; pitch, roll and lens are kept for the record.
+`corrected_cam` applies d_az and the centre the solve assumed (geom.offset_bearing_deg reads
+a column relative to it); pitch, roll and lens reach a bearing only with FIGLIB_POSE_FULL.
 
 Opt in with FIGLIB_POSE_LEDGER=1 (FIGLIB_POSE_LEDGER_PATH to point at another file).
 """
@@ -69,7 +73,9 @@ def load(p: Path | None = None) -> list[dict]:
 
 def corrected_cam(camera: str, cam: dict, epoch: float,
                   entries: list[dict] | None = None) -> tuple[dict, dict | None]:
-    """`cam` with the ledger's d_az folded into its azimuth, and the lookup that did it.
+    """`cam` with the ledger's d_az folded into its azimuth and the solves' optical centre
+    (`cx`, `cy`) attached, and the lookup that did it. The d_az is measured from that centre:
+    read from the frame's middle instead, a 30 px offset is ~1 deg of bearing.
 
     Unchanged (and None) when the ledger is off or no rule applies, so callers can pass
     every camera through without special cases.
@@ -79,11 +85,21 @@ def corrected_cam(camera: str, cam: dict, epoch: float,
     hit = lookup(load() if entries is None else entries, camera, epoch, cam.get("frame_w"))
     if hit is None:
         return cam, None
-    out = {**cam, "az": cam["az"] + hit["d_az"]}
+    out = {**cam, "az": cam["az"] + hit["d_az"], "cx": hit.get("cx", 0.0), "cy": hit.get("cy", 0.0)}
     if full_enabled() and all(k in hit for k in LENS_KEYS):
         # the rest of the solved camera, for geom.offset_bearing_deg to read a pixel through
         out["solved"] = {k: hit[k] for k in LENS_KEYS}
     return out, hit
+
+
+def solved_pose(entry: dict) -> dict:
+    """One ledger entry's solved camera: pose, lens and the centre it was solved through."""
+    return {k: entry.get(k, 0.0) for k in ("d_az", *LENS_KEYS)}
+
+
+def centred(cam: dict, pose: dict) -> dict:
+    """`cam` with `pose`'s optical centre, for star_calibration.fisheye to project through."""
+    return {**cam, "cx": pose.get("cx", 0.0), "cy": pose.get("cy", 0.0)}
 
 
 def build(solve_summary: list[dict], t0_by_seq: dict[str, float],

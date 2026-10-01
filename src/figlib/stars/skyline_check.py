@@ -116,7 +116,7 @@ def poses(seq: str) -> dict[str, dict]:
         p = OUT / f"{seq}__{m}.json"
         r = json.loads(p.read_text()) if p.exists() else {}
         if r.get("status") == "solved":
-            out[m] = r["pose"]
+            out[m] = {**r["pose"], "cx": r.get("cx", 0.0), "cy": r.get("cy", 0.0)}   # its centre
     return out
 
 

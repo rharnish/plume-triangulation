@@ -32,3 +32,13 @@ def test_corrected_cam_is_a_no_op_unless_enabled(monkeypatch):
     monkeypatch.setenv("FIGLIB_POSE_LEDGER", "1")
     out, hit = L.corrected_cam("c", cam, 1000 * DAY, LEDGER)
     assert out["az"] == pytest.approx(181.5) and cam["az"] == 180.0 and hit["rule"] == "same-night"
+
+
+def test_corrected_cam_carries_the_solves_optical_centre(monkeypatch):
+    monkeypatch.setenv("FIGLIB_POSE_LEDGER", "1")
+    cam = {"az": 180.0, "fov": 90, "frame_w": 3072}
+    centred = [{**entry("c", 1000, 1.5), "cx": 30.0, "cy": -12.0}]
+    out, _ = L.corrected_cam("c", cam, 1000 * DAY, centred)
+    assert (out["cx"], out["cy"]) == (30.0, -12.0)
+    out, _ = L.corrected_cam("c", cam, 1000 * DAY, LEDGER)      # from before the centre: (0, 0)
+    assert (out["cx"], out["cy"]) == (0.0, 0.0)

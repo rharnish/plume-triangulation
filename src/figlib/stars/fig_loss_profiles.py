@@ -45,7 +45,7 @@ PROFILE, SLICE = "#2a78d6", MUTED
 def problem(seq):
     r = json.loads((S.DATA / f"solve_{seq}.json").read_text())
     tracks, (W, H) = S.load_tracks(seq)
-    s, c = S.SEQS[seq], S.CAMS[S.SEQS[seq]["camera"]]
+    s, c = S.SEQS[seq], S.camera(seq, W, H)
     k0 = initial_k(c, W)
     al, az, obs = [], [], []
     for name, j in r["matches"].items():
