@@ -2833,6 +2833,50 @@ copied from the library's shipped ledger, FIgLib sequences re-solved here).
   and its weather and gallery were rebuilt (220 solves). `docs/figures/star_ledger.png` was
   redrawn, and it still shows 33 of 52 cameras more than 1° off.
 
+## FIgLib nights get their own optical centres (2026-09-30, later)
+
+The v0.3.0 adoption above borrowed a FIgLib night's centre from the library's 2026 CDN fit
+(`intrinsics.lookup` hands the nearest segment to any date). On lp-w-mobo-c at Willow
+(2020-12-02) that was (1.9, 63.1) px from one 2026 night. It barely helped the fit (1.80 →
+1.75 px), bent the lens to k1 −0.059 (the ledger's outlier), and moved pitch by 2.4°. The 2020
+frames also look like another installation: older banner, vignetted corners.
+
+**What changed.** `stars.intrinsics` fits the FIgLib nights' own series with the library's
+`intrinsics.build` and its rules, into `data/meta/figlib_intrinsics.json`. A night takes its own
+segment's centre or the frame's middle, never a neighbour's. `stars.solve.camera` reads it for
+FIgLib sequences; CDN blocks keep the library's. The fit and the solves depend on each other,
+so `main` seeds every night at the library's centre, then fits and re-solves twice. The seed
+matters: tp-w at Bonita matches 16 stars at the middle (under the 20-star floor, so it would
+never get a centre) but 22 through the library's centre and 23 through its own. A first run
+solved everything at the middle because of a stale cache (the module ran as `__main__` beside
+the copy stars.solve imports); the cache now follows the file.
+
+**The fit.** 21 segments on 21 cameras, 16 with a centre. Five single nights are too thin
+(9–15 stars) and keep the middle: lp-w at Willow, om-s-mobo-m, dwpgm-s, stgo-n, wilson-s.
+Where a camera also has a CDN centre they agree to 3–8 px (bh-w, hp-s, lp-e, om-e-c, tp-w)
+and 12 px (om-e-mobo-m), so a centre usually does hold across years; lp-w is the exception.
+
+**Ledger** (same 86 sources, CDN entries unchanged): the 26 FIgLib solves' median residual
+drops 1.09 → 0.86 px; d_az moves a median 0.15° (−1.08 to +0.82), but read at the middle
+column the bearings move a median 0.015°, at most 0.08°. Pitch moves a median 0.27°, up to
+2.4° (lp-w at Willow, back to +0.95°). Whole ledger: 0.86 px, ~25 stars, 61 solves on 34
+cameras centred (median 29 px). 34 of 52 cameras now point more than 1° off (boresight), and
+the lens scale spans 0.883–0.894; lp-w's 0.875 was the borrowed centre.
+
+**Re-run** (`rerun_results.sh` from 48ae5f2, `out/logs/rerun_48ae5f2.log`):
+- **Star azimuth and whole-camera rows:** 2.02 → 2.03 km. That is Roundfire, the upper median,
+  moving 0.01 km (om-e and lp-s corrections). Still 5 of 10 within 2 km. Every other core fire
+  moves ≤0.02 km.
+- **Terrain validate:** 62 → 61 of 74 contain the truth at 100 px. The one lost is SloaneFire
+  lp-w (terrain row −12 → −22 px, beyond the 20 px slack): it is reading the Willow solve's
+  pose, and the borrowed centre's pitch had put it inside. With the 2026-09-26 poses it was
+  also −22 px and outside, so this is that state back. Median length 0.91×, median row 1 px.
+- **All-FIgLib two-site confirmed:** 1.87 km at 100 px unchanged; the 30 px band gives 2.03
+  (was 2.02). Rainbow, Palisades and Grove are unchanged. Willow's terrain-ranged estimate is
+  now 0.23 km at every band (was 0.21 → 0.27 at 30 px).
+- **Single-site and bearing misses:** unchanged. evolve kept JunctionFire's wind this time
+  (26 fires).
+
 ## Deliberately deferred
 
 Monochrome/NIR sequences (11 of them, paired with color views of the same fires) --

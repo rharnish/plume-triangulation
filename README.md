@@ -104,14 +104,15 @@ catalog under one shared pose measures a camera's azimuth, pitch, roll and lens 
 running inside the track. Orange: the same star under the published pose; the yellow arrows
 run from one to the other.*
 
-- **86 solves on 52 cameras** in the pose ledger, at a median residual of 0.9 px and ~24
-  stars per solve. Each is solved through its unit's own optical centre, which on 24 of the
-  cameras sits a median 31 px off the frame's middle (star-calibration v0.3.0). A second
+- **86 solves on 52 cameras** in the pose ledger, at a median residual of 0.9 px and ~25
+  stars per solve. Each is solved through its unit's own optical centre, which on 34 of the
+  cameras sits a median 29 px off the frame's middle (star-calibration v0.3.0 for the CDN
+  nights; fitted from the FIgLib nights themselves for those). A second
   method adds five more ([below](docs/star-calibration.md)).
-- **33 of the 52 cameras point more than 1° from their published azimuth**, mlo-s-mobo-c by
+- **34 of the 52 cameras point more than 1° from their published azimuth**, mlo-s-mobo-c by
   23°. Cameras also get re-aimed (Toro Peak West moved 7.4° between 2021 and 2026), so
   corrections are kept per camera *and* date, in a [ledger](data/meta/pose_ledger.json).
-- **Not the lens the pipeline assumed.** The solves put the focal scale at 0.875–0.894 of
+- **Not the lens the pipeline assumed.** The solves put the focal scale at 0.883–0.894 of
   nameplate: an equidistant fisheye spanning about ±55°, not a rectilinear ±45°. Near the frame
   edge that was worth up to 8° of bearing.
 
@@ -127,13 +128,13 @@ Priced in kilometers, with the same detections and solver, on the name-confirmed
 |---|---|---|
 | published azimuth, rectilinear lens | 1.87 km | 7 of 10 |
 | star-measured fisheye lens | **1.68 km** | 6 of 10 |
-| + per-camera star azimuth from the ledger | 2.02 km | 5 of 10 |
-| + each camera's own solved lens, pitch and roll | 2.02 km | 5 of 10 |
+| + per-camera star azimuth from the ledger | 2.03 km | 5 of 10 |
+| + each camera's own solved lens, pitch and roll | 2.03 km | 5 of 10 |
 
-The ≤2 km counts are the fragile number: Clubfire (2.07 km), Roundfire (2.02) and Creelman
+The ≤2 km counts are the fragile number: Clubfire (2.07 km), Roundfire (2.03) and Creelman
 (2.11) all sit within 0.1 km of the line, so a tenth of a kilometre moves the count by three.
 The last row is the calibrated model (`FIGLIB_PROFILE=calibrated`). On these fires it moves no
-estimate by more than 0.04 km; it matters for the few cameras whose lens differs from the rest
+estimate by more than 0.03 km; it matters for the few cameras whose lens differs from the rest
 (NOTES.md, 2026-09-25).
 
 ![Bearing rays and estimates before and after calibration](docs/figures/calibration_maps.png)
@@ -171,7 +172,7 @@ it either, because a young plume's foot is on the terrain it rises from. Each ca
 star pose therefore gets one interval of distance along its bearing.
 
 - **The interval contains the fire.** On 74 bearings within 5° of the official point, it
-  contains the official distance on 62, with a median length of 0.91× that distance. At the
+  contains the official distance on 61, with a median length of 0.91× that distance. At the
   official distance, the terrain row sits a median 1 px from the box bottom.
 - **One camera still says something.** Each of the 118 confirmed and probable fires seen from
   a single site gets its own figure: bearing, miss across the ray (a median of 0.79 km on
@@ -194,7 +195,7 @@ their bearings nearly coincide and give almost no distance:
 
 **Why it is an opt-in term, not the default.** On the 17 name-confirmed two-site fires across
 all of FIgLib, the median doesn't move at 100 px (1.87 km), and a 30 px band makes it worse
-(2.02 km) while dropping 4 of the 74 validated truths. On the poses from before precession was
+(2.03 km) while dropping 4 of the 74 validated truths. On the poses from before precession was
 modelled, the 100 px term moved `20250107_PalisadesFire` from 1.82 to 0.32 km. With the
 precessed ledger and the refined peak, its bearings alone put it at 1.08 km, and the term
 changes nothing at any band. The interval is also only
