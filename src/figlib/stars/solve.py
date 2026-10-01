@@ -6,6 +6,10 @@ this project's data: which sequences exist (FIgLib's index plus the CDN blocks i
 HPWREN cache), where their frames come from (stars.tracks), and where tracks and results are
 cached (out/sky/data/star_tracks). Figures and experiments call it by sequence name.
 
+A sequence is solved the way star_calibration.hpwren.calibrate solves a CDN block: through the
+camera's optical centre from hpwren/intrinsics.json (`camera`), on tracks cleaned with the same
+recipe (`load_tracks`). The track pickles keep the linker's output; cleaning runs on load.
+
     python -m src.figlib.stars.solve [seq ...]    # every cached sequence if none named
 """
 from __future__ import annotations
@@ -18,7 +22,9 @@ from pathlib import Path
 
 from star_calibration import solve as L
 from star_calibration.fisheye import K1, K_RATIO  # noqa: F401  (re-exported for figures)
-from star_calibration.hpwren import cameras
+from star_calibration.hpwren import calibrate, cameras
+from star_calibration.hpwren import camera as centred_camera
+from star_calibration.tracks import clean
 from star_calibration.hpwren import nights as hpwren_nights
 from star_calibration.solve import (MAX_TRACKS, Night, _spread, clip,  # noqa: F401
                                     make_coincidence, prune)
@@ -32,6 +38,13 @@ DATA = SKY / "data/star_tracks"
 
 
 def load_tracks(seq: str):
+    """(tracks, (W, H)): the linked tracks, cleaned as the library cleans a CDN block's
+    (star_calibration.tracks.clean, hpwren.calibrate.clean_recipe)."""
+    tracks, WH = _linked(seq)
+    return clean(tracks, **calibrate.clean_recipe())[0], WH
+
+
+def _linked(seq: str):
     cache = DATA / f"tracks_{seq}.pkl"
     if cache.exists():
         d = pickle.load(open(cache, "rb"))
@@ -48,11 +61,18 @@ def load_tracks(seq: str):
     return tracks, (W, H)
 
 
+def camera(seq: str, W: int, H: int) -> dict:
+    """The sequence's camera with its optical centre for that frame size and date (`cx`,
+    `cy`; star_calibration.hpwren.camera): what it is solved and drawn through."""
+    s = SEQS[seq]
+    return centred_camera(s["camera"], W, H, s["t0"])
+
+
 def night(seq: str) -> Night:
     """A sequence as the library's solver input."""
     s = SEQS[seq]
     tracks, (W, H) = load_tracks(seq)
-    return Night(camera=s["camera"], cam=CAMS[s["camera"]], t0=s["t0"], tracks=tracks,
+    return Night(camera=s["camera"], cam=camera(seq, W, H), t0=s["t0"], tracks=tracks,
                  W=W, H=H, label=seq)
 
 
@@ -101,5 +121,10 @@ if __name__ == "__main__":
         else:
             print(f"failed {r['seq']:55s} {r.get('n_tracks', '-')}/{r.get('n_tracks_raw', '-')} tracks  "
                   f"{r['reason']}")
-    (DATA / "solve_summary.json").write_text(json.dumps(results, indent=1, default=float) + "\n")
+    # merged, so solving a few sequences keeps the rest of the summary
+    summary_path = DATA / "solve_summary.json"
+    merged = {r["seq"]: r for r in json.loads(summary_path.read_text())} if summary_path.exists() else {}
+    merged.update({r["seq"]: r for r in results})
+    summary_path.write_text(json.dumps(sorted(merged.values(), key=lambda r: (r["status"] != "solved", r["seq"])),
+                                       indent=1, default=float) + "\n")
     print(f"{sum(r['status'] == 'solved' for r in results)}/{len(results)} solved")

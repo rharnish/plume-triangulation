@@ -35,6 +35,7 @@ import numpy as np
 from . import corpus as C
 from . import settings
 from . import pose_ledger
+from .pose_ledger import centred
 from . import provenance as P
 from . import terrain as T
 from .fig_triangulate import _det_for
@@ -94,9 +95,10 @@ def full_pose(camera: str, epoch: float, frame_w: int | None) -> dict | None:
         src = [min(mine, key=lambda e: abs(e["epoch"] - epoch))]
         source, rule = "nearest", None
     gap = min(abs(e["epoch"] - epoch) for e in src) / 86400.0
-    mean = lambda k: float(np.mean([e[k] for e in src]))
+    mean = lambda k: float(np.mean([e.get(k, 0.0) for e in src]))   # no centre: (0, 0)
     return {"d_az": mean("d_az") if hit is None else hit["d_az"], "d_pitch": mean("d_pitch"),
             "d_roll": mean("d_roll"), "k_ratio": mean("k_ratio"), "k1": mean("k1"),
+            "cx": mean("cx"), "cy": mean("cy"),
             "source": source, "rule": rule or f"nearest solve, {gap:.0f} d away",
             "gap_days": round(gap)}
 
@@ -143,7 +145,7 @@ def profile(cam: dict, pose: dict, az_deg: float, W: int, H: int, min_km: float 
     run = ang.copy()                       # highest terrain angle up to each distance
     run[far] = np.maximum.accumulate(ang[far])
     k = pose["k_ratio"] * initial_k(cam, W)
-    _x, y = project_fisheye(cam, np.full_like(run, az_deg), run, W, H,
+    _x, y = project_fisheye(centred(cam, pose), np.full_like(run, az_deg), run, W, H,
                             pose["d_az"], pose["d_pitch"], pose["d_roll"], k, pose["k1"])
     return {"d": d, "run": run, "rows": y * H, "horizon_km": float(d[np.argmax(ang)] / 1000.0)}
 

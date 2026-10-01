@@ -33,6 +33,7 @@ import numpy as np
 from .geom import published_cams
 from . import corpus as C
 from . import pose_ledger
+from .pose_ledger import centred, solved_pose
 from . import terrain as T
 from .detect_yolo import read_frames
 from star_calibration.fisheye import initial_k, project_fisheye
@@ -66,17 +67,19 @@ def pose_for(camera: str, epoch: float, frame_w: int, nearest: bool = False) -> 
                    "rule": f"nearest, {abs(e['epoch'] - epoch) / 86400:.0f} d away"}
     if hit is None:
         return {"d_az": 0.0, "d_pitch": 0.0, "d_roll": 0.0, "k_ratio": K_RATIO, "k1": K1,
+                "cx": 0.0, "cy": 0.0,
                 "rule": "published+lens"}
     src = [e for e in LEDGER if e["source"] in hit["sources"]]
-    mean = lambda k: float(np.mean([e[k] for e in src]))
+    mean = lambda k: float(np.mean([e.get(k, 0.0) for e in src]))   # no centre: (0, 0)
     return {"d_az": hit["d_az"], "d_pitch": mean("d_pitch"), "d_roll": mean("d_roll"),
-            "k_ratio": mean("k_ratio"), "k1": mean("k1"), "rule": hit["rule"]}
+            "k_ratio": mean("k_ratio"), "k1": mean("k1"), "cx": mean("cx"), "cy": mean("cy"),
+            "rule": hit["rule"]}
 
 
 def proj(cam, pose, az, el, W, H):
     k = pose["k_ratio"] * initial_k(cam, W)
-    x, y = project_fisheye(cam, az, el, W, H, pose["d_az"], pose["d_pitch"], pose["d_roll"],
-                           k, pose["k1"])
+    x, y = project_fisheye(centred(cam, pose), az, el, W, H, pose["d_az"], pose["d_pitch"],
+                           pose["d_roll"], k, pose["k1"])
     return x * W, y * H
 
 
@@ -299,7 +302,7 @@ def skyline_check(q: int = 4, n_frames: int = 3) -> list[dict]:
         H, W = img.shape[:2]
         if W != 3072:
             print(e["camera"], "frame", W); continue
-        pose = {k: e[k] for k in ("d_az", "d_pitch", "d_roll", "k_ratio", "k1")}
+        pose = solved_pose(e)
         pred, rng = skyline_rows(cam, pose, W, H)
         dy = obs - pred
         m = np.isfinite(dy) & (np.abs(dy) < 60)
@@ -378,7 +381,7 @@ def skyline_edges(q: int = 4) -> list[dict]:
     dest = OUT / "skyline_edges"; dest.mkdir(parents=True, exist_ok=True)
     for e in solves:
         cam = CAMS[e["camera"]]; day = e["source"].split("_")[1]
-        pose = {k: e[k] for k in ("d_az", "d_pitch", "d_roll", "k_ratio", "k1")}
+        pose = solved_pose(e)
         paths = sorted((nights.frames_dir() / e["camera"] / f"{day}_Q{q}").glob("*.jpg"))
         pred = None; per = []
         for pth in paths:

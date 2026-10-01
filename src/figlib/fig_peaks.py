@@ -28,6 +28,7 @@ import numpy as np
 
 from star_calibration.fisheye import initial_k, project_fisheye
 from .geom import published_cams
+from .pose_ledger import centred, solved_pose
 from .terrain import Dem, horizon, project, ridges
 from .viz_terrain import observed_skyline, render, render_ridges, _best_frame
 
@@ -226,7 +227,7 @@ def calibrated_view(camera: str) -> tuple[np.ndarray, dict, str] | None:
         if imgs:
             p, img = max(imgs, key=lambda t: float(np.isfinite(observed_skyline(t[1])).mean()))
             when = datetime.fromtimestamp(int(p.stem), ZoneInfo("America/Los_Angeles"))
-            pose = {k: e[k] for k in ("d_az", "d_pitch", "d_roll", "k_ratio", "k1")}
+            pose = solved_pose(e)
             return img, pose, f"HPWREN CDN {when:%Y-%m-%d %H:%M}, same day as its star solve"
 
     seqs = [s for s in RF.SEQS.values() if s["camera"] == camera
@@ -252,8 +253,8 @@ def solved_lens(cam: dict, pose: dict):
     """(the camera turned by the solve's azimuth, for marching the DEM; a projector through
     the solved pose and fisheye lens, with `terrain.project`'s call shape)."""
     def fn(az, el, W, H):
-        return project_fisheye(cam, az, el, W, H, pose["d_az"], pose["d_pitch"], pose["d_roll"],
-                               pose["k_ratio"] * initial_k(cam, W), pose["k1"])
+        return project_fisheye(centred(cam, pose), az, el, W, H, pose["d_az"], pose["d_pitch"],
+                               pose["d_roll"], pose["k_ratio"] * initial_k(cam, W), pose["k1"])
     return {**cam, "az": cam["az"] + pose["d_az"]}, fn
 
 

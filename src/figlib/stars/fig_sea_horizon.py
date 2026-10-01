@@ -67,8 +67,9 @@ def render(seq: str, offset_pick: str = "first") -> Path:
     star = (entry["d_az"], entry["d_pitch"], entry["d_roll"], entry["k_ratio"] * k0, entry["k1"])
     pub = (0.0, 0.0, 0.0, K_RATIO * k0, K1)
     canvas = img.copy()
-    for pose, color in ((pub, (0, 140, 255)), (star, (255, 60, 255))):
-        x, y = project_fisheye(cam, az, np.full_like(az, dip), W, H, *pose)
+    solved = {**cam, "cx": entry.get("cx", 0.0), "cy": entry.get("cy", 0.0)}   # the solve's centre
+    for c, pose, color in ((cam, pub, (0, 140, 255)), (solved, star, (255, 60, 255))):
+        x, y = project_fisheye(c, az, np.full_like(az, dip), W, H, *pose)
         pts = np.c_[x * W, y * H]
         # break the polyline wherever the sea mask has an azimuth gap
         breaks = np.where(np.diff(az) > 0.3)[0] + 1
@@ -78,7 +79,7 @@ def render(seq: str, offset_pick: str = "first") -> Path:
             if ok.sum() >= 2:
                 cv2.polylines(canvas, [p[ok].astype(np.int32)], False, color, 3, cv2.LINE_AA)
     days = abs(entry["epoch"] - epoch) / 86400
-    y_mid = float(np.median(project_fisheye(cam, az, np.full_like(az, dip), W, H, *star)[1] * H)) if len(az) else H / 2
+    y_mid = float(np.median(project_fisheye(solved, az, np.full_like(az, dip), W, H, *star)[1] * H)) if len(az) else H / 2
     y0 = int(max(0, y_mid - 0.18 * H)); y1 = int(min(H, y_mid + 0.18 * H))
     crop = canvas[y0:y1]
     banner = np.zeros((80, W, 3), np.uint8)

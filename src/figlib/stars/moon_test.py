@@ -52,7 +52,9 @@ def run() -> list[dict]:
             r = S.solve(seq)
             raw, (W, H) = S.load_tracks(seq)
             tracks = [raw[i] for i in S.prune(raw)]
-            f = POLE.estimate(tracks, W, H, S.K_RATIO * initial_k(c, W), S.K1) if len(tracks) >= 8 else None
+            cc = S.camera(seq, W, H)
+            f = (POLE.estimate(tracks, W, H, S.K_RATIO * initial_k(c, W), S.K1, cc["cx"], cc["cy"])
+                 if len(tracks) >= 8 else None)
             rows.append({
                 "seq": seq, "camera": cam, "day": day, **cond,
                 "n_tracks_raw": r.get("n_tracks_raw"), "n_tracks": r.get("n_tracks"),

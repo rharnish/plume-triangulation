@@ -149,8 +149,8 @@ def boresight(cam, pose) -> tuple[float, float, float]:
 
 def summarize(seq: str) -> dict:
     s = S.SEQS[seq]
-    cam = S.CAMS[s["camera"]]
     _, (W, H) = S.load_tracks(seq)
+    cam = S.camera(seq, W, H)
     lo, hi = night_span(seq)
     runs = [json.loads(p.read_text()) for p in sorted((OUT / seq).glob("*.json"))]
     for r in runs:   # results from before proper motion existed record no flag for it

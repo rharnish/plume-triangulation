@@ -203,11 +203,22 @@ def _fisheye(cam: dict) -> bool:
             and cam.get("frame_w") == 3072)
 
 
+def _centre_frac(cam: dict) -> float:
+    """The optical centre's offset right of the frame's middle, as a fraction of the width.
+
+    A star solve measures the camera's azimuth from where its boresight lands, which on
+    HPWREN's units sits a median ~30 px off the middle (star_calibration.intrinsics);
+    `pose_ledger.corrected_cam` attaches it as `cx`. Only the fisheye paths read it: the
+    centre was measured through that lens, on the frames `_fisheye` admits."""
+    return cam.get("cx", 0.0) / cam["frame_w"]
+
+
 def offset_bearing_deg(cam: dict, x_frac: float, y_frac: float = 0.5,
                        foot_y: float | None = None) -> float:
     """Bearing to a feature at horizontal position `x_frac` across the image.
 
-    `x_frac` runs 0 (left edge) to 1 (right edge); 0.5 is the optical axis. Uses the
+    `x_frac` runs 0 (left edge) to 1 (right edge); 0.5 is the optical axis (with
+    FIGLIB_LENS=fisheye, offset by the solved centre `cam["cx"]` when there is one). Uses the
     rectilinear projection rather than assuming degrees scale linearly with pixels --
     at 90 deg FoV the linear approximation is off by several degrees at the edges,
     which at 20 km is a kilometer of error. With FIGLIB_LENS=fisheye, 90 deg cameras use
@@ -220,7 +231,8 @@ def offset_bearing_deg(cam: dict, x_frac: float, y_frac: float = 0.5,
     """
     if _fisheye(cam) and cam.get("solved"):
         # The whole star-solved camera (pose_ledger.corrected_cam with FIGLIB_POSE_FULL=1):
-        # its own lens, pitch and roll, and the row as well as the column.
+        # its own lens, pitch and roll, and the row as well as the column; unproject_fisheye
+        # reads the optical centre (cx, cy) from `cam`, where corrected_cam put it.
         from star_calibration.fisheye import initial_k, unproject_fisheye
         p, W = cam["solved"], cam["frame_w"]
         H = cam.get("frame_h") or round(W * 2 / 3)
@@ -229,7 +241,7 @@ def offset_bearing_deg(cam: dict, x_frac: float, y_frac: float = 0.5,
                                     p["k_ratio"] * initial_k(cam, W), p["k1"])
         return float(az)
     if _fisheye(cam):
-        r = (x_frac - 0.5) * math.radians(cam["fov"]) / FISHEYE_K_RATIO
+        r = (x_frac - 0.5 - _centre_frac(cam)) * math.radians(cam["fov"]) / FISHEYE_K_RATIO
         t = r
         for _ in range(20):           # Newton on t * (1 + k1 t^2) = r
             t -= (t * (1 + FISHEYE_K1 * t * t) - r) / (1 + 3 * FISHEYE_K1 * t * t)
@@ -249,7 +261,8 @@ def bearing_x_frac(cam: dict, lat: float, lon: float) -> float | None:
     b = bearing_deg(cam["lat"], cam["lon"], lat, lon)
     d = math.radians(angdiff_deg(b, cam["az"] + cam.get("yaw", 0.0)))
     if _fisheye(cam):
-        x = 0.5 + d * (1 + FISHEYE_K1 * d * d) * FISHEYE_K_RATIO / math.radians(cam["fov"])
+        x = (0.5 + _centre_frac(cam)
+             + d * (1 + FISHEYE_K1 * d * d) * FISHEYE_K_RATIO / math.radians(cam["fov"]))
         return x if 0.0 < x < 1.0 else None
     half = math.radians(cam["fov"] / 2.0)
     if abs(d) >= half:
