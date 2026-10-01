@@ -7,8 +7,10 @@ HPWREN cache), where their frames come from (stars.tracks), and where tracks and
 cached (out/sky/data/star_tracks). Figures and experiments call it by sequence name.
 
 A sequence is solved the way star_calibration.hpwren.calibrate solves a CDN block: through the
-camera's optical centre from hpwren/intrinsics.json (`camera`), on tracks cleaned with the same
-recipe (`load_tracks`). The track pickles keep the linker's output; cleaning runs on load.
+camera's optical centre (`camera`), on tracks cleaned with the same recipe (`load_tracks`). A
+CDN block's centre is the library's (hpwren/intrinsics.json); a FIgLib night's is fitted from
+the FIgLib nights themselves (stars.intrinsics, data/meta/figlib_intrinsics.json). The track
+pickles keep the linker's output; cleaning runs on load.
 
     python -m src.figlib.stars.solve [seq ...]    # every cached sequence if none named
 """
@@ -62,10 +64,16 @@ def _linked(seq: str):
 
 
 def camera(seq: str, W: int, H: int) -> dict:
-    """The sequence's camera with its optical centre for that frame size and date (`cx`,
-    `cy`; star_calibration.hpwren.camera): what it is solved and drawn through."""
+    """The sequence's camera with its optical centre (`cx`, `cy`): what it is solved and drawn
+    through. A CDN block takes the library's centre for that frame size and date
+    (star_calibration.hpwren.camera); a FIgLib night takes its own (stars.intrinsics.centre),
+    never one borrowed from years away."""
     s = SEQS[seq]
-    return centred_camera(s["camera"], W, H, s["t0"])
+    if seq.startswith("hpwren_"):
+        return centred_camera(s["camera"], W, H, s["t0"])
+    from .intrinsics import centre
+    cx, cy = centre(seq, s["camera"], W, H)
+    return {**CAMS[s["camera"]], "cx": cx, "cy": cy}
 
 
 def night(seq: str) -> Night:
@@ -105,13 +113,29 @@ def _run(seq: str) -> dict:
     return r
 
 
-if __name__ == "__main__":
-    # whole-night blocks (<day>_N) belong to stars.window_ablation, not the batch or the ledger
-    seqs = sys.argv[1:] or sorted(p.name[len("tracks_"):-4] for p in DATA.glob("tracks_*.pkl")
-                                  if "_N_" not in p.name)
+def figlib_seqs() -> list[str]:
+    """Every FIgLib sequence with cached tracks (not CDN blocks, not whole nights)."""
+    return sorted(p.name[len("tracks_"):-4] for p in DATA.glob("tracks_*.pkl")
+                  if "_N_" not in p.name and not p.name.startswith("tracks_hpwren_"))
+
+
+def solve_batch(seqs: list[str], quiet: bool = False) -> list[dict]:
+    """Solve `seqs` (solve_<seq>.json each) and merge them into solve_summary.json."""
     with Pool(4) as pool:
         results = list(pool.imap_unordered(_run, seqs))
     results.sort(key=lambda r: (r["status"] != "solved", r["seq"]))
+    if not quiet:
+        report(results)
+    # merged, so solving a few sequences keeps the rest of the summary
+    summary_path = DATA / "solve_summary.json"
+    merged = {r["seq"]: r for r in json.loads(summary_path.read_text())} if summary_path.exists() else {}
+    merged.update({r["seq"]: r for r in results})
+    summary_path.write_text(json.dumps(sorted(merged.values(), key=lambda r: (r["status"] != "solved", r["seq"])),
+                                       indent=1, default=float) + "\n")
+    return results
+
+
+def report(results: list[dict]) -> None:
     for r in results:
         if r["status"] == "solved":
             p = r["pose"]
@@ -121,10 +145,10 @@ if __name__ == "__main__":
         else:
             print(f"failed {r['seq']:55s} {r.get('n_tracks', '-')}/{r.get('n_tracks_raw', '-')} tracks  "
                   f"{r['reason']}")
-    # merged, so solving a few sequences keeps the rest of the summary
-    summary_path = DATA / "solve_summary.json"
-    merged = {r["seq"]: r for r in json.loads(summary_path.read_text())} if summary_path.exists() else {}
-    merged.update({r["seq"]: r for r in results})
-    summary_path.write_text(json.dumps(sorted(merged.values(), key=lambda r: (r["status"] != "solved", r["seq"])),
-                                       indent=1, default=float) + "\n")
     print(f"{sum(r['status'] == 'solved' for r in results)}/{len(results)} solved")
+
+
+if __name__ == "__main__":
+    # whole-night blocks (<day>_N) belong to stars.window_ablation, not the batch or the ledger
+    solve_batch(sys.argv[1:] or sorted(p.name[len("tracks_"):-4] for p in DATA.glob("tracks_*.pkl")
+                                       if "_N_" not in p.name))

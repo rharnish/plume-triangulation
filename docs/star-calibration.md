@@ -22,11 +22,13 @@ track, then assigns stars to whole tracks and refits.
 
 - **86 solves on 52 cameras** in the [ledger](../data/meta/pose_ledger.json), from FIgLib's
   night sequences and moonless nights pulled from HPWREN's public CDN, at a median residual of
-  0.9 px and ~24 stars per solve. [Every solve, with its lens scale](figures/star_ledger.png).
-  Since star-calibration v0.3.0 each is solved through its unit's own optical centre
-  (hpwren/intrinsics.json), which on 24 of the cameras sits a median 31 px off the frame's
-  middle; the ledger records it as `cx`, `cy`, and bearings are read from it.
-- **33 of the 52 cameras point more than 1° from their published azimuth**, mlo-s-mobo-c by
+  0.9 px and ~25 stars per solve. [Every solve, with its lens scale](figures/star_ledger.png).
+  Each is solved through its unit's own optical centre, which on 34 of the cameras sits a
+  median 29 px off the frame's middle. A CDN night's centre is star-calibration's
+  (hpwren/intrinsics.json, since v0.3.0); a FIgLib night's is fitted from the FIgLib nights
+  themselves (`stars.intrinsics`), not borrowed from years later. The ledger records it as
+  `cx`, `cy`, and bearings are read from it.
+- **34 of the 52 cameras point more than 1° from their published azimuth**, mlo-s-mobo-c by
   23°. Consecutive nights agree to 0.01°, lp-n-mobo-c included: its one weak night (12 stars at
   2.6 px, 0.25° from the nights either side) now solves with 17 stars at 0.8 px. Nights two
   months apart agree to 0.03°.
@@ -34,7 +36,7 @@ track, then assigns stars to whole tracks and refits.
   in 2024, and Toro Peak West moved 7.4° between 2021 and 2026. So corrections are kept per
   camera *and* date, in a ledger that refuses to bridge a re-aim or a sensor change.
 - **Not the lens the pipeline assumed.** Every ledger solve puts the focal scale at
-  0.875–0.894 of nameplate: an equidistant fisheye spanning about ±55°, not a rectilinear ±45°.
+  0.883–0.894 of nameplate: an equidistant fisheye spanning about ±55°, not a rectilinear ±45°.
   Near the frame edge that was worth up to 8° of bearing. Three Big Black Mountain cameras turn
   out to be a second lens group, at 0.774–0.779 ([below](#the-poles-length-measures-the-lens)).
 
