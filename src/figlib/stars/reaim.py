@@ -88,8 +88,9 @@ def scene_mask(shape) -> np.ndarray:
 
 
 def shift(a: np.ndarray, b: np.ndarray) -> dict:
-    """Horizontal and vertical shift of b against a (pixels at WIDTH): the median
-    displacement of ORB matches, kept only if most of them agree on it."""
+    """The translation (pixels at WIDTH) that lays b over a: minus the median displacement
+    of ORB matches from a to b, over the matches that agree on one translation. It is what
+    the viewer's shift slider moves b by, so "use estimate" and a hand alignment read alike."""
     ga, gb = (cv2.cvtColor(x, cv2.COLOR_BGR2GRAY) for x in (a, b))
     orb = cv2.ORB_create(4000)
     ka, da = orb.detectAndCompute(ga, scene_mask(ga.shape))
@@ -105,7 +106,7 @@ def shift(a: np.ndarray, b: np.ndarray) -> dict:
     keys, counts = np.unique(v, axis=0, return_counts=True)
     top = keys[np.argmax(counts)]
     near = np.all(np.abs(v - top) <= 1, axis=1)
-    dx, dy = np.median(d[near], axis=0)
+    dx, dy = -np.median(d[near], axis=0)
     return {"dx": round(float(dx), 1), "dy": round(float(dy), 1), "n": len(d),
             "agree": round(float(near.mean()), 2)}
 
