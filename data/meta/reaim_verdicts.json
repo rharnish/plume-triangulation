@@ -4,10 +4,10 @@
   "camera": "mlo-s-mobo-c",
   "fire": "20250724_PostaFire",
   "solve_day": "20260721",
-  "estimate_deg": 18.1,
+  "estimate_deg": -18.1,
   "verdict": "moved",
-  "aligned_dx_px": -281,
-  "aligned_deg": -18.58
+  "aligned_dx_px": -274,
+  "aligned_deg": -18.12
  },
  {
   "id": "ws-w-mobo-c__20250724_PostaFire__20260721",
@@ -24,7 +24,7 @@
   "camera": "starr-n-mobo-c",
   "fire": "20250823_Clubfire",
   "solve_day": "20260820",
-  "estimate_deg": 0.07,
+  "estimate_deg": -0.07,
   "verdict": "same",
   "aligned_dx_px": 0,
   "aligned_deg": 0
@@ -54,19 +54,19 @@
   "camera": "mp-n-mobo-m",
   "fire": "20251102_ScissorsFire",
   "solve_day": "20260703",
-  "estimate_deg": -0.09,
-  "verdict": "same",
-  "aligned_dx_px": 0,
-  "aligned_deg": 0
+  "estimate_deg": 0.09,
+  "verdict": "unsure",
+  "aligned_dx_px": 1,
+  "aligned_deg": 0.07
  },
  {
   "id": "tp-w-mobo-c__20240724_GroveFire__20260912",
   "camera": "tp-w-mobo-c",
   "fire": "20240724_GroveFire",
   "solve_day": "20260912",
-  "estimate_deg": -2.14,
+  "estimate_deg": 2.14,
   "verdict": "moved",
-  "aligned_dx_px": 47,
-  "aligned_deg": 3.11
+  "aligned_dx_px": 32,
+  "aligned_deg": 2.12
  }
 ]
