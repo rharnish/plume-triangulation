@@ -35,6 +35,8 @@ track, then assigns stars to whole tracks and refits.
 - **Cameras do get re-aimed.** Otay Mountain's south cameras solve 10.5° off in 2019 and 0.4°
   in 2024, and Toro Peak West moved 7.4° between 2021 and 2026. So corrections are kept per
   camera *and* date, in a ledger that refuses to bridge a re-aim or a sensor change.
+  A single solve can't see a re-aim, so daytime frames from the fire and the solve date are
+  compared directly: [reaim.md](reaim.md).
 - **Not the lens the pipeline assumed.** Every ledger solve puts the focal scale at
   0.883–0.894 of nameplate: an equidistant fisheye spanning about ±55°, not a rectilinear ±45°.
   Near the frame edge that was worth up to 8° of bearing. Three Big Black Mountain cameras turn
