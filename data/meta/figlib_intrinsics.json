@@ -21,7 +21,8 @@
     -20.1,
     -13.0
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "bh-w-mobo-c",
@@ -45,7 +46,8 @@
     28.9,
     15.2
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "dwpgm-s-mobo-c",
@@ -69,7 +71,8 @@
     -1.0,
     17.2
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "hp-s-mobo-c",
@@ -93,7 +96,8 @@
     32.2,
     -23.2
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "lp-e-mobo-c",
@@ -117,7 +121,8 @@
     9.1,
     -0.5
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "lp-e-mobo-m",
@@ -141,7 +146,8 @@
     -7.5,
     -6.7
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "lp-s-mobo-c",
@@ -165,7 +171,8 @@
     -13.1,
     9.8
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "lp-s-mobo-m",
@@ -189,7 +196,8 @@
     4.2,
     8.7
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "lp-w-mobo-c",
@@ -213,7 +221,8 @@
     -20.1,
     25.4
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "om-e-mobo-c",
@@ -242,7 +251,8 @@
     -10.9,
     25.7
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "om-e-mobo-m",
@@ -266,7 +276,8 @@
     -16.0,
     -10.9
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "om-n-mobo-c",
@@ -295,7 +306,8 @@
     -7.4,
     12.8
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "om-s-mobo-c",
@@ -319,7 +331,8 @@
     13.7,
     7.7
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "om-s-mobo-m",
@@ -343,7 +356,8 @@
     12.6,
     5.9
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "om-w-mobo-c",
@@ -372,7 +386,8 @@
     -27.8,
     -11.2
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "om-w-mobo-m",
@@ -401,7 +416,8 @@
     -3.1,
     14.0
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "rm-s-mobo-c",
@@ -409,14 +425,14 @@
   "H": 2048,
   "from": 1737447427,
   "to": 1737449107,
-  "cx": 22.3,
+  "cx": 22.2,
   "cy": -4.8,
   "k_ratio": 0.8877,
-  "k1": -0.0804,
+  "k1": -0.0805,
   "n_nights": 2,
-  "n_stars": 73,
+  "n_stars": 74,
   "median_px": 1.51,
-  "median_px_centred": 0.86,
+  "median_px_centred": 0.85,
   "nights": [
    "20250121_PalaFire_rm-s-mobo-c",
    "20250121_LiliacFire_rm-s-mobo-c"
@@ -428,9 +444,10 @@
    ],
    [
     21.1,
-    -5.4
+    -5.3
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "sm-n-mobo-c",
@@ -454,7 +471,8 @@
     -18.1,
     -17.4
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "stgo-n-mobo-c",
@@ -478,7 +496,8 @@
     -14.1,
     5.7
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "tp-w-mobo-c",
@@ -502,7 +521,8 @@
     -28.2,
     -32.9
    ]
-  ]
+  ],
+  "dropped": []
  },
  {
   "camera": "wilson-s-mobo-c",
@@ -526,6 +546,7 @@
     26.9,
     19.6
    ]
-  ]
+  ],
+  "dropped": []
  }
 ]

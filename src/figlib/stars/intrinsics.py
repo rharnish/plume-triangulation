@@ -62,7 +62,19 @@ def build(dest: Path = PATH) -> list[dict]:
     from . import solve as S
     results = [json.loads((S.DATA / f"solve_{q}.json").read_text()) for q in S.figlib_seqs()
                if (S.DATA / f"solve_{q}.json").exists()]
-    return I.build(results, S.night, S.CAMS, dest)
+    # Since star-calibration v0.4.0 a segment drops any night whose fitted pose agrees with no
+    # other night's to 0.1 deg. That assumes the camera held still between them, which is
+    # true of a CDN series (weeks to months) but not of FIgLib's: om-e-mobo-c's two nights are
+    # 4.5 years apart and differ by 0.2 deg in pitch, so both were dropped and it lost a
+    # centre that its own nights and the library's CDN fit agree on to 2 px (NOTES.md,
+    # 2026-11-22). Every FIgLib night here is a solve that passed on its own, so none is
+    # dropped.
+    agree = I.AGREE_DEG
+    I.AGREE_DEG = float("inf")
+    try:
+        return I.build(results, S.night, S.CAMS, dest)
+    finally:
+        I.AGREE_DEG = agree
 
 
 def seed(dest: Path = PATH) -> list[dict]:
