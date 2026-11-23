@@ -62,7 +62,11 @@ def main(path: Path = pose_ledger.LEDGER):
     before = {e["source"]: e for e in old}
     # A CDN block's solve is the library's: its shipped ledger, made by hpwren.calibrate from
     # the shared cache. Only the FIgLib sequences are solved here.
-    shipped = {e["source"]: e for e in json.loads(ledger_path().read_text()) if current(e)}
+    # The library's ledger is current by being shipped with the pinned release. Its entries
+    # carry the development commit that solved them, which comes before the version bump
+    # (v0.4.1 ships solves made as 0.4.0+g<commit>), so only the sky model is checked here.
+    shipped = {e["source"]: e for e in json.loads(ledger_path().read_text())
+               if e.get("sky_model") == SG.model_id()}
     if not tracked:   # the recent ledger: whatever the tracked one holds, as it holds it
         shipped |= {e["source"]: e for e in json.loads(pose_ledger.LEDGER.read_text()) if current(e)}
     cdn = [e for e in old if e["source"].startswith("star:hpwren_")]
