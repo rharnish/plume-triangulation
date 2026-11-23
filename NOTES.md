@@ -2906,6 +2906,55 @@ solve-day daytime frame in a browser overlay.
   same machinery could carry tonight's star pose back to old daytime footage through any
   re-aim. docs/reaim.md has the plan and a test on tp-w's 2021 and 2026 solves.
 
+## star-calibration v0.4.1: a centre on every CDN camera (2026-11-22)
+
+star-calibration v0.4.1 (tag v0.4.1, merge 48548d2) is v0.4.0's solver with a fitted optical
+centre for every camera in its ledger, 279 CDN solves on 91 cameras. v0.4.0 added the two-pass
+sky search above the DEM skyline, iterated centres, and cross-night vouching for 5-7 star fits.
+Pinned here, and every README number re-run through `rerun_results.sh` from 78395c9
+(`out/logs/rerun_78395c9.log`).
+
+**Two fixes were needed on this side.**
+- **`resolve_ledger` dropped every CDN entry.** It took a library entry only if the entry's
+  solver version was the pinned one. The library solves its ledger before the version bump,
+  so v0.4.1's entries all read `0.4.0+g<commit>`. The shipped ledger is now taken whole, by
+  its sky model; FIgLib entries solved here still have to match.
+- **`stars.intrinsics` turns off the library's cross-night drop.** Since v0.4.0 a segment
+  drops a night whose fitted pose agrees with no other night's to 0.1°. That assumes the camera
+  held still between them. om-e-mobo-c's two FIgLib nights (Border11 2020, Border1 2025) differ
+  by 0.2° in pitch, so both were dropped. It lost the (−14.1, 25.9) px centre that its own
+  nights and the library's CDN fit (−12.7, 24.8) agree on, and its d_az moved 0.5° and pitch
+  1°. With the drop off, every FIgLib centre is v0.3.0's to 0.1 px, every FIgLib pose to
+  0.004°, and the same 26 of 33 solve.
+
+**Ledger** (same 86 sources):
+- **FIgLib (26):** unchanged.
+- **CDN (60):** all 60 now carry a centre (40 before). The median residual drops 0.85 → 0.77 px.
+  d_az moves up to 1.19° (sdsc-e), always in step with cx, so the bearing at the middle column
+  moves a median 0.005° and at most 0.09°. Pitch moves up to 1.1° with cy.
+- **Whole ledger:** 0.79 px median, ~27 stars per solve, 81 solves on 48 cameras centred (median
+  27 px). 32 of 52 cameras now point more than 1° off (boresight), and the lens scale spans
+  0.883–0.892. The recent ledger (132) was rebuilt the same way.
+
+**What moved** (all small; nothing crosses a line):
+
+| | before | after |
+|---|---|---|
+| star azimuth / whole camera, core confirmed | 2.03 / 2.03 km, 5 of 10 | 2.02 / 2.02 km, 5 of 10 |
+| ScissorsFire, star azimuth | 0.07 km | 0.05 km |
+| published / fisheye | 1.87 / 1.68 km | same |
+| terrain validate, 100 px | 61 of 74 | same (60 band: 61 → 60) |
+| all-FIgLib confirmed two-site, 100 / 30 px | 1.87 / 2.03 km | 1.87 / 2.02 km |
+| Rainbow, bearings alone / 30 px | 0.99 km, 25.8 / 5.0 km² | 1.02 km, 25.6 / 4.8 km² |
+| single-site lateral miss, confirmed | 0.79 km | 0.78 km; 30 of 37 contain |
+
+- **Recent corpus:** detection bearings move ≤0.1°, and fire-level estimates ≤0.01 km.
+- **Coverage/bias:** areas and errors move in the second decimal; the chosen configurations
+  and their scores are unchanged.
+- **Also:** the 33 FIgLib solves were filed in the shared HPWREN cache again (`stars.publish`).
+  Its weather and gallery were rebuilt (366 solves), and `docs/figures/star_ledger.png` was
+  redrawn.
+
 ## Deliberately deferred
 
 Monochrome/NIR sequences (11 of them, paired with color views of the same fires) --

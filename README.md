@@ -104,15 +104,15 @@ catalog under one shared pose measures a camera's azimuth, pitch, roll and lens 
 running inside the track. Orange: the same star under the published pose; the yellow arrows
 run from one to the other.*
 
-- **86 solves on 52 cameras** in the pose ledger, at a median residual of 0.9 px and ~25
-  stars per solve. Each is solved through its unit's own optical centre, which on 34 of the
-  cameras sits a median 29 px off the frame's middle (star-calibration v0.3.0 for the CDN
+- **86 solves on 52 cameras** in the pose ledger, at a median residual of 0.8 px and ~27
+  stars per solve. Each is solved through its unit's own optical centre, which on 48 of the
+  cameras sits a median 27 px off the frame's middle (star-calibration v0.4.1 for the CDN
   nights; fitted from the FIgLib nights themselves for those). A second
   method adds five more ([below](docs/star-calibration.md)).
-- **34 of the 52 cameras point more than 1° from their published azimuth**, mlo-s-mobo-c by
+- **32 of the 52 cameras point more than 1° from their published azimuth**, mlo-s-mobo-c by
   23°. Cameras also get re-aimed (Toro Peak West moved 7.4° between 2021 and 2026), so
   corrections are kept per camera *and* date, in a [ledger](data/meta/pose_ledger.json).
-- **Not the lens the pipeline assumed.** The solves put the focal scale at 0.883–0.894 of
+- **Not the lens the pipeline assumed.** The solves put the focal scale at 0.883–0.892 of
   nameplate: an equidistant fisheye spanning about ±55°, not a rectilinear ±45°. Near the frame
   edge that was worth up to 8° of bearing.
 
@@ -128,11 +128,11 @@ Priced in kilometers, with the same detections and solver, on the name-confirmed
 |---|---|---|
 | published azimuth, rectilinear lens | 1.87 km | 7 of 10 |
 | star-measured fisheye lens | **1.68 km** | 6 of 10 |
-| + per-camera star azimuth from the ledger | 2.03 km | 5 of 10 |
-| + each camera's own solved lens, pitch and roll | 2.03 km | 5 of 10 |
+| + per-camera star azimuth from the ledger | 2.02 km | 5 of 10 |
+| + each camera's own solved lens, pitch and roll | 2.02 km | 5 of 10 |
 
-The ≤2 km counts are the fragile number: Clubfire (2.07 km), Roundfire (2.03) and Creelman
-(2.11) all sit within 0.1 km of the line, so a tenth of a kilometre moves the count by three.
+The ≤2 km counts are the fragile number: Clubfire (2.07 km), Roundfire (2.02) and Creelman
+(2.10) all sit within 0.1 km of the line, so a tenth of a kilometre moves the count by three.
 The last row is the calibrated model (`FIGLIB_PROFILE=calibrated`). On these fires it moves no
 estimate by more than 0.03 km; it matters for the few cameras whose lens differs from the rest
 (NOTES.md, 2026-09-25).
@@ -143,7 +143,7 @@ The lens is the clear gain in bearing: detections in the outer half of the frame
 median miss of 4.4° to 3.5° ([every bearing](docs/figures/calibration_bearings.png)), and the
 median falls to 1.68 km. ResortFire.2 (1.87 → 0.70 km) and Roundfire (3.39 → 2.05) gain most;
 Clubfire (1.76 → 2.07) crosses the 2 km line the other way. The azimuth ledger lands where detections are right:
-ScissorsFire goes from 0.62 km to **0.07 km**. It
+ScissorsFire goes from 0.62 km to **0.05 km**. It
 also makes JunctionFire worse, and that is informative. Correcting vo-n-mobo-c by 11.4° puts
 the ignition point outside that camera's field of view, and its low-confidence detection turns
 out to be a cumulus cloud at the frame edge. With the cameras calibrated, **detection
@@ -175,27 +175,28 @@ star pose therefore gets one interval of distance along its bearing.
   contains the official distance on 61, with a median length of 0.91× that distance. At the
   official distance, the terrain row sits a median 1 px from the box bottom.
 - **One camera still says something.** Each of the 118 confirmed and probable fires seen from
-  a single site gets its own figure: bearing, miss across the ray (a median of 0.79 km on
+  a single site gets its own figure: bearing, miss across the ray (a median of 0.78 km on
   confirmed fires), and the interval. The interval contains the official point on 30 of 37
   confirmed bearings with a star pose.
 
 The interval rarely moves a two-site estimate, but it can say how far along a shared line
 the fire is. `20260722_RainbowFire` is seen by two cameras looking straight at each other, so
 their bearings nearly coincide and give almost no distance:
-- **Bearings alone:** 0.99 km, with a 95% region 25.8 km² long along the shared line. The two
+- **Bearings alone:** 1.02 km, with a 95% region 25.6 km² long along the shared line. The two
   bearings are within 1° of collinear, so the peak is a long flat ridge, and a tenth of a degree
   slides it a kilometre: solving through each camera's optical centre moved the two bearings by
-  0.06° and 0.09°, and the estimate from 2.17 km to 0.99 km. It was 5.82 km before the ledger
+  0.06° and 0.09°, and the estimate from 2.17 km to 0.99 km (1.02 km on star-calibration
+  v0.4.1's centres). It was 5.82 km before the ledger
   was re-solved with precession (and bearings made exact on WGS84), and 17 km before the fresh
   star solves of 2026-09-12 to -14, because Boucher Hill West's published azimuth was 1.16° off.
-- **With terrain, 30 px band:** still 0.99 km, and the region shrinks to 5.0 km² (8.3 km² at
-  60 px, 21.0 at 100).
+- **With terrain, 30 px band:** still 1.02 km, and the region shrinks to 4.8 km² (8.2 km² at
+  60 px, 20.8 at 100).
 
 ![Rainbow: two opposed cameras, bearings only vs bearings with terrain ranges](docs/figures/terrain_range_rainbow.jpg)
 
 **Why it is an opt-in term, not the default.** On the 17 name-confirmed two-site fires across
 all of FIgLib, the median doesn't move at 100 px (1.87 km), and a 30 px band makes it worse
-(2.03 km) while dropping 4 of the 74 validated truths. On the poses from before precession was
+(2.02 km) while dropping 4 of the 74 validated truths. On the poses from before precession was
 modelled, the 100 px term moved `20250107_PalisadesFire` from 1.82 to 0.32 km. With the
 precessed ledger and the refined peak, its bearings alone put it at 1.08 km, and the term
 changes nothing at any band. The interval is also only
