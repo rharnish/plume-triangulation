@@ -1099,7 +1099,7 @@ published-pose grid as its first attempt. Exceptions:
 - **No solve:** bl-e, bl-n, wc-w (no tracks), buff-s and tdlln-n (5–7 stars), ms-n, tje-1 and
   smer-tcs9-s.
 
-**The lenses.** `stars/fig_intrinsics.py` (untracked, meant for the calibration repo) plots
+**The lenses.** `stars/fig_intrinsics.py` plots
 `k_ratio` against `k1` for every solve.
 - 79 cameras sit at k 0.877–0.894. Within them k and k1 trade off (r = −0.89): the image
   radius varies by 0.19% at 45° off axis and 0.4% at most. That is about 0.2° of bearing.
