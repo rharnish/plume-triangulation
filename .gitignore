@@ -8,6 +8,7 @@ data/cache/
 # here, with their manifest in data/meta/recent/.
 data/hpwren_nights
 data/hpwren_recent/
+data/hpwren_holdout/
 
 # Derived outputs (scoped, not blanket — a blanket *.png would silently
 # swallow committed figures and web assets)

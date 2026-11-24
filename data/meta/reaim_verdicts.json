@@ -1,0 +1,72 @@
+[
+ {
+  "id": "mlo-s-mobo-c__20250724_PostaFire__20260721",
+  "camera": "mlo-s-mobo-c",
+  "fire": "20250724_PostaFire",
+  "solve_day": "20260721",
+  "estimate_deg": -18.1,
+  "verdict": "moved",
+  "aligned_dx_px": -274,
+  "aligned_deg": -18.12
+ },
+ {
+  "id": "ws-w-mobo-c__20250724_PostaFire__20260721",
+  "camera": "ws-w-mobo-c",
+  "fire": "20250724_PostaFire",
+  "solve_day": "20260721",
+  "estimate_deg": 0,
+  "verdict": "same",
+  "aligned_dx_px": 0,
+  "aligned_deg": 0
+ },
+ {
+  "id": "starr-n-mobo-c__20250823_Clubfire__20260820",
+  "camera": "starr-n-mobo-c",
+  "fire": "20250823_Clubfire",
+  "solve_day": "20260820",
+  "estimate_deg": -0.07,
+  "verdict": "same",
+  "aligned_dx_px": 0,
+  "aligned_deg": 0
+ },
+ {
+  "id": "starr-n-mobo-m__20250823_Clubfire__20260820",
+  "camera": "starr-n-mobo-m",
+  "fire": "20250823_Clubfire",
+  "solve_day": "20260820",
+  "estimate_deg": 0,
+  "verdict": "same",
+  "aligned_dx_px": 0,
+  "aligned_deg": 0
+ },
+ {
+  "id": "mpo-w-mobo-c__20260319_CrosleyFire__20260704",
+  "camera": "mpo-w-mobo-c",
+  "fire": "20260319_CrosleyFire",
+  "solve_day": "20260704",
+  "estimate_deg": 0,
+  "verdict": "same",
+  "aligned_dx_px": 0,
+  "aligned_deg": 0
+ },
+ {
+  "id": "mp-n-mobo-m__20251102_ScissorsFire__20260703",
+  "camera": "mp-n-mobo-m",
+  "fire": "20251102_ScissorsFire",
+  "solve_day": "20260703",
+  "estimate_deg": 0.09,
+  "verdict": "unsure",
+  "aligned_dx_px": 1,
+  "aligned_deg": 0.07
+ },
+ {
+  "id": "tp-w-mobo-c__20240724_GroveFire__20260912",
+  "camera": "tp-w-mobo-c",
+  "fire": "20240724_GroveFire",
+  "solve_day": "20260912",
+  "estimate_deg": 2.14,
+  "verdict": "moved",
+  "aligned_dx_px": 32,
+  "aligned_deg": 2.12
+ }
+]

@@ -1099,7 +1099,7 @@ published-pose grid as its first attempt. Exceptions:
 - **No solve:** bl-e, bl-n, wc-w (no tracks), buff-s and tdlln-n (5–7 stars), ms-n, tje-1 and
   smer-tcs9-s.
 
-**The lenses.** `stars/fig_intrinsics.py` (untracked, meant for the calibration repo) plots
+**The lenses.** `stars/fig_intrinsics.py` plots
 `k_ratio` against `k1` for every solve.
 - 79 cameras sit at k 0.877–0.894. Within them k and k1 trade off (r = −0.89): the image
   radius varies by 0.19% at 45° off axis and 0.4% at most. That is about 0.2° of bearing.
@@ -2876,6 +2876,35 @@ the lens scale spans 0.883–0.894; lp-w's 0.875 was the borrowed centre.
   now 0.23 km at every band (was 0.21 → 0.27 at 30 px).
 - **Single-site and bearing misses:** unchanged. evolve kept JunctionFire's wind this time
   (26 fires).
+
+## CDN solves for confirmed fires without a pose; mlo-s was re-aimed (2026-10-01)
+
+**The solves.** The selection catalogue (out/selection/) found 32 confirmed-fire camera/fire
+pairs with no star pose. Eleven can still be solved from public CDN nights, because the
+ledger carries a solve up to a year to either side of a fire and the CDN keeps ~90 days.
+- I fetched Q1 blocks for 6 of them, the nights nearest each fire still public, and ran
+  `calibrate solve`: 21 of 24 solve, and each camera's nights agree within 0.05°.
+- mlo-s −23.3°, ws-w +1.04°, starr-n-c −4.96°, starr-n-m −4.35°, mpo-w −0.55°, mp-n-m −1.29°.
+- stgo-s and tp-s (both units) have no CDN listings at all; they're offline or renamed.
+
+These are in the shared cache only, not in any ledger yet.
+
+**mlo-s was re-aimed** between Posta (2025-07-24) and 2026-07-21:
+- The 07-21 solve is 362 days after Posta, so the ledger would have carried it.
+- But mlo-s's Posta and Kitchen bearings agree with the official points within 1° under the
+  published azimuth.
+- The daytime views differ by about 18°.
+
+starr-n shows no shift, so its −5° correction is real for Clubfire. That fire is 3.1 km from
+the camera, where 5° is about 270 m of official-point error.
+
+**The re-aim check** (`stars.reaim`, `reaim_viewer.html`; docs/reaim.md) puts a fire-day and a
+solve-day daytime frame in a browser overlay.
+- Verdicts so far: mlo-s moved (−18.1° by hand, −18.1° estimated) and tp-w moved (+2.1°; the
+  skyline match said 2.4°). The rest are same, with mp-n-m unsure, counted as same.
+- The estimate is pixel-space, with no lens model. A lens-aware rotation fit is next. The
+  same machinery could carry tonight's star pose back to old daytime footage through any
+  re-aim. docs/reaim.md has the plan and a test on tp-w's 2021 and 2026 solves.
 
 ## Deliberately deferred
 
